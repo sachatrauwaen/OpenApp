@@ -1,0 +1,124 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AssemblyName>Satrabel.Starter.Web.Mvc</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Satrabel.Test.Web.Mvc</PackageId>
+    <UserSecretsId>Satrabel-Test-56C2EF2F-ABD6-4EFC-AAF2-2E81C34E8FB1</UserSecretsId>
+    <RootNamespace>Satrabel.Starter.Web</RootNamespace>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <DefineConstants>FEATURE_SIGNALR</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\CHANGELOG.txt" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\CONTRIBUTING.txt" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\background-events.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\BUG-bad.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\BUG.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\column-grouping.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\columns.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\dynamic-add-remove.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\external-dragging.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\gcal.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\grouping.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\json.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\json\events.json" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\json\resources.json" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\js\theme-chooser.js" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\misc-callbacks.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\no-overlap.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\ordering.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\rendering-hooks.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\scale.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\selectable.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\simple.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\themes.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\vertical-resource-view.html" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\fullcalendar.css" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\fullcalendar.js" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\fullcalendar.min.css" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\fullcalendar.min.js" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\fullcalendar.print.min.css" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\gcal.js" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\gcal.min.js" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\jquery-ui.min.js" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\jquery.min.js" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\locale-all.js" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\moment.min.js" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\LICENSE.txt" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\scheduler.css" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\scheduler.js" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\scheduler.min.css" />
+    <None Include="wwwroot\lib\fullcalendar-scheduler\scheduler.min.js" />
+    <None Update="Dockerfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="wwwroot\**\*;Views\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Satrabel.OpenApp.Web.Core\Satrabel.OpenApp.Web.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="AspNet.Security.OpenIdConnect.Server" Version="1.0.1" />
+    <PackageReference Include="PaulMiami.AspNetCore.Mvc.Recaptcha" Version="1.2.1" />
+    <PackageReference Include="Castle.LoggingFacility.MsLogging" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Abp.HangFire" Version="3.0.0" />
+    <PackageReference Include="Abp.RedisCache" Version="3.0.0" />
+    <PackageReference Include="Abp.Castle.Log4Net" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.ViewCompilation" Version="2.0.0" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
+    <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>ES6</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile></TypeScriptOutFile>
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
+</Project>

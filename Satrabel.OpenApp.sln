@@ -1,9 +1,26 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Satrabel.OpenApp.Core", "src\Satrabel.OpenApp.Core\Satrabel.OpenApp.Core.csproj", "{DE719E7B-FEEE-465F-B7EF-EB6F54044FBF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F10AA149-2626-486E-85BB-9CD5365F3016}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.OpenApp.Core", "src\Satrabel.OpenApp.Core\Satrabel.OpenApp.Core.csproj", "{0FA75A5B-AB83-4FD0-B545-279774C01E87}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.OpenApp.Application", "src\Satrabel.OpenApp.Application\Satrabel.OpenApp.Application.csproj", "{3870C648-4AEA-4B85-BA3F-F2F63B96136A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.OpenApp.Migrator", "src\Satrabel.OpenApp.Migrator\Satrabel.OpenApp.Migrator.csproj", "{880B3591-E057-46FE-B525-10BD83828B93}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.OpenApp.Web.Host", "src\Satrabel.OpenApp.Web.Host\Satrabel.OpenApp.Web.Host.csproj", "{38E184BD-E874-4633-A947-AED4FDB73F40}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.OpenApp.Web.Core", "src\Satrabel.OpenApp.Web.Core\Satrabel.OpenApp.Web.Core.csproj", "{22CFE0D2-8DCA-42D7-AD7D-784C3862493F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.OpenApp.EntityFrameworkCore", "src\Satrabel.OpenApp.EntityFrameworkCore\Satrabel.OpenApp.EntityFrameworkCore.csproj", "{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.Starter.Web.Mvc", "src\Satrabel.Starter.Web.Mvc\Satrabel.Starter.Web.Mvc.csproj", "{C6FA13E6-5535-44DA-A157-F8C3C46769A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.OpenApp.Tests", "test\Satrabel.OpenApp.Tests\Satrabel.OpenApp.Tests.csproj", "{032CC8F8-8C9F-43C6-A15A-7A11B31B0236}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +28,53 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DE719E7B-FEEE-465F-B7EF-EB6F54044FBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE719E7B-FEEE-465F-B7EF-EB6F54044FBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE719E7B-FEEE-465F-B7EF-EB6F54044FBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE719E7B-FEEE-465F-B7EF-EB6F54044FBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FA75A5B-AB83-4FD0-B545-279774C01E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FA75A5B-AB83-4FD0-B545-279774C01E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FA75A5B-AB83-4FD0-B545-279774C01E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FA75A5B-AB83-4FD0-B545-279774C01E87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3870C648-4AEA-4B85-BA3F-F2F63B96136A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3870C648-4AEA-4B85-BA3F-F2F63B96136A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3870C648-4AEA-4B85-BA3F-F2F63B96136A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3870C648-4AEA-4B85-BA3F-F2F63B96136A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{880B3591-E057-46FE-B525-10BD83828B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{880B3591-E057-46FE-B525-10BD83828B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{880B3591-E057-46FE-B525-10BD83828B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{880B3591-E057-46FE-B525-10BD83828B93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38E184BD-E874-4633-A947-AED4FDB73F40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38E184BD-E874-4633-A947-AED4FDB73F40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38E184BD-E874-4633-A947-AED4FDB73F40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38E184BD-E874-4633-A947-AED4FDB73F40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22CFE0D2-8DCA-42D7-AD7D-784C3862493F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22CFE0D2-8DCA-42D7-AD7D-784C3862493F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22CFE0D2-8DCA-42D7-AD7D-784C3862493F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22CFE0D2-8DCA-42D7-AD7D-784C3862493F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{032CC8F8-8C9F-43C6-A15A-7A11B31B0236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{032CC8F8-8C9F-43C6-A15A-7A11B31B0236}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{032CC8F8-8C9F-43C6-A15A-7A11B31B0236}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{032CC8F8-8C9F-43C6-A15A-7A11B31B0236}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0FA75A5B-AB83-4FD0-B545-279774C01E87} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
+		{3870C648-4AEA-4B85-BA3F-F2F63B96136A} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
+		{880B3591-E057-46FE-B525-10BD83828B93} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
+		{38E184BD-E874-4633-A947-AED4FDB73F40} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
+		{22CFE0D2-8DCA-42D7-AD7D-784C3862493F} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
+		{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
+		{C6FA13E6-5535-44DA-A157-F8C3C46769A0} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
+		{032CC8F8-8C9F-43C6-A15A-7A11B31B0236} = {F10AA149-2626-486E-85BB-9CD5365F3016}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {58D85290-03C9-49EB-A2D8-9CA52DABC54C}
+		SolutionGuid = {BCE19977-D972-4B7F-9F12-3927D25225CA}
 	EndGlobalSection
 EndGlobal

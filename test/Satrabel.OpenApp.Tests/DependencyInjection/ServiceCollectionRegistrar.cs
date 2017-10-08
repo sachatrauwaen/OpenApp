@@ -1,0 +1,35 @@
+﻿using System;
+using Abp.Dependency;
+using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.OpenApp.Identity;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor.MsDependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Satrabel.OpenApp.Tests.DependencyInjection
+{
+    public static class ServiceCollectionRegistrar
+    {
+        public static void Register(IIocManager iocManager)
+        {
+            var services = new ServiceCollection();
+
+            IdentityRegistrar.Register(services);
+
+            services.AddEntityFrameworkInMemoryDatabase();
+
+            var serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(iocManager.IocContainer, services);
+
+            var builder = new DbContextOptionsBuilder<OpenAppDbContext>();
+            builder.UseInMemoryDatabase(Guid.NewGuid().ToString()).UseInternalServiceProvider(serviceProvider);
+
+            iocManager.IocContainer.Register(
+                Component
+                    .For<DbContextOptions<OpenAppDbContext>>()
+                    .Instance(builder.Options)
+                    .LifestyleSingleton()
+            );
+        }
+    }
+}

@@ -1,0 +1,136 @@
+<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><VersionPrefix>1.0.0.0</VersionPrefix><TargetFramework>netcoreapp2.0</TargetFramework><AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback><AssemblyName>Satrabel.OpenApp.Web.Core</AssemblyName><PackageId>Satrabel.JobManager.Web.Core</PackageId><GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute><GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute><GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute><GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute><GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute><GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute><GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute><GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute><RootNamespace>Satrabel.OpenApp</RootNamespace></PropertyGroup><PropertyGroup Condition=" '$(TargetFramework)' == 'net461' "><DefineConstants>FEATURE_SIGNALR</DefineConstants></PropertyGroup><ItemGroup>
+  <None Remove="Views\Account\Login.css" />
+  <None Remove="Views\Account\Login.js" />
+  <None Remove="Views\Account\Login.min.css" />
+  <None Remove="Views\Account\Login.min.js" />
+  <None Remove="Views\Crud\Index.js" />
+  <None Remove="Views\css\font-awesome.css" />
+  <None Remove="Views\css\font-awesome.css.map" />
+  <None Remove="Views\css\font-awesome.min.css" />
+  <None Remove="Views\css\jobmanager.css" />
+  <None Remove="Views\css\simple-line-icons.css" />
+  <None Remove="Views\css\style.css" />
+  <None Remove="Views\fonts\fontawesome-webfont.eot" />
+  <None Remove="Views\fonts\fontawesome-webfont.svg" />
+  <None Remove="Views\fonts\fontawesome-webfont.ttf" />
+  <None Remove="Views\fonts\fontawesome-webfont.woff" />
+  <None Remove="Views\fonts\fontawesome-webfont.woff2" />
+  <None Remove="Views\fonts\FontAwesome.otf" />
+  <None Remove="Views\fonts\Simple-Line-Icons.eot" />
+  <None Remove="Views\fonts\Simple-Line-Icons.svg" />
+  <None Remove="Views\fonts\Simple-Line-Icons.woff" />
+  <None Remove="Views\fonts\Simple-Line-Icons.woff2" />
+  <None Remove="Views\img\favicon.png" />
+  <None Remove="Views\img\logo.png" />
+  <None Remove="Views\js\app.js" />
+  <None Remove="Views\js\main.js" />
+  <None Remove="Views\lib\element-ui\bundle.js" />
+  <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element_icons.ttf" />
+  <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element_icons.woff" />
+  <None Remove="Views\lib\element-ui\lib\theme-default\index.css" />
+  <None Remove="Views\lib\json-ref-lite\json-ref-lite.min.js" />
+  <None Remove="Views\lib\vueforms\bundle.js" />
+  <None Remove="Views\lib\vue\vue.js" />
+  <None Remove="Views\lib\vue\vue.min.js" />
+  <None Remove="Views\_Bundles\account-layout.min.css" />
+  <None Remove="Views\_Bundles\account-layout.min.js" />
+  <None Remove="Views\_Bundles\shared-layout.min.css" />
+  <None Remove="Views\_Bundles\shared-layout.min.js" />
+</ItemGroup><ItemGroup>
+  <EmbeddedResource Include="Views\Account\Login.css" />
+  <EmbeddedResource Include="Views\Account\Login.js" />
+  <EmbeddedResource Include="Views\Account\Login.min.css" />
+  <EmbeddedResource Include="Views\Account\Login.min.js" />
+  <EmbeddedResource Include="Views\Crud\Index.js" />
+  <EmbeddedResource Include="Views\lib\element-ui\bundle.js" />
+  <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element_icons.ttf" />
+  <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element_icons.woff" />
+  <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\index.css" />
+  <EmbeddedResource Include="Views\lib\json-ref-lite\json-ref-lite.min.js" />
+</ItemGroup><ItemGroup>
+  <Content Include="bundleconfig.json">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </Content>
+</ItemGroup><ItemGroup>
+  <EmbeddedResource Include="Views\Crud\Index.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\css\font-awesome.css" />
+  <EmbeddedResource Include="Views\css\font-awesome.css.map" />
+  <EmbeddedResource Include="Views\css\font-awesome.min.css" />
+  <EmbeddedResource Include="Views\css\jobmanager.css" />
+  <EmbeddedResource Include="Views\css\simple-line-icons.css" />
+  <EmbeddedResource Include="Views\fonts\FontAwesome.otf" />
+  <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.ttf" />
+  <EmbeddedResource Include="Views\img\favicon.png" />
+  <EmbeddedResource Include="Views\img\logo.png" />
+  <EmbeddedResource Include="Views\js\app.js" />
+  <EmbeddedResource Include="Views\js\main.js" />
+  <EmbeddedResource Include="Views\lib\vueforms\bundle.js" />
+  <EmbeddedResource Include="Views\lib\vue\vue_router.js" />
+  <EmbeddedResource Include="Views\lib\vue\vue_router.min.js" />
+  <EmbeddedResource Include="Views\lib\vue\vue.js" />
+  <EmbeddedResource Include="Views\lib\vue\vue.min.js" />
+  <EmbeddedResource Include="Views\_Bundles\account-layout.min.css" />
+  <EmbeddedResource Include="Views\_Bundles\account-layout.min.js" />
+  <EmbeddedResource Include="Views\_Bundles\shared-layout.min.css" />
+  <EmbeddedResource Include="Views\_Bundles\shared-layout.min.js" />
+</ItemGroup><ItemGroup>
+  <EmbeddedResource Include="Views\_ViewImports.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\_ViewStart.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+</ItemGroup><ItemGroup>
+  <EmbeddedResource Include="Views\Shared\Components\AccountLanguages\Default.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Shared\Components\RightSideBar\Default.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Shared\Components\SideBarNav\Default.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Shared\Components\SideBarUserArea\Default.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Shared\Components\TenantChange\Default.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Shared\Components\TenantChange\_ChangeModal.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Shared\Components\TopBarLanguageSwitch\Default.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Shared\Error.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Shared\Modals\_ModalFooterWithSaveAndCancel.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Shared\Modals\_ModalHeader.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Shared\_Layout.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+</ItemGroup><ItemGroup>
+  <EmbeddedResource Include="Views\Account\Login.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Account\Register.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Account\RegisterResult.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Account\_Layout.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\Account\_ViewStart.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </EmbeddedResource>
+  <EmbeddedResource Include="Views\css\style.css" />
+</ItemGroup><ItemGroup><ProjectReference Include="..\Satrabel.OpenApp.Application\Satrabel.OpenApp.Application.csproj" /><ProjectReference Include="..\Satrabel.OpenApp.EntityFrameworkCore\Satrabel.OpenApp.EntityFrameworkCore.csproj" /></ItemGroup><ItemGroup><PackageReference Include="System.ValueTuple" Version="4.4.0" /><PackageReference Include="System.Net.Http" Version="4.3.2" /><PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.0" /><PackageReference Include="Microsoft.AspNetCore.Owin" Version="2.0.0" /><PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" /><PackageReference Include="Abp.AspNetCore" Version="3.0.0" /><PackageReference Include="Abp.ZeroCore" Version="3.0.0" /><PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" /></ItemGroup><ItemGroup Condition=" '$(TargetFramework)' == 'net461' "><Reference Include="System" /><Reference Include="Microsoft.CSharp" /><PackageReference Include="Abp.Web.SignalR" Version="3.0.0" /><PackageReference Include="Abp.Owin" Version="3.0.0" /></ItemGroup></Project>
