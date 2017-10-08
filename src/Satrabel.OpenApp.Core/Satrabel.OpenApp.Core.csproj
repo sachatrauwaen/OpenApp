@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <PackageId>Openapp.Satrabel</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Sacha Trauwaen</Authors>
+    <Description>Open App</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>First release</PackageReleaseNotes>
+    <Copyright>Copyright 2017 (c) Satrabel. All rights reserved.</Copyright>
+    <PackageTags>dotnetcore</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    
+    
   </PropertyGroup>
 
 </Project>
