@@ -1,9 +1,0 @@
-C:\sacha\dotnet\OpenApp\src\Satrabel.OpenApp.Core\bin\Debug\netcoreapp2.0\Satrabel.OpenApp.Core.deps.json
-C:\sacha\dotnet\OpenApp\src\Satrabel.OpenApp.Core\bin\Debug\netcoreapp2.0\Satrabel.OpenApp.Core.dll
-C:\sacha\dotnet\OpenApp\src\Satrabel.OpenApp.Core\bin\Debug\netcoreapp2.0\Satrabel.OpenApp.Core.pdb
-C:\sacha\dotnet\OpenApp\src\Satrabel.OpenApp.Core\obj\Debug\netcoreapp2.0\Satrabel.OpenApp.Core.csprojResolveAssemblyReference.cache
-C:\sacha\dotnet\OpenApp\src\Satrabel.OpenApp.Core\obj\Debug\netcoreapp2.0\Satrabel.OpenApp.Core.csproj.CoreCompileInputs.cache
-C:\sacha\dotnet\OpenApp\src\Satrabel.OpenApp.Core\obj\Debug\netcoreapp2.0\Satrabel.OpenApp.Core.AssemblyInfoInputs.cache
-C:\sacha\dotnet\OpenApp\src\Satrabel.OpenApp.Core\obj\Debug\netcoreapp2.0\Satrabel.OpenApp.Core.AssemblyInfo.cs
-C:\sacha\dotnet\OpenApp\src\Satrabel.OpenApp.Core\obj\Debug\netcoreapp2.0\Satrabel.OpenApp.Core.dll
-C:\sacha\dotnet\OpenApp\src\Satrabel.OpenApp.Core\obj\Debug\netcoreapp2.0\Satrabel.OpenApp.Core.pdb
