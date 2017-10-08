@@ -11,7 +11,7 @@
     <PackageReleaseNotes>First release</PackageReleaseNotes>
     <Copyright>Copyright 2017 (c) Satrabel. All rights reserved.</Copyright>
     <PackageTags>dotnetcore</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     
     
   </PropertyGroup>
