@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Satrabel.OpenApp;
 
-namespace Satrabel.OpenApp.Web.Startup
+namespace Satrabel.Starter.Web.Startup
 {
     [DependsOn(typeof(OpenAppWebCoreModule))]
     public class StarterWebMvcModule : AbpModule
