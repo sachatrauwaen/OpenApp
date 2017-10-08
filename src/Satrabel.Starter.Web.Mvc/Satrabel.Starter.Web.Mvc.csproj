@@ -5,7 +5,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>Satrabel.Starter.Web.Mvc</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>Satrabel.Test.Web.Mvc</PackageId>
+    <PackageId>Satrabel.Starter.Web.Mvc</PackageId>
     <UserSecretsId>Satrabel-Test-56C2EF2F-ABD6-4EFC-AAF2-2E81C34E8FB1</UserSecretsId>
     <RootNamespace>Satrabel.Starter.Web</RootNamespace>
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
