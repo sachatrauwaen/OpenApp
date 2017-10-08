@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Satrabel.OpenApp.Core", "src\Satrabel.OpenApp.Core\Satrabel.OpenApp.Core.csproj", "{DE719E7B-FEEE-465F-B7EF-EB6F54044FBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE719E7B-FEEE-465F-B7EF-EB6F54044FBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE719E7B-FEEE-465F-B7EF-EB6F54044FBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE719E7B-FEEE-465F-B7EF-EB6F54044FBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE719E7B-FEEE-465F-B7EF-EB6F54044FBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58D85290-03C9-49EB-A2D8-9CA52DABC54C}
+	EndGlobalSection
+EndGlobal
