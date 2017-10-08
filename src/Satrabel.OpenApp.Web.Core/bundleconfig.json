@@ -4,11 +4,9 @@
     "inputFiles": [
       "Views/lib/toastr/toastr.css",
       "Views/lib/sweetalert/dist/sweetalert.css",
-      "Views/lib/famfamfam-flags/dist/sprite/famfamfam-flags.css",
       "Views/lib/font-awesome/css/font-awesome.css",
       "Views/lib/Waves/dist/waves.css",
       "Views/lib/animate.css/animate.css",
-      "Views/css/materialize.css",
       "Views/css/style.css",
       "Views/Account/_Layout.css"
     ]
@@ -32,7 +30,6 @@
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
-      "Views/js/admin.js",
       "Views/js/main.js"
     ]
   },
@@ -48,7 +45,6 @@
       "Views/lib/animate.css/animate.css",
       "Views/css/materialize.css",
       "Views/css/style.css"
-
     ]
   },
   {
@@ -76,7 +72,6 @@
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
-      "Views/js/admin.js",
       "Views/js/main.js",
       "Views/Shared/_Layout.js"
     ]

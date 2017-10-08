@@ -252,3 +252,4 @@ paket-files/
 *.sln.iml
 dist/
 src/Satrabel.JobManager.Web.Mvc/App_Data/Logs/
+src/Satrabel.Starter.Web.Mvc/App_Data/
