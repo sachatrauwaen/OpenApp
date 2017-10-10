@@ -21,7 +21,7 @@ namespace Satrabel.OpenApp.Web.Startup
                             PageNames.Tenants,
                             L("Tenants"),
                             url: "/Crud#app/tenant",
-                            icon: "business",
+                            icon: "layers",
                             requiredPermissionName: PermissionNames.Pages_Tenants
                         )
                     ).AddItem(

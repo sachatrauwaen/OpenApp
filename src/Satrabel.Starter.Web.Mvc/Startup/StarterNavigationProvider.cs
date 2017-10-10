@@ -1,7 +1,7 @@
 ﻿using Abp.Application.Navigation;
 using Abp.Localization;
 using Satrabel.OpenApp;
-using Satrabel.OpenApp.Authorization;
+using Satrabel.Starter.Authorization;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -19,7 +19,7 @@ namespace Satrabel.Starter.Web.Startup
                         L("HomePage"),
                         url: "",
                         icon: "home",
-                        requiredPermissionName: PermissionNames.Pages_Jobs
+                        requiredPermissionName: PermissionNames.Pages_Home
                     )
                 )
                 .AddItem(
@@ -28,7 +28,7 @@ namespace Satrabel.Starter.Web.Startup
                         L("About"),
                         url: "/About",
                         icon: "question",
-                        requiredPermissionName: PermissionNames.Pages_Customers
+                        requiredPermissionName: PermissionNames.Pages_About
                     )
 
 

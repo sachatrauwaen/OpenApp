@@ -27,7 +27,6 @@
     <None Remove="Views\css\font-awesome.css" />
     <None Remove="Views\css\font-awesome.css.map" />
     <None Remove="Views\css\font-awesome.min.css" />
-    <None Remove="Views\css\jobmanager.css" />
     <None Remove="Views\css\simple-line-icons.css" />
     <None Remove="Views\css\style.css" />
     <None Remove="Views\fonts\fontawesome-webfont.eot" />
@@ -81,7 +80,6 @@
     <EmbeddedResource Include="Views\css\font-awesome.css" />
     <EmbeddedResource Include="Views\css\font-awesome.css.map" />
     <EmbeddedResource Include="Views\css\font-awesome.min.css" />
-    <EmbeddedResource Include="Views\css\jobmanager.css" />
     <EmbeddedResource Include="Views\css\simple-line-icons.css" />
     <EmbeddedResource Include="Views\fonts\FontAwesome.otf" />
     <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.ttf" />

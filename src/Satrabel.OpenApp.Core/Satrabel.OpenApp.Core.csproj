@@ -12,7 +12,8 @@
     <RootNamespace>Satrabel.OpenApp</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Localization\SourceFiles\*.xml" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <EmbeddedResource Include="Localization\SourceFiles\OpenApp-fr.xml" />
+    <EmbeddedResource Include="Localization\SourceFiles\OpenApp.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Abp" Version="3.0.0" />

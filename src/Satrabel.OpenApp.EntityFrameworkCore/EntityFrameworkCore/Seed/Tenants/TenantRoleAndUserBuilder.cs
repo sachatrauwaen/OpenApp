@@ -40,7 +40,7 @@ namespace Satrabel.OpenApp.EntityFrameworkCore.Seed.Tenants
 
                 //Grant all permissions to admin role
                 var permissions = PermissionFinder
-                    .GetAllPermissions(new JobManagerAuthorizationProvider())
+                    .GetAllPermissions(new OpenAppAuthorizationProvider())
                     .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Tenant))
                     .ToList();
 

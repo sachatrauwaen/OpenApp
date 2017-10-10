@@ -63,7 +63,7 @@ namespace Satrabel.OpenApp.EntityFrameworkCore.Seed.Host
 
                 //Grant all permissions
                 var permissions = PermissionFinder
-                    .GetAllPermissions(new JobManagerAuthorizationProvider())
+                    .GetAllPermissions(new OpenAppAuthorizationProvider())
                     .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Host))
                     .ToList();
 

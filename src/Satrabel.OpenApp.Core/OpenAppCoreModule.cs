@@ -24,7 +24,7 @@ namespace Satrabel.OpenApp
             Configuration.Modules.Zero().EntityTypes.Role = typeof(Role);
             Configuration.Modules.Zero().EntityTypes.User = typeof(User);
 
-            JobManagerLocalizationConfigurer.Configure(Configuration.Localization);
+            OpenAppLocalizationConfigurer.Configure(Configuration.Localization);
 
             //Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = OpenAppConsts.MultiTenancyEnabled;

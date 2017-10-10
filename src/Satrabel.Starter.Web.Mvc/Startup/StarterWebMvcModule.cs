@@ -5,6 +5,7 @@ using Satrabel.OpenApp.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Satrabel.OpenApp;
+using Satrabel.Starter.Authorization;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -22,6 +23,7 @@ namespace Satrabel.Starter.Web.Startup
 
         public override void PreInitialize()
         {
+            Configuration.Authorization.Providers.Add<StarterAuthorizationProvider>();
             Configuration.Navigation.Providers.Add<StarterNavigationProvider>();
         }
 

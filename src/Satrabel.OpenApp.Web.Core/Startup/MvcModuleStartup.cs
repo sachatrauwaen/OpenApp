@@ -22,6 +22,7 @@ using Satrabel.OpenApp.Web.Startup;
 using Abp.Resources.Embedded;
 using Microsoft.Extensions.FileProviders;
 using Abp.Web.Configuration;
+using System.Data.SqlClient;
 
 #if FEATURE_SIGNALR
 using Owin;
@@ -66,7 +67,20 @@ namespace Satrabel.OpenApp.Startup
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseAbp(); //Initializes ABP framework.
+            try
+            {
+                app.UseAbp(); //Initializes ABP framework.
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 208 && ex.Message.Contains("AppEditions"))
+                {
+
+                }
+
+                throw;
+            }
+            
 
             if (env.IsDevelopment())
             {

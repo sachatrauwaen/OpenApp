@@ -6,14 +6,14 @@ using Abp.Reflection.Extensions;
 
 namespace Satrabel.OpenApp.Localization
 {
-    public static class JobManagerLocalizationConfigurer
+    public static class OpenAppLocalizationConfigurer
     {
         public static void Configure(ILocalizationConfiguration localizationConfiguration)
         {
             localizationConfiguration.Sources.Add(
                 new DictionaryBasedLocalizationSource(OpenAppConsts.LocalizationSourceName,
                     new XmlEmbeddedFileLocalizationDictionaryProvider(
-                        typeof(JobManagerLocalizationConfigurer).GetAssembly(),
+                        typeof(OpenAppLocalizationConfigurer).GetAssembly(),
                         "Satrabel.OpenApp.Localization.SourceFiles"
                     )
                 )

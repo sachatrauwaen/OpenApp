@@ -15,7 +15,7 @@ namespace Satrabel.OpenApp
     {
         public override void PreInitialize()
         {
-            Configuration.Authorization.Providers.Add<JobManagerAuthorizationProvider>();
+            Configuration.Authorization.Providers.Add<OpenAppAuthorizationProvider>();
         }
 
         public override void Initialize()

@@ -60,12 +60,14 @@ namespace Satrabel.OpenApp.Migrator
                     return;
                 }
             }
+            
 
             Log.Write("HOST database migration started...");
 
             try
             {
                 _migrator.CreateOrMigrateForHost(SeedHelper.SeedHostDb);
+                
             }
             catch (Exception ex)
             {

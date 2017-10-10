@@ -250,3 +250,50 @@ INFO  2017-09-29 12:13:31,514 [2    ] Satrabel.JobManager.Migrator.Log         -
 INFO  2017-09-29 12:13:31,567 [2    ] Satrabel.JobManager.Migrator.Log         - All databases have been migrated.
 DEBUG 2017-09-29 12:13:33,400 [2    ] Abp.Modules.AbpModuleManager             - Shutting down has been started
 DEBUG 2017-09-29 12:13:33,400 [2    ] Abp.Modules.AbpModuleManager             - Shutting down completed.
+DEBUG 2017-10-10 00:12:28,737 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2017-10-10 00:12:29,199 [2    ] Abp.Modules.AbpModuleManager             - Found 9 ABP modules in total.
+DEBUG 2017-10-10 00:12:30,320 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Satrabel.OpenApp.Migrator.OpenAppMigratorModule, Satrabel.OpenApp.Migrator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:30,324 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Satrabel.OpenApp.EntityFrameworkCore.OpenAppEntityFrameworkModule, Satrabel.OpenApp.EntityFrameworkCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:30,325 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Satrabel.OpenApp.OpenAppCoreModule, Satrabel.OpenApp.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:30,325 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:30,325 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:30,325 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:30,326 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:30,326 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:30,326 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:30,330 [2    ] Abp.Modules.AbpModuleManager             - 9 modules loaded.
+DEBUG 2017-10-10 00:12:31,842 [2    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: Satrabel.OpenApp.EntityFrameworkCore.OpenAppDbContext, Satrabel.OpenApp.EntityFrameworkCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:33,572 [2    ] Abp.Localization.LocalizationManager     - Initializing 3 localization sources.
+DEBUG 2017-10-10 00:12:33,592 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2017-10-10 00:12:33,599 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2017-10-10 00:12:33,608 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: OpenApp
+INFO  2017-10-10 00:12:34,350 [2    ] Satrabel.OpenApp.Migrator.Log            - Host database: Server=.\SQLEXPRESS; Database=OpenAppDb; Trusted_Connection=True;
+INFO  2017-10-10 00:12:34,350 [2    ] Satrabel.OpenApp.Migrator.Log            - Continue to migration for this host database and all tenants..? (Y/N): 
+INFO  2017-10-10 00:12:42,144 [2    ] Satrabel.OpenApp.Migrator.Log            - HOST database migration started...
+INFO  2017-10-10 00:12:46,065 [2    ] Satrabel.OpenApp.Migrator.Log            - HOST database migration completed.
+INFO  2017-10-10 00:12:46,065 [2    ] Satrabel.OpenApp.Migrator.Log            - --------------------------------------------------------
+INFO  2017-10-10 00:12:46,125 [2    ] Satrabel.OpenApp.Migrator.Log            - All databases have been migrated.
+DEBUG 2017-10-10 00:12:48,486 [2    ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2017-10-10 00:12:48,488 [2    ] Abp.Modules.AbpModuleManager             - Shutting down completed.
+DEBUG 2017-10-10 00:12:56,676 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2017-10-10 00:12:56,697 [2    ] Abp.Modules.AbpModuleManager             - Found 9 ABP modules in total.
+DEBUG 2017-10-10 00:12:56,760 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Satrabel.OpenApp.Migrator.OpenAppMigratorModule, Satrabel.OpenApp.Migrator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:56,762 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Satrabel.OpenApp.EntityFrameworkCore.OpenAppEntityFrameworkModule, Satrabel.OpenApp.EntityFrameworkCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:56,762 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Satrabel.OpenApp.OpenAppCoreModule, Satrabel.OpenApp.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:56,763 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:56,763 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:56,763 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:56,763 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:56,764 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:56,764 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:56,767 [2    ] Abp.Modules.AbpModuleManager             - 9 modules loaded.
+DEBUG 2017-10-10 00:12:56,969 [2    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: Satrabel.OpenApp.EntityFrameworkCore.OpenAppDbContext, Satrabel.OpenApp.EntityFrameworkCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-10-10 00:12:57,269 [2    ] Abp.Localization.LocalizationManager     - Initializing 3 localization sources.
+DEBUG 2017-10-10 00:12:57,278 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2017-10-10 00:12:57,283 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2017-10-10 00:12:57,295 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: OpenApp
+INFO  2017-10-10 00:12:57,544 [2    ] Satrabel.OpenApp.Migrator.Log            - Host database: Server=.\SQLEXPRESS; Database=OpenAppDb; Trusted_Connection=True;
+INFO  2017-10-10 00:12:57,544 [2    ] Satrabel.OpenApp.Migrator.Log            - Continue to migration for this host database and all tenants..? (Y/N): 
+INFO  2017-10-10 00:13:01,186 [2    ] Satrabel.OpenApp.Migrator.Log            - Migration canceled.
+DEBUG 2017-10-10 00:13:02,383 [2    ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2017-10-10 00:13:02,385 [2    ] Abp.Modules.AbpModuleManager             - Shutting down completed.
