@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="pt-BR">
   <texts>
-    <text name="HomePage" value="Página Inicial" />
-    <text name="About" value="Sobre" />
-    <text name="WellcomeMessage" value="Bem Vindo ao Openapp!" />
     
     <text name="FormIsNotValidMessage" value="Formulário não é válido. Por favor, verifique e corrija os erros." />
     <text name="TenantNameCanNotBeEmpty" value="Tenant não pode estar vazio" />

@@ -1,7 +1,7 @@
 ﻿using Abp.Application.Navigation;
 using Abp.Localization;
 using Satrabel.OpenApp;
-using Satrabel.Starter.Authorization;
+using Satrabel.Starter.Web.Authorization;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -16,7 +16,7 @@ namespace Satrabel.Starter.Web.Startup
                  .AddItem(
                     new MenuItemDefinition(
                         PageNames.Home,
-                        L("HomePage"),
+                        L("Home"),
                         url: "",
                         icon: "home",
                         requiredPermissionName: PermissionNames.Pages_Home
@@ -39,7 +39,7 @@ namespace Satrabel.Starter.Web.Startup
 
         private static ILocalizableString L(string name)
         {
-            return new LocalizableString(name, OpenAppConsts.LocalizationSourceName);
+            return new LocalizableString(name, StarterConsts.LocalizationSourceName);
         }
     }
 }

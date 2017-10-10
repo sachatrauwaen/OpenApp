@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="tr">
   <texts>
-    <text name="HomePage" value="Ana Sayfa" />
-    <text name="About" value="Hakkında" />
-    <text name="WellcomeMessage" value="OpenApp projesine hoşgeldiniz!" />
 
     <text name="FormIsNotValidMessage" value="Form geçerli değil. Lütfen kontrol edip hataları düzeltin." />
     <text name="TenantNameCanNotBeEmpty" value="Müşteri adı boş bırakılamaz." />

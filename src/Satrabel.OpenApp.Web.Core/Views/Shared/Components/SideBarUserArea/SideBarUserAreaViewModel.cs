@@ -18,7 +18,7 @@ namespace Satrabel.OpenApp.Web.Views.Shared.Components.SideBarUserArea
             }
 
             return LoginInformations.Tenant == null
-                ? ".\\" + userName
+                ? userName
                 : LoginInformations.Tenant.TenancyName + "\\" + userName;
         }
     }

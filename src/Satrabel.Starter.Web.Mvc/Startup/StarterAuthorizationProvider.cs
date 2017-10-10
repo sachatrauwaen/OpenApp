@@ -3,7 +3,7 @@ using Abp.Localization;
 using Abp.MultiTenancy;
 using Satrabel.OpenApp;
 
-namespace Satrabel.Starter.Authorization
+namespace Satrabel.Starter.Web.Authorization
 {
     public class StarterAuthorizationProvider : AuthorizationProvider
     {
@@ -15,7 +15,7 @@ namespace Satrabel.Starter.Authorization
 
         private static ILocalizableString L(string name)
         {
-            return new LocalizableString(name, OpenAppConsts.LocalizationSourceName);
+            return new LocalizableString(name, StarterConsts.LocalizationSourceName);
         }
     }
 }

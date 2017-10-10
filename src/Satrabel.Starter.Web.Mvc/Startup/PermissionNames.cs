@@ -1,4 +1,4 @@
-﻿namespace Satrabel.Starter.Authorization
+﻿namespace Satrabel.Starter.Web.Authorization
 {
     public static class PermissionNames
     {

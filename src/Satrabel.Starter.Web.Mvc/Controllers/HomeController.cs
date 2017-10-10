@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Satrabel.Starter.Web.Controllers
 {
     [AbpMvcAuthorize]
-    public class HomeController : OpenAppControllerBase
+    public class HomeController : StarterControllerBase
     {
         public ActionResult Index()
         {

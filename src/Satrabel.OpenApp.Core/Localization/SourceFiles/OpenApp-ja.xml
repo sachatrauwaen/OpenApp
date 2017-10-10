@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="ja">
   <texts>
-    <text name="HomePage" value="ホームページ" />
-    <text name="About" value="我々について" />
-    <text name="WellcomeMessage" value="ようこそ OpenApp へ!" />
 
     <text name="FormIsNotValidMessage" value="フォームは無効です。エラーを修正してください。" />
     <text name="TenantNameCanNotBeEmpty" value="テナント名を空にすることはできません" />

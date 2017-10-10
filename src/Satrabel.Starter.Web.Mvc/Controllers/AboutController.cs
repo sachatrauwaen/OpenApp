@@ -6,7 +6,7 @@ using Microsoft.Extensions.FileProviders;
 namespace Satrabel.Starter.Web.Controllers
 {
     [AbpMvcAuthorize]
-    public class AboutController : OpenAppControllerBase
+    public class AboutController : StarterControllerBase
     {
         private readonly Abp.Dependency.IIocResolver _iocResolver;
         private readonly IFileProvider _fileProvider;
