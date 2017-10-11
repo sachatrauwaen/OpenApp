@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.0.0-beta): button.js
+ * Bootstrap (v4.0.0-alpha.6): button.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -15,7 +15,7 @@ const Button = (($) => {
    */
 
   const NAME                = 'button'
-  const VERSION             = '4.0.0-beta'
+  const VERSION             = '4.0.0-alpha.6'
   const DATA_KEY            = 'bs.button'
   const EVENT_KEY           = `.${DATA_KEY}`
   const DATA_API_KEY        = '.data-api'
@@ -66,7 +66,6 @@ const Button = (($) => {
 
     toggle() {
       let triggerChangeEvent = true
-      let addAriaPressed = true
       const rootElement      = $(this._element).closest(
         Selector.DATA_TOGGLE
       )[0]
@@ -90,26 +89,17 @@ const Button = (($) => {
           }
 
           if (triggerChangeEvent) {
-            if (input.hasAttribute('disabled') ||
-              rootElement.hasAttribute('disabled') ||
-              input.classList.contains('disabled') ||
-              rootElement.classList.contains('disabled')) {
-              return
-            }
             input.checked = !$(this._element).hasClass(ClassName.ACTIVE)
             $(input).trigger('change')
           }
 
           input.focus()
-          addAriaPressed = false
         }
 
       }
 
-      if (addAriaPressed) {
-        this._element.setAttribute('aria-pressed',
-          !$(this._element).hasClass(ClassName.ACTIVE))
-      }
+      this._element.setAttribute('aria-pressed',
+        !$(this._element).hasClass(ClassName.ACTIVE))
 
       if (triggerChangeEvent) {
         $(this._element).toggleClass(ClassName.ACTIVE)

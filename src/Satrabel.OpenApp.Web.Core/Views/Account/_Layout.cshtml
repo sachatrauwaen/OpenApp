@@ -25,11 +25,11 @@
 
     <environment names="Development">
         
-        <link href="~/Views/_Bundles/shared-layout.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/Views/_Bundles/account-layout.min.css" rel="stylesheet" asp-append-version="true" />
 
     </environment>
     <environment names="Staging,Production">
-        <link href="~/Views/_Bundles/shared-layout.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/Views/_Bundles/account-layout.min.css" rel="stylesheet" asp-append-version="true" />
     </environment>
     <!-- View specific styles -->
     @RenderSection("styles", required: false)
@@ -50,7 +50,7 @@
 
 
     <environment names="Development">
-        <script src="~/Views/_Bundles/shared-layout.min.js" asp-append-version="true"></script>
+        <script src="~/Views/_Bundles/account-layout.min.js" asp-append-version="true"></script>
         <!-- GenesisUI main scripts -->
         <script src="~/Views/js/app.js" asp-append-version="true"></script>
         
@@ -59,7 +59,7 @@
     
     </environment>
     <environment names="Staging,Production">
-        <script src="~/view-resources/Views/_Bundles/shared-layout.min.js" asp-append-version="true"></script>
+        <script src="~/Views/_Bundles/account-layout.min.js" asp-append-version="true"></script>
         <!-- GenesisUI main scripts -->
         <script src="~/Views/js/app.js" asp-append-version="true"></script>
 
