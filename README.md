@@ -1,4 +1,4 @@
 # OpenApp
 
 
-![screenshot](https://github.com/sachatrauwaen/OpenApp/blob/develop/screenshot-openapp.JPG|Screenshot)
+![screenshot](https://raw.githubusercontent.com/sachatrauwaen/OpenApp/blob/develop/screenshot-openapp.JPG|Screenshot)
