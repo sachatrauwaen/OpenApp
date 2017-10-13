@@ -34,3 +34,10 @@ Based on the Asp.net Bolerplate standard template, we create standard reusable m
 This way the reussable part of the Abp template are isolated and maintained centrally in this OpenApp Project.
 
 ![screenshot](https://raw.githubusercontent.com/sachatrauwaen/OpenApp/develop/screenshot-openapp.JPG)
+
+## Roadmap
+
+- [x] Language selector
+- [ ] Login UI fixes
+- [ ] Register UI
+
