@@ -40,4 +40,9 @@ This way the reussable part of the Abp template are isolated and maintained cent
 - [x] Language selector
 - [ ] Login UI fixes
 - [ ] Register UI
+- [ ] Reset password
+
+- [ ] Audit logs UI
+- [ ] Languages UI
+- [ ] Settings UI (Email settings,...)
 
