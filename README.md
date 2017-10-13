@@ -2,7 +2,7 @@
 
 The Goal is to Create a optiniated base framework for creating web applcations.
 
-It will be composed of a number of a other open source prjects :
+It will be composed of a number of other open source prjects :
 
 1. Asp.Net Boilerplate [https://aspnetboilerplate.com/]
 * Layered Architecture
