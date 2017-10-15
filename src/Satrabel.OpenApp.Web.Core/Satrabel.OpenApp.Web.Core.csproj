@@ -23,6 +23,8 @@
     <None Remove="Views\Account\Login.js" />
     <None Remove="Views\Account\Login.min.css" />
     <None Remove="Views\Account\Login.min.js" />
+    <None Remove="Views\Account\Register.js" />
+    <None Remove="Views\Account\Register.min.js" />
     <None Remove="Views\Crud\Index.js" />
     <None Remove="Views\css\font-awesome.css" />
     <None Remove="Views\css\font-awesome.css.map" />
@@ -39,6 +41,10 @@
     <None Remove="Views\fonts\Simple-Line-Icons.svg" />
     <None Remove="Views\fonts\Simple-Line-Icons.woff" />
     <None Remove="Views\fonts\Simple-Line-Icons.woff2" />
+    <None Remove="Views\fonts\Simple_Line_Icons.eot" />
+    <None Remove="Views\fonts\Simple_Line_Icons.svg" />
+    <None Remove="Views\fonts\Simple_Line_Icons.woff" />
+    <None Remove="Views\fonts\Simple_Line_Icons.woff2" />
     <None Remove="Views\img\favicon.png" />
     <None Remove="Views\img\logo.png" />
     <None Remove="Views\js\app.js" />
@@ -61,7 +67,13 @@
     <EmbeddedResource Include="Views\Account\Login.js" />
     <EmbeddedResource Include="Views\Account\Login.min.css" />
     <EmbeddedResource Include="Views\Account\Login.min.js" />
+    <EmbeddedResource Include="Views\Account\Register.js" />
+    <EmbeddedResource Include="Views\Account\Register.min.js" />
     <EmbeddedResource Include="Views\Crud\Index.js" />
+    <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.eot" />
+    <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.svg" />
+    <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.woff" />
+    <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.woff2" />
     <EmbeddedResource Include="Views\lib\element-ui\bundle.js" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element_icons.ttf" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element_icons.woff" />

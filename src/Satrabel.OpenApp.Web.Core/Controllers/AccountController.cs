@@ -437,6 +437,7 @@ namespace Satrabel.OpenApp.Web.Controllers
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
+        /*
         public async Task<ActionResult> TestNotification(string message = "")
         {
             if (message.IsNullOrEmpty())
@@ -456,7 +457,7 @@ namespace Satrabel.OpenApp.Web.Controllers
 
             return Content("Sent notification: " + message);
         }
-
+        */
         #endregion
     }
 }

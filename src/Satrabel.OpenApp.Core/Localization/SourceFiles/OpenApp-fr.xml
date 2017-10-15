@@ -23,6 +23,7 @@
     <text name="NameSurname" value="Nom de famille" />
     <text name="UserName" value="Nom d'utilisateur" />
     <text name="Name" value="Nom" />
+    <text name="Firstname" value="Prénom" />
     <text name="Surname" value="Nom de famille" />
     <text name="EmailAddress" value="Adresse email" />
 
@@ -36,6 +37,7 @@
     <text name="DefaultPasswordIs" value="Le mot de passe par défaut est {0}" />
     <text name="CanBeEmptyToLoginAsHost" value="Peut être laissé vide pour s'authentifier en tant qu'hébergeur (host)." />
     <text name="Register" value="S'enregistrer" />
+    <text name="RegisterText" value="Vous n'avez pas encore de compte, enregistrez-vous" />
     <text name="OrLoginWith" value="Ou s'authentifier avec" />
     <text name="WaitingForActivationMessage" value="Votre compte est en attente d'activation par l'administrateur du système." />
     <text name="TenantSelection" value="Sélection du site" />
@@ -46,14 +48,6 @@
     <text name="RolePermissions" value="Permissions" />
 
     
-
-    <!-- JobManager-->
-    
-    <text name="CustomerDetails" value="Détails client" />
-    <text name="FullName" value="Nom complet" />
-    <text name="Lastname" value="Nom" />
-    <text name="Firstname" value="Prénom" />
-
     <text name="Search" value="Rechercher" />
     <text name="Reset" value="Réinitialiser" />
     

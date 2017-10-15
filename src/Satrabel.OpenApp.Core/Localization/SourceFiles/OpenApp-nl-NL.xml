@@ -21,6 +21,7 @@
     <text name="NameSurname" value="Naam achternaam" />
     <text name="UserName" value="Gebruikersnaam" />
     <text name="Name" value="Naam" />
+    <text name="Firstname" value="Voornaam" />
     <text name="Surname" value="Achternaam" />
     <text name="EmailAddress" value="E-mailadres" />
 

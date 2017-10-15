@@ -21,6 +21,7 @@
     <text name="NameSurname" value="Nombre Apellido" />
     <text name="UserName" value="Nombre de usuario" />
     <text name="Name" value="Nombre" />
+    <text name="Firstname" value="Nombre" />
     <text name="Surname" value="Apellido" />
     <text name="EmailAddress" value="Dirección de correo electrónico" />
 

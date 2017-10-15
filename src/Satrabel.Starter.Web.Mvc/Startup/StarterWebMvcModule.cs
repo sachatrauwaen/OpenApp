@@ -46,7 +46,7 @@ namespace Satrabel.Starter.Web.Startup
             }
             StarterLocalizationConfigurer.Configure(Configuration.Localization);
             //Enable this line to create a multi-tenant application.
-            Configuration.MultiTenancy.IsEnabled = OpenAppConsts.MultiTenancyEnabled;
+            Configuration.MultiTenancy.IsEnabled = StarterConsts.MultiTenancyEnabled;
 
 
             Configuration.Authorization.Providers.Add<StarterAuthorizationProvider>();
