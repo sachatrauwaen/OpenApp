@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.EntityFrameworkCore.Seed.Tenants
 {
-    public class DefaultTenantBuilder
+    public class DefaultTenantBuilder<TSelf>
+         where TSelf : OpenAppDbContext<TSelf>
     {
-        private readonly OpenAppDbContext _context;
+        private readonly OpenAppDbContext<TSelf> _context;
 
-        public DefaultTenantBuilder(OpenAppDbContext context)
+        public DefaultTenantBuilder(OpenAppDbContext<TSelf> context)
         {
             _context = context;
         }

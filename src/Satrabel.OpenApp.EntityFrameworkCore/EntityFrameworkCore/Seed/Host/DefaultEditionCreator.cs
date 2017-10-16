@@ -1,16 +1,17 @@
 using System.Linq;
 using Abp.Application.Editions;
 using Abp.Application.Features;
-using Satrabel.OpenApp.Editions;
 using Microsoft.EntityFrameworkCore;
+using Satrabel.OpenApp.Editions;
 
 namespace Satrabel.OpenApp.EntityFrameworkCore.Seed.Host
 {
-    public class DefaultEditionCreator
+    public class DefaultEditionCreator<TSelf>
+         where TSelf : OpenAppDbContext<TSelf>
     {
-        private readonly OpenAppDbContext _context;
+        private readonly OpenAppDbContext<TSelf> _context;
 
-        public DefaultEditionCreator(OpenAppDbContext context)
+        public DefaultEditionCreator(OpenAppDbContext<TSelf> context)
         {
             _context = context;
         }

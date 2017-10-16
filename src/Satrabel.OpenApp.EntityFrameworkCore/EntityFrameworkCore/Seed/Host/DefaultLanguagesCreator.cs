@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.EntityFrameworkCore.Seed.Host
 {
-    public class DefaultLanguagesCreator
+    public class DefaultLanguagesCreator<TSelf>
+        where TSelf : OpenAppDbContext<TSelf>
     {
         public static List<ApplicationLanguage> InitialLanguages => GetInitialLanguages();
 
-        private readonly OpenAppDbContext _context;
+        private readonly OpenAppDbContext<TSelf> _context;
 
         private static List<ApplicationLanguage> GetInitialLanguages()
         {
@@ -21,7 +22,7 @@ namespace Satrabel.OpenApp.EntityFrameworkCore.Seed.Host
             };
         }
 
-        public DefaultLanguagesCreator(OpenAppDbContext context)
+        public DefaultLanguagesCreator(OpenAppDbContext<TSelf> context)
         {
             _context = context;
         }

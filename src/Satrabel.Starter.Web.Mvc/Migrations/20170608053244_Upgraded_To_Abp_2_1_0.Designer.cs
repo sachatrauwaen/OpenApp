@@ -3,16 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.Starter.EntityFrameworkCore;
 using Abp.Authorization;
 using Abp.BackgroundJobs;
 using Abp.Notifications;
 
 namespace Satrabel.OpenApp.Migrations
 {
-    [DbContext(typeof(OpenAppDbContext))]
-    [Migration("20170804083601_Upgraded_To_Abp_v2.2.2")]
-    partial class Upgraded_To_Abp_v222
+    [DbContext(typeof(StarterDbContext))]
+    [Migration("20170608053244_Upgraded_To_Abp_2_1_0")]
+    partial class Upgraded_To_Abp_2_1_0
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -331,8 +331,6 @@ namespace Satrabel.OpenApp.Migrations
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<long>("OrganizationUnitId");
 
@@ -739,9 +737,6 @@ namespace Satrabel.OpenApp.Migrations
                     b.Property<long?>("DeleterUserId");
 
                     b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(5000);
 
                     b.Property<string>("DisplayName")
                         .IsRequired()

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Satrabel.OpenApp;
+using Satrabel.Starter.Web;
 
 namespace Satrabel.Starter.EntityFrameworkCore
 {
@@ -15,7 +16,7 @@ namespace Satrabel.Starter.EntityFrameworkCore
             var builder = new DbContextOptionsBuilder<StarterDbContext>();
             var configuration = AppConfigurations.Get(WebContentDirectoryFinder.CalculateContentRootFolder());
 
-            StarterDbContextConfigurer.Configure(builder, configuration.GetConnectionString(OpenAppConsts.ConnectionStringName));
+            StarterDbContextConfigurer.Configure(builder, configuration.GetConnectionString(StarterConsts.ConnectionStringName));
 
             return new StarterDbContext(builder.Options);
         }

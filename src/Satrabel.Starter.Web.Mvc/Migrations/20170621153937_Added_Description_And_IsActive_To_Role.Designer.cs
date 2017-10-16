@@ -3,16 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.Starter.EntityFrameworkCore;
 using Abp.Authorization;
 using Abp.BackgroundJobs;
 using Abp.Notifications;
 
 namespace Satrabel.OpenApp.Migrations
 {
-    [DbContext(typeof(OpenAppDbContext))]
-    [Migration("20170608053244_Upgraded_To_Abp_2_1_0")]
-    partial class Upgraded_To_Abp_2_1_0
+    [DbContext(typeof(StarterDbContext))]
+    [Migration("20170621153937_Added_Description_And_IsActive_To_Role")]
+    partial class Added_Description_And_IsActive_To_Role
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -722,7 +722,7 @@ namespace Satrabel.OpenApp.Migrations
                     b.ToTable("AbpOrganizationUnits");
                 });
 
-            modelBuilder.Entity("Satrabel.OpenApp.Authorization.Roles.Role", b =>
+            modelBuilder.Entity("Satrabel.JobManager.Authorization.Roles.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -738,9 +738,14 @@ namespace Satrabel.OpenApp.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(5000);
+
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(64);
+
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDefault");
 
@@ -775,7 +780,7 @@ namespace Satrabel.OpenApp.Migrations
                     b.ToTable("AbpRoles");
                 });
 
-            modelBuilder.Entity("Satrabel.OpenApp.Authorization.Users.User", b =>
+            modelBuilder.Entity("Satrabel.JobManager.Authorization.Users.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -871,7 +876,7 @@ namespace Satrabel.OpenApp.Migrations
                     b.ToTable("AbpUsers");
                 });
 
-            modelBuilder.Entity("Satrabel.OpenApp.MultiTenancy.Tenant", b =>
+            modelBuilder.Entity("Satrabel.JobManager.MultiTenancy.Tenant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -974,7 +979,7 @@ namespace Satrabel.OpenApp.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Roles.RoleClaim", b =>
                 {
-                    b.HasOne("Satrabel.OpenApp.Authorization.Roles.Role")
+                    b.HasOne("Satrabel.JobManager.Authorization.Roles.Role")
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -982,7 +987,7 @@ namespace Satrabel.OpenApp.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserClaim", b =>
                 {
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -990,7 +995,7 @@ namespace Satrabel.OpenApp.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLogin", b =>
                 {
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -998,7 +1003,7 @@ namespace Satrabel.OpenApp.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserRole", b =>
                 {
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1006,7 +1011,7 @@ namespace Satrabel.OpenApp.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserToken", b =>
                 {
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User")
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1014,7 +1019,7 @@ namespace Satrabel.OpenApp.Migrations
 
             modelBuilder.Entity("Abp.Configuration.Setting", b =>
                 {
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User")
                         .WithMany("Settings")
                         .HasForeignKey("UserId");
                 });
@@ -1026,43 +1031,43 @@ namespace Satrabel.OpenApp.Migrations
                         .HasForeignKey("ParentId");
                 });
 
-            modelBuilder.Entity("Satrabel.OpenApp.Authorization.Roles.Role", b =>
+            modelBuilder.Entity("Satrabel.JobManager.Authorization.Roles.Role", b =>
                 {
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User", "CreatorUser")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User", "CreatorUser")
                         .WithMany()
                         .HasForeignKey("CreatorUserId");
 
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User", "DeleterUser")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User", "DeleterUser")
                         .WithMany()
                         .HasForeignKey("DeleterUserId");
 
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User", "LastModifierUser")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
                 });
 
-            modelBuilder.Entity("Satrabel.OpenApp.Authorization.Users.User", b =>
+            modelBuilder.Entity("Satrabel.JobManager.Authorization.Users.User", b =>
                 {
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User", "CreatorUser")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User", "CreatorUser")
                         .WithMany()
                         .HasForeignKey("CreatorUserId");
 
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User", "DeleterUser")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User", "DeleterUser")
                         .WithMany()
                         .HasForeignKey("DeleterUserId");
 
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User", "LastModifierUser")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
                 });
 
-            modelBuilder.Entity("Satrabel.OpenApp.MultiTenancy.Tenant", b =>
+            modelBuilder.Entity("Satrabel.JobManager.MultiTenancy.Tenant", b =>
                 {
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User", "CreatorUser")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User", "CreatorUser")
                         .WithMany()
                         .HasForeignKey("CreatorUserId");
 
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User", "DeleterUser")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User", "DeleterUser")
                         .WithMany()
                         .HasForeignKey("DeleterUserId");
 
@@ -1070,7 +1075,7 @@ namespace Satrabel.OpenApp.Migrations
                         .WithMany()
                         .HasForeignKey("EditionId");
 
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User", "LastModifierUser")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
                 });
@@ -1085,7 +1090,7 @@ namespace Satrabel.OpenApp.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Roles.RolePermissionSetting", b =>
                 {
-                    b.HasOne("Satrabel.OpenApp.Authorization.Roles.Role")
+                    b.HasOne("Satrabel.JobManager.Authorization.Roles.Role")
                         .WithMany("Permissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1093,7 +1098,7 @@ namespace Satrabel.OpenApp.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserPermissionSetting", b =>
                 {
-                    b.HasOne("Satrabel.OpenApp.Authorization.Users.User")
+                    b.HasOne("Satrabel.JobManager.Authorization.Users.User")
                         .WithMany("Permissions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -1,18 +1,16 @@
 ﻿using Abp.Zero.EntityFrameworkCore;
-using Satrabel.OpenApp.Authorization.Roles;
-using Satrabel.OpenApp.Authorization.Users;
-using Satrabel.OpenApp.MultiTenancy;
 using Microsoft.EntityFrameworkCore;
 
 using Abp.EntityFrameworkCore;
+using Satrabel.OpenApp.EntityFrameworkCore;
 
 namespace Satrabel.Starter.EntityFrameworkCore
 {
-    public class StarterDbContext : AbpDbContext
+    public class StarterDbContext : OpenAppDbContext<StarterDbContext>
     {
         /* Define an IDbSet for each entity of the application */
 
-        public StarterDbContext(DbContextOptions options)
+        public StarterDbContext(DbContextOptions<StarterDbContext>  options)
             : base(options)
         {
 

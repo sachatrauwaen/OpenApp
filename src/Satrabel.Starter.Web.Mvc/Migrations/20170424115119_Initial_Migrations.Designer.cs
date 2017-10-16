@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.Starter.EntityFrameworkCore;
 using Abp.Authorization;
 using Abp.BackgroundJobs;
 using Abp.Notifications;
 
 namespace Satrabel.OpenApp.Migrations
 {
-    [DbContext(typeof(OpenAppDbContext))]
+    [DbContext(typeof(StarterDbContext))]
     [Migration("20170424115119_Initial_Migrations")]
     partial class Initial_Migrations
     {

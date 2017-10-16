@@ -3,18 +3,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.Starter.EntityFrameworkCore;
 using Abp.Authorization;
 using Abp.BackgroundJobs;
 using Abp.Notifications;
 
 namespace Satrabel.OpenApp.Migrations
 {
-    [DbContext(typeof(OpenAppDbContext))]
-    [Migration("20170703134115_Remove_IsActive_From_Role")]
-    partial class Remove_IsActive_From_Role
+    [DbContext(typeof(StarterDbContext))]
+    partial class OpenappDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -331,6 +330,8 @@ namespace Satrabel.OpenApp.Migrations
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<long>("OrganizationUnitId");
 

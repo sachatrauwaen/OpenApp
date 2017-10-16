@@ -10,7 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.OpenApp.Core", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.OpenApp.Application", "src\Satrabel.OpenApp.Application\Satrabel.OpenApp.Application.csproj", "{3870C648-4AEA-4B85-BA3F-F2F63B96136A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.OpenApp.Migrator", "src\Satrabel.OpenApp.Migrator\Satrabel.OpenApp.Migrator.csproj", "{880B3591-E057-46FE-B525-10BD83828B93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.Starter.Migrator", "src\Satrabel.Starter.Migrator\Satrabel.Starter.Migrator.csproj", "{880B3591-E057-46FE-B525-10BD83828B93}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Satrabel.OpenApp.Web.Host", "src\Satrabel.OpenApp.Web.Host\Satrabel.OpenApp.Web.Host.csproj", "{38E184BD-E874-4633-A947-AED4FDB73F40}"
 EndProject

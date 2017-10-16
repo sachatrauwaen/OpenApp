@@ -3,17 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.Starter.EntityFrameworkCore;
 using Abp.Authorization;
 using Abp.BackgroundJobs;
 using Abp.Notifications;
 
 namespace Satrabel.OpenApp.Migrations
 {
-    [DbContext(typeof(OpenAppDbContext))]
-    partial class OpenappDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(StarterDbContext))]
+    [Migration("20170804083601_Upgraded_To_Abp_v2.2.2")]
+    partial class Upgraded_To_Abp_v222
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

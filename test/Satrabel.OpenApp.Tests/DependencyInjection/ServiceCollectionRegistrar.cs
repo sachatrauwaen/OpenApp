@@ -6,6 +6,7 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor.MsDependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Satrabel.OpenApp.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.Tests.DependencyInjection
 {
@@ -21,12 +22,12 @@ namespace Satrabel.OpenApp.Tests.DependencyInjection
 
             var serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(iocManager.IocContainer, services);
 
-            var builder = new DbContextOptionsBuilder<OpenAppDbContext>();
+            var builder = new DbContextOptionsBuilder<StarterDbContext>();
             builder.UseInMemoryDatabase(Guid.NewGuid().ToString()).UseInternalServiceProvider(serviceProvider);
 
             iocManager.IocContainer.Register(
                 Component
-                    .For<DbContextOptions<OpenAppDbContext>>()
+                    .For<DbContextOptions<StarterDbContext>>()
                     .Instance(builder.Options)
                     .LifestyleSingleton()
             );

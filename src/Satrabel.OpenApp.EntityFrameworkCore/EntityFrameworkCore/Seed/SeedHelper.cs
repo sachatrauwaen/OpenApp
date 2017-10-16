@@ -12,21 +12,34 @@ namespace Satrabel.OpenApp.EntityFrameworkCore.Seed
 {
     public static class SeedHelper
     {
-        public static void SeedHostDb(IIocResolver iocResolver)
+        public static void SeedHostDb<TSelf>(IIocResolver iocResolver)
+            where TSelf : OpenAppDbContext<TSelf>
         {
-            WithDbContext<OpenAppDbContext>(iocResolver, SeedHostDb);
+            WithDbContext<TSelf>(iocResolver, SeedHostDb);
         }
 
-        public static void SeedHostDb(OpenAppDbContext context)
+        public static void SeedHostDb<TSelf>(TSelf context)
+            where TSelf : OpenAppDbContext<TSelf>
         {
             context.SuppressAutoSetTenantId = true;
 
+            //try
+            //{
+            //    context.Users.CountAsync().Wait();
+            //}
+            //catch (Exception)
+            //{
+            //    context.Database.Migrate();
+            //}
+
+            
+
             //Host seed
-            new InitialHostDbBuilder(context).Create();
+            new InitialHostDbBuilder<TSelf>(context).Create();
 
             //Default tenant seed (in host database).
-            new DefaultTenantBuilder(context).Create();
-            new TenantRoleAndUserBuilder(context, 1).Create();
+            new DefaultTenantBuilder<TSelf>(context).Create();
+            new TenantRoleAndUserBuilder<TSelf>(context, 1).Create();
         }
 
         private static void WithDbContext<TDbContext>(IIocResolver iocResolver, Action<TDbContext> contextAction)

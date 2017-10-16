@@ -11,17 +11,19 @@ using Satrabel.OpenApp.EntityFrameworkCore;
 using Satrabel.OpenApp.Tests.DependencyInjection;
 using Castle.MicroKernel.Registration;
 using NSubstitute;
+using Satrabel.OpenApp.Web.Startup;
+using Satrabel.OpenApp.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.Tests
 {
     [DependsOn(
         typeof(OpenAppApplicationModule),
-        typeof(OpenAppEntityFrameworkModule),
+        typeof(StarterWebMvcModule),
         typeof(AbpTestBaseModule)
         )]
     public class JobManagerTestModule : AbpModule
     {
-        public JobManagerTestModule(OpenAppEntityFrameworkModule abpProjectNameEntityFrameworkModule)
+        public JobManagerTestModule(StarterWebMvcModule abpProjectNameEntityFrameworkModule)
         {
             abpProjectNameEntityFrameworkModule.SkipDbContextRegistration = true;
         }
@@ -39,7 +41,7 @@ namespace Satrabel.OpenApp.Tests
             //Use database for language management
             Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
 
-            RegisterFakeService<AbpZeroDbMigrator<OpenAppDbContext>>();
+            RegisterFakeService<AbpZeroDbMigrator<StarterDbContext>>();
 
             Configuration.ReplaceService<IEmailSender, NullEmailSender>(DependencyLifeStyle.Transient);
         }

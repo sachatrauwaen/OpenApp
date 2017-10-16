@@ -297,3 +297,77 @@ INFO  2017-10-10 00:12:57,544 [2    ] Satrabel.OpenApp.Migrator.Log            -
 INFO  2017-10-10 00:13:01,186 [2    ] Satrabel.OpenApp.Migrator.Log            - Migration canceled.
 DEBUG 2017-10-10 00:13:02,383 [2    ] Abp.Modules.AbpModuleManager             - Shutting down has been started
 DEBUG 2017-10-10 00:13:02,385 [2    ] Abp.Modules.AbpModuleManager             - Shutting down completed.
+DEBUG 2017-10-15 23:39:08,846 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2017-10-15 23:39:09,464 [2    ] Abp.Modules.AbpModuleManager             - Found 16 ABP modules in total.
+FATAL 2017-10-15 23:39:09,742 [2    ] Abp.AbpBootstrapper                      - Castle.MicroKernel.Handlers.HandlerException: Can't create component 'Satrabel.Starter.Web.Startup.StarterWebMvcModule' as it has dependencies to be satisfied.
+
+'Satrabel.Starter.Web.Startup.StarterWebMvcModule' is waiting for the following dependencies:
+- Service 'Microsoft.AspNetCore.Hosting.IHostingEnvironment' which was not registered.
+
+   at Castle.MicroKernel.Handlers.DefaultHandler.AssertNotWaitingForDependency()
+   at Castle.MicroKernel.Handlers.DefaultHandler.ResolveCore(CreationContext context, Boolean requiresDecommission, Boolean instanceRequired, Burden& burden)
+   at Castle.MicroKernel.Handlers.DefaultHandler.Resolve(CreationContext context, Boolean instanceRequired)
+   at Castle.MicroKernel.Resolvers.DefaultDependencyResolver.Resolve(CreationContext context, ISubDependencyResolver contextHandlerResolver, ComponentModel model, DependencyModel dependency)
+   at Castle.MicroKernel.ComponentActivator.DefaultComponentActivator.CreateConstructorArguments(ConstructorCandidate constructor, CreationContext context)
+   at Castle.MicroKernel.ComponentActivator.DefaultComponentActivator.Instantiate(CreationContext context)
+   at Castle.MicroKernel.ComponentActivator.DefaultComponentActivator.InternalCreate(CreationContext context)
+   at Castle.MicroKernel.ComponentActivator.AbstractComponentActivator.Create(CreationContext context, Burden burden)
+   at Castle.MicroKernel.Lifestyle.AbstractLifestyleManager.CreateInstance(CreationContext context, Boolean trackedExternally)
+   at Castle.MicroKernel.Lifestyle.SingletonLifestyleManager.Resolve(CreationContext context, IReleasePolicy releasePolicy)
+   at Castle.MicroKernel.Handlers.DefaultHandler.ResolveCore(CreationContext context, Boolean requiresDecommission, Boolean instanceRequired, Burden& burden)
+   at Castle.MicroKernel.Handlers.DefaultHandler.Resolve(CreationContext context, Boolean instanceRequired)
+   at Castle.MicroKernel.DefaultKernel.ResolveComponent(IHandler handler, Type service, IDictionary additionalArguments, IReleasePolicy policy)
+   at Castle.MicroKernel.DefaultKernel.Castle.MicroKernel.IKernelInternal.Resolve(Type service, IDictionary arguments, IReleasePolicy policy)
+   at Abp.Modules.AbpModuleManager.CreateModules(ICollection`1 moduleTypes, List`1 plugInModuleTypes) in D:\Github\aspnetboilerplate\src\Abp\Modules\AbpModuleManager.cs:line 103
+   at Abp.Modules.AbpModuleManager.LoadAllModules() in D:\Github\aspnetboilerplate\src\Abp\Modules\AbpModuleManager.cs:line 74
+   at Abp.AbpBootstrapper.Initialize() in D:\Github\aspnetboilerplate\src\Abp\AbpBootstrapper.cs:line 147
+Castle.MicroKernel.Handlers.HandlerException: Can't create component 'Satrabel.Starter.Web.Startup.StarterWebMvcModule' as it has dependencies to be satisfied.
+
+'Satrabel.Starter.Web.Startup.StarterWebMvcModule' is waiting for the following dependencies:
+- Service 'Microsoft.AspNetCore.Hosting.IHostingEnvironment' which was not registered.
+
+   at Castle.MicroKernel.Handlers.DefaultHandler.AssertNotWaitingForDependency()
+   at Castle.MicroKernel.Handlers.DefaultHandler.ResolveCore(CreationContext context, Boolean requiresDecommission, Boolean instanceRequired, Burden& burden)
+   at Castle.MicroKernel.Handlers.DefaultHandler.Resolve(CreationContext context, Boolean instanceRequired)
+   at Castle.MicroKernel.Resolvers.DefaultDependencyResolver.Resolve(CreationContext context, ISubDependencyResolver contextHandlerResolver, ComponentModel model, DependencyModel dependency)
+   at Castle.MicroKernel.ComponentActivator.DefaultComponentActivator.CreateConstructorArguments(ConstructorCandidate constructor, CreationContext context)
+   at Castle.MicroKernel.ComponentActivator.DefaultComponentActivator.Instantiate(CreationContext context)
+   at Castle.MicroKernel.ComponentActivator.DefaultComponentActivator.InternalCreate(CreationContext context)
+   at Castle.MicroKernel.ComponentActivator.AbstractComponentActivator.Create(CreationContext context, Burden burden)
+   at Castle.MicroKernel.Lifestyle.AbstractLifestyleManager.CreateInstance(CreationContext context, Boolean trackedExternally)
+   at Castle.MicroKernel.Lifestyle.SingletonLifestyleManager.Resolve(CreationContext context, IReleasePolicy releasePolicy)
+   at Castle.MicroKernel.Handlers.DefaultHandler.ResolveCore(CreationContext context, Boolean requiresDecommission, Boolean instanceRequired, Burden& burden)
+   at Castle.MicroKernel.Handlers.DefaultHandler.Resolve(CreationContext context, Boolean instanceRequired)
+   at Castle.MicroKernel.DefaultKernel.ResolveComponent(IHandler handler, Type service, IDictionary additionalArguments, IReleasePolicy policy)
+   at Castle.MicroKernel.DefaultKernel.Castle.MicroKernel.IKernelInternal.Resolve(Type service, IDictionary arguments, IReleasePolicy policy)
+   at Abp.Modules.AbpModuleManager.CreateModules(ICollection`1 moduleTypes, List`1 plugInModuleTypes) in D:\Github\aspnetboilerplate\src\Abp\Modules\AbpModuleManager.cs:line 103
+   at Abp.Modules.AbpModuleManager.LoadAllModules() in D:\Github\aspnetboilerplate\src\Abp\Modules\AbpModuleManager.cs:line 74
+   at Abp.AbpBootstrapper.Initialize() in D:\Github\aspnetboilerplate\src\Abp\AbpBootstrapper.cs:line 147
+DEBUG 2017-10-15 23:47:57,529 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2017-10-15 23:47:57,559 [2    ] Abp.Modules.AbpModuleManager             - Found 2 ABP modules in total.
+FATAL 2017-10-15 23:47:58,050 [2    ] Abp.AbpBootstrapper                      - Castle.MicroKernel.Handlers.HandlerException: Can't create component 'Satrabel.OpenApp.Migrator.OpenAppMigratorModule' as it has dependencies to be satisfied.
+
+'Satrabel.OpenApp.Migrator.OpenAppMigratorModule' is waiting for the following dependencies:
+- Service 'Satrabel.Starter.Web.Startup.StarterWebMvcModule' which was not registered.
+
+   at Castle.MicroKernel.Handlers.DefaultHandler.AssertNotWaitingForDependency()
+   at Castle.MicroKernel.Handlers.DefaultHandler.ResolveCore(CreationContext context, Boolean requiresDecommission, Boolean instanceRequired, Burden& burden)
+   at Castle.MicroKernel.Handlers.DefaultHandler.Resolve(CreationContext context, Boolean instanceRequired)
+   at Castle.MicroKernel.DefaultKernel.ResolveComponent(IHandler handler, Type service, IDictionary additionalArguments, IReleasePolicy policy)
+   at Castle.MicroKernel.DefaultKernel.Castle.MicroKernel.IKernelInternal.Resolve(Type service, IDictionary arguments, IReleasePolicy policy)
+   at Abp.Modules.AbpModuleManager.CreateModules(ICollection`1 moduleTypes, List`1 plugInModuleTypes) in D:\Github\aspnetboilerplate\src\Abp\Modules\AbpModuleManager.cs:line 103
+   at Abp.Modules.AbpModuleManager.LoadAllModules() in D:\Github\aspnetboilerplate\src\Abp\Modules\AbpModuleManager.cs:line 74
+   at Abp.AbpBootstrapper.Initialize() in D:\Github\aspnetboilerplate\src\Abp\AbpBootstrapper.cs:line 147
+Castle.MicroKernel.Handlers.HandlerException: Can't create component 'Satrabel.OpenApp.Migrator.OpenAppMigratorModule' as it has dependencies to be satisfied.
+
+'Satrabel.OpenApp.Migrator.OpenAppMigratorModule' is waiting for the following dependencies:
+- Service 'Satrabel.Starter.Web.Startup.StarterWebMvcModule' which was not registered.
+
+   at Castle.MicroKernel.Handlers.DefaultHandler.AssertNotWaitingForDependency()
+   at Castle.MicroKernel.Handlers.DefaultHandler.ResolveCore(CreationContext context, Boolean requiresDecommission, Boolean instanceRequired, Burden& burden)
+   at Castle.MicroKernel.Handlers.DefaultHandler.Resolve(CreationContext context, Boolean instanceRequired)
+   at Castle.MicroKernel.DefaultKernel.ResolveComponent(IHandler handler, Type service, IDictionary additionalArguments, IReleasePolicy policy)
+   at Castle.MicroKernel.DefaultKernel.Castle.MicroKernel.IKernelInternal.Resolve(Type service, IDictionary arguments, IReleasePolicy policy)
+   at Abp.Modules.AbpModuleManager.CreateModules(ICollection`1 moduleTypes, List`1 plugInModuleTypes) in D:\Github\aspnetboilerplate\src\Abp\Modules\AbpModuleManager.cs:line 103
+   at Abp.Modules.AbpModuleManager.LoadAllModules() in D:\Github\aspnetboilerplate\src\Abp\Modules\AbpModuleManager.cs:line 74
+   at Abp.AbpBootstrapper.Initialize() in D:\Github\aspnetboilerplate\src\Abp\AbpBootstrapper.cs:line 147

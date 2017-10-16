@@ -12,12 +12,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.EntityFrameworkCore.Seed.Tenants
 {
-    public class TenantRoleAndUserBuilder
+    public class TenantRoleAndUserBuilder<TSelf>
+        where TSelf : OpenAppDbContext<TSelf>
     {
-        private readonly OpenAppDbContext _context;
+        private readonly OpenAppDbContext<TSelf> _context;
         private readonly int _tenantId;
 
-        public TenantRoleAndUserBuilder(OpenAppDbContext context, int tenantId)
+        public TenantRoleAndUserBuilder(OpenAppDbContext<TSelf> context, int tenantId)
         {
             _context = context;
             _tenantId = tenantId;

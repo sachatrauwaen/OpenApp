@@ -10,11 +10,11 @@ using Abp.Runtime.Security;
 using Abp.Zero.EntityFrameworkCore;
 using Satrabel.OpenApp.EntityFrameworkCore;
 using Satrabel.OpenApp.EntityFrameworkCore.Seed;
-using Satrabel.OpenApp.Migrator;
 using Satrabel.OpenApp.MultiTenancy;
 using Abp.Configuration;
+using Satrabel.Starter.EntityFrameworkCore;
 
-namespace Satrabel.OpenApp.Migrator
+namespace Satrabel.Starter.Migrator
 {
     public class MultiTenantMigrateExecuter : ITransientDependency
     {
@@ -53,12 +53,12 @@ namespace Satrabel.OpenApp.Migrator
             if (!skipConnVerification)
             {
                 Log.Write("Continue to migration for this host database and all tenants..? (Y/N): ");
-                var command = Console.ReadLine();
-                if (!command.IsIn("Y", "y"))
-                {
-                    Log.Write("Migration canceled.");
-                    return;
-                }
+                //var command = Console.ReadLine();
+                //if (!command.IsIn("Y", "y"))
+                //{
+                //    Log.Write("Migration canceled.");
+                //    return;
+                //}
             }
             
 

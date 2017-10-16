@@ -3,8 +3,9 @@ using Abp.Configuration.Startup;
 using Abp.Localization.Dictionaries;
 using Abp.Localization.Dictionaries.Xml;
 using Abp.Reflection.Extensions;
+using Satrabel.Starter.Web;
 
-namespace Satrabel.Starter.Web.Localization
+namespace Satrabel.OpenApp.Web.Localization
 {
     public static class StarterLocalizationConfigurer
     {

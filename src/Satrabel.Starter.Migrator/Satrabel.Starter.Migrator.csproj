@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
-    <AssemblyName>Satrabel.OpenApp.Migrator</AssemblyName>
+    <AssemblyName>Satrabel.Starter.Migrator</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>Satrabel.OpenApp.Migrator</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -23,6 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Satrabel.OpenApp.Core\Satrabel.OpenApp.Core.csproj" />
-    <ProjectReference Include="..\Satrabel.OpenApp.EntityFrameworkCore\Satrabel.OpenApp.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Satrabel.Starter.Web.Mvc\Satrabel.Starter.Web.Mvc.csproj" />
   </ItemGroup>
 </Project>

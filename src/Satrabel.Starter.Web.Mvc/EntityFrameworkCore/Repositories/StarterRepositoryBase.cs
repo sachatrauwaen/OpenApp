@@ -2,17 +2,17 @@
 using Abp.EntityFrameworkCore;
 using Abp.EntityFrameworkCore.Repositories;
 
-namespace Satrabel.OpenApp.EntityFrameworkCore.Repositories
+namespace Satrabel.Starter.EntityFrameworkCore.Repositories
 {
     /// <summary>
     /// Base class for custom repositories of the application.
     /// </summary>
     /// <typeparam name="TEntity">Entity type</typeparam>
     /// <typeparam name="TPrimaryKey">Primary key type of the entity</typeparam>
-    public abstract class OpenAppRepositoryBase<TEntity, TPrimaryKey> : EfCoreRepositoryBase<OpenAppDbContext, TEntity, TPrimaryKey>
+    public abstract class StarterRepositoryBase<TEntity, TPrimaryKey> : EfCoreRepositoryBase<StarterDbContext, TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>
     {
-        protected OpenAppRepositoryBase(IDbContextProvider<OpenAppDbContext> dbContextProvider)
+        protected StarterRepositoryBase(IDbContextProvider<StarterDbContext> dbContextProvider)
             : base(dbContextProvider)
         {
 
@@ -26,10 +26,10 @@ namespace Satrabel.OpenApp.EntityFrameworkCore.Repositories
     /// This is a shortcut of <see cref="OpenAppRepositoryBase{TEntity,TPrimaryKey}"/> for <see cref="int"/> primary key.
     /// </summary>
     /// <typeparam name="TEntity">Entity type</typeparam>
-    public abstract class JobManagerRepositoryBase<TEntity> : OpenAppRepositoryBase<TEntity, int>
+    public abstract class StarterRepositoryBase<TEntity> : StarterRepositoryBase<TEntity, int>
         where TEntity : class, IEntity<int>
     {
-        protected JobManagerRepositoryBase(IDbContextProvider<OpenAppDbContext> dbContextProvider)
+        protected StarterRepositoryBase(IDbContextProvider<StarterDbContext> dbContextProvider)
             : base(dbContextProvider)
         {
 

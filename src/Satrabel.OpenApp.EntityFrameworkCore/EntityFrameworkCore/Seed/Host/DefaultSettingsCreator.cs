@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.EntityFrameworkCore.Seed.Host
 {
-    public class DefaultSettingsCreator
+    public class DefaultSettingsCreator<TSelf>
+        where TSelf : OpenAppDbContext<TSelf>
     {
-        private readonly OpenAppDbContext _context;
+        private readonly OpenAppDbContext<TSelf> _context;
 
-        public DefaultSettingsCreator(OpenAppDbContext context)
+        public DefaultSettingsCreator(OpenAppDbContext<TSelf> context)
         {
             _context = context;
         }

@@ -3,18 +3,19 @@ using Abp.Authorization;
 using Abp.Authorization.Roles;
 using Abp.Authorization.Users;
 using Abp.MultiTenancy;
-using Satrabel.OpenApp.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.Authorization.Users;
-using Microsoft.EntityFrameworkCore;
+using Satrabel.OpenApp.Authorization;
 
 namespace Satrabel.OpenApp.EntityFrameworkCore.Seed.Host
 {
-    public class HostRoleAndUserCreator
+    public class HostRoleAndUserCreator<TSelf>
+        where TSelf : OpenAppDbContext<TSelf>
     {
-        private readonly OpenAppDbContext _context;
+        private readonly OpenAppDbContext<TSelf> _context;
 
-        public HostRoleAndUserCreator(OpenAppDbContext context)
+        public HostRoleAndUserCreator(OpenAppDbContext<TSelf> context)
         {
             _context = context;
         }
