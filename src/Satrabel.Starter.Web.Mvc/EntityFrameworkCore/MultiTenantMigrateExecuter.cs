@@ -13,56 +13,42 @@ using Satrabel.OpenApp.EntityFrameworkCore.Seed;
 using Satrabel.OpenApp.MultiTenancy;
 using Abp.Configuration;
 using Satrabel.Starter.EntityFrameworkCore;
+using Satrabel.OpenApp.Web.Migration;
+using Castle.Core.Logging;
 
-namespace Satrabel.Starter.Migrator
+namespace Satrabel.Starter.EntityFrameworkCore
 {
-    public class MultiTenantMigrateExecuter : ITransientDependency
+    public class MultiTenantMigrateExecuter : ITransientDependency, IMigratorExecuter
     {
-        public Log Log { get; private set; }
+        public ILogger Logger { get; set; }
 
         private readonly AbpZeroDbMigrator _migrator;
         private readonly IRepository<Tenant> _tenantRepository;
         private readonly IDbPerTenantConnectionStringResolver _connectionStringResolver;
-        private readonly ISettingManager _settingManager;
 
         public MultiTenantMigrateExecuter(
             AbpZeroDbMigrator migrator,
             IRepository<Tenant> tenantRepository,
-            Log log,
-            IDbPerTenantConnectionStringResolver connectionStringResolver,
-            ISettingManager settingManager)
+            IDbPerTenantConnectionStringResolver connectionStringResolver)
         {
-            Log = log;
-
+            Logger = NullLogger.Instance;
             _migrator = migrator;
             _tenantRepository = tenantRepository;
             _connectionStringResolver = connectionStringResolver;
-            _settingManager = settingManager;
         }
 
-        public void Run(bool skipConnVerification)
+        public void Run()
         {
             var hostConnStr = _connectionStringResolver.GetNameOrConnectionString(new ConnectionStringResolveArgs(MultiTenancySides.Host));
             if (hostConnStr.IsNullOrWhiteSpace())
             {
-                Log.Write("Configuration file should contain a connection string named 'Default'");
+                Logger.Info("Configuration file should contain a connection string named 'Default'");
                 return;
             }
 
-            Log.Write("Host database: " + ConnectionStringHelper.GetConnectionString(hostConnStr));
-            if (!skipConnVerification)
-            {
-                Log.Write("Continue to migration for this host database and all tenants..? (Y/N): ");
-                //var command = Console.ReadLine();
-                //if (!command.IsIn("Y", "y"))
-                //{
-                //    Log.Write("Migration canceled.");
-                //    return;
-                //}
-            }
-            
+            Logger.Info("Host database: " + ConnectionStringHelper.GetConnectionString(hostConnStr));
 
-            Log.Write("HOST database migration started...");
+            Logger.Info("HOST database migration started...");
 
             try
             {
@@ -71,25 +57,25 @@ namespace Satrabel.Starter.Migrator
             }
             catch (Exception ex)
             {
-                Log.Write("An error occured during migration of host database:");
-                Log.Write(ex.ToString());
-                Log.Write("Canceled migrations.");
+                Logger.Info("An error occured during migration of host database:");
+                Logger.Info(ex.ToString());
+                Logger.Info("Canceled migrations.");
                 return;
             }
 
-            Log.Write("HOST database migration completed.");
-            Log.Write("--------------------------------------------------------");
+            Logger.Info("HOST database migration completed.");
+            Logger.Info("--------------------------------------------------------");
 
             var migratedDatabases = new HashSet<string>();
             var tenants = _tenantRepository.GetAllList(t => t.ConnectionString != null && t.ConnectionString != "");
             for (int i = 0; i < tenants.Count; i++)
             {
                 var tenant = tenants[i];
-                Log.Write(string.Format("Tenant database migration started... ({0} / {1})", (i + 1), tenants.Count));
-                Log.Write("Name              : " + tenant.Name);
-                Log.Write("TenancyName       : " + tenant.TenancyName);
-                Log.Write("Tenant Id         : " + tenant.Id);
-                Log.Write("Connection string : " + SimpleStringCipher.Instance.Decrypt(tenant.ConnectionString));
+                Logger.Info(string.Format("Tenant database migration started... ({0} / {1})", (i + 1), tenants.Count));
+                Logger.Info("Name              : " + tenant.Name);
+                Logger.Info("TenancyName       : " + tenant.TenancyName);
+                Logger.Info("Tenant Id         : " + tenant.Id);
+                Logger.Info("Connection string : " + SimpleStringCipher.Instance.Decrypt(tenant.ConnectionString));
 
                 if (!migratedDatabases.Contains(tenant.ConnectionString))
                 {
@@ -99,32 +85,24 @@ namespace Satrabel.Starter.Migrator
                     }
                     catch (Exception ex)
                     {
-                        Log.Write("An error occured during migration of tenant database:");
-                        Log.Write(ex.ToString());
-                        Log.Write("Skipped this tenant and will continue for others...");
+                        Logger.Info("An error occured during migration of tenant database:");
+                        Logger.Info(ex.ToString());
+                        Logger.Info("Skipped this tenant and will continue for others...");
                     }
 
                     migratedDatabases.Add(tenant.ConnectionString);
                 }
                 else
                 {
-                    Log.Write("This database has already migrated before (you have more than one tenant in same database). Skipping it....");
+                    Logger.Info("This database has already migrated before (you have more than one tenant in same database). Skipping it....");
                 }
 
-                Log.Write(string.Format("Tenant database migration completed. ({0} / {1})", (i + 1), tenants.Count));
-                Log.Write("--------------------------------------------------------");
+                Logger.Info(string.Format("Tenant database migration completed. ({0} / {1})", (i + 1), tenants.Count));
+                Logger.Info("--------------------------------------------------------");
             }
 
-            Log.Write("All databases have been migrated.");
-
-            _settingManager.ChangeSettingForApplication(Abp.Net.Mail.EmailSettingNames.Smtp.Host, "smtp.mailgun.org");
-            _settingManager.ChangeSettingForApplication(Abp.Net.Mail.EmailSettingNames.Smtp.Port, "587");
-            _settingManager.ChangeSettingForApplication(Abp.Net.Mail.EmailSettingNames.Smtp.UserName, "test@satrabel.be");
-            _settingManager.ChangeSettingForApplication(Abp.Net.Mail.EmailSettingNames.Smtp.Password, "fleurfleur");
-            _settingManager.ChangeSettingForApplication(Abp.Net.Mail.EmailSettingNames.Smtp.UseDefaultCredentials, "false");
-            _settingManager.ChangeSettingForApplication(Abp.Net.Mail.EmailSettingNames.DefaultFromAddress, "info@satrabel.be");
-            _settingManager.ChangeSettingForApplication(Abp.Net.Mail.EmailSettingNames.DefaultFromDisplayName, "OpenApp");
-
+            Logger.Info("All databases have been migrated.");
+            
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Satrabel.Starter.Web.Startup
     {
         public Startup(IHostingEnvironment env) : base(env)
         {
+            AppVersion = StarterConsts.AppVersion;
         }
     }
 }

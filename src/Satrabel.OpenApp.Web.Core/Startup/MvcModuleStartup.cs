@@ -23,6 +23,9 @@ using Abp.Resources.Embedded;
 using Microsoft.Extensions.FileProviders;
 using Abp.Web.Configuration;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Satrabel.OpenApp.Web.Migration;
 
 #if FEATURE_SIGNALR
 using Owin;
@@ -34,7 +37,11 @@ namespace Satrabel.OpenApp.Startup
 {
     public class MvcModuleStartup<TModule> where TModule : AbpModule
     {
+        public IApplicationLifetime applicationLifetime;
+
         private readonly IConfigurationRoot _appConfiguration;
+
+        protected Version AppVersion;
 
         public MvcModuleStartup(IHostingEnvironment env)
         {
@@ -55,6 +62,8 @@ namespace Satrabel.OpenApp.Startup
 
             services.AddScoped<IWebResourceManager, WebResourceManager>();
 
+            services.AddSingleton<IMigrationManager>(new MigrationManager());
+
             //Configure Abp and Dependency Injection
             return services.AddAbp<TModule>(options =>
             {
@@ -67,6 +76,13 @@ namespace Satrabel.OpenApp.Startup
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            applicationLifetime = app.ApplicationServices.GetRequiredService<IApplicationLifetime>();
+            var _migrationManager = app.ApplicationServices.GetRequiredService<IMigrationManager>();
+
+            _migrationManager.ApplicationLifetime = applicationLifetime;            
+            _migrationManager.HostingEnvironment = env;
+            _migrationManager.AppVersion = AppVersion;
+
             try
             {
                 app.UseAbp(); //Initializes ABP framework.
@@ -80,8 +96,6 @@ namespace Satrabel.OpenApp.Startup
 
                 throw;
             }
-            
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -89,6 +103,18 @@ namespace Satrabel.OpenApp.Startup
             else
             {
                 app.UseExceptionHandler("/Error");
+            }
+
+            if (_migrationManager.NeedMigration)
+            {
+                app.Run(async (context) =>
+                {
+                    {
+                        await context.Response.WriteAsync("Migrations executed ! Refresh page to start website.");
+                    }
+                    applicationLifetime.StopApplication();
+                });
+                return;
             }
 
             app.UseStaticFiles();

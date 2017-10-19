@@ -12,7 +12,7 @@ using Satrabel.OpenApp.Configuration;
 using Satrabel.Starter.Web.Authorization;
 using Satrabel.Starter.EntityFrameworkCore;
 using Abp.MultiTenancy;
-using Satrabel.Starter.Migrator;
+using Satrabel.Starter.EntityFrameworkCore;
 using Abp.Dependency;
 using Abp.Threading.BackgroundWorkers;
 using System;
@@ -22,6 +22,7 @@ using Castle.MicroKernel.Registration;
 using System.IO;
 using Abp.Threading;
 using Abp.BackgroundJobs;
+using Satrabel.OpenApp.Web.Migration;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -30,25 +31,19 @@ namespace Satrabel.Starter.Web.Startup
     {
         private readonly IHostingEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
+        private readonly IMigrationManager _migrationManager;
 
-        private bool ExecuteMigrations;
-        private string versionFile;
 
         /* Used it tests to skip dbcontext registration, in order to use in-memory database of EF Core */
         public bool SkipDbContextRegistration { get; set; }
         public bool SkipDbSeed { get; set; }
 
-        public StarterWebMvcModule(IHostingEnvironment env)
+        public StarterWebMvcModule(IHostingEnvironment env, IMigrationManager migrationManager)
         {
-            
             _env = env;
+            _migrationManager = migrationManager;
             _appConfiguration = env.GetAppConfiguration();
-
-            versionFile = env.ContentRootPath + "\\App_Data\\version.txt";
-            ExecuteMigrations = !File.Exists(versionFile);
-            //File.ReadAllLines();
             
-
         }
 
         public override void PreInitialize()
@@ -75,18 +70,11 @@ namespace Satrabel.Starter.Web.Startup
             Configuration.Authorization.Providers.Add<StarterAuthorizationProvider>();
             Configuration.Navigation.Providers.Add<StarterNavigationProvider>();
 
-            Configuration.BackgroundJobs.IsJobExecutionEnabled = !ExecuteMigrations;
-
-            //if (ExecuteMigrations)
-            //{
-            //    Configuration.BackgroundJobs.IsJobExecutionEnabled = false;
-            //    Configuration.ReplaceService(typeof(IEventBus), () =>
-            //    {
-            //        IocManager.IocContainer.Register(
-            //            Component.For<IEventBus>().Instance(NullEventBus.Instance)
-            //        );
-            //    });
-            //}
+            //Configuration.BackgroundJobs.IsJobExecutionEnabled = !ExecuteMigrations;
+            if (_migrationManager.NeedMigration)
+            {
+                _migrationManager.Configure(Configuration, IocManager);
+            }
         }
 
         public override void Initialize()
@@ -95,55 +83,31 @@ namespace Satrabel.Starter.Web.Startup
         }
         public override void PostInitialize()
         {
-            if (ExecuteMigrations)
+            if (_migrationManager.NeedMigration)
             {
+                _migrationManager.Run<MultiTenantMigrateExecuter>(IocManager);
                 //if (Configuration.BackgroundJobs.IsJobExecutionEnabled)
                 //{
                 //    IocManager.Resolve<IBackgroundWorkerManager>().StopAndWaitToStop();
                 //}
 
-                bool _skipConnVerification = false;
-                using (var migrateExecuter = IocManager.ResolveAsDisposable<MultiTenantMigrateExecuter>())
-                {
-                    migrateExecuter.Object.Run(_skipConnVerification);
-                }
+                //bool _skipConnVerification = false;
+                //using (var migrateExecuter = IocManager.ResolveAsDisposable<MultiTenantMigrateExecuter>())
+                //{
+                //    migrateExecuter.Object.Run(_skipConnVerification);
+                //}
 
-                File.WriteAllText(versionFile, "1");
+
 
                 //if (Configuration.BackgroundJobs.IsJobExecutionEnabled)
                 //{
-                    var workerManager = IocManager.Resolve<IBackgroundWorkerManager>();
-                    workerManager.Start();
-                    workerManager.Add(IocManager.Resolve<IBackgroundJobManager>());
+                //var workerManager = IocManager.Resolve<IBackgroundWorkerManager>();
+                //workerManager.Start();
+                //workerManager.Add(IocManager.Resolve<IBackgroundJobManager>());
                 //}
             }
             else if (!SkipDbSeed)
             {
-                //try
-                //{
-                //    SeedHelper.SeedHostDb<StarterDbContext>(IocManager);
-                //}
-                //catch (SqlException ex)
-                //{
-                //    if (ex.Number == 208) // table not exist
-                //    {
-                //        // automatic migrations execution if table not exist
-                //        if (Configuration.BackgroundJobs.IsJobExecutionEnabled)
-                //        {
-                //            IocManager.Resolve<IBackgroundWorkerManager>().Stop();
-                //            IocManager.Resolve<IBackgroundWorkerManager>().WaitToStop();
-                //        }
-                //        bool _skipConnVerification = false;
-                //        using (var migrateExecuter = IocManager.ResolveAsDisposable<MultiTenantMigrateExecuter>())
-                //        {
-                //            migrateExecuter.Object.Run(_skipConnVerification);
-                //        }
-                //    }
-                //    else
-                //    {
-                //        throw;
-                //    }
-                //}
                 SeedHelper.SeedHostDb<StarterDbContext>(IocManager);
             }
         }
