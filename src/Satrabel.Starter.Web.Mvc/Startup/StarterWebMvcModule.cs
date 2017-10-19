@@ -12,7 +12,6 @@ using Satrabel.OpenApp.Configuration;
 using Satrabel.Starter.Web.Authorization;
 using Satrabel.Starter.EntityFrameworkCore;
 using Abp.MultiTenancy;
-using Satrabel.Starter.EntityFrameworkCore;
 using Abp.Dependency;
 using Abp.Threading.BackgroundWorkers;
 using System;
@@ -71,7 +70,7 @@ namespace Satrabel.Starter.Web.Startup
             Configuration.Navigation.Providers.Add<StarterNavigationProvider>();
 
             //Configuration.BackgroundJobs.IsJobExecutionEnabled = !ExecuteMigrations;
-            if (_migrationManager.NeedMigration)
+            if (_migrationManager.NeedMigration && !SkipDbContextRegistration)
             {
                 _migrationManager.Configure(Configuration, IocManager);
             }
@@ -83,7 +82,7 @@ namespace Satrabel.Starter.Web.Startup
         }
         public override void PostInitialize()
         {
-            if (_migrationManager.NeedMigration)
+            if (_migrationManager.NeedMigration && !SkipDbContextRegistration)
             {
                 _migrationManager.Run<MultiTenantMigrateExecuter>(IocManager);
                 //if (Configuration.BackgroundJobs.IsJobExecutionEnabled)

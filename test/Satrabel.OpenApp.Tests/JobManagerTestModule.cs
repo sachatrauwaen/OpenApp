@@ -13,17 +13,23 @@ using Castle.MicroKernel.Registration;
 using NSubstitute;
 using Satrabel.OpenApp.Web.Startup;
 using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.Starter.Web.Startup;
+using Satrabel.Starter.EntityFrameworkCore;
+using Satrabel.OpenApp.Web.Localization;
+using Abp.Reflection.Extensions;
+using Abp.AspNetCore;
+using Satrabel.JobManager.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.Tests
 {
     [DependsOn(
         typeof(OpenAppApplicationModule),
-        typeof(StarterWebMvcModule),
+        typeof(StartertityFrameworkModule),
         typeof(AbpTestBaseModule)
         )]
     public class JobManagerTestModule : AbpModule
     {
-        public JobManagerTestModule(StarterWebMvcModule abpProjectNameEntityFrameworkModule)
+        public JobManagerTestModule(StartertityFrameworkModule abpProjectNameEntityFrameworkModule)
         {
             abpProjectNameEntityFrameworkModule.SkipDbContextRegistration = true;
         }
@@ -38,6 +44,8 @@ namespace Satrabel.OpenApp.Tests
 
             Configuration.BackgroundJobs.IsJobExecutionEnabled = false;
 
+            //StarterLocalizationConfigurer.Configure(Configuration.Localization);
+
             //Use database for language management
             Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
 
@@ -48,6 +56,7 @@ namespace Satrabel.OpenApp.Tests
 
         public override void Initialize()
         {
+            
             ServiceCollectionRegistrar.Register(IocManager);
         }
 

@@ -7,6 +7,7 @@ using Castle.Windsor.MsDependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.Starter.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.Tests.DependencyInjection
 {

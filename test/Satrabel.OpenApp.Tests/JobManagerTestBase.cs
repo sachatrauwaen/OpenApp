@@ -13,7 +13,7 @@ using Satrabel.OpenApp.EntityFrameworkCore.Seed.Host;
 using Satrabel.OpenApp.EntityFrameworkCore.Seed.Tenants;
 using Satrabel.OpenApp.MultiTenancy;
 using Microsoft.EntityFrameworkCore;
-using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.Starter.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.Tests
 {
