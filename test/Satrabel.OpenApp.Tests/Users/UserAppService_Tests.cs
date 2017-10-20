@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Satrabel.OpenApp.Tests.Users
 {
-    public class UserAppService_Tests : JobManagerTestBase
+    public class UserAppService_Tests : StarterTestBase
     {
         private readonly IUserAppService _userAppService;
 

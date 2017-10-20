@@ -23,6 +23,13 @@ using Abp.Resources.Embedded;
 using Microsoft.Extensions.FileProviders;
 using Abp.Web.Configuration;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Satrabel.OpenApp.Web.Migration;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Linq;
+using Abp.Extensions;
 
 #if FEATURE_SIGNALR
 using Owin;
@@ -34,11 +41,21 @@ namespace Satrabel.OpenApp.Startup
 {
     public class MvcModuleStartup<TModule> where TModule : AbpModule
     {
+        private const string DefaultCorsPolicyName = "localhost";
+
         private readonly IConfigurationRoot _appConfiguration;
+
+        private readonly bool CorsEnabled = false;
+        private readonly bool SwaggerEnabled = false;
+
+        protected Version AppVersion;
+
 
         public MvcModuleStartup(IHostingEnvironment env)
         {
             _appConfiguration = env.GetAppConfiguration();
+            CorsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"]);
+            SwaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"]);
             Clock.Provider = ClockProviders.Local;
         }
 
@@ -48,12 +65,54 @@ namespace Satrabel.OpenApp.Startup
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                if (CorsEnabled)
+                {
+                    options.Filters.Add(new CorsAuthorizationFilterFactory(DefaultCorsPolicyName));
+                }
             });
 
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
 
             services.AddScoped<IWebResourceManager, WebResourceManager>();
+
+            services.AddSingleton<IMigrationManager>(new MigrationManager());
+            if (CorsEnabled)
+            {
+                //Configure CORS for angular2 UI
+                services.AddCors(options =>
+            {
+                options.AddPolicy(DefaultCorsPolicyName, builder =>
+                {
+                    //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
+                    builder
+                        .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.RemovePostFix("/")).ToArray())
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+            }
+
+            //Swagger - Enable this line and the related lines in Configure method to enable swagger UI
+            if (SwaggerEnabled)
+            {
+                services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Info { Title = "OpenApp API", Version = "v1" });
+                options.DocInclusionPredicate((docName, description) => true);
+
+                // Define the BearerAuth scheme that's in use
+                options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+                // Assign scope requirements to operations based on AuthorizeAttribute
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
+            });
+            }
 
             //Configure Abp and Dependency Injection
             return services.AddAbp<TModule>(options =>
@@ -67,6 +126,13 @@ namespace Satrabel.OpenApp.Startup
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            var applicationLifetime = app.ApplicationServices.GetRequiredService<IApplicationLifetime>();
+            var _migrationManager = app.ApplicationServices.GetRequiredService<IMigrationManager>();
+
+            _migrationManager.ApplicationLifetime = applicationLifetime;
+            _migrationManager.HostingEnvironment = env;
+            _migrationManager.AppVersion = AppVersion;
+
             try
             {
                 app.UseAbp(); //Initializes ABP framework.
@@ -80,8 +146,6 @@ namespace Satrabel.OpenApp.Startup
 
                 throw;
             }
-            
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -89,6 +153,18 @@ namespace Satrabel.OpenApp.Startup
             else
             {
                 app.UseExceptionHandler("/Error");
+            }
+
+            if (_migrationManager.NeedMigration)
+            {
+                app.Run(async (context) =>
+                {
+                    {
+                        await context.Response.WriteAsync("Migrations executed ! Refresh page to start website.");
+                    }
+                    applicationLifetime.StopApplication();
+                });
+                return;
             }
 
             app.UseStaticFiles();
@@ -112,6 +188,19 @@ namespace Satrabel.OpenApp.Startup
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            if (SwaggerEnabled)
+            {
+                // Enable middleware to serve generated Swagger as a JSON endpoint
+                app.UseSwagger();
+                // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+                app.UseSwaggerUI(options =>
+                {
+                    options.InjectOnCompleteJavaScript("/swagger/ui/abp.js");
+                    options.InjectOnCompleteJavaScript("/swagger/ui/on-complete.js");
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenApp API V1");
+                }); //URL: /swagger
+            }
+
         }
 
 #if FEATURE_SIGNALR

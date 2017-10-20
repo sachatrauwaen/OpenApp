@@ -1,4 +1,6 @@
-﻿namespace Satrabel.Starter.Web
+﻿using System;
+
+namespace Satrabel.Starter.Web
 {
     public class StarterConsts
     {
@@ -7,5 +9,6 @@
         public const string ConnectionStringName = "Default";
 
         public const bool MultiTenancyEnabled = true;
+        public static readonly Version AppVersion = new Version(0,3);
     }
 }

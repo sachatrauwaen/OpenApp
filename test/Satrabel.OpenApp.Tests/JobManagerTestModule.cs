@@ -7,21 +7,27 @@ using Abp.Net.Mail;
 using Abp.TestBase;
 using Abp.Zero.Configuration;
 using Abp.Zero.EntityFrameworkCore;
-using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.OpenApp.EntityFramework;
 using Satrabel.OpenApp.Tests.DependencyInjection;
 using Castle.MicroKernel.Registration;
 using NSubstitute;
+using Satrabel.OpenApp.Web.Startup;
+using Satrabel.Starter.Web.Startup;
+using Satrabel.Starter.EntityFramework;
+using Satrabel.OpenApp.Web.Localization;
+using Abp.Reflection.Extensions;
+using Abp.AspNetCore;
 
 namespace Satrabel.OpenApp.Tests
 {
     [DependsOn(
         typeof(OpenAppApplicationModule),
-        typeof(OpenAppEntityFrameworkModule),
+        typeof(StarterEntityFrameworkModule),
         typeof(AbpTestBaseModule)
         )]
     public class JobManagerTestModule : AbpModule
     {
-        public JobManagerTestModule(OpenAppEntityFrameworkModule abpProjectNameEntityFrameworkModule)
+        public JobManagerTestModule(StarterEntityFrameworkModule abpProjectNameEntityFrameworkModule)
         {
             abpProjectNameEntityFrameworkModule.SkipDbContextRegistration = true;
         }
@@ -36,16 +42,19 @@ namespace Satrabel.OpenApp.Tests
 
             Configuration.BackgroundJobs.IsJobExecutionEnabled = false;
 
+            //StarterLocalizationConfigurer.Configure(Configuration.Localization);
+
             //Use database for language management
             Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
 
-            RegisterFakeService<AbpZeroDbMigrator<OpenAppDbContext>>();
+            RegisterFakeService<AbpZeroDbMigrator<StarterDbContext>>();
 
             Configuration.ReplaceService<IEmailSender, NullEmailSender>(DependencyLifeStyle.Transient);
         }
 
         public override void Initialize()
         {
+            
             ServiceCollectionRegistrar.Register(IocManager);
         }
 

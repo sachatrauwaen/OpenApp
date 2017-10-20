@@ -12,7 +12,8 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Satrabel.OpenApp.Application\Satrabel.OpenApp.Application.csproj" />
-    <ProjectReference Include="..\..\src\Satrabel.OpenApp.EntityFrameworkCore\Satrabel.OpenApp.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\Satrabel.OpenApp.EntityFramework\Satrabel.OpenApp.EntityFramework.csproj" />
+    <ProjectReference Include="..\..\src\Satrabel.Starter.Web.Mvc\Satrabel.Starter.Web.Mvc.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
