@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Satrabel.OpenApp.Tests.Sessions
 {
-    public class SessionAppService_Tests : JobManagerTestBase
+    public class SessionAppService_Tests : StarterTestBase
     {
         private readonly ISessionAppService _sessionAppService;
 

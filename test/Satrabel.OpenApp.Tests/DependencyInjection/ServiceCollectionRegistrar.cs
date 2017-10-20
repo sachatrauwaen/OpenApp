@@ -1,13 +1,12 @@
 ﻿using System;
 using Abp.Dependency;
-using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.OpenApp.EntityFramework;
 using Satrabel.OpenApp.Identity;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor.MsDependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Satrabel.OpenApp.EntityFrameworkCore;
-using Satrabel.Starter.EntityFrameworkCore;
+using Satrabel.Starter.EntityFramework;
 
 namespace Satrabel.OpenApp.Tests.DependencyInjection
 {

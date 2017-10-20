@@ -8,7 +8,7 @@ using Abp.Reflection.Extensions;
 using Abp.Zero.Configuration;
 using Satrabel.OpenApp.Authentication.JwtBearer;
 using Satrabel.OpenApp.Configuration;
-using Satrabel.OpenApp.EntityFrameworkCore;
+using Satrabel.OpenApp.EntityFramework;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
