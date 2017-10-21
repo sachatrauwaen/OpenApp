@@ -33,6 +33,6 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Satrabel.OpenApp.Core\Satrabel.OpenApp.Domain.csproj" />
+    <ProjectReference Include="..\Satrabel.OpenApp.Domain\Satrabel.OpenApp.Domain.csproj" />
   </ItemGroup>
 </Project>

@@ -109,7 +109,8 @@
     <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Satrabel.OpenApp.Web.Core\Satrabel.OpenApp.Web.csproj" />
+    <ProjectReference Include="..\Satrabel.OpenApp.EntityFramework\Satrabel.OpenApp.EntityFramework.csproj" />
+    <ProjectReference Include="..\Satrabel.OpenApp.Web\Satrabel.OpenApp.Web.csproj" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>

@@ -9,6 +9,6 @@ namespace Satrabel.Starter.Web
         public const string ConnectionStringName = "Default";
 
         public const bool MultiTenancyEnabled = true;
-        public static readonly Version AppVersion = new Version(0,3);
+        public static readonly Version AppVersion = new Version(0,4);
     }
 }
