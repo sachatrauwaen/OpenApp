@@ -14,7 +14,7 @@ using NSubstitute;
 using Satrabel.OpenApp.Web.Startup;
 using Satrabel.Starter.Web.Startup;
 using Satrabel.Starter.EntityFramework;
-using Satrabel.OpenApp.Web.Localization;
+
 using Abp.Reflection.Extensions;
 using Abp.AspNetCore;
 
