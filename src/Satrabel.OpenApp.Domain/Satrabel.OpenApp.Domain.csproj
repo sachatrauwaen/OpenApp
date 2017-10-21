@@ -4,12 +4,13 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <AssemblyName>Satrabel.OpenApp.Domain</AssemblyName>
-    <PackageId>Satrabel.OpenApp.Core</PackageId>
+    <PackageId>Satrabel.OpenApp.Domain</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <UserSecretsId>Satrabel-JobManager-56C2EF2F-ABD6-4EFC-AAF2-2E81C34E8FB1</UserSecretsId>
     <RootNamespace>Satrabel.OpenApp</RootNamespace>
+    <Version>1.0.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization\SourceFiles\OpenApp-fr.xml" />

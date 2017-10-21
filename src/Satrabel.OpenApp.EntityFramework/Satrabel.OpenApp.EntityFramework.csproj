@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <AssemblyName>Satrabel.OpenApp.EntityFramework</AssemblyName>
-    <PackageId>Satrabel.OpenApp.EntityFrameworkCore</PackageId>
+    <PackageId>Satrabel.OpenApp.EntityFramework</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -15,6 +15,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <RootNamespace>Satrabel.OpenApp</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>1.0.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Migrations\**" />
