@@ -6,11 +6,11 @@ using Satrabel.OpenApp.EntityFramework;
 
 namespace Satrabel.Starter.EntityFramework
 {
-    public class StarterDbContext : OpenAppDbContext<StarterDbContext>
+    public class AppDbContext : OpenAppDbContext<AppDbContext>
     {
         /* Define an IDbSet for each entity of the application */
 
-        public StarterDbContext(DbContextOptions<StarterDbContext>  options)
+        public AppDbContext(DbContextOptions<AppDbContext>  options)
             : base(options)
         {
 

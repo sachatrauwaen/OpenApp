@@ -22,12 +22,12 @@ namespace Satrabel.OpenApp.Tests
 {
     [DependsOn(
         typeof(OpenAppApplicationModule),
-        typeof(StarterEntityFrameworkModule),
+        typeof(EntityFrameworkModule),
         typeof(AbpTestBaseModule)
         )]
     public class JobManagerTestModule : AbpModule
     {
-        public JobManagerTestModule(StarterEntityFrameworkModule abpProjectNameEntityFrameworkModule)
+        public JobManagerTestModule(EntityFrameworkModule abpProjectNameEntityFrameworkModule)
         {
             abpProjectNameEntityFrameworkModule.SkipDbContextRegistration = true;
         }
@@ -47,7 +47,7 @@ namespace Satrabel.OpenApp.Tests
             //Use database for language management
             Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
 
-            RegisterFakeService<AbpZeroDbMigrator<StarterDbContext>>();
+            RegisterFakeService<AbpZeroDbMigrator<AppDbContext>>();
 
             Configuration.ReplaceService<IEmailSender, NullEmailSender>(DependencyLifeStyle.Transient);
         }

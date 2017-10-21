@@ -12,7 +12,7 @@ namespace Satrabel.Starter.Web.Startup
     [DependsOn(
         typeof(OpenAppCoreModule), 
         typeof(AbpZeroCoreEntityFrameworkCoreModule))]
-    public class StarterEntityFrameworkModule : AbpModule // for tests only
+    public class EntityFrameworkModule : AbpModule // for tests only
     {
         /* Used it tests to skip dbcontext registration, in order to use in-memory database of EF Core */
         public bool SkipDbContextRegistration { get; set; }
@@ -23,15 +23,15 @@ namespace Satrabel.Starter.Web.Startup
         {
             if (!SkipDbContextRegistration)
             {
-                Configuration.Modules.AbpEfCore().AddDbContext<StarterDbContext>(options =>
+                Configuration.Modules.AbpEfCore().AddDbContext<AppDbContext>(options =>
                 {
                     if (options.ExistingConnection != null)
                     {
-                        StarterDbContextConfigurer.Configure(options.DbContextOptions, options.ExistingConnection);
+                        AppDbContextConfigurer.Configure(options.DbContextOptions, options.ExistingConnection);
                     }
                     else
                     {
-                        StarterDbContextConfigurer.Configure(options.DbContextOptions, options.ConnectionString);
+                        AppDbContextConfigurer.Configure(options.DbContextOptions, options.ConnectionString);
                     }
                 });
             }
@@ -39,14 +39,14 @@ namespace Satrabel.Starter.Web.Startup
 
         public override void Initialize()
         {
-            IocManager.RegisterAssemblyByConvention(typeof(StarterEntityFrameworkModule).GetAssembly());
+            IocManager.RegisterAssemblyByConvention(typeof(EntityFrameworkModule).GetAssembly());
         }
 
         public override void PostInitialize()
         {
             if (!SkipDbSeed)
             {
-                SeedHelper.SeedHostDb<StarterDbContext>(IocManager);
+                SeedHelper.SeedHostDb<AppDbContext>(IocManager);
             }
         }
     }

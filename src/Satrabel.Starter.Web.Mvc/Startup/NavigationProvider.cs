@@ -8,7 +8,7 @@ namespace Satrabel.Starter.Web.Startup
     /// <summary>
     /// This class defines menus for the application.
     /// </summary>
-    public class StarterNavigationProvider : NavigationProvider
+    public class NavigationProvider : Abp.Application.Navigation.NavigationProvider
     {
         public override void SetNavigation(INavigationProviderContext context)
         {
@@ -39,7 +39,7 @@ namespace Satrabel.Starter.Web.Startup
 
         private static ILocalizableString L(string name)
         {
-            return new LocalizableString(name, StarterConsts.LocalizationSourceName);
+            return new LocalizableString(name, AppConsts.LocalizationSourceName);
         }
     }
 }

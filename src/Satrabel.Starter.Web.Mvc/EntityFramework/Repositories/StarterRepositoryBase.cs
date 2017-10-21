@@ -9,10 +9,10 @@ namespace Satrabel.Starter.EntityFramework.Repositories
     /// </summary>
     /// <typeparam name="TEntity">Entity type</typeparam>
     /// <typeparam name="TPrimaryKey">Primary key type of the entity</typeparam>
-    public abstract class StarterRepositoryBase<TEntity, TPrimaryKey> : EfCoreRepositoryBase<StarterDbContext, TEntity, TPrimaryKey>
+    public abstract class StarterRepositoryBase<TEntity, TPrimaryKey> : EfCoreRepositoryBase<AppDbContext, TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>
     {
-        protected StarterRepositoryBase(IDbContextProvider<StarterDbContext> dbContextProvider)
+        protected StarterRepositoryBase(IDbContextProvider<AppDbContext> dbContextProvider)
             : base(dbContextProvider)
         {
 
@@ -29,7 +29,7 @@ namespace Satrabel.Starter.EntityFramework.Repositories
     public abstract class StarterRepositoryBase<TEntity> : StarterRepositoryBase<TEntity, int>
         where TEntity : class, IEntity<int>
     {
-        protected StarterRepositoryBase(IDbContextProvider<StarterDbContext> dbContextProvider)
+        protected StarterRepositoryBase(IDbContextProvider<AppDbContext> dbContextProvider)
             : base(dbContextProvider)
         {
 

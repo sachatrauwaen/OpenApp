@@ -26,7 +26,7 @@ using Satrabel.OpenApp.Web.Migration;
 namespace Satrabel.Starter.Web.Startup
 {
     [DependsOn(typeof(OpenAppWebCoreModule))]
-    public class StarterWebMvcModule : AbpModule
+    public class WebMvcModule : AbpModule
     {
         private readonly IHostingEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
@@ -37,7 +37,7 @@ namespace Satrabel.Starter.Web.Startup
         public bool SkipDbContextRegistration { get; set; }
         public bool SkipDbSeed { get; set; }
 
-        public StarterWebMvcModule(IHostingEnvironment env, IMigrationManager migrationManager)
+        public WebMvcModule(IHostingEnvironment env, IMigrationManager migrationManager)
         {
             _env = env;
             _migrationManager = migrationManager;
@@ -49,25 +49,25 @@ namespace Satrabel.Starter.Web.Startup
         {
             if (!SkipDbContextRegistration)
             {
-                Configuration.Modules.AbpEfCore().AddDbContext<StarterDbContext>(options =>
+                Configuration.Modules.AbpEfCore().AddDbContext<AppDbContext>(options =>
                 {
                     if (options.ExistingConnection != null)
                     {
-                        StarterDbContextConfigurer.Configure(options.DbContextOptions, options.ExistingConnection);
+                        AppDbContextConfigurer.Configure(options.DbContextOptions, options.ExistingConnection);
                     }
                     else
                     {
-                        StarterDbContextConfigurer.Configure(options.DbContextOptions, options.ConnectionString);
+                        AppDbContextConfigurer.Configure(options.DbContextOptions, options.ConnectionString);
                     }
                 });
             }
             StarterLocalizationConfigurer.Configure(Configuration.Localization);
             //Enable this line to create a multi-tenant application.
-            Configuration.MultiTenancy.IsEnabled = StarterConsts.MultiTenancyEnabled;
+            Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
 
 
-            Configuration.Authorization.Providers.Add<StarterAuthorizationProvider>();
-            Configuration.Navigation.Providers.Add<StarterNavigationProvider>();
+            Configuration.Authorization.Providers.Add<AuthorizationProvider>();
+            Configuration.Navigation.Providers.Add<NavigationProvider>();
 
             //Configuration.BackgroundJobs.IsJobExecutionEnabled = !ExecuteMigrations;
             if (_migrationManager.NeedMigration && !SkipDbContextRegistration)
@@ -78,7 +78,7 @@ namespace Satrabel.Starter.Web.Startup
 
         public override void Initialize()
         {
-            IocManager.RegisterAssemblyByConvention(typeof(StarterWebMvcModule).GetAssembly());
+            IocManager.RegisterAssemblyByConvention(typeof(WebMvcModule).GetAssembly());
         }
         public override void PostInitialize()
         {
@@ -107,7 +107,7 @@ namespace Satrabel.Starter.Web.Startup
             }
             else if (!SkipDbSeed)
             {
-                SeedHelper.SeedHostDb<StarterDbContext>(IocManager);
+                SeedHelper.SeedHostDb<AppDbContext>(IocManager);
             }
         }
     }

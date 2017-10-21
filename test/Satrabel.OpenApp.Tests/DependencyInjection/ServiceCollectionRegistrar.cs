@@ -22,12 +22,12 @@ namespace Satrabel.OpenApp.Tests.DependencyInjection
 
             var serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(iocManager.IocContainer, services);
 
-            var builder = new DbContextOptionsBuilder<StarterDbContext>();
+            var builder = new DbContextOptionsBuilder<AppDbContext>();
             builder.UseInMemoryDatabase(Guid.NewGuid().ToString()).UseInternalServiceProvider(serviceProvider);
 
             iocManager.IocContainer.Register(
                 Component
-                    .For<DbContextOptions<StarterDbContext>>()
+                    .For<DbContextOptions<AppDbContext>>()
                     .Instance(builder.Options)
                     .LifestyleSingleton()
             );

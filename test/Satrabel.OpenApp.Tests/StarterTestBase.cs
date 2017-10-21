@@ -21,7 +21,7 @@ namespace Satrabel.OpenApp.Tests
     {
         protected StarterTestBase()
         {
-            void NormalizeDbContext(StarterDbContext context)
+            void NormalizeDbContext(AppDbContext context)
             {
                 context.EntityChangeEventHelper = NullEntityChangeEventHelper.Instance;
                 context.EventBus = NullEventBus.Instance;
@@ -33,8 +33,8 @@ namespace Satrabel.OpenApp.Tests
             UsingDbContext(context =>
             {
                 NormalizeDbContext(context);
-                new InitialHostDbBuilder<StarterDbContext>(context).Create();
-                new DefaultTenantBuilder<StarterDbContext>(context).Create();
+                new InitialHostDbBuilder<AppDbContext>(context).Create();
+                new DefaultTenantBuilder<AppDbContext>(context).Create();
             });
 
             //Seed initial data for default tenant
@@ -42,7 +42,7 @@ namespace Satrabel.OpenApp.Tests
             UsingDbContext(context =>
             {
                 NormalizeDbContext(context);
-                new TenantRoleAndUserBuilder<StarterDbContext>(context, 1).Create();
+                new TenantRoleAndUserBuilder<AppDbContext>(context, 1).Create();
             });
 
             LoginAsDefaultTenantAdmin();
@@ -57,31 +57,31 @@ namespace Satrabel.OpenApp.Tests
             return new DisposeAction(() => AbpSession.TenantId = previousTenantId);
         }
 
-        protected void UsingDbContext(Action<StarterDbContext> action)
+        protected void UsingDbContext(Action<AppDbContext> action)
         {
             UsingDbContext(AbpSession.TenantId, action);
         }
 
-        protected Task UsingDbContextAsync(Func<StarterDbContext, Task> action)
+        protected Task UsingDbContextAsync(Func<AppDbContext, Task> action)
         {
             return UsingDbContextAsync(AbpSession.TenantId, action);
         }
 
-        protected T UsingDbContext<T>(Func<StarterDbContext, T> func)
+        protected T UsingDbContext<T>(Func<AppDbContext, T> func)
         {
             return UsingDbContext(AbpSession.TenantId, func);
         }
 
-        protected Task<T> UsingDbContextAsync<T>(Func<StarterDbContext, Task<T>> func)
+        protected Task<T> UsingDbContextAsync<T>(Func<AppDbContext, Task<T>> func)
         {
             return UsingDbContextAsync(AbpSession.TenantId, func);
         }
 
-        protected void UsingDbContext(int? tenantId, Action<StarterDbContext> action)
+        protected void UsingDbContext(int? tenantId, Action<AppDbContext> action)
         {
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<StarterDbContext>())
+                using (var context = LocalIocManager.Resolve<AppDbContext>())
                 {
                     action(context);
                     context.SaveChanges();
@@ -89,11 +89,11 @@ namespace Satrabel.OpenApp.Tests
             }
         }
 
-        protected async Task UsingDbContextAsync(int? tenantId, Func<StarterDbContext, Task> action)
+        protected async Task UsingDbContextAsync(int? tenantId, Func<AppDbContext, Task> action)
         {
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<StarterDbContext>())
+                using (var context = LocalIocManager.Resolve<AppDbContext>())
                 {
                     await action(context);
                     await context.SaveChangesAsync();
@@ -101,13 +101,13 @@ namespace Satrabel.OpenApp.Tests
             }
         }
 
-        protected T UsingDbContext<T>(int? tenantId, Func<StarterDbContext, T> func)
+        protected T UsingDbContext<T>(int? tenantId, Func<AppDbContext, T> func)
         {
             T result;
 
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<StarterDbContext>())
+                using (var context = LocalIocManager.Resolve<AppDbContext>())
                 {
                     result = func(context);
                     context.SaveChanges();
@@ -117,13 +117,13 @@ namespace Satrabel.OpenApp.Tests
             return result;
         }
 
-        protected async Task<T> UsingDbContextAsync<T>(int? tenantId, Func<StarterDbContext, Task<T>> func)
+        protected async Task<T> UsingDbContextAsync<T>(int? tenantId, Func<AppDbContext, Task<T>> func)
         {
             T result;
 
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<StarterDbContext>())
+                using (var context = LocalIocManager.Resolve<AppDbContext>())
                 {
                     result = await func(context);
                     await context.SaveChangesAsync();

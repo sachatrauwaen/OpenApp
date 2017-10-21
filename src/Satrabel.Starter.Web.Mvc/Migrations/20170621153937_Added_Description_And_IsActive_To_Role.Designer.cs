@@ -10,7 +10,7 @@ using Abp.Notifications;
 
 namespace Satrabel.OpenApp.Migrations
 {
-    [DbContext(typeof(StarterDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20170621153937_Added_Description_And_IsActive_To_Role")]
     partial class Added_Description_And_IsActive_To_Role
     {

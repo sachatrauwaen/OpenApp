@@ -9,16 +9,16 @@ using Satrabel.Starter.Web;
 namespace Satrabel.Starter.EntityFramework
 {
     /* This class is needed to run "dotnet ef ..." commands from command line on development. Not used anywhere else */
-    public class StarterDbContextFactory : IDesignTimeDbContextFactory<StarterDbContext>
+    public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
-        public StarterDbContext CreateDbContext(string[] args)
+        public AppDbContext CreateDbContext(string[] args)
         {
-            var builder = new DbContextOptionsBuilder<StarterDbContext>();
+            var builder = new DbContextOptionsBuilder<AppDbContext>();
             var configuration = AppConfigurations.Get(WebContentDirectoryFinder.CalculateContentRootFolder());
 
-            StarterDbContextConfigurer.Configure(builder, configuration.GetConnectionString(StarterConsts.ConnectionStringName));
+            AppDbContextConfigurer.Configure(builder, configuration.GetConnectionString(Web.AppConsts.ConnectionStringName));
 
-            return new StarterDbContext(builder.Options);
+            return new AppDbContext(builder.Options);
         }
     }
 }

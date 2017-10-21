@@ -10,7 +10,7 @@ using Abp.Notifications;
 
 namespace Satrabel.OpenApp.Migrations
 {
-    [DbContext(typeof(StarterDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20170804083601_Upgraded_To_Abp_v2.2.2")]
     partial class Upgraded_To_Abp_v222
     {

@@ -5,7 +5,7 @@ using Abp.Zero.EntityFrameworkCore;
 
 namespace Satrabel.Starter.EntityFramework
 {
-    public class AbpZeroDbMigrator : AbpZeroDbMigrator<StarterDbContext>
+    public class AbpZeroDbMigrator : AbpZeroDbMigrator<AppDbContext>
     {
         public AbpZeroDbMigrator(
             IUnitOfWorkManager unitOfWorkManager,

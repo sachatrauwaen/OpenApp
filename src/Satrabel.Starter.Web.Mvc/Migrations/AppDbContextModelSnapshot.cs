@@ -10,7 +10,7 @@ using Abp.Notifications;
 
 namespace Satrabel.OpenApp.Migrations
 {
-    [DbContext(typeof(StarterDbContext))]
+    [DbContext(typeof(AppDbContext))]
     partial class OpenappDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

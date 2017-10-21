@@ -10,7 +10,7 @@ using Abp.Notifications;
 
 namespace Satrabel.OpenApp.Migrations
 {
-    [DbContext(typeof(StarterDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20170703134115_Remove_IsActive_From_Role")]
     partial class Remove_IsActive_From_Role
     {

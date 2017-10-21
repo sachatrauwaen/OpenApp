@@ -5,7 +5,7 @@ using Satrabel.OpenApp;
 
 namespace Satrabel.Starter.Web.Authorization
 {
-    public class StarterAuthorizationProvider : AuthorizationProvider
+    public class AuthorizationProvider : Abp.Authorization.AuthorizationProvider
     {
         public override void SetPermissions(IPermissionDefinitionContext context)
         {
@@ -15,7 +15,7 @@ namespace Satrabel.Starter.Web.Authorization
 
         private static ILocalizableString L(string name)
         {
-            return new LocalizableString(name, StarterConsts.LocalizationSourceName);
+            return new LocalizableString(name, AppConsts.LocalizationSourceName);
         }
     }
 }

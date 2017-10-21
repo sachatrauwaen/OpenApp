@@ -8,7 +8,7 @@ namespace Satrabel.Starter.Web.Controllers
     {
         protected StarterControllerBase()
         {
-            LocalizationSourceName = StarterConsts.LocalizationSourceName;
+            LocalizationSourceName = AppConsts.LocalizationSourceName;
         }
 
         protected void CheckErrors(IdentityResult identityResult)

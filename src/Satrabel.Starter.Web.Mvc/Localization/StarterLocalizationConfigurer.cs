@@ -12,7 +12,7 @@ namespace Satrabel.OpenApp.Web.Localization
         public static void Configure(ILocalizationConfiguration localizationConfiguration)
         {
             localizationConfiguration.Sources.Add(
-                new DictionaryBasedLocalizationSource(StarterConsts.LocalizationSourceName,
+                new DictionaryBasedLocalizationSource(Starter.Web.AppConsts.LocalizationSourceName,
                     new XmlEmbeddedFileLocalizationDictionaryProvider(
                         typeof(StarterLocalizationConfigurer).GetAssembly(),
                         "Satrabel.Starter.Web.Localization.SourceFiles"
