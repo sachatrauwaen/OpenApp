@@ -1,5 +1,4 @@
 ﻿using Satrabel.OpenApp.Configuration;
-using Satrabel.OpenApp.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;

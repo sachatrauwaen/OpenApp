@@ -20,12 +20,11 @@ namespace Satrabel.OpenApp.Web.Migration
             {
                 if (!MigrationChecked)
                 {
-                    var currentVersion = new Version(0, 3);
                     var versionFile = HostingEnvironment.ContentRootPath + "\\App_Data\\appversion.txt";
                     if (File.Exists(versionFile))
                     {
                         var v = new Version(File.ReadAllText(versionFile));
-                        _NeedMigration = v.CompareTo(currentVersion) < 0;
+                        _NeedMigration = v.CompareTo(AppVersion) < 0;
                     }
                     else
                     {
@@ -34,7 +33,7 @@ namespace Satrabel.OpenApp.Web.Migration
                     MigrationChecked = true;
                     if (NeedMigration)
                     {
-                        File.WriteAllText(versionFile, currentVersion.ToString());
+                        File.WriteAllText(versionFile, AppVersion.ToString());
                     }
                 }
                 return _NeedMigration;

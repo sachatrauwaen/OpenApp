@@ -6,7 +6,7 @@
         el: '#app',
         template: "#appTemplate",
         data: {
-            message: abp.localization.values.Starter.WellcomeMessage
+            message: abp.localization.values.App.WellcomeMessage
         }
     })
 });

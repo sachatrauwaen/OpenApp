@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Satrabel.OpenApp;
 using Abp.EntityFrameworkCore.Configuration;
 using Satrabel.OpenApp.EntityFramework;
-using Satrabel.OpenApp.Web.Localization;
+using Satrabel.Starter.Web.Localization;
 using Satrabel.OpenApp.EntityFramework.Seed;
 using Satrabel.OpenApp.Configuration;
 using Satrabel.Starter.Web.Authorization;
@@ -61,7 +61,7 @@ namespace Satrabel.Starter.Web.Startup
                     }
                 });
             }
-            StarterLocalizationConfigurer.Configure(Configuration.Localization);
+            LocalizationConfigurer.Configure(Configuration.Localization);
             //Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
 

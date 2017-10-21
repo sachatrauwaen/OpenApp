@@ -4,7 +4,7 @@ namespace Satrabel.Starter.Web
 {
     public class AppConsts
     {
-        public const string LocalizationSourceName = "Starter";
+        public const string LocalizationSourceName = "App";
 
         public const string ConnectionStringName = "Default";
 

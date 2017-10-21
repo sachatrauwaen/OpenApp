@@ -5,16 +5,16 @@ using Abp.Localization.Dictionaries.Xml;
 using Abp.Reflection.Extensions;
 using Satrabel.Starter.Web;
 
-namespace Satrabel.OpenApp.Web.Localization
+namespace Satrabel.Starter.Web.Localization
 {
-    public static class StarterLocalizationConfigurer
+    public static class LocalizationConfigurer
     {
         public static void Configure(ILocalizationConfiguration localizationConfiguration)
         {
             localizationConfiguration.Sources.Add(
                 new DictionaryBasedLocalizationSource(Starter.Web.AppConsts.LocalizationSourceName,
                     new XmlEmbeddedFileLocalizationDictionaryProvider(
-                        typeof(StarterLocalizationConfigurer).GetAssembly(),
+                        typeof(LocalizationConfigurer).GetAssembly(),
                         "Satrabel.Starter.Web.Localization.SourceFiles"
                     )
                 )
