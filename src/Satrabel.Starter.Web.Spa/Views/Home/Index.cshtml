@@ -1,0 +1,33 @@
+﻿@using Satrabel.Starter.Web.Startup
+@{
+    ViewBag.CurrentPageName = PageNames.Home; //The menu item will be active for this page.
+}
+@section styles
+{
+    <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
+    </environment>
+}
+
+@section scripts
+    {
+    <script src="~/dist/vendor.js" asp-append-version="true"></script>
+<script src="~/dist/main.js" asp-append-version="true"></script>
+}
+
+<!-- Breadcrumb -->
+<ol class="breadcrumb">
+
+    <li class="breadcrumb-item active">Home</li>
+    <!-- Breadcrumb Menu-->
+    <li class="breadcrumb-menu d-md-down-none">
+        <div class="btn-group" role="group" aria-label="Button group">
+            <a class="btn" href="/"><i class="icon-calendar"></i> &nbsp;Dashboard</a>
+        </div>
+    </li>
+</ol>
+
+<div class="container-fluid">
+    <div id='app-root'>Loading...</div>
+</div>

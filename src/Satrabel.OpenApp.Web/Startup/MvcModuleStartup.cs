@@ -160,13 +160,13 @@ namespace Satrabel.OpenApp.Startup
                 app.Run(async (context) =>
                 {
                     {
-                        await context.Response.WriteAsync("Migrations executed ! Refresh page to start website.");
+                        await context.Response.WriteAsync("Database Migrated to version "+ _migrationManager.AppVersion +". Refresh page to start website.");
                     }
                     applicationLifetime.StopApplication();
                 });
                 return;
             }
-
+            ConfigureBeforeStaticFiles(app, env);
             app.UseStaticFiles();
             app.UseEmbeddedFiles();
 
@@ -200,6 +200,11 @@ namespace Satrabel.OpenApp.Startup
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenApp API V1");
                 }); //URL: /swagger
             }
+
+        }
+
+        protected virtual void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
+        {
 
         }
 
