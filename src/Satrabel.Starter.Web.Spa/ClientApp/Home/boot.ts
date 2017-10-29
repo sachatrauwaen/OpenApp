@@ -6,7 +6,7 @@ import Test from './test.vue'
 // mount
 new Vue({
     el: '#app-root',
-    render: h => h(Test, {
+    render: h => h(App, {
         props: { propMessage: 'World' }
     })
 })

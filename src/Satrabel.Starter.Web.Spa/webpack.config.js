@@ -11,26 +11,29 @@ module.exports = (env) => {
         stats: { modules: false },
         context: __dirname,
         resolve: { extensions: [ '.js', '.ts' ] },
-        entry: { 'main': './ClientApp/boot.ts' },
+        entry: {
+            'home': './ClientApp/home/boot.ts'
+        },
         module: {
             rules: [
 
-                {
-                    test: /\.ts$/,
-                    exclude: /node_modules|vue\/src/,
-                    loader: 'ts-loader',
-                    options: {
-                        appendTsSuffixTo: [/\.vue$/]
-                    }
-                },
-                {
-                    test: /\.vue$/,
-                    loader: 'vue-loader',
-                    options: {
-                        esModule: true
-                    }
-                },
-                
+                //{
+                //    test: /\.ts$/,
+                //    exclude: /node_modules|vue\/src/,
+                //    loader: 'ts-loader',
+                //    options: {
+                //        appendTsSuffixTo: [/\.vue$/]
+                //    }
+                //},
+                //{
+                //    test: /\.vue$/,
+                //    loader: 'vue-loader',
+                //    options: {
+                //        esModule: true
+                //    }
+                //},
+                { test: /\.vue$/, include: /ClientApp/, exclude: /node_modules|vue\/src/, loader: 'vue-loader', options: {  } },
+                { test: /\.ts$/, include: /ClientApp/, use: 'awesome-typescript-loader?silent=true' },    
                 { test: /\.css$/, use: isDevBuild ? [ 'style-loader', 'css-loader' ] : ExtractTextPlugin.extract({ use: 'css-loader?minimize' }) },
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
             ]

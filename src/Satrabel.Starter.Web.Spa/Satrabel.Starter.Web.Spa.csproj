@@ -125,7 +125,7 @@
     <ProjectReference Include="..\Satrabel.OpenApp.Web\Satrabel.OpenApp.Web.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\boot.ts" />
+    <TypeScriptCompile Include="ClientApp\Home\boot.ts" />
   </ItemGroup>
 
 
