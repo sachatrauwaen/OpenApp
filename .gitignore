@@ -252,3 +252,4 @@ paket-files/
 *.sln.iml
 dist/
 src/Satrabel.Starter.Web.Mvc/App_Data/
+src/Satrabel.Starter.Web.Spa/App_Data/
