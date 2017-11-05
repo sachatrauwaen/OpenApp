@@ -32,6 +32,7 @@ export default class App extends Vue {
     // method
     greet() {
         //alert('greeting: ' + this.msg)
+        
     }
 
 }

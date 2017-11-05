@@ -2,7 +2,7 @@
     name: 'demoJavascript',
     data() {
         return {
-            msg: 'Welcome to Your demoJavascript'
+            msg: 'demoJavascript : javascript component'
         }
     }
 }

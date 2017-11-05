@@ -30,7 +30,16 @@ namespace Satrabel.Starter.Web.Startup
                         icon: "question",
                         requiredPermissionName: PermissionNames.Pages_About
                     )
-
+                )
+                .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.Home,
+                        L("ClientApp"),
+                        url: "/App/Demo1",
+                        icon: "question",
+                        requiredPermissionName: PermissionNames.Pages_Home
+                    )
+                    
 
 
                 );

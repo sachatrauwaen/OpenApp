@@ -5,11 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Satrabel.Starter.Web.Controllers
 {
     [AbpMvcAuthorize]
-    public class HomeController : StarterControllerBase
+    public class ClientAppController : StarterControllerBase
     {
-        public ActionResult Index()
+        [Route("App/{id}")]
+        public ActionResult Vue(string id)
         {
-            return View();
+            return View("Index", id);
         }
     }
 
@@ -20,7 +21,7 @@ namespace Satrabel.Starter.Web.Controllers
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    
+
     //public async Task<ActionResult> TestNotification(string message = "")
     //{
     //    if (message.IsNullOrEmpty())

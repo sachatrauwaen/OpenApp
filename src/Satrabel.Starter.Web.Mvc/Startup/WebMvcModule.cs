@@ -22,6 +22,7 @@ using System.IO;
 using Abp.Threading;
 using Abp.BackgroundJobs;
 using Satrabel.OpenApp.Web.Migration;
+using Abp.AspNetCore.Configuration;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -42,7 +43,7 @@ namespace Satrabel.Starter.Web.Startup
             _env = env;
             _migrationManager = migrationManager;
             _appConfiguration = env.GetAppConfiguration();
-            
+
         }
 
         public override void PreInitialize()
@@ -65,7 +66,10 @@ namespace Satrabel.Starter.Web.Startup
             //Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
 
-
+            Configuration.Modules.AbpAspNetCore()
+                 .CreateControllersForAppServices(
+                     typeof(WebMvcModule).GetAssembly()
+                 );
             Configuration.Authorization.Providers.Add<AuthorizationProvider>();
             Configuration.Navigation.Providers.Add<NavigationProvider>();
 

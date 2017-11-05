@@ -1,3 +1,4 @@
+/// <binding />
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -13,11 +14,11 @@ module.exports = (env) => {
         context: __dirname,
         resolve: { extensions: [ '.js', '.ts' ] },
         entry: {
-            'home': './ClientApp/home/boot.ts'
+            'home': './ClientApp/home/boot.ts',
+            'demo1': './ClientApp/demo1/boot.ts'
         },
         module: {
             rules: [
-
                 {
                     test: /\.ts$/,
                     include: /ClientApp/,
@@ -26,7 +27,7 @@ module.exports = (env) => {
                     options: {
                         appendTsSuffixTo: [/\.vue$/]
                     }
-                },
+                },               
                 {
                     test: /\.vue$/,
                     include: /ClientApp/,
@@ -35,7 +36,18 @@ module.exports = (env) => {
                         esModule: true
                     }
                 },
-                //{ test: /\.vue$/, include: /ClientApp/, exclude: /node_modules|vue\/src/, loader: 'vue-loader', options: {  } },
+                {
+                    test: /\.js$/,
+                    loader: 'babel-loader',
+                    exclude: /node_modules/
+                },
+                //{
+                //    test: /\.vue$/, include: /ClientApp/, exclude: /node_modules|vue\/src/, loader: 'vue-loader', options: {
+                //        loaders: {
+                //            ts: 'awesome-typescript-loader?silent=true'
+                //        }
+                //    }
+                //},
                 //{ test: /\.ts$/, include: /ClientApp/, use: 'awesome-typescript-loader?silent=true' },    
                 { test: /\.css$/, use: isDevBuild ? [ 'style-loader', 'css-loader' ] : ExtractTextPlugin.extract({ use: 'css-loader?minimize' }) },
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }

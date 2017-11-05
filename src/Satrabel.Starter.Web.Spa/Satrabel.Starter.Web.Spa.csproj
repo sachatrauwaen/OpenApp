@@ -16,46 +16,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\CHANGELOG.txt" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\CONTRIBUTING.txt" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\background-events.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\BUG-bad.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\BUG.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\column-grouping.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\columns.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\dynamic-add-remove.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\external-dragging.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\gcal.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\grouping.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\json.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\json\events.json" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\json\resources.json" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\js\theme-chooser.js" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\misc-callbacks.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\no-overlap.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\ordering.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\rendering-hooks.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\scale.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\selectable.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\simple.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\themes.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\demos\vertical-resource-view.html" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\fullcalendar.css" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\fullcalendar.js" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\fullcalendar.min.css" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\fullcalendar.min.js" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\fullcalendar.print.min.css" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\gcal.js" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\gcal.min.js" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\jquery-ui.min.js" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\jquery.min.js" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\locale-all.js" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\lib\moment.min.js" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\LICENSE.txt" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\scheduler.css" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\scheduler.js" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\scheduler.min.css" />
-    <None Include="wwwroot\lib\fullcalendar-scheduler\scheduler.min.js" />
     <None Update="Dockerfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -117,6 +77,7 @@
     <Folder Include="App_Data\Logs\" />
     <Folder Include="Domain\" />
     <Folder Include="Models\" />
+    <Folder Include="wwwroot\lib\" />
     <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
     <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
   </ItemGroup>
@@ -125,12 +86,16 @@
     <ProjectReference Include="..\Satrabel.OpenApp.Web\Satrabel.OpenApp.Web.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\demo1\boot.ts" />
     <TypeScriptCompile Include="ClientApp\Home\boot.ts" />
   </ItemGroup>
 
+  <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
+    <Message Importance="high" Text="Performing run Webpack build..." />    
+    <Exec Command="node node_modules/webpack/bin/webpack.js" />
+  </Target>
 
-
-  <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
+  <Target Name="DebugFirstRunWebpack" BeforeTargets="DebugRunWebpack" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
@@ -140,8 +105,7 @@
     <!-- In development, the dist files won't exist on the first run or when cloning to
          a different machine, so rebuild them if not already present. -->
     <Message Importance="high" Text="Performing first-run Webpack build..." />
-    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" />
-    <Exec Command="node node_modules/webpack/bin/webpack.js" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" />    
   </Target>
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">

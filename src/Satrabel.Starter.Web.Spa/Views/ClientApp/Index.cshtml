@@ -1,0 +1,24 @@
+﻿@using Satrabel.Starter.Web.Startup
+
+@{
+    //ViewBag.CurrentPageName = PageNames.Home; //The menu item will be active for this page.
+    var appId = Model;
+}
+@section styles
+{
+    <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
+    </environment>
+}
+
+@section scripts
+    {
+    <script src="~/dist/vendor.js" asp-append-version="true"></script>
+    <script src="~/dist/@(appId).js" asp-append-version="true"></script>
+}
+
+<div>
+    <div id='app-root'>Loading...</div>
+</div>
+

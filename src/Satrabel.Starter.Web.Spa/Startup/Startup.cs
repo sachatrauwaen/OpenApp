@@ -16,18 +16,18 @@ namespace Satrabel.Starter.Web.Startup
 
         protected override void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true,
-                    //HotModuleReplacementClientOptions = new Dictionary<string, string> {
-                    //    { "reload", "true" },
-                    //    { "timeout","20000" }
-                    //},
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+            //    {
+            //        HotModuleReplacement = true,
+            //        //HotModuleReplacementClientOptions = new Dictionary<string, string> {
+            //        //    { "reload", "true" },
+            //        //    { "timeout","20000" }
+            //        //},
 
-                });
-            }
+            //    });
+            //}
         }
     }
 }
