@@ -33,7 +33,6 @@ namespace Satrabel.Starter.Web.Startup
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IMigrationManager _migrationManager;
 
-
         /* Used it tests to skip dbcontext registration, in order to use in-memory database of EF Core */
         public bool SkipDbContextRegistration { get; set; }
         public bool SkipDbSeed { get; set; }
@@ -43,11 +42,11 @@ namespace Satrabel.Starter.Web.Startup
             _env = env;
             _migrationManager = migrationManager;
             _appConfiguration = env.GetAppConfiguration();
-            
         }
 
         public override void PreInitialize()
         {
+            // for entity framework
             if (!SkipDbContextRegistration)
             {
                 Configuration.Modules.AbpEfCore().AddDbContext<AppDbContext>(options =>
@@ -66,14 +65,16 @@ namespace Satrabel.Starter.Web.Startup
             //Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
 
+            // automatic webapi's for Application Services
             Configuration.Modules.AbpAspNetCore()
                 .CreateControllersForAppServices(
                     typeof(WebMvcModule).GetAssembly()
                 );
+
+            // Permissions
             Configuration.Authorization.Providers.Add<AuthorizationProvider>();
             Configuration.Navigation.Providers.Add<NavigationProvider>();
 
-            //Configuration.BackgroundJobs.IsJobExecutionEnabled = !ExecuteMigrations;
             if (_migrationManager.NeedMigration && !SkipDbContextRegistration)
             {
                 _migrationManager.Configure(Configuration, IocManager);
@@ -89,25 +90,6 @@ namespace Satrabel.Starter.Web.Startup
             if (_migrationManager.NeedMigration && !SkipDbContextRegistration)
             {
                 _migrationManager.Run<MultiTenantMigrateExecuter>(IocManager);
-                //if (Configuration.BackgroundJobs.IsJobExecutionEnabled)
-                //{
-                //    IocManager.Resolve<IBackgroundWorkerManager>().StopAndWaitToStop();
-                //}
-
-                //bool _skipConnVerification = false;
-                //using (var migrateExecuter = IocManager.ResolveAsDisposable<MultiTenantMigrateExecuter>())
-                //{
-                //    migrateExecuter.Object.Run(_skipConnVerification);
-                //}
-
-
-
-                //if (Configuration.BackgroundJobs.IsJobExecutionEnabled)
-                //{
-                //var workerManager = IocManager.Resolve<IBackgroundWorkerManager>();
-                //workerManager.Start();
-                //workerManager.Add(IocManager.Resolve<IBackgroundJobManager>());
-                //}
             }
             else if (!SkipDbSeed)
             {

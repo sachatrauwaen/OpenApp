@@ -15,7 +15,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <RootNamespace>Satrabel.OpenApp</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.2.0</Version>
+    <Version>1.0.3.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Migrations\**" />

@@ -9,10 +9,13 @@ using Satrabel.Starter.EntityFramework;
 
 namespace Satrabel.Starter.Web.Startup
 {
+
+    // for tests only
+
     [DependsOn(
         typeof(OpenAppCoreModule), 
         typeof(AbpZeroCoreEntityFrameworkCoreModule))]
-    public class EntityFrameworkModule : AbpModule // for tests only
+    public class EntityFrameworkModule : AbpModule 
     {
         /* Used it tests to skip dbcontext registration, in order to use in-memory database of EF Core */
         public bool SkipDbContextRegistration { get; set; }
