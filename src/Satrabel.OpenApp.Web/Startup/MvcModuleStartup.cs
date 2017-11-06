@@ -42,14 +42,10 @@ namespace Satrabel.OpenApp.Startup
     public class MvcModuleStartup<TModule> where TModule : AbpModule
     {
         private const string DefaultCorsPolicyName = "localhost";
-
         private readonly IConfigurationRoot _appConfiguration;
-
         private readonly bool CorsEnabled = false;
         private readonly bool SwaggerEnabled = false;
-
         protected Version AppVersion;
-
 
         public MvcModuleStartup(IHostingEnvironment env)
         {
@@ -70,27 +66,24 @@ namespace Satrabel.OpenApp.Startup
                     options.Filters.Add(new CorsAuthorizationFilterFactory(DefaultCorsPolicyName));
                 }
             });
-
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
-
             services.AddScoped<IWebResourceManager, WebResourceManager>();
-
             services.AddSingleton<IMigrationManager>(new MigrationManager());
             if (CorsEnabled)
             {
                 //Configure CORS for angular2 UI
                 services.AddCors(options =>
-            {
-                options.AddPolicy(DefaultCorsPolicyName, builder =>
                 {
-                    //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
-                    builder
-                        .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.RemovePostFix("/")).ToArray())
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
+                    options.AddPolicy(DefaultCorsPolicyName, builder =>
+                    {
+                        //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
+                        builder
+                            .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.RemovePostFix("/")).ToArray())
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
                 });
-            });
             }
 
             //Swagger - Enable this line and the related lines in Configure method to enable swagger UI
@@ -113,7 +106,6 @@ namespace Satrabel.OpenApp.Startup
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
             }
-
             //Configure Abp and Dependency Injection
             return services.AddAbp<TModule>(options =>
             {
@@ -128,24 +120,10 @@ namespace Satrabel.OpenApp.Startup
         {
             var applicationLifetime = app.ApplicationServices.GetRequiredService<IApplicationLifetime>();
             var _migrationManager = app.ApplicationServices.GetRequiredService<IMigrationManager>();
-
             _migrationManager.ApplicationLifetime = applicationLifetime;
             _migrationManager.HostingEnvironment = env;
             _migrationManager.AppVersion = AppVersion;
-
-            try
-            {
-                app.UseAbp(); //Initializes ABP framework.
-            }
-            catch (SqlException ex)
-            {
-                if (ex.Number == 208 && ex.Message.Contains("AppEditions"))
-                {
-
-                }
-
-                throw;
-            }
+            app.UseAbp(); //Initializes ABP framework.
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -160,16 +138,15 @@ namespace Satrabel.OpenApp.Startup
                 app.Run(async (context) =>
                 {
                     {
-                        await context.Response.WriteAsync("Migrations executed ! Refresh page to start website.");
+                        await context.Response.WriteAsync("Database Migrated to version " + _migrationManager.AppVersion + ". Refresh page to start website.");
                     }
                     applicationLifetime.StopApplication();
                 });
                 return;
             }
-
+            ConfigureBeforeStaticFiles(app, env);
             app.UseStaticFiles();
             app.UseEmbeddedFiles();
-
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
 
@@ -200,6 +177,10 @@ namespace Satrabel.OpenApp.Startup
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenApp API V1");
                 }); //URL: /swagger
             }
+        }
+
+        protected virtual void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
+        {
 
         }
 
