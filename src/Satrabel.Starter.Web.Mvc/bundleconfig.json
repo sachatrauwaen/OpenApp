@@ -1,0 +1,9 @@
+[
+  {
+    "outputFileName": "wwwroot/view-resources/Views/_Bundles/home-index.min.js",
+    "inputFiles": [
+      "wwwroot/view-resources/Views/Home/Index.js"
+    ]
+  }
+
+]

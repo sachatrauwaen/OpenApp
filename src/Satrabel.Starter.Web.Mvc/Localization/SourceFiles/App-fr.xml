@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="fr">
+  <texts>
+    <text name="Home" value="Accueil" />
+    <text name="About" value="A propos" />
+    <text name="WellcomeMessage" value="Bienvenue sur OpenApp!" />
+
+  </texts>
+</localizationDictionary>

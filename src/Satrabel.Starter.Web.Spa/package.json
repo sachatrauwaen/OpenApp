@@ -1,0 +1,35 @@
+{
+  "name": "vue2",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build-dev": "webpack",
+    "build-prod": "webpack --env.prod",
+    "build-vendor": "webpack --config webpack.config.vendor.js --env.prod"
+  },
+  "devDependencies": {
+    "@types/webpack-env": "^1.13.0",
+    "aspnet-webpack": "^2.0.1",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "css-loader": "^0.25.0",
+    "element-ui": "^1.4.8",
+    "event-source-polyfill": "^0.0.7",
+    "extract-text-webpack-plugin": "^2.0.0-rc",
+    "file-loader": "^0.9.0",
+    "raw-loader": "~0.5.1",
+    "style-loader": "^0.13.1",
+    "ts-loader": "^3.1.0",
+    "typescript": "^2.5.3",
+    "url-loader": "^0.5.7",
+    "vue": "^2.5.2",
+    "vue-loader": "^13.4.0",
+    "vue-class-component": "^6.0.0",
+    "vue-property-decorator": "^6.0.0",
+    "vue-router": "^3.0.1",
+    "vue-template-compiler": "^2.5.2",
+    "webpack": "^2.2.0",
+    "webpack-hot-middleware": "^2.20.0"
+  }
+}

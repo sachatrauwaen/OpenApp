@@ -1,0 +1,54 @@
+﻿@using Satrabel.Starter.Web.Startup
+@{
+    ViewBag.CurrentPageName = PageNames.Home; //The menu item will be active for this page.
+}
+@section styles
+{
+    <link rel="stylesheet" href="~/Views/lib/element-ui/lib/theme-default/index.css" asp-append-version="true" />
+}
+
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/Views/lib/vue/vue.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/vue/vue-router.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/element-ui/bundle.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/json-ref-lite/json-ref-lite.min.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/vueforms/bundle.js"></script>        
+        <script src="~/view-resources/Views/home/Index.js"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        @*<script src="~/view-resources/Views/_Bundles/home-index.min.js" asp-append-version="true"></script>*@
+
+        <script src="~/Views/lib/vue/vue.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/vue/vue-router.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/element-ui/bundle.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/json-ref-lite/json-ref-lite.min.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/vueforms/bundle.js"></script>
+
+        <script src="~/view-resources/Views/home/Index.js"></script>
+    </environment>
+}
+
+ <!-- Breadcrumb -->
+<ol class="breadcrumb">
+    
+    <li class="breadcrumb-item active">Home</li>
+    <!-- Breadcrumb Menu-->
+    <li class="breadcrumb-menu d-md-down-none">
+        <div class="btn-group" role="group" aria-label="Button group">
+            <a class="btn" href="/"><i class="icon-calendar"></i> &nbsp;Dashboard</a>
+        </div>
+    </li>
+</ol>
+<div class="container-fluid">
+    <div id="app">Loading...</div>
+</div>
+
+<template id="appTemplate">
+    <div>
+        {{ message }} (by vuejs app)
+    </div>
+</template>
+

@@ -1,0 +1,126 @@
+[
+  {
+    "outputFileName": "Views/_Bundles/account-layout.min.css",
+    "inputFiles": [
+      "Views/fonts/roboto/roboto.css",
+      "Views/lib/toastr/toastr.css",
+      "Views/lib/sweetalert/dist/sweetalert.css",
+      "Views/lib/font-awesome/css/font-awesome.css",
+      "Views/css/simple-line-icons.css",
+      "Views/lib/Waves/dist/waves.css",
+      "Views/lib/animate.css/animate.css",
+      "Views/css/style.css",
+      "Views/Account/_Layout.css"
+    ]
+  },
+  {
+    "outputFileName": "Views/_Bundles/account-layout.min.js",
+    "inputFiles": [
+      "Views/lib/coreui/jquery/dist/jquery.min.js",
+      "Views/lib/coreui/popper.js/index.js",
+      "Views/lib/coreui/tether/dist/js/tether.min.js",
+      "Views/lib/coreui/bootstrap/dist/js/bootstrap.min.js",
+      "Views/lib/coreui/pace/pace.min.js",
+      "Views/lib/json2/json2.js",
+      "Views/lib/moment/min/moment-with-locales.js",
+      "Views/lib/jquery-validation/dist/jquery.validate.js",
+      "Views/lib/blockUI/jquery.blockUI.js",
+      "Views/lib/toastr/toastr.js",
+      "Views/lib/sweetalert/dist/sweetalert-dev.js",
+      "Views/lib/spin.js/spin.js",
+      "Views/lib/spin.js/jquery.spin.js",
+      "Views/lib/Waves/dist/waves.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/abp.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.toastr.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
+      "Views/js/main.js"
+    ]
+  },
+  {
+    "outputFileName": "Views/_Bundles/shared-layout.min.css",
+    "inputFiles": [
+      "Views/fonts/roboto/roboto.css",
+      "Views/lib/toastr/toastr.css",
+      "Views/lib/sweetalert/dist/sweetalert.css",
+      "Views/css/font-awesome.css",
+      "Views/css/simple-line-icons.css",
+      "Views/lib/Waves/dist/waves.css",
+      "Views/lib/animate.css/animate.css",
+      "Views/css/style.css"
+    ]
+  },
+  {
+    "outputFileName": "Views/_Bundles/shared-layout.min.js",
+    "inputFiles": [
+      "Views/lib/coreui/jquery/dist/jquery.min.js",
+      "Views/lib/coreui/popper.js/index.js",
+      "Views/lib/coreui/tether/dist/js/tether.min.js",
+      "Views/lib/coreui/bootstrap/dist/js/bootstrap.min.js",
+      "Views/lib/coreui/pace/pace.min.js",
+      "Views/lib/json2/json2.js",
+      "Views/lib/jquery/dist/jquery.js",
+      "Views/lib/moment/min/moment-with-locales.js",
+      "Views/lib/jquery-validation/dist/jquery.validate.js",
+      "Views/lib/blockUI/jquery.blockUI.js",
+      "Views/lib/toastr/toastr.js",
+      "Views/lib/sweetalert/dist/sweetalert-dev.js",
+      "Views/lib/spin.js/spin.js",
+      "Views/lib/spin.js/jquery.spin.js",
+      "Views/lib/jquery-slimscroll/jquery.slimscroll.js",
+      "Views/lib/Waves/dist/waves.js",
+      "Views/lib/push.js/push.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/abp.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.toastr.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
+      "Views/js/main.js",
+      "Views/Shared/_Layout.js"
+    ]
+  },
+  {
+    "outputFileName": "Views/Account/Login.min.js",
+    "inputFiles": [
+      "Views/Account/Login.js"
+    ]
+  },
+  {
+    "outputFileName": "Views/Account/Register.min.js",
+    "inputFiles": [
+      "Views/Account/Register.js"
+    ]
+  },
+  {
+    "outputFileName": "Views/lib/vueforms/bundle.js",
+    "inputFiles": [
+      "Views/lib/vueforms/fullcalendar.js",
+      "Views/lib/vueforms/checkboxGroup.js",
+      "Views/lib/vueforms/datetime.js",
+      "Views/lib/vueforms/input.js",
+      "Views/lib/vueforms/inputNumber.js",
+      "Views/lib/vueforms/select.js",
+      "Views/lib/vueforms/switch.js",
+      "Views/lib/vueforms/textarea.js",
+      "Views/lib/vueforms/dialogForm.js",
+      "Views/lib/vueforms/relation.js",
+      "Views/lib/vueforms/field.js",
+      "Views/lib/vueforms/form.js",
+      "Views/lib/vueforms/filterform.js",
+      "Views/lib/vueforms/crudForm.js",
+      "Views/lib/vueforms/grid.js",
+      "Views/lib/vueforms/crudGrid.js",
+      "Views/lib/vueforms/vueforms.js"
+    ]
+  },
+  {
+    "outputFileName": "Views/lib/element-ui/bundle.js",
+    "inputFiles": [
+      "Views/lib/element-ui/lib/index.js",
+      "Views/lib/element-ui/lib/umd/locale/fr.js"
+    ]
+  }
+]
