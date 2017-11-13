@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc.Razor.Internal;
 
 namespace Satrabel.OpenApp.Web.Views
 {
-    public abstract class JobManagerRazorPage<TModel> : AbpRazorPage<TModel>
+    public abstract class OpenAppRazorPage<TModel> : AbpRazorPage<TModel>
     {
         [RazorInject]
         public IAbpSession AbpSession { get; set; }
 
-        protected JobManagerRazorPage()
+        protected OpenAppRazorPage()
         {
             LocalizationSourceName = OpenAppConsts.LocalizationSourceName;
         }

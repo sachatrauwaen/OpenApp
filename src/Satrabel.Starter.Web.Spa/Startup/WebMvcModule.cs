@@ -23,6 +23,7 @@ using Abp.Threading;
 using Abp.BackgroundJobs;
 using Satrabel.OpenApp.Web.Migration;
 using Abp.AspNetCore.Configuration;
+using Satrabel.OpenApp.Startup;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -32,16 +33,18 @@ namespace Satrabel.Starter.Web.Startup
         private readonly IHostingEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IMigrationManager _migrationManager;
+        private readonly IWebConfig _webConfig;
 
         /* Used it tests to skip dbcontext registration, in order to use in-memory database of EF Core */
         public bool SkipDbContextRegistration { get; set; }
         public bool SkipDbSeed { get; set; }
 
-        public WebMvcModule(IHostingEnvironment env, IMigrationManager migrationManager)
+        public WebMvcModule(IHostingEnvironment env, IMigrationManager migrationManager, IWebConfig webConfig)
         {
             _env = env;
             _migrationManager = migrationManager;
             _appConfiguration = env.GetAppConfiguration();
+            _webConfig = webConfig;
         }
 
         public override void PreInitialize()
@@ -64,6 +67,12 @@ namespace Satrabel.Starter.Web.Startup
             LocalizationConfigurer.Configure(Configuration.Localization);
             //Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
+
+            _webConfig.MetaTitle = AppConsts.MetaTitle;
+            _webConfig.FooterLinkText= AppConsts.FooterLinkText;
+            _webConfig.FooterLinkUrl = AppConsts.FooterLinkUrl;
+            _webConfig.FooterCopyright = AppConsts.FooterCopyright;
+            
 
             // automatic webapi's for Application Services
             Configuration.Modules.AbpAspNetCore()

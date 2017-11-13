@@ -2,9 +2,9 @@
 
 namespace Satrabel.OpenApp.Web.Views
 {
-    public abstract class JobManagerViewComponent : AbpViewComponent
+    public abstract class OpenAppViewComponent : AbpViewComponent
     {
-        protected JobManagerViewComponent()
+        protected OpenAppViewComponent()
         {
             LocalizationSourceName = OpenAppConsts.LocalizationSourceName;
         }

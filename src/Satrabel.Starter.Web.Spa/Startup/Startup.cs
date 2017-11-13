@@ -11,7 +11,7 @@ namespace Satrabel.Starter.Web.Startup
     {
         public Startup(IHostingEnvironment env) : base(env)
         {
-            AppVersion = AppConsts.AppVersion;
+            AppVersion = AppConsts.AppVersion;           
         }
 
         protected override void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)

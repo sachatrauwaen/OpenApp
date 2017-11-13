@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Satrabel.OpenApp.Web.Views.Shared.Components.SideBarNav
 {
-    public class SideBarNavViewComponent : JobManagerViewComponent
+    public class SideBarNavViewComponent : OpenAppViewComponent
     {
         private readonly IUserNavigationManager _userNavigationManager;
         private readonly IAbpSession _abpSession;

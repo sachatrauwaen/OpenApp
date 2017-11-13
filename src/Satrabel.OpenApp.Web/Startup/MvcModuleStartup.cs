@@ -30,6 +30,7 @@ using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Linq;
 using Abp.Extensions;
+using Abp.Dependency;
 
 #if FEATURE_SIGNALR
 using Owin;
@@ -70,6 +71,7 @@ namespace Satrabel.OpenApp.Startup
             AuthConfigurer.Configure(services, _appConfiguration);
             services.AddScoped<IWebResourceManager, WebResourceManager>();
             services.AddSingleton<IMigrationManager>(new MigrationManager());
+            services.AddSingleton<IWebConfig>(new WebConfig());
             if (CorsEnabled)
             {
                 //Configure CORS for angular2 UI

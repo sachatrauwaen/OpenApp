@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Satrabel.OpenApp.Web.Views.Shared.Components.TopBarLanguageSwitch
 {
-    public class TopBarLanguageSwitchViewComponent : JobManagerViewComponent
+    public class TopBarLanguageSwitchViewComponent : OpenAppViewComponent
     {
         private readonly ILanguageManager _languageManager;
 

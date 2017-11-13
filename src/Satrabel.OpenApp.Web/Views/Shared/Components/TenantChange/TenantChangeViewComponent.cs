@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Satrabel.OpenApp.Web.Views.Shared.Components.TenantChange
 {
-    public class TenantChangeViewComponent : JobManagerViewComponent
+    public class TenantChangeViewComponent : OpenAppViewComponent
     {
         private readonly ISessionAppService _sessionAppService;
 

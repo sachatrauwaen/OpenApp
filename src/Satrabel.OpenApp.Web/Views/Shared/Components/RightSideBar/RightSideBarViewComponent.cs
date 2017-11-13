@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Satrabel.OpenApp.Web.Views.Shared.Components.RightSideBar
 {
-    public class RightSideBarViewComponent : JobManagerViewComponent
+    public class RightSideBarViewComponent : OpenAppViewComponent
     {
         private readonly ISettingManager _settingManager;
 
