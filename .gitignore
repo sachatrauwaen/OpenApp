@@ -250,6 +250,8 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# Custom
 dist/
 src/Satrabel.Starter.Web.Mvc/App_Data/
 src/Satrabel.Starter.Web.Spa/App_Data/
