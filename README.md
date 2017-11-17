@@ -48,6 +48,7 @@ This way the reussable part of the Abp template are isolated and maintained cent
 * The browser will open asking you to refresh the page. Refresh the page.
 *    Instead, if the browser just closes, then run the project again. (It means you were hitting F5 instead of Ctrl+F5. No worries.)
 * Login with User name 'admin' and password '123qwe'
+* Goto Roles. Give Admin all the available permissions
 
 
 ## Roadmap
