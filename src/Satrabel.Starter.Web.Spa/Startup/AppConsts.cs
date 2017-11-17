@@ -4,6 +4,8 @@ namespace Satrabel.Starter.Web
 {
     public class AppConsts
     {
+        public static readonly Version AppVersion = new Version(1,0);
+
         public const string LocalizationSourceName = "App";
         public const string ConnectionStringName = "Default";
         public const bool MultiTenancyEnabled = true;
@@ -12,8 +14,5 @@ namespace Satrabel.Starter.Web
         public const string FooterLinkUrl = "https://github.com/sachatrauwaen/OpenApp";
         public const string FooterLinkText = "OpenApp Platform";
         public const string FooterCopyright = "by Satrabel";
-
-        public static readonly Version AppVersion = new Version(1,0);
-        
     }
 }
