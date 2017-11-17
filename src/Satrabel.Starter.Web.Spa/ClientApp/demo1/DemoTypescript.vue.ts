@@ -1,4 +1,6 @@
-﻿import Vue from 'vue'
+﻿
+/// <reference path="../../../Satrabel.OpenApp.Web/Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.d.ts" />
+import Vue from 'vue'
 import Component from 'vue-class-component'
 
 @Component({   
@@ -17,7 +19,7 @@ export default class App extends Vue {
     msg: number = 123;
 
     // use prop values for initial data
-    helloMsg: string = 'Hello, ' + this.propMessage;
+    helloMsg: string = 'Hello, ' + this.propMessage + this.greet();
 
     // lifecycle hook
     mounted() {
@@ -31,8 +33,7 @@ export default class App extends Vue {
 
     // method
     greet() {
-        //alert('greeting: ' + this.msg)
-        
+        return abp.services.app.demo1Service.getMyGreeting();
     }
 
 }
