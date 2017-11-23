@@ -51,8 +51,16 @@ for:
 -
   branches:
     only:
-      - master
       - develop
+
+  version: 1.0.{build}-dev	  
+  build:	  
+    publish_nuget: true
+	
+  -
+  branches:
+    only:
+      - master
 
   build:	  
     publish_nuget: true
