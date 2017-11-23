@@ -9,13 +9,21 @@ nuget:
 before_build:
 - cmd: >-
     dotnet --version
+
     dotnet restore ./src/Satrabel.OpenApp.Domain/Satrabel.OpenApp.Domain.csproj --verbosity m
+
     dotnet restore ./src/Satrabel.OpenApp.Application/Satrabel.OpenApp.Application.csproj --verbosity m
+
     dotnet restore ./src/Satrabel.OpenApp.EntityFramework/Satrabel.OpenApp.EntityFramework.csproj --verbosity m
+
     dotnet restore ./src/Satrabel.OpenApp.Web/Satrabel.OpenApp.Web.csproj --verbosity m
+
     dotnet restore ./src/Satrabel.Starter.Web.Mvc/Satrabel.Starter.Web.Mvc.csproj --verbosity m
+
     dotnet restore ./src/Satrabel.Starter.Web.Spa/Satrabel.Starter.Web.Spa.csproj --verbosity m
+
     dotnet restore ./test/Satrabel.OpenApp.Tests/Satrabel.OpenApp.Tests.csproj --verbosity m
+	
 build:
   project: Satrabel.OpenApp.sln
   verbosity: minimal
