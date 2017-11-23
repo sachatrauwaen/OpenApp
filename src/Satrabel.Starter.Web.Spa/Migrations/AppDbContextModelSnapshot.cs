@@ -1,12 +1,12 @@
 ﻿using System;
+using Abp.Authorization;
+using Abp.BackgroundJobs;
+using Abp.Notifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Satrabel.Starter.EntityFramework;
-using Abp.Authorization;
-using Abp.BackgroundJobs;
-using Abp.Notifications;
 
 namespace Satrabel.OpenApp.Migrations
 {

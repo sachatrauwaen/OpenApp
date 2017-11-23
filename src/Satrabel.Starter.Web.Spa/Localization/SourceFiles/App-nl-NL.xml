@@ -3,7 +3,7 @@
   <texts>
     <text name="Home" value="Startpagina" />
     <text name="About" value="Over" />
-    <text name="WellcomeMessage" value="Welkom bij Openapp!" />
+    <text name="WelcomeMessage" value="Welkom bij Openapp!" />
 
   </texts>
 </localizationDictionary>
