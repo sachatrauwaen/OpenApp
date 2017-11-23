@@ -1,7 +1,5 @@
 version: 1.0.{build}
-branches:
-  only:
-  - develop
+
 image: Visual Studio 2017
 configuration: Release
 init:
@@ -25,9 +23,22 @@ before_build:
     dotnet restore ./src/Satrabel.Starter.Web.Spa/Satrabel.Starter.Web.Spa.csproj --verbosity m
 
     dotnet restore ./test/Satrabel.OpenApp.Tests/Satrabel.OpenApp.Tests.csproj --verbosity m
+
 build:
   project: Satrabel.OpenApp.sln
-  publish_nuget: true
   verbosity: minimal
 test_script:
 - cmd: dotnet test ./test/Satrabel.OpenApp.Tests/Satrabel.OpenApp.Tests.csproj
+
+# here we are going to override common configuration
+for:
+
+-
+  branches:
+    only:
+      - master
+      - develop
+
+  build:	  
+    publish_nuget: true
+  
