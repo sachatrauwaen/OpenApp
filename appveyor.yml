@@ -23,7 +23,7 @@ before_build:
     dotnet restore ./src/Satrabel.Starter.Web.Spa/Satrabel.Starter.Web.Spa.csproj --verbosity m
 
     dotnet restore ./test/Satrabel.OpenApp.Tests/Satrabel.OpenApp.Tests.csproj --verbosity m
-	
+
 build:
   project: Satrabel.OpenApp.sln
   verbosity: minimal
