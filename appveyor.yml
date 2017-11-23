@@ -9,15 +9,15 @@ assembly_info:
   file: '**\AssemblyInfo.*'
   assembly_version: '{version}'
   assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
+  assembly_informational_version: '{version} {branch}'
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
   version: '{version}'
-  package_version: '{version}'
+  package_version: '{version}-{branch}'
   assembly_version: '{version}'
   file_version: '{version}'
-  informational_version: '{version}'
+  informational_version: '{version} {branch}'
 
 nuget:
   disable_publish_on_pr: true
@@ -53,7 +53,6 @@ for:
     only:
       - develop
 
-  version: 1.0.{build}-dev	  
   build:	  
     publish_nuget: true
 
@@ -61,6 +60,15 @@ for:
   branches:
     only:
       - master
+
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version} {branch}'	  
 
   build:	  
     publish_nuget: true
