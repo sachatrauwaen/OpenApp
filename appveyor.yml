@@ -30,7 +30,7 @@ for:
     only:
       - master
       - develop
-	  
+
   build:	  
     publish_nuget: true
   
