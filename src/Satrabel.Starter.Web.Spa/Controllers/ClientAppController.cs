@@ -7,10 +7,9 @@ namespace Satrabel.Starter.Web.Controllers
     [AbpMvcAuthorize]
     public class ClientAppController : StarterControllerBase
     {
-        [Route("App/{id}")]
-        public ActionResult Vue(string id)
+        public ActionResult Run(string id)
         {
-            return View("Index", id);
+            return View("Run", id);
         }
     }
 

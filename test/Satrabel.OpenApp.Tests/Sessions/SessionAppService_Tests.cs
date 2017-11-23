@@ -13,7 +13,7 @@ namespace Satrabel.OpenApp.Tests.Sessions
         {
             _sessionAppService = Resolve<ISessionAppService>();
         }
-
+        
         [MultiTenantFact]
         public async Task Should_Get_Current_User_When_Logged_In_As_Host()
         {
@@ -31,7 +31,6 @@ namespace Satrabel.OpenApp.Tests.Sessions
 
             output.Tenant.ShouldBe(null);
         }
-
         [Fact]
         public async Task Should_Get_Current_User_And_Tenant_When_Logged_In_As_Tenant()
         {

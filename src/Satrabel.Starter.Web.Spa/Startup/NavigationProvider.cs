@@ -35,13 +35,10 @@ namespace Satrabel.Starter.Web.Startup
                     new MenuItemDefinition(
                         PageNames.Home,
                         L("ClientApp"),
-                        url: "/App/Demo1",
+                        url: "/ClientApp/Run/Demo1",
                         icon: "question",
                         requiredPermissionName: PermissionNames.Pages_Home
                     )
-                    
-
-
                 );
             context.Manager.MainMenu.Items.MoveMenuItemToBottom("Admin");
         }
