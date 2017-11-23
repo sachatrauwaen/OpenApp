@@ -56,7 +56,7 @@ for:
   version: 1.0.{build}-dev	  
   build:	  
     publish_nuget: true
-	
+
   -
   branches:
     only:
