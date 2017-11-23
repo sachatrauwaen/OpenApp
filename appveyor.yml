@@ -29,7 +29,7 @@ for:
   branches:
     only:
       - master
-	  - develop
+      - develop
 	  
   build:	  
     publish_nuget: true
