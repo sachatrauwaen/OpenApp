@@ -48,8 +48,6 @@
     <None Remove="Views\fonts\Simple_Line_Icons.woff2" />
     <None Remove="Views\img\favicon.png" />
     <None Remove="Views\img\logo.png" />
-    <None Remove="Views\js\app.js" />
-    <None Remove="Views\js\main.js" />
     <None Remove="Views\lib\element-ui\bundle.js" />
     <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element_icons.ttf" />
     <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element_icons.woff" />
@@ -98,8 +96,6 @@
     <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.ttf" />
     <EmbeddedResource Include="Views\img\favicon.png" />
     <EmbeddedResource Include="Views\img\logo.png" />
-    <EmbeddedResource Include="Views\js\app.js" />
-    <EmbeddedResource Include="Views\js\main.js" />
     <EmbeddedResource Include="Views\lib\vueforms\bundle.js" />
     <EmbeddedResource Include="Views\lib\vue\vue_router.js" />
     <EmbeddedResource Include="Views\lib\vue\vue_router.min.js" />

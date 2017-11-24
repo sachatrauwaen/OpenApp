@@ -7,7 +7,6 @@
       "Views/lib/sweetalert/dist/sweetalert.css",
       "Views/lib/font-awesome/css/font-awesome.css",
       "Views/css/simple-line-icons.css",
-      "Views/lib/Waves/dist/waves.css",
       "Views/lib/animate.css/animate.css",
       "Views/css/style.css",
       "Views/Account/_Layout.css"
@@ -29,14 +28,14 @@
       "Views/lib/sweetalert/dist/sweetalert-dev.js",
       "Views/lib/spin.js/spin.js",
       "Views/lib/spin.js/jquery.spin.js",
-      "Views/lib/Waves/dist/waves.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/abp.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.toastr.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
-      "Views/js/main.js"
+      "Views/js/main.js",
+      "Views/js/app.js"
     ]
   },
   {
@@ -47,7 +46,6 @@
       "Views/lib/sweetalert/dist/sweetalert.css",
       "Views/css/font-awesome.css",
       "Views/css/simple-line-icons.css",
-      "Views/lib/Waves/dist/waves.css",
       "Views/lib/animate.css/animate.css",
       "Views/css/style.css"
     ]
@@ -61,7 +59,6 @@
       "Views/lib/coreui/bootstrap/dist/js/bootstrap.min.js",
       "Views/lib/coreui/pace/pace.min.js",
       "Views/lib/json2/json2.js",
-      "Views/lib/jquery/dist/jquery.js",
       "Views/lib/moment/min/moment-with-locales.js",
       "Views/lib/jquery-validation/dist/jquery.validate.js",
       "Views/lib/blockUI/jquery.blockUI.js",
@@ -69,8 +66,6 @@
       "Views/lib/sweetalert/dist/sweetalert-dev.js",
       "Views/lib/spin.js/spin.js",
       "Views/lib/spin.js/jquery.spin.js",
-      "Views/lib/jquery-slimscroll/jquery.slimscroll.js",
-      "Views/lib/Waves/dist/waves.js",
       "Views/lib/push.js/push.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/abp.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js",
@@ -79,7 +74,35 @@
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
       "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
       "Views/js/main.js",
-      "Views/Shared/_Layout.js"
+      "Views/js/app.js"
+    ]
+  },
+  {
+    "outputFileName": "Views/_Bundles/embed-layout.min.css",
+    "inputFiles": [
+      "Views/lib/toastr/toastr.css",
+      "Views/lib/sweetalert/dist/sweetalert.css"
+    ]
+  },
+  {
+    "outputFileName": "Views/_Bundles/embed-layout.min.js",
+    "inputFiles": [
+      "Views/lib/json2/json2.js",
+      "Views/lib/moment/min/moment-with-locales.js",
+      "Views/lib/jquery-validation/dist/jquery.validate.js",
+      "Views/lib/blockUI/jquery.blockUI.js",
+      "Views/lib/toastr/toastr.js",
+      "Views/lib/sweetalert/dist/sweetalert-dev.js",
+      "Views/lib/spin.js/spin.js",
+      "Views/lib/spin.js/jquery.spin.js",
+      "Views/lib/push.js/push.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/abp.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.toastr.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
+      "Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
+      "Views/js/main.js"
     ]
   },
   {
