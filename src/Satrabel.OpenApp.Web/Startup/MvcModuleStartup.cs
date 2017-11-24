@@ -12,25 +12,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Abp.Timing;
 using Abp.Modules;
 
 using Satrabel.OpenApp.Web.Resources;
 using Satrabel.OpenApp.Web.Startup;
-using Abp.Resources.Embedded;
-using Microsoft.Extensions.FileProviders;
-using Abp.Web.Configuration;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Satrabel.OpenApp.Web.Migration;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Linq;
 using Abp.Extensions;
-using Abp.Dependency;
 
 #if FEATURE_SIGNALR
 using Owin;
@@ -92,21 +84,21 @@ namespace Satrabel.OpenApp.Startup
             if (SwaggerEnabled)
             {
                 services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new Info { Title = "OpenApp API", Version = "v1" });
-                options.DocInclusionPredicate((docName, description) => true);
-
-                // Define the BearerAuth scheme that's in use
-                options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                    Name = "Authorization",
-                    In = "header",
-                    Type = "apiKey"
+                    options.SwaggerDoc("v1", new Info { Title = "OpenApp API", Version = "v1" });
+                    options.DocInclusionPredicate((docName, description) => true);
+
+                    // Define the BearerAuth scheme that's in use
+                    options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
+                    {
+                        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                        Name = "Authorization",
+                        In = "header",
+                        Type = "apiKey"
+                    });
+                    // Assign scope requirements to operations based on AuthorizeAttribute
+                    options.OperationFilter<SecurityRequirementsOperationFilter>();
                 });
-                // Assign scope requirements to operations based on AuthorizeAttribute
-                options.OperationFilter<SecurityRequirementsOperationFilter>();
-            });
             }
             //Configure Abp and Dependency Injection
             return services.AddAbp<TModule>(options =>
@@ -121,10 +113,10 @@ namespace Satrabel.OpenApp.Startup
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             var applicationLifetime = app.ApplicationServices.GetRequiredService<IApplicationLifetime>();
-            var _migrationManager = app.ApplicationServices.GetRequiredService<IMigrationManager>();
-            _migrationManager.ApplicationLifetime = applicationLifetime;
-            _migrationManager.HostingEnvironment = env;
-            _migrationManager.AppVersion = AppVersion;
+            var migrationManager = app.ApplicationServices.GetRequiredService<IMigrationManager>();
+            migrationManager.ApplicationLifetime = applicationLifetime;
+            migrationManager.HostingEnvironment = env;
+            migrationManager.AppVersion = AppVersion;
             app.UseAbp(); //Initializes ABP framework.
             if (env.IsDevelopment())
             {
@@ -135,17 +127,18 @@ namespace Satrabel.OpenApp.Startup
                 app.UseExceptionHandler("/Error");
             }
 
-            if (_migrationManager.NeedMigration)
+            if (migrationManager.NeedMigration)
             {
                 app.Run(async (context) =>
                 {
                     {
-                        await context.Response.WriteAsync("Database Migrated to version " + _migrationManager.AppVersion + ". Refresh page to start website.");
+                        await context.Response.WriteAsync("Database Migrated to version " + migrationManager.AppVersion + ". Refresh page to start website.");
                     }
                     applicationLifetime.StopApplication();
                 });
                 return;
             }
+
             ConfigureBeforeStaticFiles(app, env);
             app.UseStaticFiles();
             app.UseEmbeddedFiles();
@@ -190,9 +183,7 @@ namespace Satrabel.OpenApp.Startup
         private static void ConfigureOwinServices(IAppBuilder app)
         {
             app.Properties["host.AppName"] = "OpenApp";
-
             app.UseAbp();
-
             app.MapSignalR();
         }
 #endif
