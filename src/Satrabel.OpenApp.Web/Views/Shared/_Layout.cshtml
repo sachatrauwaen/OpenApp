@@ -451,9 +451,6 @@
     <!-- Custom scripts required by this view -->
     <environment names="Development">
         <script src="~/Views/_Bundles/shared-layout.min.js" asp-append-version="true"></script>
-        <!-- GenesisUI main scripts -->
-        <script src="~/Views/js/app.js" asp-append-version="true"></script>
-        <script src="~/Views/js/main.js" asp-append-version="true"></script>
         @if (SignalRFeature.IsAvailable)
         {
             <script src="~/lib/signalr/jquery.signalR.js" asp-append-version="true"></script>
@@ -461,9 +458,6 @@
     </environment>
     <environment names="Staging,Production">
         <script src="~/Views/_Bundles/shared-layout.min.js" asp-append-version="true"></script>
-        <!-- GenesisUI main scripts -->
-        <script src="~/Views/js/app.js" asp-append-version="true"></script>
-        <script src="~/Views/js/main.js" asp-append-version="true"></script>
     </environment>
     <script>
     //Localizing momentjs
