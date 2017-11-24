@@ -34,7 +34,7 @@ namespace Satrabel.OpenApp.Startup
 {
     public class MvcModuleStartup<TModule> where TModule : AbpModule
     {
-        private const string DefaultCorsPolicyName = "localhost";
+        private const string DefaultCorsPolicyName = "DefaultPolicy";
         private readonly IConfigurationRoot _appConfiguration;
         private readonly bool CorsEnabled = false;
         private readonly bool SwaggerEnabled = false;
@@ -118,6 +118,9 @@ namespace Satrabel.OpenApp.Startup
             migrationManager.HostingEnvironment = env;
             migrationManager.AppVersion = AppVersion;
             app.UseAbp(); //Initializes ABP framework.
+
+            app.UseCors(DefaultCorsPolicyName);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
