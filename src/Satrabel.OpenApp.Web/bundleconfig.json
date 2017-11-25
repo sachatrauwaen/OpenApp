@@ -143,10 +143,14 @@
     ]
   },
   {
-    "outputFileName": "Views/lib/element-ui/bundle.js",
+    "outputFileName": "Views/lib/vueforms/libs.js",
     "inputFiles": [
+      "Views/lib/vue/vue.js",
+      "Views/lib/vue/vue_router.js",
       "Views/lib/element-ui/lib/index.js",
-      "Views/lib/element-ui/lib/umd/locale/fr.js"
+      "Views/lib/element-ui/lib/umd/locale/fr.js",
+      "Views/lib/json-ref-lite/json-ref-lite.min.js"
     ]
   }
+  
 ]

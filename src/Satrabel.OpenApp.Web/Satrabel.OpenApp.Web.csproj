@@ -54,6 +54,9 @@
     <None Remove="Views\lib\element-ui\lib\theme-default\index.css" />
     <None Remove="Views\lib\json-ref-lite\json-ref-lite.min.js" />
     <None Remove="Views\lib\vueforms\bundle.js" />
+    <None Remove="Views\lib\vueforms\bundle.min.js" />
+    <None Remove="Views\lib\vueforms\libs.js" />
+    <None Remove="Views\lib\vueforms\libs.min.js" />
     <None Remove="Views\lib\vue\vue.js" />
     <None Remove="Views\lib\vue\vue.min.js" />
     <None Remove="Views\_Bundles\account-layout.min.css" />
@@ -97,6 +100,9 @@
     <EmbeddedResource Include="Views\img\favicon.png" />
     <EmbeddedResource Include="Views\img\logo.png" />
     <EmbeddedResource Include="Views\lib\vueforms\bundle.js" />
+    <EmbeddedResource Include="Views\lib\vueforms\bundle.min.js" />
+    <EmbeddedResource Include="Views\lib\vueforms\libs.js" />
+    <EmbeddedResource Include="Views\lib\vueforms\libs.min.js" />
     <EmbeddedResource Include="Views\lib\vue\vue_router.js" />
     <EmbeddedResource Include="Views\lib\vue\vue_router.min.js" />
     <EmbeddedResource Include="Views\lib\vue\vue.js" />
