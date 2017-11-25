@@ -252,5 +252,5 @@ paket-files/
 *.sln.iml
 
 # Custom
-dist/
+
 */*/App_Data/
