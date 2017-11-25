@@ -1,5 +1,4 @@
-﻿using System;
-using Abp.Application.Services;
+﻿using Abp.Application.Services;
 
 namespace Satrabel.Starter.Web.Application
 {

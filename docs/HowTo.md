@@ -38,7 +38,8 @@ The OpenApp Core assemblies are available via Nuget. So there is no need to crea
 5. Remove all projects from the Solution that are marked "unavailable"
 6. Remove all project from the Satrabel.Starter.Web.Spa/Dependencies/Projects that are missing
 7. Remove all project from the Satrabel.OpenApp.Tests/Dependencies/Projects that are missing
-8. Add nugets ..... to Satrabel.Starter.Web.Spa/Dependencies
+8. Open Nuget Package Manager for Solution. Add extra Package Source (top right corner), namely https://ci.appveyor.com/nuget/openapp
+9. Install, from this source, the package Satrabel.OpenApp.Web
 9. Check (and modify if necessary) the default connectionstring in \Satrabel.Starter.Web.Spa\appsettings.json
 10. Run the solution using Ctrl+F5 with Satrabel.Starter.Web.Spa as startup project 
 
@@ -47,7 +48,30 @@ The OpenApp Core assemblies are available via Nuget. So there is no need to crea
 
 ### How to create a module?
 
+* Create a new /Application/Services/YourNewServiceClass.cs that inherits from MyApplicationServiceBase
 coming soon
+
+### How to create a CRUD page?
+
+* Notes: 
+	- CRUD pages UIs are entirely defined by DTOs (with annotations). There is no razor/xml/markup.
+	- The DTOs + annotations get mapped to a JSON a sent over the wire
+	- On the client side a Vue instance generates components on the page based on the JSON
+	- By definining an AppService (see Abp documentation) a controller gets generated and its methods automatically mapped to and generated in javascript calls (used by the Vue instance)
+
+1. Create an AppService and inherit from AsyncCrudAppService
+	1.1 Give it a name, e.g. 'UserAppService'. Names are important because the code generation is often convention-driven.
+	1.2 While creating the service, declare the DTOs it depends on for reading, creating, updating, etc. in its class definition. To start they can all rely on the same DTO. (if you only want to update specific fields etc, you'll need to create separate dtos)
+	1.3 Create a constructor
+	1.4 That's it. No need to override any methods, unless your page requires custom behavior on CRUD actions.
+2. Create the DTO
+	2.1 Give it the same name you declared while building the AppService definition, e.g. if your AppService is called 'UserAppService' then name your DTO 'UserDto'
+	2.2 Provide the fields you want to be shown, these should be the same as your database entity. If they are not, you will have to add a mapping yourself. (look up how in the documentation)
+	2.3 Optionally, add annotations. These can define wether fields belong to a certain tab, have validation requirements, ... or the type of input (checkbox, textfield, etc) See existing classes for examples (NOT PART OF APB, NOT IN THE DOCUMENTATION!)
+3. Add the page to the menu
+	3.1 in NavigationProvider.cs, add a new MenuItemDefinition
+4. Todo: How to add filters
+5. Todo: Document the available annotations/components?
 
 ### How to create a data entity?
 
