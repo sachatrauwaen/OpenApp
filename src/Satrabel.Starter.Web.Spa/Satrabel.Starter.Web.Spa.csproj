@@ -77,9 +77,6 @@
     <Folder Include="App_Data\Logs\" />
     <Folder Include="Domain\" />
     <Folder Include="Models\" />
-    <Folder Include="wwwroot\lib\" />
-    <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
-    <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Satrabel.OpenApp.EntityFramework\Satrabel.OpenApp.EntityFramework.csproj" />
