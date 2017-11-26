@@ -24,6 +24,7 @@ using Abp.BackgroundJobs;
 using Satrabel.OpenApp.Web.Migration;
 using Abp.AspNetCore.Configuration;
 using Satrabel.OpenApp.Startup;
+using Abp.AutoMapper;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -92,7 +93,13 @@ namespace Satrabel.Starter.Web.Startup
 
         public override void Initialize()
         {
-            IocManager.RegisterAssemblyByConvention(typeof(WebMvcModule).GetAssembly());
+            Assembly thisAssembly = typeof(WebMvcModule).GetAssembly();
+            IocManager.RegisterAssemblyByConvention(thisAssembly);
+            Configuration.Modules.AbpAutoMapper().Configurators.Add(cfg =>
+            {
+                //Scan the assembly for classes which inherit from AutoMapper.Profile
+                cfg.AddProfiles(thisAssembly);
+            });
         }
         public override void PostInitialize()
         {
