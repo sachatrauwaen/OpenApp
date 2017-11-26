@@ -200,7 +200,5 @@ namespace Satrabel.OpenApp.ProxyScripting
 
             //script.AppendLine();
         }
-
-
     }
 }
