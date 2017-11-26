@@ -1261,7 +1261,7 @@
         data: function () {
             var self = this;
             return {
-                messages: abp.localization.values['JobManager'],
+                
                 model: {},
                 actions: [
                     {
@@ -1294,8 +1294,14 @@
             };
         },
         computed: {
+            module: function () {
+                return this.$route.params.module;
+            },
             resource: function () {
                 return this.$route.params.resource;
+            },
+            messages: function () {
+                return abp.localization.values[this.module];
             },
             id: function () {
                 return this.$route.params.id;
@@ -1449,6 +1455,9 @@
             };
         },
         computed: {
+            module: function () {
+                return this.$route.params.module;
+            },
             resource: function () {
                 return this.$route.params.resource;
             },
@@ -1456,7 +1465,7 @@
                 return jref.resolve(abp.schemas.app[this.resource].get.returnValue);
             },
             messages: function () {
-                return abp.localization.values['JobManager'];
+                return abp.localization.values[this.module];
             },
             gridActions: function () {
                 var self = this;

@@ -10,24 +10,15 @@
 @section scripts
 {
     <environment names="Development">
-        <script src="~/Views/lib/vue/vue.js" asp-append-version="true"></script>
-        <script src="~/Views/lib/vue/vue-router.js" asp-append-version="true"></script>
-        <script src="~/Views/lib/element-ui/bundle.js" asp-append-version="true"></script>
-        <script src="~/Views/lib/json-ref-lite/json-ref-lite.min.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/vueforms/libs.js"></script>        
         <script src="~/Views/lib/vueforms/bundle.js"></script>        
         <script src="~/view-resources/Views/home/Index.js"></script>
     </environment>
 
     <environment names="Staging,Production">
-        @*<script src="~/view-resources/Views/_Bundles/home-index.min.js" asp-append-version="true"></script>*@
-
-        <script src="~/Views/lib/vue/vue.js" asp-append-version="true"></script>
-        <script src="~/Views/lib/vue/vue-router.js" asp-append-version="true"></script>
-        <script src="~/Views/lib/element-ui/bundle.js" asp-append-version="true"></script>
-        <script src="~/Views/lib/json-ref-lite/json-ref-lite.min.js" asp-append-version="true"></script>
-        <script src="~/Views/lib/vueforms/bundle.js"></script>
-
-        <script src="~/view-resources/Views/home/Index.js"></script>
+        <script src="~/Views/lib/vueforms/libs.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/vueforms/bundle.js" asp-append-version="true"></script>
+        <script src="~/view-resources/Views/home/Index.js" asp-append-version="true"></script>
     </environment>
 }
 

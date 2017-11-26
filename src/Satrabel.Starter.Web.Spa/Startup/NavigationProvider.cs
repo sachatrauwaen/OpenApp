@@ -42,6 +42,18 @@ namespace Satrabel.Starter.Web.Startup
                 )
                 ;
             context.Manager.MainMenu.Items.MoveMenuItemToBottom("Admin");
+
+            context.Manager.Menus["TopMenu"]
+                .AddItem(
+                   new MenuItemDefinition(
+                       PageNames.Home,
+                       L("Users"),
+                       url: "/Crud#OpenApp/user",
+                       icon: "people",
+                       requiredPermissionName: Satrabel.OpenApp.Authorization.PermissionNames.Pages_Users,
+                       customData: "Users"
+                   )
+                );
         }
 
         private static ILocalizableString L(string name)

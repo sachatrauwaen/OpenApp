@@ -16,9 +16,9 @@
             //scrollBehavior: () => ({ y: 0 }),
             routes: [
 
-                route('/app/:resource', CrudGrid, 'grid'),
-                route('/app/:resource/edit/:id', CrudForm, 'edit'),
-                route('/app/:resource/add', CrudForm, 'add'),
+                route('/:module/:resource', CrudGrid, 'grid'),
+                route('/:module/:resource/edit/:id', CrudForm, 'edit'),
+                route('/:module/:resource/add', CrudForm, 'add'),
                 //route('/crud/:resource/:id/:action', 'CrudForm', 'action'),
                 //route('/crud/:resource/:action', 'CrudForm', 'indexAction')
 
