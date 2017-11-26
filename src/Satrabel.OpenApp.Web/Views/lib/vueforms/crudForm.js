@@ -7,7 +7,7 @@
         data: function () {
             var self = this;
             return {
-                messages: abp.localization.values['JobManager'],
+                
                 model: {},
                 actions: [
                     {
@@ -40,8 +40,14 @@
             };
         },
         computed: {
+            module: function () {
+                return this.$route.params.module;
+            },
             resource: function () {
                 return this.$route.params.resource;
+            },
+            messages: function () {
+                return abp.localization.values[this.module];
             },
             id: function () {
                 return this.$route.params.id;
