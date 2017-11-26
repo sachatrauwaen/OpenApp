@@ -42,6 +42,8 @@ namespace Satrabel.OpenApp.Web.Startup
                         )
                     )
                 );
+
+            context.Manager.Menus.Add("TopMenu", new MenuDefinition("TopMenu", L("TopMenu")));
         }
 
         private static ILocalizableString L(string name)

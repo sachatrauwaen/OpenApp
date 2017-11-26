@@ -5,6 +5,7 @@
 @using Satrabel.OpenApp
 @using Satrabel.OpenApp.SignalR
 @using Satrabel.OpenApp.Web.Resources
+@using Satrabel.OpenApp.Web.Views.Shared.Components.TopBarArea
 @using Satrabel.OpenApp.Web.Views.Shared.Components.SideBarNav
 @using Satrabel.OpenApp.Web.Views.Shared.Components.SideBarUserArea
 @using Satrabel.OpenApp.Web.Views.Shared.Components.AccountLanguages
@@ -94,6 +95,7 @@
 
         <ul class="nav navbar-nav ml-auto">
            
+            @await Component.InvokeAsync(typeof(TopBarAreaViewComponent))
             @await Component.InvokeAsync(typeof(SideBarUserAreaViewComponent))
             @await Component.InvokeAsync(typeof(AccountLanguagesViewComponent))
           
