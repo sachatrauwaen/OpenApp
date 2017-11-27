@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}"
 EndProject
@@ -41,8 +41,8 @@ Global
 		{E0580562-F8F2-4EBB-B07A-ABFC6F2C314F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.DeepClean|Any CPU.ActiveCfg = DeepClean|Any CPU
-		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.DeepClean|Any CPU.Build.0 = DeepClean|Any CPU
+		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.DeepClean|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.DeepClean|Any CPU.Build.0 = Debug|Any CPU
 		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6FA13E6-5535-44DA-A157-F8C3C46769A0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{032CC8F8-8C9F-43C6-A15A-7A11B31B0236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -59,8 +59,8 @@ Global
 		{0417D8AF-5B38-49E0-9A00-A76963EE25D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CC0B8F51-EB4D-46B3-9109-B2720FB147AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC0B8F51-EB4D-46B3-9109-B2720FB147AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC0B8F51-EB4D-46B3-9109-B2720FB147AF}.DeepClean|Any CPU.ActiveCfg = DeepClean|Any CPU
-		{CC0B8F51-EB4D-46B3-9109-B2720FB147AF}.DeepClean|Any CPU.Build.0 = DeepClean|Any CPU
+		{CC0B8F51-EB4D-46B3-9109-B2720FB147AF}.DeepClean|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC0B8F51-EB4D-46B3-9109-B2720FB147AF}.DeepClean|Any CPU.Build.0 = Debug|Any CPU
 		{CC0B8F51-EB4D-46B3-9109-B2720FB147AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC0B8F51-EB4D-46B3-9109-B2720FB147AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{50F1D80E-3C12-4C83-A646-266D39C9E8BA}.Debug|Any CPU.ActiveCfg = DeepClean|Any CPU
