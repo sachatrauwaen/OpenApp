@@ -11,7 +11,7 @@
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-    <Configurations>Debug;Release;DeepClean</Configurations>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <DefineConstants>FEATURE_SIGNALR</DefineConstants>
@@ -94,16 +94,19 @@
     <Exec Command="node node_modules/webpack/bin/webpack.js" />
   </Target>-->
 
-  <Target Name="CleanUp" BeforeTargets="Build" Condition=" '$(Configuration)' == 'DeepClean' ">
+  <Target Name="PrepDist" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'  And !Exists('node_modules')">
     <!-- Remove /wwwroot/dist folder -->
     <Message Importance="high" Text="Delete /wwwroot/dist folder to force an updated version of it..." />
     <RemoveDir Directories="$(MSBuildProjectDirectory)/wwwroot/dist" ContinueOnError="true" />
+  </Target>
+
+  <Target Name="PrepNpm" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'  And !Exists('wwwroot\dist')">
     <!-- Remove /node_modules -->
     <Message Importance="high" Text="Delete /node_modules folder to force an update off all npm modules..." />
     <RemoveDir Directories="$(MSBuildProjectDirectory)/node_modules" ContinueOnError="true" />
   </Target>
 
-  <Target Name="DebugFirstRunWebpack" BeforeTargets="Build" Condition="!Exists('wwwroot\dist') And ('$(Configuration)' == 'Debug' Or '$(Configuration)' == 'DeepClean')">
+  <Target Name="DebugFirstRunWebpack" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug' And !Exists('wwwroot\dist')">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
