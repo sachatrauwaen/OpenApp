@@ -40,6 +40,14 @@ namespace Satrabel.OpenApp.Web.Startup
                             icon: "shield",
                             requiredPermissionName: PermissionNames.Pages_Roles
                         )
+                    ).AddItem(
+                        new MenuItemDefinition(
+                            PageNames.Languages,
+                            L("Languages"),
+                            url: "Crud#/OpenApp/language",
+                            icon: "globe",
+                            requiredPermissionName: PermissionNames.Pages_Languages
+                        )
                     )
                 );
 

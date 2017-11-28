@@ -45,10 +45,19 @@
     <text name="TenantSelection_Detail" value="Veuillez choisir l'un de ces sites suivants." />
     <text name="Logout" value="Déconnexion" />
 
-    <text name="RoleDetails" value="Détails du role" />
+    <text name="Roles">Rôles</text>
+    <text name="RoleDetails" value="Détails du rôle" />
     <text name="RolePermissions" value="Permissions" />
 
-    
+    <text name="DisplayName">Nom visible</text>
+    <text name="Enabled">Activé</text>
+    <text name="Default">Défaut</text>
+    <text name="Icon">Icône</text>
+    <text name="Languages">Langues</text>
+
+    <text name="Yes" value="Oui" />
+    <text name="No" value="Non" />
+        
     <text name="Search" value="Rechercher" />
     <text name="Reset" value="Réinitialiser" />
     

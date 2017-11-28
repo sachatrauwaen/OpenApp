@@ -37,7 +37,9 @@
             },
             formatter: function (row, column, cellValue) {
                 var schema = this.schema.properties[column.property];
-                if (schema.format == 'date-time') {
+                if (schema.type == 'boolean') {
+                    return cellValue ? this.messages["Yes"] : this.messages["No"];
+                } else if (schema.format == 'date-time') {
                     if (!cellValue) return "";
                     return moment(cellValue).locale('fr').format('lll');
                 } else if (schema.enum) {

@@ -51,5 +51,9 @@
     <text name="Yes" value="Ja" />
     <text name="No" value="Nee" />
     <text name="Optional" value="Optioneel" />
+
+    <text name="Yes" value="Ja" />
+    <text name="No" value="Nee" />
+    <text name="DisplayName">Zichtbare naam</text>
   </texts>
 </localizationDictionary>
