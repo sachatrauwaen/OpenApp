@@ -79,7 +79,17 @@ namespace Satrabel.OpenApp.Startup
                     });
                 });
             }
-
+            else
+            {
+                services.AddCors(options =>
+                {
+                    options.AddPolicy(DefaultCorsPolicyName, builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                    });
+                });
+            }
+			
             //Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             if (SwaggerEnabled)
             {
@@ -119,7 +129,10 @@ namespace Satrabel.OpenApp.Startup
             migrationManager.AppVersion = AppVersion;
             app.UseAbp(); //Initializes ABP framework.
 
-            app.UseCors(DefaultCorsPolicyName);
+            if (CorsEnabled)
+            {
+                app.UseCors(DefaultCorsPolicyName);
+            }
 
             if (env.IsDevelopment())
             {
