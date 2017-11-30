@@ -97,7 +97,7 @@ namespace Satrabel.OpenApp.Startup
                 {
                     options.SwaggerDoc("v1", new Info { Title = "OpenApp API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
-
+                    options.CustomSchemaIds(x => x.FullName);
                     // Define the BearerAuth scheme that's in use
                     options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
                     {
