@@ -64,32 +64,20 @@ namespace Satrabel.OpenApp.Startup
             services.AddScoped<IWebResourceManager, WebResourceManager>();
             services.AddSingleton<IMigrationManager>(new MigrationManager());
             services.AddSingleton<IWebConfig>(new WebConfig());
-            if (CorsEnabled)
+
+            // Configure CORS for angular2 UI or other clients. This does not activate Cors. It only configures it.
+            services.AddCors(options =>
             {
-                //Configure CORS for angular2 UI
-                services.AddCors(options =>
+                options.AddPolicy(DefaultCorsPolicyName, builder =>
                 {
-                    options.AddPolicy(DefaultCorsPolicyName, builder =>
-                    {
                         //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
                         builder
-                            .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.RemovePostFix("/")).ToArray())
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
+                        .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.RemovePostFix("/")).ToArray())
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
-            }
-            else
-            {
-                services.AddCors(options =>
-                {
-                    options.AddPolicy(DefaultCorsPolicyName, builder =>
-                    {
-                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                    });
-                });
-            }
-			
+            });
+
             //Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             if (SwaggerEnabled)
             {
