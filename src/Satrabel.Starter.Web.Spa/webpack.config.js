@@ -34,7 +34,8 @@ module.exports = (env) => {
                     include: /ClientApp/,
                     loader: 'vue-loader',
                     options: {
-                        esModule: true
+                        esModule: true,
+                        extractCSS: !isDevBuild
                     }
                 },
                 {
@@ -79,7 +80,10 @@ module.exports = (env) => {
         ] : [
             // Plugins that apply in production builds only
             new webpack.optimize.UglifyJsPlugin(),
-            new ExtractTextPlugin('site.css')
+            //new ExtractTextPlugin('site.css')
+            new ExtractTextPlugin({
+                filename: '[name].css'
+            }),
         ])
     }];
 };
