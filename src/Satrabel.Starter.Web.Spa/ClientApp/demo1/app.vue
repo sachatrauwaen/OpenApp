@@ -28,7 +28,7 @@
     import DemoTypescript from './DemoTypescript.vue';
 
     import Vue from 'vue'
-    import ElementUI from 'element-ui';
+    import ElementUI from 'element-ui'; // see http://element.eleme.io/#/en-US/component 
     Vue.use(ElementUI)
 
     export default {
