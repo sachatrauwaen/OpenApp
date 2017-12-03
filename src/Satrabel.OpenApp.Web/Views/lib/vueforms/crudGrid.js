@@ -37,14 +37,14 @@
                 return [
                     {
                         name: self.translate('Edit'),
-                        icon: 'edit',
+                        icon: 'el-icon-edit',
                         execute: function (row) {
                             self.$router.push({ name: 'edit', params: { resource: self.resource, id: row.id } })
                         }
                     },
                     {
                         name: self.translate('Delete'),
-                        icon: 'delete',
+                        icon: 'el-icon-delete',
                         execute: function (row) {
                             self.$confirm('Confirm delete ?', self.translate('Delete'), {
                                 confirmButtonText: 'OK',
@@ -74,7 +74,7 @@
                 return [
                     {
                         name: self.translate('Add'),
-                        icon: 'plus',
+                        icon: 'el-icon-plus',
                         type: 'primary',
                         execute: function () {
                             self.$router.push({ name: 'add', params: { resource: self.resource } })

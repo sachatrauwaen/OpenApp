@@ -8,6 +8,7 @@ using Abp.Domain.Repositories;
 using Satrabel.OpenApp.Authorization.Users;
 using System.Linq;
 using Satrabel.OpenApp.Users;
+using Satrabel.OpenApp.Users.Dto;
 
 namespace Satrabel.Starter.Web.Views.Shared.Components.Users
 {
@@ -21,7 +22,7 @@ namespace Satrabel.Starter.Web.Views.Shared.Components.Users
 
         public async Task<IViewComponentResult> InvokeAsync(UserMenuItem menuItem)
         {
-            var res = await _repository.GetAll(new Abp.Application.Services.Dto.PagedResultRequestDto()
+            var res = await _repository.GetAll(new UsersResultRequestDto()
             {
                 MaxResultCount =1,
                 SkipCount = 0

@@ -18,7 +18,7 @@ using Satrabel.OpenApp.Roles.Dto;
 namespace Satrabel.OpenApp.Users
 {
     [AbpAuthorize(PermissionNames.Pages_Users)]
-    public class UserAppService : AsyncCrudAppService<User, UserDto, long, PagedResultRequestDto, CreateUserDto, UpdateUserDto>, IUserAppService
+    public class UserAppService : AsyncCrudAppService<User, UserDto, long, UsersResultRequestDto, CreateUserDto, UpdateUserDto>, IUserAppService
     {
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
@@ -116,9 +116,18 @@ namespace Satrabel.OpenApp.Users
             return userDto;
         }
 
-        protected override IQueryable<User> CreateFilteredQuery(PagedResultRequestDto input)
+        protected override IQueryable<User> CreateFilteredQuery(UsersResultRequestDto input)
         {
-            return Repository.GetAllIncluding(x => x.Roles);
+            var users = Repository.GetAllIncluding(x => x.Roles);
+            if (!string.IsNullOrEmpty(input.UserName))
+            {
+                users = users.Where(u=> u.UserName.StartsWith(input.UserName));
+            }
+            if (!string.IsNullOrEmpty(input.Email))
+            {
+                users = users.Where(u => u.EmailAddress.StartsWith(input.Email));
+            }
+            return users;
         }
 
         protected override async Task<User> GetEntityByIdAsync(long id)
@@ -126,7 +135,7 @@ namespace Satrabel.OpenApp.Users
             return await Repository.GetAllIncluding(x => x.Roles).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        protected override IQueryable<User> ApplySorting(IQueryable<User> query, PagedResultRequestDto input)
+        protected override IQueryable<User> ApplySorting(IQueryable<User> query, UsersResultRequestDto input)
         {
             return query.OrderBy(r => r.UserName);
         }
