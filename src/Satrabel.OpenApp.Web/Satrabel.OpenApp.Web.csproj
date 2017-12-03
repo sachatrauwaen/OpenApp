@@ -20,11 +20,8 @@
     <DefineConstants>FEATURE_SIGNALR</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Views\lib\element-ui\lib\theme-chalk\**" />
     <Compile Remove="Views\lib\element-ui\lib\theme_chalk\**" />
-    <EmbeddedResource Remove="Views\lib\element-ui\lib\theme-chalk\**" />
     <EmbeddedResource Remove="Views\lib\element-ui\lib\theme_chalk\**" />
-    <None Remove="Views\lib\element-ui\lib\theme-chalk\**" />
     <None Remove="Views\lib\element-ui\lib\theme_chalk\**" />
   </ItemGroup>
   <ItemGroup>
