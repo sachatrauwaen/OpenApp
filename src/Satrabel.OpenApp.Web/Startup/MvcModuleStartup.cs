@@ -72,7 +72,7 @@ namespace Satrabel.OpenApp.Startup
                 {
                         //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
                         builder
-                        .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.RemovePostFix("/")).ToArray())
+                        .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim().RemovePostFix("/")).ToArray())
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
