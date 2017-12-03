@@ -20,7 +20,7 @@ namespace Satrabel.OpenApp.Web.Startup
                         new MenuItemDefinition(
                             PageNames.Tenants,
                             L("Tenants"),
-                            url: "/Crud#OpenApp/tenant",
+                            url: "/Crud#/OpenApp/tenant",
                             icon: "layers",
                             requiredPermissionName: PermissionNames.Pages_Tenants
                         )
@@ -28,7 +28,7 @@ namespace Satrabel.OpenApp.Web.Startup
                         new MenuItemDefinition(
                             PageNames.Users,
                             L("Users"),
-                            url: "/Crud#OpenApp/user",
+                            url: "/Crud#/OpenApp/user",
                             icon: "people",
                             requiredPermissionName: PermissionNames.Pages_Users
                         )
@@ -36,7 +36,7 @@ namespace Satrabel.OpenApp.Web.Startup
                         new MenuItemDefinition(
                             PageNames.Roles,
                             L("Roles"),
-                            url: "Crud#/OpenApp/role",
+                            url: "/Crud#/OpenApp/role",
                             icon: "shield",
                             requiredPermissionName: PermissionNames.Pages_Roles
                         )
@@ -44,7 +44,7 @@ namespace Satrabel.OpenApp.Web.Startup
                         new MenuItemDefinition(
                             PageNames.Languages,
                             L("Languages"),
-                            url: "Crud#/OpenApp/language",
+                            url: "/Crud#/OpenApp/language",
                             icon: "globe",
                             requiredPermissionName: PermissionNames.Pages_Languages
                         )
