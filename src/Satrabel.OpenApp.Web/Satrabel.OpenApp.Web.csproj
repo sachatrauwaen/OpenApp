@@ -20,6 +20,14 @@
     <DefineConstants>FEATURE_SIGNALR</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Views\lib\element-ui\lib\theme-chalk\**" />
+    <Compile Remove="Views\lib\element-ui\lib\theme_chalk\**" />
+    <EmbeddedResource Remove="Views\lib\element-ui\lib\theme-chalk\**" />
+    <EmbeddedResource Remove="Views\lib\element-ui\lib\theme_chalk\**" />
+    <None Remove="Views\lib\element-ui\lib\theme-chalk\**" />
+    <None Remove="Views\lib\element-ui\lib\theme_chalk\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Views\Account\Login.css" />
     <None Remove="Views\Account\Login.js" />
     <None Remove="Views\Account\Login.min.css" />
@@ -78,7 +86,6 @@
     <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.svg" />
     <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.woff" />
     <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.woff2" />
-    <EmbeddedResource Include="Views\lib\element-ui\bundle.js" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element_icons.ttf" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element_icons.woff" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\index.css" />
