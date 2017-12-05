@@ -1,9 +1,6 @@
-﻿
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Satrabel.OpenApp.Startup;
-using System.Collections.Generic;
 
 namespace Satrabel.Starter.Web.Startup
 {
