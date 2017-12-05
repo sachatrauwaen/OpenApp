@@ -1,45 +1,68 @@
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Satrabel.OpenApp.Authorization;
-
-using Satrabel.OpenApp.Languages.Dto;
-using Microsoft.AspNetCore.Identity;
-using System.Linq;
 using Abp.Authorization;
-using Abp.IdentityFramework;
 using Abp.Localization;
+using Satrabel.OpenApp.Languages.Dto;
+using Satrabel.OpenApp.Translations.Dto;
 
-namespace Satrabel.OpenApp.Languages
+namespace Satrabel.OpenApp.Translations
 {
     [AbpAuthorize(PermissionNames.Pages_Languages)]
-    public class LanguageAppService : AsyncCrudAppService<ApplicationLanguage, LanguageDto, int, PagedResultRequestDto, LanguageDto, LanguageDto>, ILanguageAppService
+    public class TranslationAppService : AsyncCrudAppService<ApplicationLanguageText, TranslationDto, long, TranslationResultRequestDto, TranslationDto, TranslationDto>, ITranslationAppService 
     {
-        private readonly ApplicationLanguageManager _languageManager;
-        private ApplicationLanguage _defaultLanguage = null;
+        private readonly IApplicationLanguageTextManager _translationManager;
+        private ApplicationLanguageText _defaultLanguage = null;
 
-        public LanguageAppService(
-            IRepository<ApplicationLanguage, int> repository,
-            ApplicationLanguageManager languageManager)
-            : base(repository)
+        public TranslationAppService(IRepository<ApplicationLanguageText, long> repository, IApplicationLanguageTextManager translationManager) : base(repository)
         {
-            _languageManager = languageManager;
-            
+            _translationManager = translationManager;
         }
-        public override async Task<LanguageDto> Create(LanguageDto input)
+        
+        public override async Task<TranslationDto> Create(TranslationDto input)
         {
             CheckCreatePermission();
-            var language = ObjectMapper.Map<ApplicationLanguage>(input);
-            language.TenantId = AbpSession.TenantId;
-            await _languageManager.AddAsync(language);
+            var translation = ObjectMapper.Map<ApplicationLanguageText>(input);
+            translation.TenantId = AbpSession.TenantId;
+            await _translationManager.UpdateStringAsync(
+                translation.TenantId,
+                OpenAppConsts.LocalizationSourceName,
+                new CultureInfo("en"),
+                translation.Key,
+                translation.Value
+            );
+            /*
             if (input.Default)
             {
                 await _languageManager.SetDefaultLanguageAsync(AbpSession.TenantId, input.Name);
             }
-            return MapToEntityDto(language);
+            */
+            return MapToEntityDto(translation);
         }
-        public override async Task<LanguageDto> Update(LanguageDto input)
+
+        //public ListResultDto<LanguageDto> GetLanguages()
+        //{
+        //    //var roles = _technicianRepository.GetAllList();
+        //    //return new ListResultDto<TechnicianDto>(ObjectMapper.Map<List<TechnicianDto>>(roles));
+        //}
+
+        //protected override IQueryable<ApplicationLanguageText> CreateFilteredQuery(TranslationResultRequestDto input)
+        //{
+        //    var translations = Repository.GetAll();
+        //    if (!string.IsNullOrEmpty(input.Language))
+        //    {
+        //        users = users.Where(u => u.UserName.StartsWith(input.UserName));
+        //    }
+        //    return users;
+        //}
+
+
+        /*
+        public override async Task<TranslationDto> Update(TranslationDto input)
         {
             CheckUpdatePermission();
             var language = MapToEntity(input);
@@ -70,18 +93,18 @@ namespace Satrabel.OpenApp.Languages
             await _languageManager.RemoveAsync(AbpSession.TenantId, language.Name);
         }
 
-        public override async Task<LanguageDto> Get(EntityDto<int> input)
+        public override async Task<TranslationDto> Get(EntityDto<int> input)
         {
             _defaultLanguage = await _languageManager.GetDefaultLanguageOrNullAsync(AbpSession.TenantId);
             return await base.Get(input);
         }
 
-        public override async Task<PagedResultDto<LanguageDto>> GetAll(PagedResultRequestDto input)
+        public override async Task<PagedResultDto<TranslationDto>> GetAll(PagedResultRequestDto input)
         {
             _defaultLanguage = await _languageManager.GetDefaultLanguageOrNullAsync(AbpSession.TenantId);
             return await base.GetAll(input);
         }
-        protected override LanguageDto MapToEntityDto(ApplicationLanguage language)
+        protected override TranslationDto MapToEntityDto(ApplicationLanguage language)
         {
             var languageDto = base.MapToEntityDto(language);
             languageDto.Default = _defaultLanguage != null && language.Name == _defaultLanguage.Name;
@@ -95,5 +118,6 @@ namespace Satrabel.OpenApp.Languages
         {
             identityResult.CheckErrors(LocalizationManager);
         }
+        */
     }
 }

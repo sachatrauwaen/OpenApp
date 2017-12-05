@@ -16,7 +16,8 @@ namespace Satrabel.OpenApp.Web.Startup
                         "Admin",
                         L("Admin"),
                         icon: "menu"
-                        ).AddItem(
+                        )
+                    .AddItem(
                         new MenuItemDefinition(
                             PageNames.Tenants,
                             L("Tenants"),
@@ -24,7 +25,8 @@ namespace Satrabel.OpenApp.Web.Startup
                             icon: "layers",
                             requiredPermissionName: PermissionNames.Pages_Tenants
                         )
-                    ).AddItem(
+                    )
+                    .AddItem(
                         new MenuItemDefinition(
                             PageNames.Users,
                             L("Users"),
@@ -32,7 +34,8 @@ namespace Satrabel.OpenApp.Web.Startup
                             icon: "people",
                             requiredPermissionName: PermissionNames.Pages_Users
                         )
-                    ).AddItem(
+                    )
+                    .AddItem(
                         new MenuItemDefinition(
                             PageNames.Roles,
                             L("Roles"),
@@ -40,11 +43,21 @@ namespace Satrabel.OpenApp.Web.Startup
                             icon: "shield",
                             requiredPermissionName: PermissionNames.Pages_Roles
                         )
-                    ).AddItem(
+                    )
+                    .AddItem(
                         new MenuItemDefinition(
                             PageNames.Languages,
                             L("Languages"),
                             url: "/Crud#/OpenApp/language",
+                            icon: "globe",
+                            requiredPermissionName: PermissionNames.Pages_Languages
+                        )
+                    )
+                    .AddItem(
+                        new MenuItemDefinition(
+                            PageNames.Translations,
+                            L("Translations"),
+                            url: "/Crud#/OpenApp/translation",
                             icon: "globe",
                             requiredPermissionName: PermissionNames.Pages_Languages
                         )
