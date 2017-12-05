@@ -4,7 +4,7 @@ using Satrabel.OpenApp.Translations.Dto;
 
 namespace Satrabel.OpenApp.Translations
 {
-    public interface ITranslationAppService : IAsyncCrudAppService<TranslationDto, long, TranslationResultRequestDto, TranslationDto, TranslationDto>
+    public interface ITranslationAppService : IApplicationService
     {
         
     }
