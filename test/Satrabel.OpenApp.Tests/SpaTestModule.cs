@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Abp.Dependency;
 using Abp.Modules;
@@ -7,27 +9,24 @@ using Abp.Net.Mail;
 using Abp.TestBase;
 using Abp.Zero.Configuration;
 using Abp.Zero.EntityFrameworkCore;
-using Satrabel.OpenApp.EntityFramework;
 using Satrabel.OpenApp.Tests.DependencyInjection;
 using Castle.MicroKernel.Registration;
 using NSubstitute;
-using Satrabel.OpenApp.Web.Startup;
 using Satrabel.Starter.Web.Startup;
 using Satrabel.Starter.EntityFramework;
-
-using Abp.Reflection.Extensions;
-using Abp.AspNetCore;
+using Xunit;
 
 namespace Satrabel.OpenApp.Tests
 {
     [DependsOn(
         typeof(OpenAppApplicationModule),
         typeof(EntityFrameworkModule),
-        typeof(AbpTestBaseModule)
+        typeof(AbpTestBaseModule),
+        typeof(WebMvcModule)
         )]
-    public class JobManagerTestModule : AbpModule
+    public class SpaTestModule : AbpModule
     {
-        public JobManagerTestModule(EntityFrameworkModule abpProjectNameEntityFrameworkModule)
+        public SpaTestModule(EntityFrameworkModule abpProjectNameEntityFrameworkModule)
         {
             abpProjectNameEntityFrameworkModule.SkipDbContextRegistration = true;
         }

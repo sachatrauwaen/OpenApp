@@ -17,7 +17,7 @@ using Satrabel.Starter.EntityFramework;
 
 namespace Satrabel.OpenApp.Tests
 {
-    public abstract class StarterTestBase : AbpIntegratedTestBase<JobManagerTestModule>
+    public abstract class StarterTestBase : AbpIntegratedTestBase<SpaTestModule>
     {
         protected StarterTestBase()
         {
