@@ -1,0 +1,46 @@
+﻿@using Satrabel.OpenApp.Web.Startup
+@{
+    ViewBag.CurrentPageName = PageNames.Crud; //The menu item will be active for this page.
+}
+
+@section styles
+    {
+    <link rel="stylesheet" href="~/Views/lib/element-ui/lib/theme-default/index.css" asp-append-version="true" />
+}
+
+@section scripts
+    {
+    <environment names="Development">
+        <script src="~/Views/lib/vueforms/libs.js"></script>
+        <script src="~/Views/lib/vueforms/bundle.js" ></script>
+        <script src="~/Views/Crud/Index.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/Views/lib/vueforms/libs.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/vueforms/bundle.js" asp-append-version="true"></script>
+        <script src="~/Views/Translations/Index.js" asp-append-version="true"></script>
+    </environment>
+}
+
+    <div id="app">Loading...</div>
+    <template id="appTemplate">
+        <div>
+            <!-- Breadcrumb -->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Admin</a>
+                </li>
+                <li class="breadcrumb-item active">{{pageTitle}}</li>
+                <!-- Breadcrumb Menu-->
+                <li class="breadcrumb-menu d-md-down-none">
+                    <div class="btn-group" role="group" aria-label="Button group">
+                        
+                    </div>
+                </li>
+            </ol>
+            <div class="container-fluid">
+                <router-view></router-view>
+            </div>
+        </div>
+    </template>
