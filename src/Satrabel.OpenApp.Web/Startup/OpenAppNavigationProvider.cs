@@ -55,11 +55,11 @@ namespace Satrabel.OpenApp.Web.Startup
                     )
                     .AddItem(
                         new MenuItemDefinition(
-                            PageNames.Translations,
-                            L("Translations"),
-                            url: "/LocalizationManager#/OpenApp",
-                            icon: "globe",
-                            requiredPermissionName: PermissionNames.Pages_Languages
+                            PageNames.Localizations,
+                            L("Localizations"),
+                            url: "/Localization#/",
+                            icon: "grid",
+                            requiredPermissionName: PermissionNames.Pages_Localizations
                         )
                     )
                 );

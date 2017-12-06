@@ -31,8 +31,8 @@
     <None Remove="Views\Account\Login.min.js" />
     <None Remove="Views\Account\Register.js" />
     <None Remove="Views\Account\Register.min.js" />
-    <None Remove="Views\LocalizationManager\Index.cshtml" />
-    <None Remove="Views\LocalizationManager\Index.js" />
+    <None Remove="Views\Localization\Index.cshtml" />
+    <None Remove="Views\Localization\Index.js" />
     <None Remove="Views\Crud\Index.js" />
     <None Remove="Views\css\font-awesome.css" />
     <None Remove="Views\css\font-awesome.css.map" />
@@ -81,7 +81,8 @@
     <EmbeddedResource Include="Views\Account\Register.js" />
     <EmbeddedResource Include="Views\Account\Register.min.js" />
     <EmbeddedResource Include="Views\Crud\Index.js" />
-    <EmbeddedResource Include="Views\LocalizationManager\Index.js" />
+    <EmbeddedResource Include="Views\Localization\Index.cshtml" />
+    <EmbeddedResource Include="Views\Localization\Index.js" />
     <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.eot" />
     <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.svg" />
     <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.woff" />

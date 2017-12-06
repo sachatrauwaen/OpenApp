@@ -12,6 +12,7 @@ namespace Satrabel.OpenApp.Authorization
             context.CreatePermission(PermissionNames.Pages_Roles, L("Roles"));
             context.CreatePermission(PermissionNames.Pages_Tenants, L("Tenants"), multiTenancySides: MultiTenancySides.Host);
             context.CreatePermission(PermissionNames.Pages_Languages, L("Languages"));
+            context.CreatePermission(PermissionNames.Pages_Localizations, L("Localizations"));
         }
 
         private static ILocalizableString L(string name)

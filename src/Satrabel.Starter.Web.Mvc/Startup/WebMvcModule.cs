@@ -24,6 +24,7 @@ using Abp.BackgroundJobs;
 using Satrabel.OpenApp.Web.Migration;
 using Abp.AspNetCore.Configuration;
 using Abp.AutoMapper;
+using Abp.Zero.Configuration;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -66,6 +67,9 @@ namespace Satrabel.Starter.Web.Startup
             LocalizationConfigurer.Configure(Configuration.Localization);
             //Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
+
+            //Use database for language management
+            Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
 
             Configuration.Modules.AbpAspNetCore()
                  .CreateControllersForAppServices(

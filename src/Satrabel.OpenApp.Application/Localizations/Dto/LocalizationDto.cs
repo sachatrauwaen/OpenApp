@@ -3,18 +3,13 @@ using System.ComponentModel.DataAnnotations;
 using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Abp.Localization;
+using NJsonSchema.Annotations;
 
-namespace Satrabel.OpenApp.LocalizationManager.Dto
+namespace Satrabel.OpenApp.Localizations.Dto
 {
-    //[AutoMapFrom(typeof(ApplicationLanguageText))]
     [AutoMapTo(typeof(ApplicationLanguageText)), AutoMapFrom(typeof(ApplicationLanguageText))]
-    public class TranslationDto : EntityDto<string>
+    public class LocalizationDto 
     {
-        /*
-        [Required]
-        [StringLength(ApplicationLanguageText.MaxSourceNameLength)]
-        public string Source { get; set; }
-        */
         [ReadOnly(true)]
         public string Source { get; set; }
 
@@ -31,10 +26,7 @@ namespace Satrabel.OpenApp.LocalizationManager.Dto
 
         [Required]
         [StringLength(ApplicationLanguageText.MaxValueLength)]
+        [JsonSchemaExtensionData("x-ui-grid", false)]
         public string Value { get; set; }
-
-        
-
-       
     }
 }

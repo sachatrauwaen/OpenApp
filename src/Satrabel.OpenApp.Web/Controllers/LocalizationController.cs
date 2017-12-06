@@ -5,7 +5,7 @@ using Satrabel.OpenApp.Controllers;
 namespace Satrabel.OpenApp.Web.Controllers
 {
     [AbpMvcAuthorize]
-    public class LocalizationManagerController : OpenAppControllerBase
+    public class LocalizationController : OpenAppControllerBase
     {
         public ActionResult Index()
         {

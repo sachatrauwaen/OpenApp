@@ -9,6 +9,6 @@
         public const string Roles = "Roles";
         public const string Crud = "Crud";
         public const string Languages = "Languages";        
-        public const string Translations = "Translations";        
+        public const string Localizations = "Localizations";        
     }
 }

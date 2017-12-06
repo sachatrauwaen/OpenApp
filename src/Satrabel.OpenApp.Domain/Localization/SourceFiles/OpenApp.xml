@@ -83,5 +83,12 @@
     <text name="EditUser">Edit user</text>
     <text name="TenantIdIsNotActive{0}">TenantId {0} is not active</text>
     <text name="UnknownTenantId{0}">Unknown tenantId {0}</text>
+
+    <text name="LanguageSource">Source</text>
+    <text name="LanguageName">Language</text>
+    <text name="LanguageKey">Key</text>
+    <text name="NotTranslatedOnly">Not Translated</text>
+    <text name="Localizations">Localizations</text>
+
   </texts>
 </localizationDictionary>

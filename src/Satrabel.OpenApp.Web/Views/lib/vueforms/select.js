@@ -10,21 +10,16 @@
             schema: {},
             messages: Object,
             prop: String,
-            hideNone: {
-                type: Boolean,
-                default: function () {
-                    return false;
-                }
-            },
-            noneLabel: {
-                default: function () {
-                    return "None";
-                }
-            },
-            noneValue: {
-                default: function () {
-                    return undefined;
-                }
+            service: {},
+            
+            
+        },
+        data: function () {
+            return {
+                options: [],
+                hideNone: false,
+                noneLabel: "None",
+                noneValue: undefined
             }
         },
         computed: {
@@ -36,17 +31,36 @@
                     this.$emit('input', val)
                 }
             },
-            options: function () {
-                var lst = [];
-                var sch = this.schema.enum ? this.schema : this.schema.oneOf[0];
+
+        },
+        created: function () {
+            var self = this;
+            var sch = this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
+            if (sch.enum) {
                 for (var i = 0; i < sch.enum.length; i++) {
                     var label = sch['x-enumNames'] ? sch['x-enumNames'][i] : this.prop + '_' + sch.enum[i];
                     if (this.messages && this.messages[label]) {
                         label = this.messages[label];
                     }
-                    lst.push({ value: sch.enum[i], label: label })
+                    this.options.push({ value: sch.enum[i], label: label });
                 }
-                return lst;
+            }
+            else if (sch["x-enum-action"]) {
+                var enumAction = this.schema["x-enum-action"];
+                var enumValueField = this.schema["x-enum-valuefield"] || 'id';
+                var enumTextField = this.schema["x-enum-textfield"] || 'fullName';
+                self.service[enumAction]().done(function (data) {
+                    self.options = data.map(function (p) {
+                        return { value: p[enumValueField], label: p[enumTextField] };
+                    });
+                }).always(function () {
+                });
+            }
+            if (sch["x-enum-nonelabel"]) {
+                this.noneLabel = sch["x-enum-nonelabel"];
+                if (this.messages && this.messages[this.noneLabel]) {
+                    this.noneLabel = this.messages[this.noneLabel];
+                }
             }
         }
     }

@@ -2,7 +2,7 @@
     var CrudGrid = {
         name: "CrudGrid",
         template: '<div> \
-                <filterform v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :actions="filterActions" :messages="messages"></filterform> \
+                <filterform v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :service="service" :actions="filterActions" :messages="messages"></filterform> \
                 <gridcomp :model="model" :schema="schema" :messages="messages" :options="options" :actions="gridActions" :default-action="gridActions[0]"></gridcomp><br /> \
                 <el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
                 <div style="float:right"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
@@ -25,6 +25,9 @@
             },
             resource: function () {
                 return this.$route.params.resource;
+            },
+            service: function () {
+                return abp.services.app[this.resource];
             },
             schema: function () {
                 return jref.resolve(abp.schemas.app[this.resource].get.returnValue);
@@ -141,7 +144,7 @@
                 self.filterModel.skipCount = (this.currentPage - 1) * this.pageSize;
                 self.filterModel.maxResultCount = this.pageSize;
                 //{ skipCount: 0, maxResultCount: 999 }
-                abp.services.app[this.resource].getAll(self.filterModel).done(function (data) {
+                self.service.getAll(self.filterModel).done(function (data) {
                     self.model = data.items;
                     self.totalCount = data.totalCount;
                     if (callback) callback();
@@ -152,7 +155,7 @@
             },
             deleteData: function (data, callback) {
                 var self = this;
-                abp.services.app[this.resource].delete({ id: data.id }).done(function (data) {
+                self.service.delete({ id: data.id }).done(function (data) {
                     self.fetchData(callback);
                 }).always(function () {
                     //abp.ui.clearBusy(_$app);

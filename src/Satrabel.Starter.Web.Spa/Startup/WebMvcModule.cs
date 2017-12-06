@@ -14,6 +14,7 @@ using Satrabel.OpenApp.Web.Migration;
 using Abp.AspNetCore.Configuration;
 using Satrabel.OpenApp.Startup;
 using Abp.AutoMapper;
+using Abp.Zero.Configuration;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -62,7 +63,9 @@ namespace Satrabel.Starter.Web.Startup
             _webConfig.FooterLinkText= AppConsts.FooterLinkText;
             _webConfig.FooterLinkUrl = AppConsts.FooterLinkUrl;
             _webConfig.FooterCopyright = AppConsts.FooterCopyright;
-            
+
+            //Use database for language management
+            Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
 
             // automatic webapi's for Application Services
             Configuration.Modules.AbpAspNetCore()

@@ -1,0 +1,63 @@
+﻿@using Satrabel.OpenApp.Web.Startup
+@{
+    ViewBag.CurrentPageName = PageNames.Crud; //The menu item will be active for this page.
+}
+
+@section styles
+    {
+<link rel="stylesheet" href="~/Views/lib/element-ui/lib/theme-default/index.css" asp-append-version="true" />
+}
+
+@section scripts
+    {
+<environment names="Development">
+    <script src="~/Views/lib/vueforms/libs.js"></script>
+    <script src="~/Views/lib/vueforms/bundle.js"></script>
+    <script src="~/Views/Localization/Index.js" asp-append-version="true"></script>
+</environment>
+
+<environment names="Staging,Production">
+    <script src="~/Views/lib/vueforms/libs.js" asp-append-version="true"></script>
+    <script src="~/Views/lib/vueforms/bundle.js" asp-append-version="true"></script>
+    <script src="~/Views/Localization/Index.js" asp-append-version="true"></script>
+</environment>
+}
+
+<div id="app">Loading...</div>
+<template id="appTemplate">
+    <div>
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Admin</a>
+            </li>
+            <li class="breadcrumb-item active">{{pageTitle}}</li>
+            <!-- Breadcrumb Menu-->
+            <li class="breadcrumb-menu d-md-down-none">
+                <div class="btn-group" role="group" aria-label="Button group">
+
+                </div>
+            </li>
+        </ol>
+        <div class="container-fluid">
+            <router-view></router-view>
+        </div>
+    </div>
+</template>
+
+<template id="gridTemplate">
+    <div>
+        <filterform v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :actions="filterActions" :messages="messages" :service="service"></filterform>
+        <el-table :data="model" style="width: 100%" >
+            <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell"></el-table-column>
+            <el-table-column align="right" min-width="120px">
+                <template slot-scope="scope">
+                    <el-input placeholder="Please input" v-model="scope.row.value" v-on:input="rowChanged(scope.row)" >
+                        <el-button slot="append" icon="el-icon-check" v-if="scope.row.changed" v-on:click="save(scope.row)"></el-button>
+                    </el-input>
+                </template> 
+            </el-table-column>
+        </el-table>
+        <div style="float:right;margin-bottom:10px;margin-top:10px;"><el-pagination v-on:current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="totalCount"></el-pagination></div>
+    </div>
+</template>
