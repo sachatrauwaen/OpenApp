@@ -1,14 +1,10 @@
-﻿using Abp.Application.Services.Dto;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Abp.Localization;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using Satrabel.OpenApp.MultiTenancy;
 
-namespace Satrabel.OpenApp.Translations.Dto
+namespace Satrabel.OpenApp.LocalizationManager.Dto
 {
     //[AutoMapFrom(typeof(ApplicationLanguageText))]
     [AutoMapTo(typeof(ApplicationLanguageText)), AutoMapFrom(typeof(ApplicationLanguageText))]

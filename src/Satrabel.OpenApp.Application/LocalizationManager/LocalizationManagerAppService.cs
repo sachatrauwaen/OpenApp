@@ -1,20 +1,19 @@
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
-using Abp.Domain.Repositories;
-using Satrabel.OpenApp.Authorization;
 using Abp.Authorization;
+using Abp.Domain.Repositories;
 using Abp.Localization;
-using Satrabel.OpenApp.Languages.Dto;
-using Satrabel.OpenApp.Translations.Dto;
-using System.Collections.Generic;
+using Satrabel.OpenApp.Authorization;
+using Satrabel.OpenApp.LocalizationManager.Dto;
 
-namespace Satrabel.OpenApp.Translations
+namespace Satrabel.OpenApp.LocalizationManager
 {
     [AbpAuthorize(PermissionNames.Pages_Languages)]
-    public class TranslationAppService : ApplicationService, ITranslationAppService
+    public class LocalizationManagerAppService : ApplicationService, ILocalizationManagerAppService
     {
         private readonly IRepository<ApplicationLanguageText, long> _repository;
         private readonly IApplicationLanguageTextManager _translationManager;
@@ -23,7 +22,7 @@ namespace Satrabel.OpenApp.Translations
         private ApplicationLanguageText _defaultLanguage = null;
 
 
-        public TranslationAppService(IRepository<ApplicationLanguageText, long> repository,
+        public LocalizationManagerAppService(IRepository<ApplicationLanguageText, long> repository,
                                         IApplicationLanguageTextManager translationManager,
                                         ILocalizationManager localizationManager,
                                          ApplicationLanguageManager languageManager) 
@@ -108,7 +107,6 @@ namespace Satrabel.OpenApp.Translations
             //    }
             //    return users;
             //}
-
 
             /*
             public override async Task<TranslationDto> Update(TranslationDto input)

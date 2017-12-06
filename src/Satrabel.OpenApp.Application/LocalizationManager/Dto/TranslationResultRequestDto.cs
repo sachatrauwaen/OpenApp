@@ -1,10 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NJsonSchema.Annotations;
 
-namespace Satrabel.OpenApp.Translations.Dto
+namespace Satrabel.OpenApp.LocalizationManager.Dto
 {
     public class TranslationResultRequestDto: PagedResultRequestDto
     {

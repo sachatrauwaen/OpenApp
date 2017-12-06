@@ -57,7 +57,7 @@ namespace Satrabel.OpenApp.Web.Startup
                         new MenuItemDefinition(
                             PageNames.Translations,
                             L("Translations"),
-                            url: "/Crud#/OpenApp/translation",
+                            url: "/LocalizationManager#/OpenApp",
                             icon: "globe",
                             requiredPermissionName: PermissionNames.Pages_Languages
                         )
