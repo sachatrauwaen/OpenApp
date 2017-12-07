@@ -81,7 +81,6 @@
     <EmbeddedResource Include="Views\Account\Register.js" />
     <EmbeddedResource Include="Views\Account\Register.min.js" />
     <EmbeddedResource Include="Views\Crud\Index.js" />
-    <EmbeddedResource Include="Views\Localization\Index.cshtml" />
     <EmbeddedResource Include="Views\Localization\Index.js" />
     <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.eot" />
     <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.svg" />
@@ -99,6 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\Crud\Index.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Localization\Index.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\css\font-awesome.css" />
