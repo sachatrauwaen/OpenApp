@@ -319,7 +319,6 @@
                     this.$emit('input', val)
                 }
             },
-
             resource: function () {
                 return this.$route.params.resource;
             },
@@ -612,21 +611,16 @@
             schema: {},
             messages: Object,
             prop: String,
-            hideNone: {
-                type: Boolean,
-                default: function () {
-                    return false;
-                }
-            },
-            noneLabel: {
-                default: function () {
-                    return "None";
-                }
-            },
-            noneValue: {
-                default: function () {
-                    return undefined;
-                }
+            service: {},
+            
+            
+        },
+        data: function () {
+            return {
+                options: [],
+                hideNone: false,
+                noneLabel: "None",
+                noneValue: undefined
             }
         },
         computed: {
@@ -638,17 +632,36 @@
                     this.$emit('input', val)
                 }
             },
-            options: function () {
-                var lst = [];
-                var sch = this.schema.enum ? this.schema : this.schema.oneOf[0];
+
+        },
+        created: function () {
+            var self = this;
+            var sch = this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
+            if (sch.enum) {
                 for (var i = 0; i < sch.enum.length; i++) {
                     var label = sch['x-enumNames'] ? sch['x-enumNames'][i] : this.prop + '_' + sch.enum[i];
                     if (this.messages && this.messages[label]) {
                         label = this.messages[label];
                     }
-                    lst.push({ value: sch.enum[i], label: label })
+                    this.options.push({ value: sch.enum[i], label: label });
                 }
-                return lst;
+            }
+            else if (sch["x-enum-action"]) {
+                var enumAction = this.schema["x-enum-action"];
+                var enumValueField = this.schema["x-enum-valuefield"] || 'id';
+                var enumTextField = this.schema["x-enum-textfield"] || 'fullName';
+                self.service[enumAction]().done(function (data) {
+                    self.options = data.map(function (p) {
+                        return { value: p[enumValueField], label: p[enumTextField] };
+                    });
+                }).always(function () {
+                });
+            }
+            if (sch["x-enum-nonelabel"]) {
+                this.noneLabel = sch["x-enum-nonelabel"];
+                if (this.messages && this.messages[this.noneLabel]) {
+                    this.noneLabel = this.messages[this.noneLabel];
+                }
             }
         }
     }
@@ -1064,7 +1077,7 @@
     var filterform = {
         name: "filterform",
         template: '<el-form ref="form" :model="model" :rules="rules" label-position="right" :label-width="labelwidth" :inline="!isMobile" :label-position="labelPosition"> \
-                <comp v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" ></comp> \
+                <comp v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" :service="service" ></comp> \
                 <el-form-item> \
                     <el-button v-for="action in actions" :key="action.name" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
                 </el-form-item> \
@@ -1072,6 +1085,7 @@
         props: {
             model: {},
             schema: {},
+            service: {},
             options: {},
             messages: {},
             actions: {},
@@ -1145,7 +1159,20 @@
                 else
                     return name;
             }
+        },
+        /*
+        created: function(){
+
+            for (key in this.fields) {
+                if (this.fields[key].type == "string"){
+                    Vue.set(this.model, key, "");
+                } else if (this.fields[key].type == "int") {
+                    Vue.set(this.model, key, 0);
+                }
+            }
+        
         }
+        */
     }
     Vue.component('filterform', filterform);
 })();
@@ -1439,7 +1466,7 @@
     var CrudGrid = {
         name: "CrudGrid",
         template: '<div> \
-                <filterform v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :actions="filterActions" :messages="messages"></filterform> \
+                <filterform v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :service="service" :actions="filterActions" :messages="messages"></filterform> \
                 <gridcomp :model="model" :schema="schema" :messages="messages" :options="options" :actions="gridActions" :default-action="gridActions[0]"></gridcomp><br /> \
                 <el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
                 <div style="float:right"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
@@ -1462,6 +1489,9 @@
             },
             resource: function () {
                 return this.$route.params.resource;
+            },
+            service: function () {
+                return abp.services.app[this.resource];
             },
             schema: function () {
                 return jref.resolve(abp.schemas.app[this.resource].get.returnValue);
@@ -1578,7 +1608,7 @@
                 self.filterModel.skipCount = (this.currentPage - 1) * this.pageSize;
                 self.filterModel.maxResultCount = this.pageSize;
                 //{ skipCount: 0, maxResultCount: 999 }
-                abp.services.app[this.resource].getAll(self.filterModel).done(function (data) {
+                self.service.getAll(self.filterModel).done(function (data) {
                     self.model = data.items;
                     self.totalCount = data.totalCount;
                     if (callback) callback();
@@ -1589,7 +1619,7 @@
             },
             deleteData: function (data, callback) {
                 var self = this;
-                abp.services.app[this.resource].delete({ id: data.id }).done(function (data) {
+                self.service.delete({ id: data.id }).done(function (data) {
                     self.fetchData(callback);
                 }).always(function () {
                     //abp.ui.clearBusy(_$app);

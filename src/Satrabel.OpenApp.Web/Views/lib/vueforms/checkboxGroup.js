@@ -26,7 +26,6 @@
                     this.$emit('input', val)
                 }
             },
-
             resource: function () {
                 return this.$route.params.resource;
             },

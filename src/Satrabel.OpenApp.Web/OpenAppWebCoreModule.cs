@@ -51,7 +51,7 @@ namespace Satrabel.OpenApp
             );
 
             //Use database for language management
-            Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
+            //Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization(); // to be done in top level module
             Configuration.Modules.AbpAspNetCore()
                  .CreateControllersForAppServices(
                      typeof(OpenAppApplicationModule).GetAssembly()

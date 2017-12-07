@@ -92,7 +92,7 @@
     <Exec Command="node node_modules/webpack/bin/webpack.js" />
   </Target>-->
 
-  <Target Name="DebugFirstRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
+  <Target Name="DebugFirstRunWebpack" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug' And !Exists('wwwroot\dist')">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />

@@ -2,7 +2,7 @@
     var filterform = {
         name: "filterform",
         template: '<el-form ref="form" :model="model" :rules="rules" label-position="right" :label-width="labelwidth" :inline="!isMobile" :label-position="labelPosition"> \
-                <comp v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" ></comp> \
+                <comp v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" :service="service" ></comp> \
                 <el-form-item> \
                     <el-button v-for="action in actions" :key="action.name" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
                 </el-form-item> \
@@ -10,6 +10,7 @@
         props: {
             model: {},
             schema: {},
+            service: {},
             options: {},
             messages: {},
             actions: {},
@@ -83,7 +84,20 @@
                 else
                     return name;
             }
+        },
+        /*
+        created: function(){
+
+            for (key in this.fields) {
+                if (this.fields[key].type == "string"){
+                    Vue.set(this.model, key, "");
+                } else if (this.fields[key].type == "int") {
+                    Vue.set(this.model, key, 0);
+                }
+            }
+        
         }
+        */
     }
     Vue.component('filterform', filterform);
 })();

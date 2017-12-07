@@ -5,26 +5,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Satrabel.OpenApp;
 using Abp.EntityFrameworkCore.Configuration;
-using Satrabel.OpenApp.EntityFramework;
 using Satrabel.Starter.Web.Localization;
 using Satrabel.OpenApp.EntityFramework.Seed;
 using Satrabel.OpenApp.Configuration;
 using Satrabel.Starter.Web.Authorization;
 using Satrabel.Starter.EntityFramework;
-using Abp.MultiTenancy;
-using Abp.Dependency;
-using Abp.Threading.BackgroundWorkers;
-using System;
-using System.Data.SqlClient;
-using Abp.Events.Bus;
-using Castle.MicroKernel.Registration;
-using System.IO;
-using Abp.Threading;
-using Abp.BackgroundJobs;
 using Satrabel.OpenApp.Web.Migration;
 using Abp.AspNetCore.Configuration;
 using Satrabel.OpenApp.Startup;
 using Abp.AutoMapper;
+using Abp.Zero.Configuration;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -66,14 +56,16 @@ namespace Satrabel.Starter.Web.Startup
                 });
             }
             LocalizationConfigurer.Configure(Configuration.Localization);
-            //Enable this line to create a multi-tenant application.
+            // Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
 
             _webConfig.MetaTitle = AppConsts.MetaTitle;
-            _webConfig.FooterLinkText= AppConsts.FooterLinkText;
+            _webConfig.FooterLinkText = AppConsts.FooterLinkText;
             _webConfig.FooterLinkUrl = AppConsts.FooterLinkUrl;
             _webConfig.FooterCopyright = AppConsts.FooterCopyright;
-            
+
+            // Use database for language management
+            Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
 
             // automatic webapi's for Application Services
             Configuration.Modules.AbpAspNetCore()

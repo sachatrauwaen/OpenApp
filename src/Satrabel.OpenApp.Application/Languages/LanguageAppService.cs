@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
@@ -9,8 +8,6 @@ using Satrabel.OpenApp.Languages.Dto;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using Abp.Authorization;
-
-using Microsoft.EntityFrameworkCore;
 using Abp.IdentityFramework;
 using Abp.Localization;
 
@@ -23,7 +20,7 @@ namespace Satrabel.OpenApp.Languages
         private ApplicationLanguage _defaultLanguage = null;
 
         public LanguageAppService(
-            IRepository<ApplicationLanguage> repository,
+            IRepository<ApplicationLanguage, int> repository,
             ApplicationLanguageManager languageManager)
             : base(repository)
         {
