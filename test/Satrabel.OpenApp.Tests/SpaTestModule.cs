@@ -21,8 +21,7 @@ namespace Satrabel.OpenApp.Tests
     [DependsOn(
         typeof(OpenAppApplicationModule),
         typeof(EntityFrameworkModule),
-        typeof(AbpTestBaseModule),
-        typeof(WebMvcModule)
+        typeof(AbpTestBaseModule)
         )]
     public class SpaTestModule : AbpModule
     {
