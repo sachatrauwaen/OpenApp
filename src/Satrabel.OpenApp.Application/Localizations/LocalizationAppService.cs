@@ -27,18 +27,19 @@ namespace Satrabel.OpenApp.Localizations
         public LocalizationAppService(IRepository<ApplicationLanguageText, long> repository,
                                         IApplicationLanguageTextManager translationManager,
                                         ILocalizationManager localizationManager,
-                                         ApplicationLanguageManager languageManager) 
+                                         ApplicationLanguageManager languageManager)
         {
             _repository = repository;
             _translationManager = translationManager;
             _localizationManager = localizationManager;
             _languageManager = languageManager;
         }
+
         [HttpPost] // voor filter form
         public async Task<PagedResultDto<LocalizationDto>> GetAll(LocalizationResultRequestDto input)
         {
             //CheckGetAllPermission();
-            
+
             var lst = new List<LocalizationDto>();
             foreach (var language in await _languageManager.GetLanguagesAsync(AbpSession.TenantId))
             {
@@ -53,7 +54,7 @@ namespace Satrabel.OpenApp.Localizations
                             Value = value,
                             Default = item.Value,
                             LanguageName = language.Name,
-                            Source= source.Name
+                            Source = source.Name
                         });
                     }
                 }
@@ -64,7 +65,7 @@ namespace Satrabel.OpenApp.Localizations
             }
             if (!string.IsNullOrEmpty(input.LanguageName))
             {
-                lst = lst.Where(t=> t.LanguageName == input.LanguageName).ToList();
+                lst = lst.Where(t => t.LanguageName == input.LanguageName).ToList();
             }
             if (!string.IsNullOrEmpty(input.LanguageKey))
             {
@@ -74,13 +75,14 @@ namespace Satrabel.OpenApp.Localizations
             {
                 lst = lst.Where(t => string.IsNullOrEmpty(t.Value)).ToList();
             }
-            return new PagedResultDto<LocalizationDto>() {
+            return new PagedResultDto<LocalizationDto>()
+            {
                 Items = lst.Skip(input.SkipCount).Take(input.MaxResultCount).ToList(),
                 TotalCount = lst.Count()
             };
         }
 
-        [UnitOfWork(IsDisabled =true)]
+        [UnitOfWork(IsDisabled = true)]
         public async void Save(LocalizationDto input)
         {
             await _translationManager.UpdateStringAsync(AbpSession.TenantId, input.Source, new CultureInfo(input.LanguageName), input.Key, input.Value);

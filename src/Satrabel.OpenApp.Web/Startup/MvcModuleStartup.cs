@@ -36,15 +36,15 @@ namespace Satrabel.OpenApp.Startup
     {
         private const string DefaultCorsPolicyName = "DefaultPolicy";
         private readonly IConfigurationRoot _appConfiguration;
-        private readonly bool CorsEnabled = false;
-        private readonly bool SwaggerEnabled = false;
+        private readonly bool _corsEnabled = false;
+        private readonly bool _swaggerEnabled = false;
         protected Version AppVersion;
 
         public MvcModuleStartup(IHostingEnvironment env)
         {
             _appConfiguration = env.GetAppConfiguration();
-            CorsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"]);
-            SwaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"]);
+            _corsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"]);
+            _swaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"]);
             Clock.Provider = ClockProviders.Local;
         }
 
@@ -54,7 +54,7 @@ namespace Satrabel.OpenApp.Startup
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                if (CorsEnabled)
+                if (_corsEnabled)
                 {
                     options.Filters.Add(new CorsAuthorizationFilterFactory(DefaultCorsPolicyName));
                 }
@@ -79,7 +79,7 @@ namespace Satrabel.OpenApp.Startup
             });
 
             //Swagger - Enable this line and the related lines in Configure method to enable swagger UI
-            if (SwaggerEnabled)
+            if (_swaggerEnabled)
             {
                 services.AddSwaggerGen(options =>
                 {
@@ -117,7 +117,7 @@ namespace Satrabel.OpenApp.Startup
             migrationManager.AppVersion = AppVersion;
             app.UseAbp(); //Initializes ABP framework.
 
-            if (CorsEnabled)
+            if (_corsEnabled)
             {
                 app.UseCors(DefaultCorsPolicyName);
             }
@@ -170,7 +170,7 @@ namespace Satrabel.OpenApp.Startup
                     defaults: new { controller = "ClientApp", action = "Run" });
 
             });
-            if (SwaggerEnabled)
+            if (_swaggerEnabled)
             {
                 // Enable middleware to serve generated Swagger as a JSON endpoint
                 app.UseSwagger();

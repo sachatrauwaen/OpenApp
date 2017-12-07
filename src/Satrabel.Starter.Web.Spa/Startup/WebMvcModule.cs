@@ -56,15 +56,15 @@ namespace Satrabel.Starter.Web.Startup
                 });
             }
             LocalizationConfigurer.Configure(Configuration.Localization);
-            //Enable this line to create a multi-tenant application.
+            // Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
 
             _webConfig.MetaTitle = AppConsts.MetaTitle;
-            _webConfig.FooterLinkText= AppConsts.FooterLinkText;
+            _webConfig.FooterLinkText = AppConsts.FooterLinkText;
             _webConfig.FooterLinkUrl = AppConsts.FooterLinkUrl;
             _webConfig.FooterCopyright = AppConsts.FooterCopyright;
 
-            //Use database for language management
+            // Use database for language management
             Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
 
             // automatic webapi's for Application Services
