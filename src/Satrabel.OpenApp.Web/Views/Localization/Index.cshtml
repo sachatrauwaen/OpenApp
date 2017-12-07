@@ -52,7 +52,7 @@
             <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell"></el-table-column>
             <el-table-column align="right" min-width="120px">
                 <template slot-scope="scope">
-                    <el-input placeholder="Please input" v-model="scope.row.value" v-on:input="rowChanged(scope.row)" >
+                    <el-input placeholder="Please input" v-model="scope.row.value" v-on:input="rowChanged(scope.row)" :type="scope.row.default && scope.row.default.length > 50 ? 'textarea' : ''">
                         <el-button slot="append" icon="el-icon-check" v-if="scope.row.changed" v-on:click="save(scope.row)"></el-button>
                     </el-input>
                 </template> 
