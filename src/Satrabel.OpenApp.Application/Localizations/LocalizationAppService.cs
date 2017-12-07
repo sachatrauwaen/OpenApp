@@ -27,7 +27,7 @@ namespace Satrabel.OpenApp.Localizations
         public LocalizationAppService(IRepository<ApplicationLanguageText, long> repository,
                                         IApplicationLanguageTextManager translationManager,
                                         ILocalizationManager localizationManager,
-                                         ApplicationLanguageManager languageManager)
+                                        ApplicationLanguageManager languageManager)
         {
             _repository = repository;
             _translationManager = translationManager;
@@ -39,7 +39,6 @@ namespace Satrabel.OpenApp.Localizations
         public async Task<PagedResultDto<LocalizationDto>> GetAll(LocalizationResultRequestDto input)
         {
             //CheckGetAllPermission();
-
             var lst = new List<LocalizationDto>();
             foreach (var language in await _languageManager.GetLanguagesAsync(AbpSession.TenantId))
             {
