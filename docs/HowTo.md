@@ -14,6 +14,8 @@
 * Make sure Visual Studio does not use it's own node version
     Tools > Options > Projects and Solutions > Web Package Management > Deselect $(VSINSTALLDIR)\Web\External
 
+* Resharper users would verify that resharper is following correct version. (options > code editing > typescript > inspections)
+
 
 ## Creating an OpenApp Solution
 
