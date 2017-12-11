@@ -1,14 +1,14 @@
 {
   "name": "vue2",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "build-dev": "webpack",
     "build-prod": "webpack --env.prod",
     "build-vendor": "webpack --config webpack.config.vendor.js --env.prod"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.13.0",
+    "@types/webpack-env": "^1.13.2",
     "aspnet-webpack": "^2.0.1",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -20,7 +20,7 @@
     "file-loader": "^0.9.0",
     "raw-loader": "~0.5.1",
     "style-loader": "^0.13.1",
-    "ts-loader": "3.1.1",
+    "ts-loader": "3.2.0",
     "typescript": "2.5.3",
     "url-loader": "^0.5.7",
     "vue": "2.5.6",
