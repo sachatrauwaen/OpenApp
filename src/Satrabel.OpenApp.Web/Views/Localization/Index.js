@@ -12,7 +12,7 @@
                 filterModel: {},
                 totalCount: 0,
                 currentPage: 1,
-                pageSize: 10,
+                pageSize: 25,
             };
         },
         computed: {
