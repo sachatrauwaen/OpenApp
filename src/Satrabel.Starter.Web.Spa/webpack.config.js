@@ -7,7 +7,7 @@ const bundleOutputDir = './wwwroot/dist';
 
 
 module.exports = (env) => {
-    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV.trim() ==='production');
+    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() ==='production');
     const isDevBuild = !isProdBuild;
 
     return [{
@@ -83,7 +83,7 @@ module.exports = (env) => {
             //new ExtractTextPlugin('site.css')
             new ExtractTextPlugin({
                 filename: '[name].css'
-            }),
+            })
         ])
     }];
 };
