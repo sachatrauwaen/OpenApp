@@ -1,7 +1,7 @@
 ﻿(function () {
 
     var grid = {
-        name: "grid",
+        name: 'grid',
         template: '#gridTemplate',
         props: {
 
@@ -17,10 +17,10 @@
         },
         computed: {
             module: function () {
-                return "OpenApp";//this.$route.params.module;
+                return 'OpenApp'; //this.$route.params.module;
             },
             resource: function () {
-                return "localization";//this.$route.params.resource;
+                return 'localization'; //this.$route.params.resource;
             },
             service: function () {
                 return abp.services.app[this.resource];
@@ -35,7 +35,7 @@
                 var fields = {};
                 for (var key in this.schema.properties) {
                     if (key != 'id' &&
-                        (!this.schema.properties[key].hasOwnProperty("x-ui-grid") || this.schema.properties[key]["x-ui-grid"])
+                        (!this.schema.properties[key].hasOwnProperty('x-ui-grid') || this.schema.properties[key]['x-ui-grid'])
                     ) {
                         fields[key] = this.schema.properties[key];
                     }
@@ -50,7 +50,7 @@
                         name: self.translate('Edit'),
                         icon: 'el-icon-edit',
                         execute: function (row) {
-                            self.$router.push({ name: 'edit', params: { resource: self.resource, id: row.id } })
+                            self.$router.push({ name: 'edit', params: { resource: self.resource, id: row.id } });
                         }
                     },
                     {
@@ -68,14 +68,14 @@
                                         type: 'success',
                                         message: self.translate('Delete completed')
                                     });
-                                })
+                                });
                             }).catch(function () {
 
                             });
 
                         }
                     }
-                ]
+                ];
             },
             defaultAction: function () {
                 return this.gridActions[0];
@@ -84,7 +84,7 @@
                 var schema = { properties: {} };
                 var parameters = abp.schemas.app[this.resource].getAll.parameters;
                 var keys = Object.keys(parameters);
-                if (keys.length == 1 && parameters[keys[0]].type == "object") { // httppost
+                if (keys.length == 1 && parameters[keys[0]].type == 'object') { // httppost
                     parameters = parameters[keys[0]].properties;
                 }
                 for (var key in parameters) {
@@ -114,7 +114,7 @@
                             self.fetchData();
                         }
                     }
-                ]
+                ];
             },
             totalPages: function () {
                 return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
@@ -161,9 +161,9 @@
             formatter: function (row, column, cellValue) {
                 var schema = this.schema.properties[column.property];
                 if (schema.type == 'boolean') {
-                    return cellValue ? this.messages["Yes"] : this.messages["No"];
+                    return cellValue ? this.messages['Yes'] : this.messages['No'];
                 } else if (schema.format == 'date-time') {
-                    if (!cellValue) return "";
+                    if (!cellValue) return '';
                     return moment(cellValue).locale('fr').format('lll');
                 } else if (schema.enum) {
                     var i = schema.enum.indexOf(cellValue);
@@ -210,7 +210,7 @@
             name,
             children,
             component: component
-        }
+        };
     }
 
     //const crudForm = Vue.component('crud-form');
@@ -248,7 +248,7 @@
                 //if (this.$route.params.resource)
                 //    return abp.localization.values['OpenApp'][this.$route.params.resource.capitalize() + 's'];
                 //else
-                return "LocalizationManager";
+                return 'LocalizationManager';
             }
         }
     });

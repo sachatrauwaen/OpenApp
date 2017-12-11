@@ -55,7 +55,10 @@ namespace Satrabel.Starter.Web.Startup
                     }
                 });
             }
-            LocalizationConfigurer.Configure(Configuration.Localization);
+
+            // Load localization keys
+            LocalizationConfigurer.Configure(Configuration.Localization); 
+
             // Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
 
