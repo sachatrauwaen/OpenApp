@@ -21,7 +21,6 @@ namespace Satrabel.OpenApp.Localizations
         private readonly IApplicationLanguageTextManager _translationManager;
         private readonly ILocalizationManager _localizationManager;
         private readonly ApplicationLanguageManager _languageManager;
-        private ApplicationLanguageText _defaultLanguage = null;
 
 
         public LocalizationAppService(IRepository<ApplicationLanguageText, long> repository,

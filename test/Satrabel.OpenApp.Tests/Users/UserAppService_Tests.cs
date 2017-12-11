@@ -1,7 +1,4 @@
 ﻿using System.Threading.Tasks;
-
-using Abp.Application.Services.Dto;
-
 using Satrabel.OpenApp.Users;
 using Satrabel.OpenApp.Users.Dto;
 using Microsoft.EntityFrameworkCore;

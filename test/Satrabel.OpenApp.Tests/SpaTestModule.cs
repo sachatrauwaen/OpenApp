@@ -1,6 +1,4 @@
 using System;
-using System.Threading.Tasks;
-using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Abp.Dependency;
 using Abp.Modules;
@@ -14,7 +12,6 @@ using Castle.MicroKernel.Registration;
 using NSubstitute;
 using Satrabel.Starter.Web.Startup;
 using Satrabel.Starter.EntityFramework;
-using Xunit;
 
 namespace Satrabel.OpenApp.Tests
 {

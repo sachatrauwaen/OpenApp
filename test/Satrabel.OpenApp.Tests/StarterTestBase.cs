@@ -8,7 +8,6 @@ using Abp.Events.Bus.Entities;
 using Abp.Runtime.Session;
 using Abp.TestBase;
 using Satrabel.OpenApp.Authorization.Users;
-using Satrabel.OpenApp.EntityFramework;
 using Satrabel.OpenApp.EntityFramework.Seed.Host;
 using Satrabel.OpenApp.EntityFramework.Seed.Tenants;
 using Satrabel.OpenApp.MultiTenancy;
