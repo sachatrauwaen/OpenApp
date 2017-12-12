@@ -118,7 +118,10 @@
             }
         },
         created: function () {
-            
+            var self = this;
+            if (this.value) {
+                this.options.push({ label: self.value[self.relationTextField], value: this.value });
+            }   
         }
     }
     Vue.component('relation-component', RelationComponent);
