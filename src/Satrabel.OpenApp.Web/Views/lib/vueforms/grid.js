@@ -18,7 +18,7 @@
             columns: function () {
                 var fields = {};
                 for (var key in this.schema.properties) {
-                    if (key != 'id' &&
+                    if (key != 'id' && this.schema.properties[key].type != "array" &&
                         (!this.schema.properties[key].hasOwnProperty("x-ui-grid") || this.schema.properties[key]["x-ui-grid"])
                     ) {
                         fields[key] = this.schema.properties[key];
