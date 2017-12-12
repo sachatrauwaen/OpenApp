@@ -2,14 +2,12 @@
     var RelationComponent = {
         name: "RelationComponent",
         template: '<div> \
-                <el-form-item :label="label" :prop="prop"> \
                     <el-select v-model="model" :value-key="relationValueField" filterable clearable v-on:clear="clear" remote :remote-method="remoteMethod" :loading="loading" > \
                         <el-option v-for="item in options" :key="item.value.id" :label="item.label" :value="item.value"></el-option> \
                     </el-select> \
                 <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
                  <slot name="footer"></slot> \
-                </el-form-item> \
-                <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :size="dialogSize" :before-close="handleClose"> \
+                <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :size="dialogSize" :before-close="handleClose" :append-to-body="true"> \
                     <dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></dialog-form> \
                 </el-dialog > \
                 </div>',
@@ -112,6 +110,9 @@
             }
         },
         created: function () {
+            if (self.value) {
+                this.options.push({ label: self.value[self.relationTextField], value: this.value });
+            }
         }
     }
     Vue.component('relation-component', RelationComponent);

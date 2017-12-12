@@ -56,7 +56,7 @@
                 }
             },
             addFormItem: function () {
-                return this.currentView != 'relationComponent';
+                return true;//this.currentView != 'relationComponent';
             },
             model: {
                 get: function () {
