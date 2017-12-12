@@ -27,7 +27,7 @@
         computed: {
             currentView: function () {
                 var sch = this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
-                var type = Array.isArray(sch.type) ? sch.type[0] : sch.type;
+                var type = Array.isArray(sch.type) ? (sch.type[0] == "null" ? sch.type[1]:sch.type[0] ) : sch.type;
                 if (sch["x-type"]) {
                     type = sch["x-type"];
                 }

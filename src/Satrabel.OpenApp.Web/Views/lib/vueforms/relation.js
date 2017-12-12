@@ -69,6 +69,14 @@
             }
 
         },
+        watch: {
+            value: function (val, oldVal) {
+                var self = this;
+                if (val) {
+                    this.options.push({ label: self.value[self.relationTextField], value: val });
+                }    
+            }
+        },
         methods: {
             remoteMethod: function (query) {
                 var self = this;
@@ -110,9 +118,7 @@
             }
         },
         created: function () {
-            if (self.value) {
-                this.options.push({ label: self.value[self.relationTextField], value: this.value });
-            }
+            
         }
     }
     Vue.component('relation-component', RelationComponent);

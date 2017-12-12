@@ -552,6 +552,14 @@
             }
 
         },
+        watch: {
+            value: function (val, oldVal) {
+                var self = this;
+                if (val) {
+                    this.options.push({ label: self.value[self.relationTextField], value: val });
+                }    
+            }
+        },
         methods: {
             remoteMethod: function (query) {
                 var self = this;
@@ -593,9 +601,7 @@
             }
         },
         created: function () {
-            if (self.value) {
-                this.options.push({ label: self.value[self.relationTextField], value: this.value });
-            }
+            
         }
     }
     Vue.component('relation-component', RelationComponent);
@@ -747,7 +753,7 @@
         computed: {
             currentView: function () {
                 var sch = this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
-                var type = Array.isArray(sch.type) ? sch.type[0] : sch.type;
+                var type = Array.isArray(sch.type) ? (sch.type[0] == "null" ? sch.type[1]:sch.type[0] ) : sch.type;
                 if (sch["x-type"]) {
                     type = sch["x-type"];
                 }
