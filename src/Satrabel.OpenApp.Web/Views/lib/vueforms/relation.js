@@ -65,7 +65,7 @@
                 return window.innerWidth < 700 ? 'full' : 'small';
             },
             buttonIcon: function () {
-                return this.isnew ? "plus" : "edit";
+                return this.isnew ? "el-icon-plus" : "el-icon-edit";
             }
 
         },
