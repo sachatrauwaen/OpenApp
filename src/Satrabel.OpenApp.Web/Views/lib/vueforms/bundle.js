@@ -556,7 +556,7 @@
             value: function (val, oldVal) {
                 var self = this;
                 if (val) {
-                    this.options.push({ label: self.value[self.relationTextField], value: val });
+                    this.options= [{ label: self.value[self.relationTextField], value: val }];
                 }    
             }
         },
@@ -603,7 +603,7 @@
         created: function () {
             var self = this;
             if (this.value) {
-                this.options.push({ label: self.value[self.relationTextField], value: this.value });
+                this.options = [{ label: self.value[self.relationTextField], value: this.value }];
             }   
         }
     }
