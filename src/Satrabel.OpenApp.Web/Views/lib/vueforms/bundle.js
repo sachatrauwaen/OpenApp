@@ -1089,7 +1089,7 @@
         template: '<el-form ref="form" :model="model" :rules="rules" label-position="right" :label-width="labelwidth" :inline="!isMobile" :label-position="labelPosition"> \
                 <comp v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" :service="service" ></comp> \
                 <el-form-item> \
-                    <el-button v-for="action in actions" :key="action.name" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
+                    <el-button v-for="action in actions" :key="action.name" size="small" :icon="action.icon" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
                 </el-form-item> \
                 </el-form>',
         props: {
@@ -1416,7 +1416,7 @@
         template: '<el-table :data="model" @row-click="rowClick" style="width: 100%" :row-style="{cursor: \'pointer\'}"  > \
                 <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell" ></el-table-column> \
                 <el-table-column align="right" min-width="120px"> \
-                    <template scope="scope"><el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" @click="action.execute(scope.row, scope.$index)"></el-button></template> \
+                    <template slot-scope="scope"><el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" @click="action.execute(scope.row, scope.$index)"></el-button></template> \
                 </el-table-column> \
                 </el-table>',
         props: {
@@ -1550,7 +1550,7 @@
                 var self = this;
                 return [
                     {
-                        name: self.translate('Add'),
+                        //name: self.translate('Add'),
                         icon: 'el-icon-plus',
                         type: 'primary',
                         execute: function () {
@@ -1576,14 +1576,16 @@
                 var self = this;
                 return [
                     {
-                        name: self.translate('Search'),
+                        //name: self.translate('Search'),
+                        icon: 'el-icon-search',
                         type: 'primary',
                         execute: function () {
                             self.fetchData();
                         }
                     },
                     {
-                        name: self.translate('Reset'),
+                        //name: self.translate('Reset'),
+                        icon: 'el-icon-close',
                         execute: function () {
                             self.$refs.filterform.resetForm();
                             self.fetchData();

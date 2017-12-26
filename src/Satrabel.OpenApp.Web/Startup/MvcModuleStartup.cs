@@ -145,7 +145,17 @@ namespace Satrabel.OpenApp.Startup
 
             ConfigureBeforeStaticFiles(app, env);
             app.UseStaticFiles();
-            app.UseEmbeddedFiles();
+            // start temp fix
+            //app.UseEmbeddedFiles(); 
+            app.UseStaticFiles(
+                new StaticFileOptions
+                {
+                    FileProvider = new Web.EmbeddedResources.EmbeddedResourceFileProvider(
+                        app.ApplicationServices.GetRequiredService<Abp.Dependency.IIocResolver>()
+                    )
+                }
+            );
+            // end temp fix
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
 

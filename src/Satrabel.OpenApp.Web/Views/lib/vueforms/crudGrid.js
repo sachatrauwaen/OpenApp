@@ -76,7 +76,7 @@
                 var self = this;
                 return [
                     {
-                        name: self.translate('Add'),
+                        //name: self.translate('Add'),
                         icon: 'el-icon-plus',
                         type: 'primary',
                         execute: function () {
@@ -102,14 +102,16 @@
                 var self = this;
                 return [
                     {
-                        name: self.translate('Search'),
+                        //name: self.translate('Search'),
+                        icon: 'el-icon-search',
                         type: 'primary',
                         execute: function () {
                             self.fetchData();
                         }
                     },
                     {
-                        name: self.translate('Reset'),
+                        //name: self.translate('Reset'),
+                        icon: 'el-icon-close',
                         execute: function () {
                             self.$refs.filterform.resetForm();
                             self.fetchData();
