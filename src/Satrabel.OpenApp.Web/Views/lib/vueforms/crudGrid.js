@@ -54,7 +54,6 @@
                                 cancelButtonText: 'Cancel',
                                 type: 'warning'
                             }).then(function () {
-
                                 self.deleteData(row, function () {
                                     self.$message({
                                         type: 'success',
@@ -64,7 +63,13 @@
                             }).catch(function () {
 
                             });
-
+                        },
+                        visible: function (row, index) {
+                            if (typeof row.canDelete != 'undefined') {
+                                return row.canDelete;
+                            } else {
+                                return true;
+                            }
                         }
                     }
                 ]

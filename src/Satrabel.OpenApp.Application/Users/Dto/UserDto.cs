@@ -13,7 +13,7 @@ namespace Satrabel.OpenApp.Users.Dto
     public class UserDto : EntityDto<long>
     {
         [Required]
-        [StringLength(AbpUserBase.MaxUserNameLength)]        
+        [StringLength(AbpUserBase.MaxUserNameLength)]
         public string UserName { get; set; }
 
         [Required]
@@ -46,7 +46,16 @@ namespace Satrabel.OpenApp.Users.Dto
         public DateTime CreationTime { get; set; }
 
         [JsonSchemaExtensionData("x-ui-grid", false)]
-       
+
         public string[] RoleNames { get; set; }
+
+        [JsonSchemaExtensionData("x-ui-grid", false)]
+        public bool CanDelete
+        {
+            get
+            {
+                return UserName != "admin";
+            }
+        }
     }
 }
