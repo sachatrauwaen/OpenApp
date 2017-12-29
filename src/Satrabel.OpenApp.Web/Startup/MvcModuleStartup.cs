@@ -35,7 +35,7 @@ namespace Satrabel.OpenApp.Startup
     public class MvcModuleStartup<TModule> where TModule : AbpModule
     {
         private const string DefaultCorsPolicyName = "DefaultPolicy";
-        private readonly IConfigurationRoot _appConfiguration;
+        protected readonly IConfigurationRoot _appConfiguration;
         private readonly bool _corsEnabled = false;
         private readonly bool _swaggerEnabled = false;
         protected Version AppVersion;
