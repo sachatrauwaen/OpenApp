@@ -1,7 +1,7 @@
 ﻿(function () {
     var DialogForm = {
         name: "oaDialogForm",
-        template: '<oa-form ref="form" :model="model" :schema="schema" :actions="actions" :messages="messages"></oa-form>',
+        template: '<oa-form ref="form" :model="model" :schema="schema" :actions="actions" :messages="messages" :service="service"></oa-form>',
         props: {
             resource: {},
             value: {}
@@ -56,6 +56,9 @@
                     return jref.resolve(abp.schemas.app[this.resource].create.parameters.input);
                 else
                     return jref.resolve(abp.schemas.app[this.resource].update.parameters.input);
+            },
+            service: function () {
+                return abp.services.app[this.resource];
             }
         },
         methods: {
@@ -76,7 +79,7 @@
             saveData: function (data, callback) {
                 var self = this;
                 if (self.isnew) { // add
-                    abp.services.app[this.resource].create(data).done(function (newdata) {
+                    self.service.create(data).done(function (newdata) {
                         self.model = newdata;
                         self.$emit('input', newdata[this.relationValueField]);
                         if (callback) callback();
@@ -85,7 +88,7 @@
                     });
                 } else { // update
                     data.id = self.id;
-                    abp.services.app[this.resource].update(data).done(function (newdata) {
+                    self.service.update(data).done(function (newdata) {
                         self.model = newdata;
                         self.$emit('input', newdata.id);
                         if (callback) callback();
