@@ -47,7 +47,7 @@
       "Views/css/font-awesome.css",
       "Views/css/simple-line-icons.css",
       "Views/lib/animate.css/animate.css",
-      "Views/css/style.css"
+      "Views/css/style.css"      
     ]
   },
   {
@@ -143,6 +143,13 @@
     ]
   },
   {
+    "outputFileName": "Views/lib/vueforms/libs.css",
+    "inputFiles": [
+      "Views/lib/element-ui/lib/theme-default/index.css",
+      "Views/lib/vueforms/vueforms.css"
+    ]
+  },
+  {
     "outputFileName": "Views/lib/vueforms/libs.js",
     "inputFiles": [
       "Views/lib/vue/vue.js",
@@ -152,5 +159,5 @@
       "Views/lib/json-ref-lite/json-ref-lite.min.js"
     ]
   }
-  
+
 ]

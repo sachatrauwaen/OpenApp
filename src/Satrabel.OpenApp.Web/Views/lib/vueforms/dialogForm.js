@@ -1,7 +1,7 @@
 ﻿(function () {
     var DialogForm = {
-        name: "DialogForm",
-        template: '<formcomp ref="form" :model="model" :schema="schema" :actions="actions" :messages="messages"></formcomp>',
+        name: "oaDialogForm",
+        template: '<oa-form ref="form" :model="model" :schema="schema" :actions="actions" :messages="messages"></oa-form>',
         props: {
             resource: {},
             value: {}
@@ -99,5 +99,5 @@
             this.fetchData();
         },
     }
-    Vue.component('DialogForm', DialogForm);
+    Vue.component('oa-dialog-form', DialogForm);
 })();

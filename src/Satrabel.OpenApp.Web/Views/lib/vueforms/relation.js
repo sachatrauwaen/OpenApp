@@ -5,15 +5,16 @@
                     <el-select v-model="model" :value-key="relationValueField" filterable clearable v-on:clear="clear" remote :remote-method="remoteMethod" :loading="loading" > \
                         <el-option v-for="item in options" :key="item.value.id" :label="item.label" :value="item.value"></el-option> \
                     </el-select> \
-                <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
-                 <slot name="footer"></slot> \
-                <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :size="dialogSize" :before-close="handleClose" :append-to-body="true"> \
-                    <dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></dialog-form> \
-                </el-dialog > \
+                    <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
+                     <slot name="footer"></slot> \
+                    <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :size="dialogSize" :before-close="handleClose" :append-to-body="true"> \
+                        <oa-dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></oa-dialog-form> \
+                    </el-dialog > \
                 </div>',
         props: {
             value: {},
             schema: {},
+            messages: Object,
             service: {},
             prop: String,
             label: String
@@ -21,8 +22,7 @@
         data: function () {
             var self = this;
             return {
-                form: {},
-                messages: abp.localization.values['JobManager'],
+                form: {},                
                 loading: false,
                 dialogVisible: false,
                 options: [],
@@ -124,5 +124,5 @@
             }   
         }
     }
-    Vue.component('relation-component', RelationComponent);
+    Vue.component('oa-relation', RelationComponent);
 })();

@@ -1,6 +1,6 @@
 ﻿(function () {
     var grid = {
-        name: "gridcomp",
+        name: "oa-grid",
         template: '<el-table :data="model" @row-click="rowClick" style="width: 100%" :row-style="{cursor: \'pointer\'}"  > \
                 <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell" ></el-table-column> \
                 <el-table-column align="right" min-width="120px"> \
@@ -65,5 +65,5 @@
             }
         }
     }
-    Vue.component('gridcomp', grid);
+    Vue.component('oa-grid', grid);
 })();

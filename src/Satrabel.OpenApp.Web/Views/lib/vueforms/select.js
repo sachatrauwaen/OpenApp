@@ -11,8 +11,6 @@
             messages: Object,
             prop: String,
             service: {},
-            
-            
         },
         data: function () {
             return {
@@ -64,5 +62,5 @@
             }
         }
     }
-    Vue.component('select-component', selectComponent);
+    Vue.component('oa-select', selectComponent);
 })();

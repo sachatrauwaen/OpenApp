@@ -1,13 +1,13 @@
 ﻿(function () {
     var form = {
-        name: "formcomp",
+        name: "oaForm",
         template: '<el-form ref="form" :model="model" :rules="rules" label-position="right" label-width="120px" :label-position="labelPosition" > \
                 <el-tabs v-if="Object.keys(tabs).length > 1" :value="Object.keys(tabs)[0]">\
                     <el-tab-pane v-for="(gvalue, gkey) in tabs" :key="gkey" :label="label(gkey)" :name="gkey"> \
-                        <comp v-for="(value, key) in gvalue" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></comp> \
+                        <oa-field v-for="(value, key) in gvalue" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
                     </el-tab-pane> \
                 </el-tabs> \
-                <comp v-else v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></comp> \
+                <oa-field v-else v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
                 <el-form-item> \
                     <el-button v-for="action in actions" :key="action.name" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
                 </el-form-item> \
@@ -143,5 +143,5 @@
             }
         }
     }
-    Vue.component('formcomp', form);
+    Vue.component('oa-form', form);
 })();

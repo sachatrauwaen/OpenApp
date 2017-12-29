@@ -39,6 +39,7 @@
     <None Remove="Views\fonts\Simple-Line-Icons.woff" />
     <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element-icons.ttf" />
     <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element-icons.woff" />
+    <None Remove="Views\lib\vueforms\libs.css" />
     <None Remove="Views\Localization\Index.cshtml" />
     <None Remove="Views\Localization\Index.js" />
     <None Remove="Views\Crud\Index.js" />
@@ -80,6 +81,7 @@
     <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.woff" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element-icons.ttf" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element-icons.woff" />
+    <EmbeddedResource Include="Views\lib\vueforms\libs.css" />
     <EmbeddedResource Include="Views\Localization\Index.js" />
     <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.eot" />
     <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.svg" />

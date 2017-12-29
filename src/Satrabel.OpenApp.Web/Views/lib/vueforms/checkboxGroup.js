@@ -53,5 +53,5 @@
             }
         }
     }
-    Vue.component('checkbox-group-component', checkboxGroupComponent);
+    Vue.component('oa-checkbox-group', checkboxGroupComponent);
 })();
