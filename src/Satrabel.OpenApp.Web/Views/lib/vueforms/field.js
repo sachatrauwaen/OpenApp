@@ -46,7 +46,7 @@
                     comp = function (resolve, reject) {
                         Vue.$loadComponent({
                             name: compName,
-                            path: abp.appPath+'js/vueforms/'+type+'.js',
+                            path: abp.appPath+'lib/vueforms/'+type+'.js',
                             onLoad: resolve,
                             onError: reject
                         });
