@@ -490,7 +490,7 @@
                     </el-select> \
                     <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
                      <slot name="footer"></slot> \
-                    <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :size="dialogSize" :before-close="handleClose" :append-to-body="true"> \
+                    <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :fullscreen="fullscreen" :before-close="handleClose" :append-to-body="true"> \
                         <oa-dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></oa-dialog-form> \
                     </el-dialog > \
                 </div>',
@@ -544,8 +544,8 @@
                     this.$emit('input', val)
                 }
             },
-            dialogSize: function () {
-                return window.innerWidth < 700 ? 'full' : 'small';
+            fullscreen: function () {
+                return window.innerWidth < 700;
             },
             buttonIcon: function () {
                 return this.isnew ? "el-icon-plus" : "el-icon-edit";
