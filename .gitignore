@@ -252,6 +252,6 @@ paket-files/
 *.sln.iml
 
 # Custom
-
 */*/App_Data/
-src/Satrabel.Starter.Web.Spa/Configuration/
+*/*/Configuration/
+.vscode/
