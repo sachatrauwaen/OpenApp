@@ -14,7 +14,7 @@ module.exports = (env) => {
             vendor: [
                 'event-source-polyfill',
                 'element-ui',
-                'element-ui/lib/theme-default/index.css',
+                'element-ui/lib/theme-chalk/index.css',
                 'vue',
                 'vue-router'
             ],
