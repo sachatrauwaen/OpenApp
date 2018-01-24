@@ -49,7 +49,7 @@
     <div>
         <filterform v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :actions="filterActions" :messages="messages" :service="service"></filterform>
         <el-table :data="model" style="width: 100%" >
-            <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell"></el-table-column>
+            <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell" :min-width="value.minWidth"></el-table-column>
             <el-table-column align="right" min-width="120px">
                 <template slot-scope="scope">
                     <el-input placeholder="Please input" v-model="scope.row.value" v-on:input="rowChanged(scope.row)" :type="scope.row.default && scope.row.default.length > 50 ? 'textarea' : ''">

@@ -9,6 +9,7 @@ namespace Satrabel.OpenApp.Languages.Dto
     public class LanguageDto : EntityDto<int>
     {
         [Required]
+        [Display(Name = "CultureCode")]
         [StringLength(ApplicationLanguage.MaxNameLength)]
         public string Name { get; set; }
 
