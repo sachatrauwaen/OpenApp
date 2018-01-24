@@ -10,7 +10,7 @@ namespace Satrabel.OpenApp.Web.Views.Shared.Components.SideBarUserArea
 
         public string GetShownLoginName()
         {
-            var userName = "<span id=\"HeaderCurrentUserName\">" + LoginInformations.User.UserName + "</span>";
+            var userName = "<span id=\"HeaderCurrentUserName\">" + LoginInformations?.User?.UserName + "</span>";
 
             if (!IsMultiTenancyEnabled)
             {
