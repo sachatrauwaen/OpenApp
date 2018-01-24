@@ -79,7 +79,6 @@ namespace Satrabel.OpenApp.Languages
         public override async Task<PagedResultDto<LanguageDto>> GetAll(PagedResultRequestDto input)
         {
             _defaultLanguage = await _languageManager.GetDefaultLanguageOrNullAsync(AbpSession.TenantId);
-            //return await base.GetAll(input);
             var lst = await _languageManager.GetLanguagesAsync(AbpSession.TenantId);
             var query = lst.AsQueryable();
 
