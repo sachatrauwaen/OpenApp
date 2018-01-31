@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="nl-NL">
   <texts>
-
+    <text name="Admin" value="Admin" />
+    <text name="Languages">Talen</text>
+    
     <text name="FormIsNotValidMessage" value="Formulier is onjuist ingevuld. Controleer en herstel de fouten." />
     <text name="TenantNameCanNotBeEmpty" value="Naam van de klant mag niet leeg zijn" />
 
@@ -9,6 +11,8 @@
     <text name="ThereIsNoTenantDefinedWithName{0}" value="Er is geen klant aanwezig met de naam {0}" />
     <text name="TenantIsNotActive" value="Klant {0} is niet actief." />
     <text name="UserIsNotActiveAndCanNotLogin" value="Gebruiker {0} is niet actief en kan niet inloggen." />
+    <text name="UserEmailIsNotConfirmedAndCanNotLogin">Je email adres is niet geconfirmeerd. Je kan niet inloggen.</text>
+    <text name="UserLockedOutMessage">De account is geblokkeerd. Probeer later opnieuw.</text>
     <text name="PleaseEnterLoginInformation" value="Vul gebruikersnaam en wachtwoord in" />
     <text name="TenancyName" value="Naam klant" />
     <text name="UserNameOrEmail" value="Gebruikersnaam of e-mail" />
@@ -18,11 +22,11 @@
 
     <text name="LoginFailed" value="Inloggen mislukt!" />
 
-    <text name="NameSurname" value="Naam achternaam" />
     <text name="UserName" value="Gebruikersnaam" />
     <text name="Name" value="Naam" />
     <text name="Firstname" value="Voornaam" />
     <text name="Surname" value="Achternaam" />
+    <text name="NameSurname" value="Naam achternaam" />
     <text name="EmailAddress" value="E-mailadres" />
 
     <text name="Tenants" value="Klanten" />
@@ -34,7 +38,8 @@
     <text name="TenantName_Regex_Description" value="De naam van de klant dient minimaal 2 tekens te hebben en moet beginnen met een letter en kan daarnaast nog letters, nummers en een (liggend) streepje bevatten." />
     <text name="DefaultPasswordIs" value="Standaard wachtwoord is {0}" />
     <text name="CanBeEmptyToLoginAsHost" value="Kan leeggelaten worden indien je als host in wilt loggen." />
-    <text name="Register" value="Registreer" />
+    <text name="Register" value="Registreren" />
+    <text name="RegisterText" value="Je hebt geen account, registeer jezelf" />
     <text name="OrLoginWith" value="Of log in met" />
     <text name="WaitingForActivationMessage" value="Je account dient nog te worden geactiveerd door de beheerder." />
     <text name="TenantSelection" value="Klant selectie" />
@@ -51,9 +56,41 @@
     <text name="Yes" value="Ja" />
     <text name="No" value="Nee" />
     <text name="Optional" value="Optioneel" />
+    <text name="LeaveEmptyToSwitchToHost">Leave empty to switch to the host</text>
 
-    <text name="Yes" value="Ja" />
-    <text name="No" value="Nee" />
-    <text name="DisplayName">Zichtbare naam</text>
+    <text name="CurrentTenant">Huidige tenant</text>
+    <text name="NotSelected">Niet geselecteerd</text>
+    <text name="Change">Wijzig</text>
+    <text name="ChangeTenant">Wijzig tenant</text>
+
+    <text name="MultiLevelMenu">Multi Level Menu</text>
+    <text name="Back">Terug</text>
+    <text name="SuccessfullyRegistered">Succesvol geregistered</text>
+    <text name="WaitingForEmailActivation">Wacht op email activatie</text>
+    <text name="Roles">Roles</text>
+    <text name="DisplayName">Publieke naam</text>
+
+    <text name="Edit">Edit</text>
+    <text name="Delete">Delete</text>
+
+    <text name="CreateNewRole">Create new role</text>
+    <text name="RoleName">Role Name</text>
+    <text name="Actions">Actions</text>
+
+    <text name="CouldNotCompleteLoginOperation">Could not complete login operation. Please try again later.</text>
+
+    <text name="CouldNotValidateExternalUser">Could not validate external user</text>
+    <text name="EditRole">Edit role</text>
+    <text name="EditTenant">Edit tenant</text>
+    <text name="EditUser">Edit user</text>
+    <text name="TenantIdIsNotActive{0}">TenantId {0} is not active</text>
+    <text name="UnknownTenantId{0}">Unknown tenantId {0}</text>
+
+    <text name="LanguageSource">Source</text>
+    <text name="LanguageName">Language</text>
+    <text name="LanguageKey">Key</text>
+    <text name="NotTranslatedOnly">Not Translated</text>
+    <text name="Localizations">Localizations</text>
+
   </texts>
 </localizationDictionary>
