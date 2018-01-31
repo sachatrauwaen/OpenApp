@@ -4,23 +4,23 @@
 }
 
 @section styles
-    {
-<link rel="stylesheet" href="~/Views/lib/element-ui/lib/theme-default/index.css" asp-append-version="true" />
+{
+    <link rel="stylesheet" href="~/Views/lib/element-ui/lib/theme-default/index.css" asp-append-version="true" />
 }
 
 @section scripts
-    {
-<environment names="Development">
-    <script src="~/Views/lib/vueforms/libs.js"></script>
-    <script src="~/Views/lib/vueforms/bundle.js"></script>
-    <script src="~/Views/Localization/Index.js" asp-append-version="true"></script>
-</environment>
+{
+    <environment names="Development">
+        <script src="~/Views/lib/vueforms/libs.js"></script>
+        <script src="~/Views/lib/vueforms/bundle.js"></script>
+        <script src="~/Views/Localization/Index.js" asp-append-version="true"></script>
+    </environment>
 
-<environment names="Staging,Production">
-    <script src="~/Views/lib/vueforms/libs.js" asp-append-version="true"></script>
-    <script src="~/Views/lib/vueforms/bundle.js" asp-append-version="true"></script>
-    <script src="~/Views/Localization/Index.js" asp-append-version="true"></script>
-</environment>
+    <environment names="Staging,Production">
+        <script src="~/Views/lib/vueforms/libs.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/vueforms/bundle.js" asp-append-version="true"></script>
+        <script src="~/Views/Localization/Index.js" asp-append-version="true"></script>
+    </environment>
 }
 
 <div id="app">Loading...</div>
@@ -47,8 +47,8 @@
 
 <template id="gridTemplate">
     <div>
-        <filterform v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :actions="filterActions" :messages="messages" :service="service"></filterform>
-        <el-table :data="model" style="width: 100%" >
+        <oa-filter-form v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :actions="filterActions" :messages="messages" :service="service"></oa-filter-form>
+        <el-table :data="model" style="width: 100%">
             <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell" :min-width="value.minWidth"></el-table-column>
             <el-table-column align="right" min-width="120px">
                 <template slot-scope="scope">
@@ -56,7 +56,7 @@
                         <el-button slot="append" icon="el-icon-check" v-if="scope.row.changed" v-on:click="save(scope.row)"></el-button>
                     </el-input>
                     <el-button slot="append" icon="el-icon-check" v-if="scope.row.changed && scope.row.default.length > 50" v-on:click="save(scope.row)"></el-button>
-                </template> 
+                </template>
             </el-table-column>
         </el-table>
         <div style="float:right;margin-bottom:10px;margin-top:10px;"><el-pagination v-on:current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="totalCount"></el-pagination></div>
