@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Satrabel.OpenApp.Localizations
 {
-    [AbpAuthorize(PermissionNames.Pages_Languages)]
+    [AbpAuthorize(PermissionNames.Pages_Localizations)]
     public class LocalizationAppService : ApplicationService, ILocalizationAppService
     {
         private readonly IRepository<ApplicationLanguageText, long> _repository;
