@@ -238,7 +238,7 @@
         ]
     });
 
-    ELEMENT.locale(ELEMENT.lang.fr);
+    ELEMENT.locale(ELEMENT.lang[abp.localization.currentCulture.name]);
     new Vue({
         router: router,
         el: '#app',
