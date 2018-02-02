@@ -47,7 +47,7 @@
       "Views/css/font-awesome.css",
       "Views/css/simple-line-icons.css",
       "Views/lib/animate.css/animate.css",
-      "Views/css/style.css"      
+      "Views/css/style.css"
     ]
   },
   {
@@ -156,6 +156,9 @@
       "Views/lib/vue/vue_router.js",
       "Views/lib/element-ui/lib/index.js",
       "Views/lib/element-ui/lib/umd/locale/fr.js",
+      "Views/lib/element-ui/lib/umd/locale/en.js",
+      "Views/lib/element-ui/lib/umd/locale/nl.js",
+      "Views/lib/element-ui/lib/umd/locale/de.js",
       "Views/lib/json-ref-lite/json-ref-lite.min.js"
     ]
   }
