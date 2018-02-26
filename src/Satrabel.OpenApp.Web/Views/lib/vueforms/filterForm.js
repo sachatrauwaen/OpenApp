@@ -32,7 +32,7 @@
                 else {
                     var fields = {};
                     for (var key in this.schema.properties) {
-                        if (key != 'id' && !this.schema.properties[key].readOnly && !this.schema.properties[key]["x-rel-app"]) {
+                        if (key != 'id' && !this.schema.properties[key].readOnly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
                             fields[key] = this.schema.properties[key];
                         }
                     }

@@ -19,6 +19,8 @@
                     type = sch["x-type"];
                 } else if (sch["x-rel-action"]) {
                     type = 'relation';
+                } else if (sch["x-rel-to-many-action"]) {
+                    type = 'relation-to-many';
                 } else if (sch.enum || sch["x-enum-action"]) {
                     if (type == 'array') {
                         type = 'checkbox-group';

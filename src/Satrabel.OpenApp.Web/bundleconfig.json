@@ -127,6 +127,7 @@
       "Views/lib/vueforms/input.js",
       "Views/lib/vueforms/inputNumber.js",
       "Views/lib/vueforms/relation.js",
+      "Views/lib/vueforms/relation-to-many.js",
       "Views/lib/vueforms/select.js",
       "Views/lib/vueforms/switch.js",
       "Views/lib/vueforms/textarea.js",
