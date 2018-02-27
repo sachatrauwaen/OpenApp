@@ -7,7 +7,7 @@
                     </el-select> \
                     <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
                      <slot name="footer"></slot> \
-                    <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :fullscreen="fullscreen" :before-close="handleClose" :append-to-body="true"> \
+                    <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :fullscreen="fullscreen" :before-close="handleClose" :append-to-body="true" @open="openDialog" @close="closeDialog"> \
                         <oa-dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></oa-dialog-form> \
                     </el-dialog > \
                 </div>',
@@ -114,6 +114,16 @@
                 if (model) {
                     this.model = model;
                     this.options = [{ label: model[self.relationTextField], value: model }];
+                }
+            },
+            openDialog: function () {
+                if (this.fullscreen) {
+                    document.body.style.position = 'fixed'; // for ios cursor bug
+                }
+            },
+            closeDialog: function () {
+                if (this.fullscreen) {
+                    document.body.style.position = ''; // for ios cursor bug
                 }
             }
         },
