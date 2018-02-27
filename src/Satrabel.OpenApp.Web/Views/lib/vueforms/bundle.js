@@ -624,11 +624,11 @@
         name: "RelationToManyComponent",
         template: '<div> \
                     <el-select multiple @input="updateModel" :value="model" :value-key="relationValueField" filterable clearable v-on:clear="clear" remote :remote-method="remoteMethod" :loading="loading" > \
-                        <el-option v-for="item in options" :key="item.value.id" :label="item.label" :value="item.value"></el-option> \
+                        <el-option v-for="item in computedOptions" :key="item.value.id" :label="item.label" :value="item.value"></el-option> \
                     </el-select> \
                     <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
                     <slot name="footer"></slot> \
-                    <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :fullscreen="fullscreen" :before-close="handleClose" :append-to-body="true"> \
+                    <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :fullscreen="fullscreen" :before-close="handleClose" :append-to-body="true" @open="openDialog" @close="closeDialog"> \
                         <oa-dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></oa-dialog-form> \
                     </el-dialog > \
                 </div>',
@@ -688,7 +688,29 @@
             buttonIcon: function () {
                 return this.isnew ? "el-icon-plus" : "el-icon-edit";
             },
+            computedOptions: function () {
+                var baseOptions = [];
 
+                if (this.value) {
+                    baseOptions = this.value.map(function (t) {
+                        return { label: t[this.relationTextField], value: t };
+                    }.bind(this));
+                }
+                if (this.options) {
+                    var retval = baseOptions.concat(this.options);
+                    // Remove duplicates
+                    retval = retval.filter(function (item, index, arr) {
+                        var firstIndex = arr.findIndex(function (element) {
+                            return element.value[this.relationValueField] == item.value[this.relationValueField];
+                        }.bind(this));
+                        if (firstIndex == index) return item;
+                    }.bind(this));
+                    return retval;
+                }
+
+                if (baseOptions.length <= 0) return null;
+                return baseOptions;
+            }
         },
         //watch: {
         //    value: function (val, oldVal) {
@@ -743,14 +765,18 @@
                 console.log(value);
                 this.model = value;
                 //this.$emit('input', value);
+            },
+            openDialog: function () {
+                if (this.fullscreen) {
+                    document.body.style.position = 'fixed'; // for ios cursor bug
+                }
+            },
+            closeDialog: function () {
+                if (this.fullscreen) {
+                    document.body.style.position = ''; // for ios cursor bug
+                }
             }
-        },
-        //created: function () {
-        //    var self = this;
-        //    if (this.value) {
-        //        this.options = [{ label: self.value[self.relationTextField], value: this.value }];
-        //    }   
-        //}
+        }
     }
     Vue.component('oa-relation-to-many', RelationToManyComponent);
 })();
