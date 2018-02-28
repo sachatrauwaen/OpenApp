@@ -53,8 +53,9 @@ for:
   branches:
     only:
       - develop
+      - /feature\/abp-update-v.*/
 
-  build:	  
+  build:      
     publish_nuget: true
 
 -
@@ -69,8 +70,8 @@ for:
     package_version: '{version}'
     assembly_version: '{version}'
     file_version: '{version}'
-    informational_version: '{version} {branch}'	  
+    informational_version: '{version} {branch}'      
 
-  build:	  
+  build:      
     publish_nuget: true
   
