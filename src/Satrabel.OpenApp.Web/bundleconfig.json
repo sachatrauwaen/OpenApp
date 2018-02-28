@@ -127,6 +127,7 @@
       "Views/lib/vueforms/input.js",
       "Views/lib/vueforms/inputNumber.js",
       "Views/lib/vueforms/relation.js",
+      "Views/lib/vueforms/relation-to-many.js",
       "Views/lib/vueforms/select.js",
       "Views/lib/vueforms/switch.js",
       "Views/lib/vueforms/textarea.js",
@@ -143,14 +144,24 @@
     ]
   },
   {
+    "outputFileName": "Views/lib/vueforms/libs.css",
+    "inputFiles": [
+      "Views/lib/element-ui/lib/theme-default/index.css",
+      "Views/lib/vueforms/vueforms.css"
+    ]
+  },
+  {
     "outputFileName": "Views/lib/vueforms/libs.js",
     "inputFiles": [
       "Views/lib/vue/vue.js",
       "Views/lib/vue/vue_router.js",
       "Views/lib/element-ui/lib/index.js",
       "Views/lib/element-ui/lib/umd/locale/fr.js",
+      "Views/lib/element-ui/lib/umd/locale/en.js",
+      "Views/lib/element-ui/lib/umd/locale/nl.js",
+      "Views/lib/element-ui/lib/umd/locale/de.js",
       "Views/lib/json-ref-lite/json-ref-lite.min.js"
     ]
   }
-  
+
 ]

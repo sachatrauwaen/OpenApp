@@ -45,6 +45,9 @@ namespace Satrabel.OpenApp.Users
 
             var user = ObjectMapper.Map<User>(input);
 
+            if (AbpSession.UserId == null) throw new Abp.UI.UserFriendlyException("You are not logged in.");
+            var editor = await _userManager.GetUserByIdAsync((long)AbpSession.UserId);
+
             user.TenantId = AbpSession.TenantId;
             user.Password = _passwordHasher.HashPassword(user, input.Password);
             user.IsEmailConfirmed = true;
@@ -53,6 +56,11 @@ namespace Satrabel.OpenApp.Users
 
             if (input.RoleNames != null)
             {
+                var editorIsAdmin = await _userManager.IsInRoleAsync(editor, StaticRoleNames.Host.Admin);
+                var roleNamesContainsAdmin = input.RoleNames.Select(name => name.ToUpper()).Contains(StaticRoleNames.Host.Admin.ToUpper());
+
+                if (roleNamesContainsAdmin && !editorIsAdmin) throw new Abp.UI.UserFriendlyException("You are not allowed to assign the admin role.");
+
                 CheckErrors(await _userManager.SetRoles(user, input.RoleNames));
             }
 
@@ -67,6 +75,9 @@ namespace Satrabel.OpenApp.Users
 
             var user = await _userManager.GetUserByIdAsync(input.Id);
 
+            if (AbpSession.UserId == null) throw new Abp.UI.UserFriendlyException("You are not logged in.");
+            var editor = await _userManager.GetUserByIdAsync((long) AbpSession.UserId);
+
             MapToEntity(input, user);
             if (!string.IsNullOrEmpty(input.Password))
             {
@@ -77,6 +88,11 @@ namespace Satrabel.OpenApp.Users
 
             if (input.RoleNames != null)
             {
+                var editorIsAdmin = await _userManager.IsInRoleAsync(editor, StaticRoleNames.Host.Admin);
+                var roleNamesContainsAdmin = input.RoleNames.Select(name => name.ToUpper()).Contains(StaticRoleNames.Host.Admin.ToUpper());
+
+                if (roleNamesContainsAdmin && !editorIsAdmin) throw new Abp.UI.UserFriendlyException("You are not allowed to assign the admin role.");
+
                 CheckErrors(await _userManager.SetRoles(user, input.RoleNames));
             }
 

@@ -21,5 +21,5 @@
             }
         },
     }
-    Vue.component('switch-component', switchComponent);
+    Vue.component('oa-switch', switchComponent);
 })();

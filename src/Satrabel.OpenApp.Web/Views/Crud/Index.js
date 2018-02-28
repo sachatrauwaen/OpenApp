@@ -9,13 +9,12 @@
             component: component
         };
     }
-    const crudGrid = Vue.component('crud-grid');
-    const crudForm = Vue.component('crud-form');
+    const crudGrid = Vue.component('oa-crud-grid');
+    const crudForm = Vue.component('oa-crud-form');
 
     const router = new VueRouter({
         //scrollBehavior: () => ({ y: 0 }),
         routes: [
-
             route('/:module/:resource', crudGrid, 'grid'),
             route('/:module/:resource/edit/:id', crudForm, 'edit'),
             route('/:module/:resource/add', crudForm, 'add'),
@@ -27,14 +26,11 @@
         ]
     });
 
-    ELEMENT.locale(ELEMENT.lang.fr);
+    ELEMENT.locale(ELEMENT.lang[abp.localization.currentCulture.name]);
     new Vue({
         router: router,
         el: '#app',
         template: '#appTemplate',
-        mounted: function () {
-
-        },
         data: {
             loading: true
         },

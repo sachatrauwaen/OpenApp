@@ -53,5 +53,5 @@
             }
         },
     }
-    Vue.component('daterange-component', daterangeComponent);
+    Vue.component('oa-daterange', daterangeComponent);
 })();

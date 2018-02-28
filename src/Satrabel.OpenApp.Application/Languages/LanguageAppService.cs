@@ -79,7 +79,20 @@ namespace Satrabel.OpenApp.Languages
         public override async Task<PagedResultDto<LanguageDto>> GetAll(PagedResultRequestDto input)
         {
             _defaultLanguage = await _languageManager.GetDefaultLanguageOrNullAsync(AbpSession.TenantId);
-            return await base.GetAll(input);
+            var lst = await _languageManager.GetLanguagesAsync(AbpSession.TenantId);
+            var query = lst.AsQueryable();
+
+            var totalCount = query.Count();
+
+            query = ApplySorting(query, input);
+            query = ApplyPaging(query, input);
+
+            var entities = query.ToList();
+
+            return new PagedResultDto<LanguageDto>(
+                totalCount,
+                entities.Select(MapToEntityDto).ToList()
+            );
         }
         protected override LanguageDto MapToEntityDto(ApplicationLanguage language)
         {

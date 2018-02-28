@@ -33,11 +33,19 @@
             },
             columns: function () {
                 var fields = {};
+                let colCounter = 0;
                 for (var key in this.schema.properties) {
-                    if (key != 'id' &&
-                        (!this.schema.properties[key].hasOwnProperty('x-ui-grid') || this.schema.properties[key]['x-ui-grid'])
-                    ) {
+                    const isNotId = key != 'id';
+                    const isGrid = !this.schema.properties[key].hasOwnProperty('x-ui-grid') ||
+                                   this.schema.properties[key]['x-ui-grid'];
+                    if (isNotId && isGrid) {
                         fields[key] = this.schema.properties[key];
+                        if (colCounter < 2) {
+                            fields[key].minWidth = 30;
+                        } else {
+                            //fields[key].minWidth = 200;
+                        }
+                        colCounter++;
                     }
                 }
                 return fields;
@@ -230,7 +238,7 @@
         ]
     });
 
-    ELEMENT.locale(ELEMENT.lang.fr);
+    ELEMENT.locale(ELEMENT.lang[abp.localization.currentCulture.name]);
     new Vue({
         router: router,
         el: '#app',

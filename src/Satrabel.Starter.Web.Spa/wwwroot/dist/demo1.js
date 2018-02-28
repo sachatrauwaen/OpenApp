@@ -285,13 +285,17 @@ var singletonElement = null
 var singletonCounter = 0
 var isProduction = false
 var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
 
 // Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
 // tags it will allow on a page
 var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
 
-module.exports = function (parentId, list, _isProduction) {
+module.exports = function (parentId, list, _isProduction, _options) {
   isProduction = _isProduction
+
+  options = _options || {}
 
   var styles = listToStyles(parentId, list)
   addStylesToDom(styles)
@@ -356,7 +360,7 @@ function createStyleElement () {
 
 function addStyle (obj /* StyleObjectPart */) {
   var update, remove
-  var styleElement = document.querySelector('style[data-vue-ssr-id~="' + obj.id + '"]')
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
 
   if (styleElement) {
     if (isProduction) {
@@ -438,6 +442,9 @@ function applyToTag (styleElement, obj) {
   if (media) {
     styleElement.setAttribute('media', media)
   }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
 
   if (sourceMap) {
     // https://developer.chrome.com/devtools/docs/javascript-debugging
@@ -462,7 +469,7 @@ function applyToTag (styleElement, obj) {
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = vendor_571116825f9c2a74cd7d;
+module.exports = vendor_81565629f961ad7ee6f0;
 
 /***/ }),
 /* 5 */
@@ -782,8 +789,8 @@ var App = /** @class */ (function (_super) {
 
 "use strict";
 /**
-  * vue-class-component v6.0.0
-  * (c) 2015-2017 Evan You
+  * vue-class-component v6.2.0
+  * (c) 2015-present Evan You
   * @license MIT
   */
 
@@ -794,6 +801,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var Vue = _interopDefault(__webpack_require__(0));
 
+var hasProto = { __proto__: [] } instanceof Array;
 function createDecorator(factory) {
     return function (target, key, index) {
         var Ctor = typeof target === 'function'
@@ -808,6 +816,17 @@ function createDecorator(factory) {
         Ctor.__decorators__.push(function (options) { return factory(options, key, index); });
     };
 }
+function mixins() {
+    var Ctors = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        Ctors[_i] = arguments[_i];
+    }
+    return Vue.extend({ mixins: Ctors });
+}
+function isPrimitive(value) {
+    var type = typeof value;
+    return value == null || (type !== "object" && type !== "function");
+}
 function warn(message) {
     if (typeof console !== 'undefined') {
         console.warn('[vue-class-component] ' + message);
@@ -815,9 +834,13 @@ function warn(message) {
 }
 
 function collectDataFromConstructor(vm, Component) {
+    // override _init to prevent to init as Vue instance
+    var originalInit = Component.prototype._init;
     Component.prototype._init = function () {
         var _this = this;
+        // proxy to actual vm
         var keys = Object.getOwnPropertyNames(vm);
+        // 2.2.0 compat (props are no longer exposed as self properties)
         if (vm.$options.props) {
             for (var key in vm.$options.props) {
                 if (!vm.hasOwnProperty(key)) {
@@ -829,12 +852,17 @@ function collectDataFromConstructor(vm, Component) {
             if (key.charAt(0) !== '_') {
                 Object.defineProperty(_this, key, {
                     get: function () { return vm[key]; },
-                    set: function (value) { return vm[key] = value; }
+                    set: function (value) { return vm[key] = value; },
+                    configurable: true
                 });
             }
         });
     };
+    // should be acquired class property values
     var data = new Component();
+    // restore original _init to avoid memory leak (#209)
+    Component.prototype._init = originalInit;
+    // create plain data object
     var plainData = {};
     Object.keys(data).forEach(function (key) {
         if (data[key] !== undefined) {
@@ -863,25 +891,29 @@ var $internalHooks = [
     'activated',
     'deactivated',
     'render',
-    'errorCaptured'
+    'errorCaptured' // 2.5
 ];
 function componentFactory(Component, options) {
     if (options === void 0) { options = {}; }
     options.name = options.name || Component._componentTag || Component.name;
+    // prototype props.
     var proto = Component.prototype;
     Object.getOwnPropertyNames(proto).forEach(function (key) {
         if (key === 'constructor') {
             return;
         }
+        // hooks
         if ($internalHooks.indexOf(key) > -1) {
             options[key] = proto[key];
             return;
         }
         var descriptor = Object.getOwnPropertyDescriptor(proto, key);
         if (typeof descriptor.value === 'function') {
+            // methods
             (options.methods || (options.methods = {}))[key] = descriptor.value;
         }
         else if (descriptor.get || descriptor.set) {
+            // computed properties
             (options.computed || (options.computed = {}))[key] = {
                 get: descriptor.get,
                 set: descriptor.set
@@ -893,15 +925,79 @@ function componentFactory(Component, options) {
             return collectDataFromConstructor(this, Component);
         }
     });
+    // decorate options
     var decorators = Component.__decorators__;
     if (decorators) {
         decorators.forEach(function (fn) { return fn(options); });
+        delete Component.__decorators__;
     }
+    // find super
     var superProto = Object.getPrototypeOf(Component.prototype);
     var Super = superProto instanceof Vue
         ? superProto.constructor
         : Vue;
-    return Super.extend(options);
+    var Extended = Super.extend(options);
+    forwardStaticMembers(Extended, Component, Super);
+    return Extended;
+}
+var reservedPropertyNames = [
+    // Unique id
+    'cid',
+    // Super Vue constructor
+    'super',
+    // Component options that will be used by the component
+    'options',
+    'superOptions',
+    'extendOptions',
+    'sealedOptions',
+    // Private assets
+    'component',
+    'directive',
+    'filter'
+];
+function forwardStaticMembers(Extended, Original, Super) {
+    // We have to use getOwnPropertyNames since Babel registers methods as non-enumerable
+    Object.getOwnPropertyNames(Original).forEach(function (key) {
+        // `prototype` should not be overwritten
+        if (key === 'prototype') {
+            return;
+        }
+        // Some browsers does not allow reconfigure built-in properties
+        var extendedDescriptor = Object.getOwnPropertyDescriptor(Extended, key);
+        if (extendedDescriptor && !extendedDescriptor.configurable) {
+            return;
+        }
+        var descriptor = Object.getOwnPropertyDescriptor(Original, key);
+        // If the user agent does not support `__proto__` or its family (IE <= 10),
+        // the sub class properties may be inherited properties from the super class in TypeScript.
+        // We need to exclude such properties to prevent to overwrite
+        // the component options object which stored on the extended constructor (See #192).
+        // If the value is a referenced value (object or function),
+        // we can check equality of them and exclude it if they have the same reference.
+        // If it is a primitive value, it will be forwarded for safety.
+        if (!hasProto) {
+            // Only `cid` is explicitly exluded from property forwarding
+            // because we cannot detect whether it is a inherited property or not
+            // on the no `__proto__` environment even though the property is reserved.
+            if (key === 'cid') {
+                return;
+            }
+            var superDescriptor = Object.getOwnPropertyDescriptor(Super, key);
+            if (!isPrimitive(descriptor.value)
+                && superDescriptor
+                && superDescriptor.value === descriptor.value) {
+                return;
+            }
+        }
+        // Warn if the users manually declare reserved properties
+        if ("development" !== 'production'
+            && reservedPropertyNames.indexOf(key) >= 0) {
+            warn("Static property name '" + key + "' declared on class '" + Original.name + "' " +
+                'conflicts with reserved property name of Vue internal. ' +
+                'It may cause unexpected behavior of the component. Consider renaming the property.');
+        }
+        Object.defineProperty(Extended, key, descriptor);
+    });
 }
 
 function Component(options) {
@@ -920,8 +1016,9 @@ function Component(options) {
 })(Component || (Component = {}));
 var Component$1 = Component;
 
-exports['default'] = Component$1;
+exports.default = Component$1;
 exports.createDecorator = createDecorator;
+exports.mixins = mixins;
 
 
 /***/ }),
@@ -1159,7 +1256,7 @@ var content = __webpack_require__(12);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("32381059", content, false);
+var update = __webpack_require__(3)("6df099ac", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -1185,7 +1282,7 @@ var content = __webpack_require__(13);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("49b615ac", content, false);
+var update = __webpack_require__(3)("4c43cee6", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -1204,7 +1301,7 @@ if(false) {
 /* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(4))(63);
+module.exports = (__webpack_require__(4))(65);
 
 /***/ }),
 /* 26 */

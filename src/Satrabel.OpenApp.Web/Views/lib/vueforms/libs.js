@@ -13469,4 +13469,389 @@ return VueRouter;
   };
   module.exports = exports['default'];
 });
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define('element/locale/en', ['module', 'exports'], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(module, exports);
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod, mod.exports);
+    global.ELEMENT.lang = global.ELEMENT.lang || {}; 
+    global.ELEMENT.lang.en = mod.exports;
+  }
+})(this, function (module, exports) {
+  'use strict';
+
+  exports.__esModule = true;
+  exports.default = {
+    el: {
+      colorpicker: {
+        confirm: 'OK',
+        clear: 'Clear'
+      },
+      datepicker: {
+        now: 'Now',
+        today: 'Today',
+        cancel: 'Cancel',
+        clear: 'Clear',
+        confirm: 'OK',
+        selectDate: 'Select date',
+        selectTime: 'Select time',
+        startDate: 'Start Date',
+        startTime: 'Start Time',
+        endDate: 'End Date',
+        endTime: 'End Time',
+        prevYear: 'Previous Year',
+        nextYear: 'Next Year',
+        prevMonth: 'Previous Month',
+        nextMonth: 'Next Month',
+        year: '',
+        month1: 'January',
+        month2: 'February',
+        month3: 'March',
+        month4: 'April',
+        month5: 'May',
+        month6: 'June',
+        month7: 'July',
+        month8: 'August',
+        month9: 'September',
+        month10: 'October',
+        month11: 'November',
+        month12: 'December',
+        // week: 'week',
+        weeks: {
+          sun: 'Sun',
+          mon: 'Mon',
+          tue: 'Tue',
+          wed: 'Wed',
+          thu: 'Thu',
+          fri: 'Fri',
+          sat: 'Sat'
+        },
+        months: {
+          jan: 'Jan',
+          feb: 'Feb',
+          mar: 'Mar',
+          apr: 'Apr',
+          may: 'May',
+          jun: 'Jun',
+          jul: 'Jul',
+          aug: 'Aug',
+          sep: 'Sep',
+          oct: 'Oct',
+          nov: 'Nov',
+          dec: 'Dec'
+        }
+      },
+      select: {
+        loading: 'Loading',
+        noMatch: 'No matching data',
+        noData: 'No data',
+        placeholder: 'Select'
+      },
+      cascader: {
+        noMatch: 'No matching data',
+        loading: 'Loading',
+        placeholder: 'Select'
+      },
+      pagination: {
+        goto: 'Go to',
+        pagesize: '/page',
+        total: 'Total {total}',
+        pageClassifier: ''
+      },
+      messagebox: {
+        title: 'Message',
+        confirm: 'OK',
+        cancel: 'Cancel',
+        error: 'Illegal input'
+      },
+      upload: {
+        deleteTip: 'press delete to remove',
+        delete: 'Delete',
+        preview: 'Preview',
+        continue: 'Continue'
+      },
+      table: {
+        emptyText: 'No Data',
+        confirmFilter: 'Confirm',
+        resetFilter: 'Reset',
+        clearFilter: 'All',
+        sumText: 'Sum'
+      },
+      tree: {
+        emptyText: 'No Data'
+      },
+      transfer: {
+        noMatch: 'No matching data',
+        noData: 'No data',
+        titles: ['List 1', 'List 2'], // to be translated
+        filterPlaceholder: 'Enter keyword', // to be translated
+        noCheckedFormat: '{total} items', // to be translated
+        hasCheckedFormat: '{checked}/{total} checked' // to be translated
+      }
+    }
+  };
+  module.exports = exports['default'];
+});
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define('element/locale/nl', ['module', 'exports'], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(module, exports);
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod, mod.exports);
+    global.ELEMENT.lang = global.ELEMENT.lang || {}; 
+    global.ELEMENT.lang.nl = mod.exports;
+  }
+})(this, function (module, exports) {
+  'use strict';
+
+  exports.__esModule = true;
+  exports.default = {
+    el: {
+      colorpicker: {
+        confirm: 'Bevestig',
+        clear: 'Wissen'
+      },
+      datepicker: {
+        now: 'Nu',
+        today: 'Vandaag',
+        cancel: 'Annuleren',
+        clear: 'Legen',
+        confirm: 'Bevestig',
+        selectDate: 'Selecteer datum',
+        selectTime: 'Selecteer tijd',
+        startDate: 'Startdatum',
+        startTime: 'Starttijd',
+        endDate: 'Einddatum',
+        endTime: 'Eindtijd',
+        prevYear: 'Vorig jaar',
+        nextYear: 'Volgend jaar',
+        prevMonth: 'Vorige maand',
+        nextMonth: 'Volgende maand',
+        year: '',
+        month1: 'januari',
+        month2: 'februari',
+        month3: 'maart',
+        month4: 'april',
+        month5: 'mei',
+        month6: 'juni',
+        month7: 'juli',
+        month8: 'augustus',
+        month9: 'september',
+        month10: 'oktober',
+        month11: 'november',
+        month12: 'december',
+        // week: 'week',
+        weeks: {
+          sun: 'Zo',
+          mon: 'Ma',
+          tue: 'Di',
+          wed: 'Wo',
+          thu: 'Do',
+          fri: 'Vr',
+          sat: 'Za'
+        },
+        months: {
+          jan: 'jan',
+          feb: 'feb',
+          mar: 'maa',
+          apr: 'apr',
+          may: 'mei',
+          jun: 'jun',
+          jul: 'jul',
+          aug: 'aug',
+          sep: 'sep',
+          oct: 'okt',
+          nov: 'nov',
+          dec: 'dec'
+        }
+      },
+      select: {
+        loading: 'Laden',
+        noMatch: 'Geen overeenkomende resultaten',
+        noData: 'Geen data',
+        placeholder: 'Selecteer'
+      },
+      cascader: {
+        noMatch: 'Geen overeenkomende resultaten',
+        loading: 'Laden',
+        placeholder: 'Selecteer'
+      },
+      pagination: {
+        goto: 'Ga naar',
+        pagesize: '/pagina',
+        total: 'Totaal {total}',
+        pageClassifier: ''
+      },
+      messagebox: {
+        title: 'Bericht',
+        confirm: 'Bevestig',
+        cancel: 'Annuleren',
+        error: 'Ongeldige invoer'
+      },
+      upload: {
+        deleteTip: 'Kies verwijder om te wissen',
+        delete: 'Verwijder',
+        preview: 'Voorbeeld',
+        continue: 'Doorgaan'
+      },
+      table: {
+        emptyText: 'Geen data',
+        confirmFilter: 'Bevestigen',
+        resetFilter: 'Reset',
+        clearFilter: 'Alles',
+        sumText: 'Som'
+      },
+      tree: {
+        emptyText: 'Geen data'
+      },
+      transfer: {
+        noMatch: 'Geen overeenkomende resultaten',
+        noData: 'Geen data',
+        titles: ['Lijst 1', 'Lijst 2'],
+        filterPlaceholder: 'Geef zoekwoerd',
+        noCheckedFormat: '{total} items',
+        hasCheckedFormat: '{checked}/{total} geselecteerd'
+      }
+    }
+  };
+  module.exports = exports['default'];
+});
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define('element/locale/de', ['module', 'exports'], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(module, exports);
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod, mod.exports);
+    global.ELEMENT.lang = global.ELEMENT.lang || {}; 
+    global.ELEMENT.lang.de = mod.exports;
+  }
+})(this, function (module, exports) {
+  'use strict';
+
+  exports.__esModule = true;
+  exports.default = {
+    el: {
+      colorpicker: {
+        confirm: 'OK',
+        clear: 'Leeren'
+      },
+      datepicker: {
+        now: 'Jetzt',
+        today: 'Heute',
+        cancel: 'Abbrechen',
+        clear: 'Leeren',
+        confirm: 'OK',
+        selectDate: 'Datum wählen',
+        selectTime: 'Uhrzeit wählen',
+        startDate: 'Startdatum',
+        startTime: 'Startzeit',
+        endDate: 'Enddatum',
+        endTime: 'Endzeit',
+        prevYear: 'Previous Year', // to be translated
+        nextYear: 'Next Year', // to be translated
+        prevMonth: 'Previous Month', // to be translated
+        nextMonth: 'Next Month', // to be translated
+        day: 'Tag',
+        week: 'Woche',
+        month: 'Monat',
+        year: '',
+        month1: 'Januar',
+        month2: 'Februar',
+        month3: 'März',
+        month4: 'April',
+        month5: 'Mai',
+        month6: 'Juni',
+        month7: 'Juli',
+        month8: 'August',
+        month9: 'September',
+        month10: 'Oktober',
+        month11: 'November',
+        month12: 'Dezember',
+        weeks: {
+          sun: 'So',
+          mon: 'Mo',
+          tue: 'Di',
+          wed: 'Mi',
+          thu: 'Do',
+          fri: 'Fr',
+          sat: 'Sa'
+        },
+        months: {
+          jan: 'Jan',
+          feb: 'Feb',
+          mar: 'Mär',
+          apr: 'Apr',
+          may: 'Mai',
+          jun: 'Jun',
+          jul: 'Jul',
+          aug: 'Aug',
+          sep: 'Sep',
+          oct: 'Okt',
+          nov: 'Nov',
+          dec: 'Dez'
+        }
+      },
+      select: {
+        loading: 'Lädt.',
+        noMatch: 'Nichts gefunden.',
+        noData: 'Keine Daten',
+        placeholder: 'Daten wählen'
+      },
+      cascader: {
+        noMatch: 'Nichts gefunden.',
+        loading: 'Lädt.',
+        placeholder: 'Daten wählen'
+      },
+      pagination: {
+        goto: 'Gehe zu',
+        pagesize: 'pro Seite',
+        total: 'Gesamt {total}',
+        pageClassifier: ''
+      },
+      messagebox: {
+        confirm: 'OK',
+        cancel: 'Abbrechen',
+        error: 'Fehler'
+      },
+      upload: {
+        deleteTip: 'press delete to remove', // to be translated
+        delete: 'Löschen',
+        preview: 'Vorschau',
+        continue: 'Fortsetzen'
+      },
+      table: {
+        emptyText: 'Keine Daten',
+        confirmFilter: 'Anwenden',
+        resetFilter: 'Zurücksetzen',
+        clearFilter: 'Alles ',
+        sumText: 'Summe'
+      },
+      tree: {
+        emptyText: 'Keine Einträge'
+      },
+      transfer: {
+        noMatch: 'Nichts gefunden.',
+        noData: 'Keine Einträge',
+        titles: ['Liste 1', 'Liste 2'],
+        filterPlaceholder: 'Einträge filtern',
+        noCheckedFormat: '{total} Einträge',
+        hasCheckedFormat: '{checked}/{total} ausgewählt'
+      }
+    }
+  };
+  module.exports = exports['default'];
+});
 require=function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}({1:[function(require,module,exports){},{}],2:[function(require,module,exports){"use strict";var SPLIT_REGEX=/[^.^\]^[]+|(?=\[\]|\.\.)/g,DIGIT_REGEX=/^\d+$/;var setCache={},getCache={};module.exports={expr:expr,setter:function(path){return setCache[path]||(setCache[path]=new Function("data, value","return "+expr(path,"data")+" = value, data;"))},getter:function(path,safe){var k=path+"_"+safe;return getCache[k]||(getCache[k]=new Function("data","return "+expr(path,safe,"data")))},split:function(path){return path.match(SPLIT_REGEX)},join:function(segments){return segments.reduce(function(path,part){return path+(isQuoted(part)||DIGIT_REGEX.test(part)?"["+part+"]":(path?".":"")+part)},"")},forEach:function(path,cb,thisArg){forEach(path.match(SPLIT_REGEX),cb,thisArg)}};function expr(expression,safe,param){expression=expression||"";if(typeof safe==="string"){param=safe;safe=false}param=param||"data";if(expression&&expression.charAt(0)!=="[")expression="."+expression;return safe?makeSafe(expression,param):param+expression}function forEach(parts,iter,thisArg){var len=parts.length,part,idx,isArray,isBracket;for(idx=0;idx<len;idx++){part=parts[idx];if(part){isBracket=isQuoted(part);isArray=!isBracket&&/^\d+$/.test(part);iter.call(thisArg,part,isBracket,isArray,idx,parts)}}}function isQuoted(str){return typeof str==="string"&&str&&["'",'"'].indexOf(str.charAt(0))!==-1}function makeSafe(path,param){var result=param,parts=path.match(SPLIT_REGEX),isLast;forEach(parts,function(part,isBracket,isArray,idx,parts){isLast=idx===parts.length-1;part=isBracket||isArray?"["+part+"]":"."+part;result+=part+(!isLast?" || {})":")")});return new Array(parts.length+1).join("(")+result}},{}],"json-ref-lite":[function(require,module,exports){(function(__dirname){(function(){var expr,fs,request;fs=typeof window==="undefined"||window===null?require("fs"):false;request=fs&&fs.existsSync(__dirname+"/../sync-request")?require("sync-request"):false;expr=require("property-expr");module.exports=function(){this.cache={};this.extendtoken="$extend";this.reftoken="$ref";this.pathtoken="#";this.debug=false;this.clone=function(obj){var key,temp;if(obj===null||typeof obj!=="object"||typeof obj==="function"){return obj}temp=obj.constructor();for(key in obj){temp[key]=this.clone(obj[key])}return temp};this.findIds=function(json,ids){var id,k,obj,v;id=false;obj={};for(k in json){v=json[k];if(json.id!=null){id=json.id}if(id&&k!=="id"){obj[k]=v}if(typeof v==="object"){this.findIds(v,ids)}}if(id){return ids[id]=obj}};this.get_json_pointer=function(ref,root){var err,error,evalstr,result;evalstr=ref.replace(/\\\//,"#SLASH#").replace(/\//g,".").replace(/#SLASH#/,"/");evalstr=evalstr.replace(new RegExp("^"+this.pathtoken),"");if(evalstr[0]==="."){evalstr=evalstr.substr(1,evalstr.length-1)}try{if(this.debug){console.log("evaluating '"+evalstr+"'")}result=expr.getter(evalstr)(root)}catch(error){err=error;result=""}return result};this.replace=function(json,ids,root){var jsonpointer,k,ref,ref1,ref2,results,str,url,v;results=[];for(k in json){v=json[k];if(this.debug&&typeof ref==="string"){console.log("checking "+k)}if(v!=null&&v[reftoken]!=null){ref=v[reftoken];if(this.debug&&typeof ref==="string"){console.log("checking "+k+" -> "+ref)}if(Object.keys(v).length>1){console.error("json-ref-lite error: object '"+k+"' contains reference as well as other properties..ignoring properties")}if(Array.isArray(ref)){ref=this.replace(ref,ids,root)}else if(ids[ref]!=null){json[k]=ids[ref]}else if(request&&String(ref).match(/^https?:/)){url=ref.match(/^[^#]*/);if(!this.cache[url]){this.cache[url]=this.resolve(JSON.parse(request("GET",url).getBody().toString()))}json[k]=this.cache[url];if(ref.match(this.pathtoken)){jsonpointer=ref.replace(new RegExp(".*"+pathtoken),this.pathtoken);if(jsonpointer.length){json[k]=this.get_json_pointer(jsonpointer,json[k])}}}else if(fs&&fs.existsSync(ref)){str=fs.readFileSync(ref).toString();if(str.match(/module\.exports/)){json[k]=require(ref)}else{json[k]=JSON.parse(str)}}else if(String(ref).match(new RegExp("^"+this.pathtoken))){if(this.debug){console.log("checking "+ref+" pathtoken")}json[k]=this.get_json_pointer(ref,root)}if(((ref1=json[k])!=null?ref1.length:void 0)!=null&&((ref2=json[k])!=null?ref2.length:void 0)===0&&this.debug){results.push(console.log(ref+" reference not found"))}else{results.push(void 0)}}else{if(typeof v==="object"){results.push(this.replace(v,ids,root))}else{results.push(void 0)}}}return results};this.extend=function(json){var k,ref,results,rk,rv,v;if(typeof json==="object"){results=[];for(k in json){v=json[k];if(k===this.extendtoken&&v[this.reftoken]!=null){ref=this.get_json_pointer(v[this.reftoken],json);for(rk in v){rv=v[rk];if(rk!==this.reftoken){ref[rk]=rv}}delete json[k]}if(typeof v==="object"){results.push(v=this.extend(v))}else{results.push(void 0)}}return results}};this.resolve=function(json){var ids;ids={};this.findIds(json,ids);if(this.debug&&Object.keys(ids).length){console.dir(ids)}this.replace(json,ids,json);return json};this.evaluate=function(json,data,cb){var k,ref1,v;if(cb==null){cb=this.evaluateStr}ref1=this.clone(json);for(k in ref1){v=ref1[k];if(typeof v==="string"){json[k]=cb(v,data)}if(typeof v==="object"){json[k]=this.evaluate(v,data)}}return json};this.evaluateStr=function(k,data){var error,itemstr;if(typeof k!=="string"){return k}if(k[0]==="{"&&k[k.length-1]==="}"){try{return expr.getter(k.replace(/^{/,"").replace(/}$/,""))(data)}catch(error){return null}}else{itemstr=k.replace(/(\{)(.*?)(\})/g,function($0,$1,$2){var err,error1,result;result="";if(data==null||$2==null){return result}if(data[$2]!=null&&typeof data[$2]==="function"){result=data[$2]()}else{if(data[$2]!=null){result=data[$2]}else{try{$2=$2.replace(new RegExp("^"+this.pathtoken+"/"),"").replace(/\//g,".");result=expr.getter($2)(data)}catch(error1){err=error1;result=""}if(result==null){result=""}}}this.evaluateStr(result,data);return result});return itemstr}};return this}()}).call(this)}).call(this,"/")},{fs:1,"property-expr":2,"sync-request":1}]},{},[]);

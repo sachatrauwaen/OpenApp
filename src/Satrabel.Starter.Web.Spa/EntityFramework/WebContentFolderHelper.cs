@@ -15,7 +15,7 @@ namespace Satrabel.Starter.Web
     {
         public static string CalculateContentRootFolder()
         {
-            return Satrabel.OpenApp.Web.WebContentDirectoryFinder.CalculateContentRootFolder(typeof(WebMvcModule));
+            return Satrabel.OpenApp.Web.WebContentDirectoryFinder.CalculateContentRootFolder(typeof(WebMvcModule).Assembly);
         }
     }
 }

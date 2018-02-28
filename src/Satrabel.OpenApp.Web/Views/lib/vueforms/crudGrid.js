@@ -1,15 +1,18 @@
 ﻿(function () {
     var CrudGrid = {
-        name: "CrudGrid",
+        name: "oaCrudGrid",
         template: '<div> \
-                <filterform v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :service="service" :actions="filterActions" :messages="messages"></filterform> \
-                <gridcomp :model="model" :schema="schema" :messages="messages" :options="options" :actions="gridActions" :default-action="gridActions[0]"></gridcomp><br /> \
-                <el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
-                <div style="float:right"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
+                    <el-row :gutter="10" > \
+                        <el-col :xs="24" :sm="2" :md="2" :lg="2" :xl="2" style="padding-bottom: 20px;"> \
+                            <el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
+                        </el-col> \
+                        <el-col :xs="24" :sm="22" :md="22" :lg="22" :xl="22" > \
+                            <oa-filter-form v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :service="service" :actions="filterActions" :messages="messages"></oa-filter-form> \
+                        </el-col> \
+                    </el-row> \
+                    <oa-grid :model="model" :schema="schema" :messages="messages" :options="options" :actions="gridActions" :default-action="gridActions[0]"></oa-grid><br /> \
+                    <div style="float:right"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
                 </div>',
-        props: {
-
-        },
         data: function () {
             return {
                 model: [],
@@ -54,7 +57,6 @@
                                 cancelButtonText: 'Cancel',
                                 type: 'warning'
                             }).then(function () {
-
                                 self.deleteData(row, function () {
                                     self.$message({
                                         type: 'success',
@@ -64,7 +66,13 @@
                             }).catch(function () {
 
                             });
-
+                        },
+                        visible: function (row, index) {
+                            if (typeof row.canDelete != 'undefined') {
+                                return row.canDelete;
+                            } else {
+                                return true;
+                            }
                         }
                     }
                 ]
@@ -182,5 +190,5 @@
             }
         },
     }
-    Vue.component('crud-grid', CrudGrid);
+    Vue.component('oa-crud-grid', CrudGrid);
 })();

@@ -217,7 +217,7 @@
         },
 
     }
-    Vue.component('address-component', addressComponent);
+    Vue.component('oa-address', addressComponent);
 
     function ensureGoogleMaps(options, fn) {
         if (!options.loadGoogleApi) {
@@ -346,7 +346,7 @@
             }
         }
     }
-    Vue.component('checkbox-group-component', checkboxGroupComponent);
+    Vue.component('oa-checkbox-group', checkboxGroupComponent);
 })();
 (function () {
     var datetimeComponent = {
@@ -371,7 +371,7 @@
             }
         },
     }
-    Vue.component('datetime-component', datetimeComponent);
+    Vue.component('oa-datetime', datetimeComponent);
 })();
 (function () {
 
@@ -428,7 +428,7 @@
             }
         },
     }
-    Vue.component('daterange-component', daterangeComponent);
+    Vue.component('oa-daterange', daterangeComponent);
 })();
 (function () {
     var inputComponent = {
@@ -453,7 +453,7 @@
             }
         },
     }
-    Vue.component('input-component', inputComponent);
+    Vue.component('oa-input', inputComponent);
 })();
 (function () {
     var inputNumberComponent = {
@@ -478,7 +478,7 @@
             }
         }
     }
-    Vue.component('input-number-component', inputNumberComponent);
+    Vue.component('oa-input-number', inputNumberComponent);
 })();
 
 (function () {
@@ -488,15 +488,16 @@
                     <el-select v-model="model" :value-key="relationValueField" filterable clearable v-on:clear="clear" remote :remote-method="remoteMethod" :loading="loading" > \
                         <el-option v-for="item in options" :key="item.value.id" :label="item.label" :value="item.value"></el-option> \
                     </el-select> \
-                <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
-                 <slot name="footer"></slot> \
-                <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :size="dialogSize" :before-close="handleClose" :append-to-body="true"> \
-                    <dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></dialog-form> \
-                </el-dialog > \
+                    <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
+                     <slot name="footer"></slot> \
+                    <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :fullscreen="fullscreen" :before-close="handleClose" :append-to-body="true" @open="openDialog" @close="closeDialog"> \
+                        <oa-dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></oa-dialog-form> \
+                    </el-dialog > \
                 </div>',
         props: {
             value: {},
             schema: {},
+            messages: Object,
             service: {},
             prop: String,
             label: String
@@ -504,8 +505,7 @@
         data: function () {
             var self = this;
             return {
-                form: {},
-                messages: abp.localization.values['JobManager'],
+                form: {},                
                 loading: false,
                 dialogVisible: false,
                 options: [],
@@ -544,8 +544,8 @@
                     this.$emit('input', val)
                 }
             },
-            dialogSize: function () {
-                return window.innerWidth < 700 ? 'full' : 'small';
+            fullscreen: function () {
+                return window.innerWidth < 700;
             },
             buttonIcon: function () {
                 return this.isnew ? "el-icon-plus" : "el-icon-edit";
@@ -598,6 +598,16 @@
                     this.model = model;
                     this.options = [{ label: model[self.relationTextField], value: model }];
                 }
+            },
+            openDialog: function () {
+                if (this.fullscreen) {
+                    document.body.style.position = 'fixed'; // for ios cursor bug
+                }
+            },
+            closeDialog: function () {
+                if (this.fullscreen) {
+                    document.body.style.position = ''; // for ios cursor bug
+                }
             }
         },
         created: function () {
@@ -607,7 +617,168 @@
             }   
         }
     }
-    Vue.component('relation-component', RelationComponent);
+    Vue.component('oa-relation', RelationComponent);
+})();
+(function () {
+    var RelationToManyComponent = {
+        name: "RelationToManyComponent",
+        template: '<div> \
+                    <el-select multiple @input="updateModel" :value="model" :value-key="relationValueField" filterable clearable v-on:clear="clear" remote :remote-method="remoteMethod" :loading="loading" > \
+                        <el-option v-for="item in computedOptions" :key="item.value.id" :label="item.label" :value="item.value"></el-option> \
+                    </el-select> \
+                    <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
+                    <slot name="footer"></slot> \
+                    <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :fullscreen="fullscreen" :before-close="handleClose" :append-to-body="true" @open="openDialog" @close="closeDialog"> \
+                        <oa-dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></oa-dialog-form> \
+                    </el-dialog > \
+                </div>',
+        props: {
+            value: {},
+            schema: {},
+            messages: Object,
+            service: {},
+            prop: String,
+            label: String
+        },
+        data: function () {
+            var self = this;
+            return {
+                form: {},                
+                loading: false,
+                dialogVisible: false,
+                options: null,
+            };
+        },
+        computed: {
+            relationResource: function () {
+                return this.schema["x-rel-to-many-app"];
+            },
+            relationAction: function () {
+                return this.schema["x-rel-to-many-action"] || 'get' + this.prop.capitalize() + 's';
+            },
+            relationValueField: function () {
+                return this.schema["x-rel-to-many-valuefield"] || 'id';
+            },
+            relationTextField: function () {
+                return this.schema["x-rel-to-many-textfield"] || 'fullName';
+            },
+            id: function () {
+                return this.value ? this.value[this.relationValueField] : null;
+            },
+            isnew: function () {
+                return !this.value;
+            },
+            //schema: function() {
+            //    if (this.isnew)
+            //        return jref.resolve(abp.schemas.app[this.resource].create.input).properties[this.prop];
+            //    else
+            //        return jref.resolve(abp.schemas.app[this.resource].update.input).properties[this.prop];
+            //},
+            model: {
+                get: function () {
+                    return this.value
+                },
+                set: function (val) {
+                    this.$emit('input', val)
+                }
+            },
+            fullscreen: function () {
+                return window.innerWidth < 700;
+            },
+            buttonIcon: function () {
+                return this.isnew ? "el-icon-plus" : "el-icon-edit";
+            },
+            computedOptions: function () {
+                var baseOptions = [];
+
+                if (this.value) {
+                    baseOptions = this.value.map(function (t) {
+                        return { label: t[this.relationTextField], value: t };
+                    }.bind(this));
+                }
+                if (this.options) {
+                    var retval = baseOptions.concat(this.options);
+                    // Remove duplicates
+                    retval = retval.filter(function (item, index, arr) {
+                        var firstIndex = arr.findIndex(function (element) {
+                            return element.value[this.relationValueField] == item.value[this.relationValueField];
+                        }.bind(this));
+                        if (firstIndex == index) return item;
+                    }.bind(this));
+                    return retval;
+                }
+
+                if (baseOptions.length <= 0) return null;
+                return baseOptions;
+            }
+        },
+        //watch: {
+        //    value: function (val, oldVal) {
+        //        var self = this;
+        //        if (val) {
+        //            this.options= [{ label: self.value[self.relationTextField], value: val }];
+        //        }    
+        //    }
+        //},
+        methods: {
+            remoteMethod: function (query) {
+                var self = this;
+                if (!query && self.value) {
+                    //this.options.push({ label: self.value[self.relationTextField], value: this.value });
+                    this.options = null;
+                } else if (query && query !== '' && (!self.value || query != self.value[self.relationTextField])) {
+                    self.loading = true;
+                    self.service[self.relationAction](query).done(function (data) {
+                        self.options = data.items.map(function (t) {
+                            //return { label: t.firstname + " " + t.lastname, value: t.id };
+                            return { label: t[self.relationTextField], value: t };
+                        });
+                        self.loading = false;
+                    }).always(function () {
+                        //abp.ui.clearBusy(_$app);
+                    });
+                } else if (query == '') {
+                    this.options = null;
+                }
+            },
+            clear: function () {
+                //this.form.customerId = null;
+                this.model = null;
+            },
+            edit: function () {
+                this.dialogVisible = true;
+                if (this.$refs.form) this.$refs.form.fetchData();
+            },
+            handleClose: function (done) {
+                done();
+            },
+            close: function (model) {
+                var self = this;
+                this.dialogVisible = false;
+                if (model) {
+                    this.model = model;
+                    //this.options = [{ label: model[self.relationTextField], value: model }];
+                    this.options = null;
+                }
+            },
+            updateModel: function (value) {
+                console.log(value);
+                this.model = value;
+                //this.$emit('input', value);
+            },
+            openDialog: function () {
+                if (this.fullscreen) {
+                    document.body.style.position = 'fixed'; // for ios cursor bug
+                }
+            },
+            closeDialog: function () {
+                if (this.fullscreen) {
+                    document.body.style.position = ''; // for ios cursor bug
+                }
+            }
+        }
+    }
+    Vue.component('oa-relation-to-many', RelationToManyComponent);
 })();
 (function () {
     var selectComponent = {
@@ -622,8 +793,6 @@
             messages: Object,
             prop: String,
             service: {},
-            
-            
         },
         data: function () {
             return {
@@ -675,7 +844,7 @@
             }
         }
     }
-    Vue.component('select-component', selectComponent);
+    Vue.component('oa-select', selectComponent);
 })();
 (function () {
     var switchComponent = {
@@ -700,7 +869,7 @@
             }
         },
     }
-    Vue.component('switch-component', switchComponent);
+    Vue.component('oa-switch', switchComponent);
 })();
 (function () {
     var textareaComponent = {
@@ -725,67 +894,65 @@
             }
         },
     }
-    Vue.component('textarea-component', textareaComponent);
+    Vue.component('oa-textarea', textareaComponent);
 })();
 (function () {
-    var comp = {
-        name: "comp",
-        template: '<el-form-item v-if="addFormItem" :label="label" :prop="prop"> \
+    var field = {
+        name: "oaField",
+        template: ' <el-form-item :label="label" :prop="prop"> \
                     <component v-bind:is="currentView" v-model="model" v-bind="$props" @propChange="propChange" ></component> \
-                </el-form-item> \
-                <component v-else v-bind:is="currentView" :label="label" :prop="prop" v-model="model" v-bind="$props" @propChange="propChange" ></component>',
+                    </el-form-item>',
         props: {
             value: {},
             schema: {},
             prop: String,
             messages: Object,
             service: {},
-        },
-        components: {
-            inputComponent: Vue.component('input-component'),
-            textareaComponent: Vue.component('textarea-component'),
-            selectComponent: Vue.component('select-component'),
-            switchComponent: Vue.component('switch-component'),
-            checkboxGroupComponent: Vue.component('checkbox-group-component'),
-            datetimeComponent: Vue.component('datetime-component'),
-            daterangeComponent: Vue.component('daterange-component'),
-            inputNumberComponent: Vue.component('input-number-component'),
-            addressComponent: Vue.component('address-component'),
-            relationComponent: Vue.component('relation-component')
-        },
+        },       
         computed: {
             currentView: function () {
                 var sch = this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
                 var type = Array.isArray(sch.type) ? (sch.type[0] == "null" ? sch.type[1]:sch.type[0] ) : sch.type;
                 if (sch["x-type"]) {
                     type = sch["x-type"];
-                }
-                if (sch["x-rel-action"]) {
-                    return 'relationComponent';
+                } else if (sch["x-rel-action"]) {
+                    type = 'relation';
+                } else if (sch["x-rel-to-many-action"]) {
+                    type = 'relation-to-many';
                 } else if (sch.enum || sch["x-enum-action"]) {
                     if (type == 'array') {
-                        return 'checkboxGroupComponent';
+                        type = 'checkbox-group';
                     } else {
-                        return 'selectComponent';
+                        type = 'select';
                     }
                 } else if (type == 'boolean') {
-                    return 'switchComponent';
+                    type = 'switch';
                 } else if (type == 'integer' || type == 'number') {
-                    return 'inputNumberComponent';
+                    type = 'input-number';
                 } else if (type == 'array' && this.schema.items.format == 'date-time') {
-                    return 'daterangeComponent';
+                    type = 'daterange';
                 } else if (sch.format == 'date-time') {
-                    return 'datetimeComponent';
+                    type = 'datetime';
                 } else if (sch['x-ui-multiline']) {
-                    return 'textareaComponent';
+                    type = 'textarea';
                 } else if (type == 'address') {
-                    return 'addressComponent';
+                    type = 'address';
                 } else {
-                    return 'inputComponent';
+                    type = 'input';
                 }
-            },
-            addFormItem: function () {
-                return true;//this.currentView != 'relationComponent';
+                var compName = 'oa-' + type;
+                var comp = Vue.component(compName);
+                if (!comp) {
+                    comp = function (resolve, reject) {
+                        Vue.$loadComponent({
+                            name: compName,
+                            path: abp.appPath+'lib/vueforms/'+type+'.js',
+                            onLoad: resolve,
+                            onError: reject
+                        });
+                    }
+                }
+                return comp;
             },
             model: {
                 get: function () {
@@ -810,11 +977,11 @@
         }
     }
 
-    Vue.component('comp', comp);
+    Vue.component('oa-field', field);
 })();
 (function () {
     var formitem = {
-        name: "formitem",
+        name: "oaFormItem",
         template: '<el-form-item :label="label" :prop="prop"> \
                     <slot></slot> \
                 </el-form-item> \
@@ -831,12 +998,12 @@
         methods: {
         }
     }
-    Vue.component('formItem', formitem);
+    Vue.component('oa-form-item', formitem);
 })();
 (function () {
     var DialogForm = {
-        name: "DialogForm",
-        template: '<formcomp ref="form" :model="model" :schema="schema" :actions="actions" :messages="messages"></formcomp>',
+        name: "oaDialogForm",
+        template: '<oa-form ref="form" :model="model" :schema="schema" :actions="actions" :messages="messages" :service="service"></oa-form>',
         props: {
             resource: {},
             value: {}
@@ -891,6 +1058,9 @@
                     return jref.resolve(abp.schemas.app[this.resource].create.parameters.input);
                 else
                     return jref.resolve(abp.schemas.app[this.resource].update.parameters.input);
+            },
+            service: function () {
+                return abp.services.app[this.resource];
             }
         },
         methods: {
@@ -911,7 +1081,7 @@
             saveData: function (data, callback) {
                 var self = this;
                 if (self.isnew) { // add
-                    abp.services.app[this.resource].create(data).done(function (newdata) {
+                    self.service.create(data).done(function (newdata) {
                         self.model = newdata;
                         self.$emit('input', newdata[this.relationValueField]);
                         if (callback) callback();
@@ -920,7 +1090,7 @@
                     });
                 } else { // update
                     data.id = self.id;
-                    abp.services.app[this.resource].update(data).done(function (newdata) {
+                    self.service.update(data).done(function (newdata) {
                         self.model = newdata;
                         self.$emit('input', newdata.id);
                         if (callback) callback();
@@ -934,18 +1104,18 @@
             this.fetchData();
         },
     }
-    Vue.component('DialogForm', DialogForm);
+    Vue.component('oa-dialog-form', DialogForm);
 })();
 (function () {
     var form = {
-        name: "formcomp",
+        name: "oaForm",
         template: '<el-form ref="form" :model="model" :rules="rules" label-position="right" label-width="120px" :label-position="labelPosition" > \
                 <el-tabs v-if="Object.keys(tabs).length > 1" :value="Object.keys(tabs)[0]">\
                     <el-tab-pane v-for="(gvalue, gkey) in tabs" :key="gkey" :label="label(gkey)" :name="gkey"> \
-                        <comp v-for="(value, key) in gvalue" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></comp> \
+                        <oa-field v-for="(value, key) in gvalue" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
                     </el-tab-pane> \
                 </el-tabs> \
-                <comp v-else v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></comp> \
+                <oa-field v-else v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
                 <el-form-item> \
                     <el-button v-for="action in actions" :key="action.name" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
                 </el-form-item> \
@@ -980,7 +1150,7 @@
                                 fields[key] = this.schema.properties[key];
                             }
                         } else {
-                            if (key != 'id' && !this.schema.properties[key].readOnly && !this.schema.properties[key]["x-rel-app"]) {
+                            if (key != 'id' && !this.schema.properties[key].readOnly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
                                 fields[key] = this.schema.properties[key];
                             }
                         }
@@ -1081,13 +1251,13 @@
             }
         }
     }
-    Vue.component('formcomp', form);
+    Vue.component('oa-form', form);
 })();
 (function () {
     var filterform = {
-        name: "filterform",
+        name: "oaFilterform",
         template: '<el-form ref="form" :model="model" :rules="rules" label-position="right" :label-width="labelwidth" :inline="!isMobile" :label-position="labelPosition"> \
-                <comp v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" :service="service" ></comp> \
+                <oa-field v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" :service="service" ></oa-field> \
                 <el-form-item> \
                     <el-button v-for="action in actions" :key="action.name" size="small" :icon="action.icon" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
                 </el-form-item> \
@@ -1117,7 +1287,7 @@
                 else {
                     var fields = {};
                     for (var key in this.schema.properties) {
-                        if (key != 'id' && !this.schema.properties[key].readOnly && !this.schema.properties[key]["x-rel-app"]) {
+                        if (key != 'id' && !this.schema.properties[key].readOnly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
                             fields[key] = this.schema.properties[key];
                         }
                     }
@@ -1184,12 +1354,12 @@
         }
         */
     }
-    Vue.component('filterform', filterform);
+    Vue.component('oa-filter-form', filterform);
 })();
 (function () {
     var DialogForm = {
-        name: "DialogForm",
-        template: '<formcomp ref="form" :model="model" :schema="schema" :actions="actions" :messages="messages"></formcomp>',
+        name: "oaDialogForm",
+        template: '<oa-form ref="form" :model="model" :schema="schema" :actions="actions" :messages="messages" :service="service"></oa-form>',
         props: {
             resource: {},
             value: {}
@@ -1244,6 +1414,9 @@
                     return jref.resolve(abp.schemas.app[this.resource].create.parameters.input);
                 else
                     return jref.resolve(abp.schemas.app[this.resource].update.parameters.input);
+            },
+            service: function () {
+                return abp.services.app[this.resource];
             }
         },
         methods: {
@@ -1264,7 +1437,7 @@
             saveData: function (data, callback) {
                 var self = this;
                 if (self.isnew) { // add
-                    abp.services.app[this.resource].create(data).done(function (newdata) {
+                    self.service.create(data).done(function (newdata) {
                         self.model = newdata;
                         self.$emit('input', newdata[this.relationValueField]);
                         if (callback) callback();
@@ -1273,7 +1446,7 @@
                     });
                 } else { // update
                     data.id = self.id;
-                    abp.services.app[this.resource].update(data).done(function (newdata) {
+                    self.service.update(data).done(function (newdata) {
                         self.model = newdata;
                         self.$emit('input', newdata.id);
                         if (callback) callback();
@@ -1287,12 +1460,12 @@
             this.fetchData();
         },
     }
-    Vue.component('DialogForm', DialogForm);
+    Vue.component('oa-dialog-form', DialogForm);
 })();
 (function () {
     var CrudForm = {
-        name: "CrudForm",
-        template: '<formcomp ref="form" :model="model" :schema="schema" :actions="actions" :service="service" :messages="messages"></formcomp>',
+        name: "oaCrudForm",
+        template: '<oa-form ref="form" :model="model" :schema="schema" :actions="actions" :service="service" :messages="messages"></oa-form>',
         props: {
         },
         data: function () {
@@ -1408,15 +1581,15 @@
             }
         },
     }
-    Vue.component('crud-form', CrudForm);
+    Vue.component('oa-crud-form', CrudForm);
 })();
 (function () {
     var grid = {
-        name: "gridcomp",
+        name: "oa-grid",
         template: '<el-table :data="model" @row-click="rowClick" style="width: 100%" :row-style="{cursor: \'pointer\'}"  > \
                 <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell" ></el-table-column> \
                 <el-table-column align="right" min-width="120px"> \
-                    <template slot-scope="scope"><el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" @click="action.execute(scope.row, scope.$index)"></el-button></template> \
+                    <template slot-scope="scope"><el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" v-show="actionVisible(action, scope.row, scope.$index)" @click="action.execute(scope.row, scope.$index)"></el-button></template> \
                 </el-table-column> \
                 </el-table>',
         props: {
@@ -1467,23 +1640,33 @@
                 if (column.label) {
                     this.defaultAction.execute(row, event, column);
                 }
+            },
+            actionVisible: function (action, row, index) {
+                if (action.visible) {
+                    return action.visible(row, index);                
+                } else {
+                    return true;
+                }
             }
         }
     }
-    Vue.component('gridcomp', grid);
+    Vue.component('oa-grid', grid);
 })();
 (function () {
     var CrudGrid = {
-        name: "CrudGrid",
+        name: "oaCrudGrid",
         template: '<div> \
-                <filterform v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :service="service" :actions="filterActions" :messages="messages"></filterform> \
-                <gridcomp :model="model" :schema="schema" :messages="messages" :options="options" :actions="gridActions" :default-action="gridActions[0]"></gridcomp><br /> \
-                <el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
-                <div style="float:right"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
+                    <el-row :gutter="10" > \
+                        <el-col :xs="24" :sm="2" :md="2" :lg="2" :xl="2" style="padding-bottom: 20px;"> \
+                            <el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
+                        </el-col> \
+                        <el-col :xs="24" :sm="22" :md="22" :lg="22" :xl="22" > \
+                            <oa-filter-form v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :service="service" :actions="filterActions" :messages="messages"></oa-filter-form> \
+                        </el-col> \
+                    </el-row> \
+                    <oa-grid :model="model" :schema="schema" :messages="messages" :options="options" :actions="gridActions" :default-action="gridActions[0]"></oa-grid><br /> \
+                    <div style="float:right"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
                 </div>',
-        props: {
-
-        },
         data: function () {
             return {
                 model: [],
@@ -1528,7 +1711,6 @@
                                 cancelButtonText: 'Cancel',
                                 type: 'warning'
                             }).then(function () {
-
                                 self.deleteData(row, function () {
                                     self.$message({
                                         type: 'success',
@@ -1538,7 +1720,13 @@
                             }).catch(function () {
 
                             });
-
+                        },
+                        visible: function (row, index) {
+                            if (typeof row.canDelete != 'undefined') {
+                                return row.canDelete;
+                            } else {
+                                return true;
+                            }
                         }
                     }
                 ]
@@ -1656,7 +1844,7 @@
             }
         },
     }
-    Vue.component('crud-grid', CrudGrid);
+    Vue.component('oa-crud-grid', CrudGrid);
 })();
 (function () {
     String.prototype.capitalize = function () {
@@ -1681,4 +1869,29 @@
     };
 
     jref = require('json-ref-lite');
+
+    Vue.$loadComponent = function (opts) {
+        var script = document.createElement('script');
+
+        opts.onLoad = opts.onLoad || function () { };
+        opts.onError = opts.onError || function () { };
+
+        script.src = opts.path;
+        script.async = true;
+
+        script.onload = function () {
+            var component = Vue.component(opts.name);
+
+            if (component) {
+                opts.onLoad(component);
+            } else {
+                opts.onError();
+            }
+        };
+        script.onerror = opts.onError;
+
+        document.body.appendChild(script);
+    }
+
+    
 })();

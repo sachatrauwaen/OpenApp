@@ -21,5 +21,5 @@
             }
         },
     }
-    Vue.component('input-component', inputComponent);
+    Vue.component('oa-input', inputComponent);
 })();

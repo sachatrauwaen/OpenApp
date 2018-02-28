@@ -21,5 +21,5 @@
             }
         },
     }
-    Vue.component('datetime-component', datetimeComponent);
+    Vue.component('oa-datetime', datetimeComponent);
 })();

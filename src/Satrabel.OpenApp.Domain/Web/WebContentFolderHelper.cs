@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Abp.Reflection.Extensions;
 
 namespace Satrabel.OpenApp.Web
@@ -11,14 +12,36 @@ namespace Satrabel.OpenApp.Web
     /// </summary>
     public static class WebContentDirectoryFinder
     {
-        /// <summary>
-        /// Helper that calculates the root folder of a module.
-        /// </summary>
-        /// <param name="moduleType">Type of the module.</param>
-        /// <returns></returns>
+        [Obsolete("This method is obsolete since jan 2018; use CalculateContentRootFolder(Assembly assembly) instead")]
         public static string CalculateContentRootFolder(Type moduleType)
         {
             var coreAssemblyDirectoryPath = Path.GetDirectoryName(moduleType.GetAssembly().Location);
+            if (coreAssemblyDirectoryPath == null)
+            {
+                throw new Exception("Could not find location of Satrabel.OpenApp.Core assembly!");
+            }
+
+            var directoryInfo = new DirectoryInfo(coreAssemblyDirectoryPath);
+            while (!DirectoryContains(directoryInfo.FullName, "web.config"))
+            {
+                if (directoryInfo.Parent == null)
+                {
+                    throw new Exception("Could not find content root folder!");
+                }
+
+                directoryInfo = directoryInfo.Parent;
+            }
+            return directoryInfo.FullName;
+        }
+
+        /// <summary>
+        /// Helper that calculates the root folder of a module.
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
+        public static string CalculateContentRootFolder(Assembly assembly)
+        {
+            var coreAssemblyDirectoryPath = Path.GetDirectoryName(assembly.Location);
             if (coreAssemblyDirectoryPath == null)
             {
                 throw new Exception("Could not find location of Satrabel.OpenApp.Core assembly!");

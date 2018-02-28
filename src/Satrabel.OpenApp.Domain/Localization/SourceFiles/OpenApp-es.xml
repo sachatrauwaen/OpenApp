@@ -18,11 +18,11 @@
 
     <text name="LoginFailed" value="¡Error de inicio de sesion!" />
 
-    <text name="NameSurname" value="Nombre Apellido" />
     <text name="UserName" value="Nombre de usuario" />
     <text name="Name" value="Nombre" />
     <text name="Firstname" value="Nombre" />
     <text name="Surname" value="Apellido" />
+    <text name="NameSurname" value="Nombre Apellido" />
     <text name="EmailAddress" value="Dirección de correo electrónico" />
 
     <text name="Tenants" value="Empresas" />
@@ -40,6 +40,15 @@
     <text name="TenantSelection" value="Selección de Empresa" />
     <text name="TenantSelection_Detail" value="Por favor seleccione una de las siguientes empresas." />
     <text name="Logout" value="Cerrar sesión" />
+
+
+
+
+
+
+
+
+
 
   </texts>
 </localizationDictionary>

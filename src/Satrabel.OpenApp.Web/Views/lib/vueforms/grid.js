@@ -1,10 +1,10 @@
 ﻿(function () {
     var grid = {
-        name: "gridcomp",
+        name: "oa-grid",
         template: '<el-table :data="model" @row-click="rowClick" style="width: 100%" :row-style="{cursor: \'pointer\'}"  > \
                 <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell" ></el-table-column> \
                 <el-table-column align="right" min-width="120px"> \
-                    <template slot-scope="scope"><el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" @click="action.execute(scope.row, scope.$index)"></el-button></template> \
+                    <template slot-scope="scope"><el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" v-show="actionVisible(action, scope.row, scope.$index)" @click="action.execute(scope.row, scope.$index)"></el-button></template> \
                 </el-table-column> \
                 </el-table>',
         props: {
@@ -55,8 +55,15 @@
                 if (column.label) {
                     this.defaultAction.execute(row, event, column);
                 }
+            },
+            actionVisible: function (action, row, index) {
+                if (action.visible) {
+                    return action.visible(row, index);                
+                } else {
+                    return true;
+                }
             }
         }
     }
-    Vue.component('gridcomp', grid);
+    Vue.component('oa-grid', grid);
 })();

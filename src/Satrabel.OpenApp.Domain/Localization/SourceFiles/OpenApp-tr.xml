@@ -20,10 +20,10 @@
 
     <text name="LoginFailed" value="Giriş başarısız!" />
 
-    <text name="NameSurname" value="Ad soyad" />
     <text name="UserName" value="Kullanıcı adı" />
     <text name="Name" value="İsim" />
     <text name="Surname" value="Soyisim" />
+    <text name="NameSurname" value="Ad soyad" />
     <text name="EmailAddress" value="E-posta adresi" />
 
     <text name="Tenants" value="Müşteriler" />

@@ -1,12 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Abp.Configuration.Startup;
 using Microsoft.AspNetCore.Mvc;
-using Satrabel.OpenApp.Authorization;
 using Satrabel.OpenApp.Web.Views;
 using Abp.Application.Navigation;
-using Abp.Domain.Repositories;
-using Satrabel.OpenApp.Authorization.Users;
-using System.Linq;
 using Satrabel.OpenApp.Users;
 using Satrabel.OpenApp.Users.Dto;
 

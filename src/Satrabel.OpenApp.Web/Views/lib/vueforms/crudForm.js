@@ -1,7 +1,7 @@
 ﻿(function () {
     var CrudForm = {
-        name: "CrudForm",
-        template: '<formcomp ref="form" :model="model" :schema="schema" :actions="actions" :service="service" :messages="messages"></formcomp>',
+        name: "oaCrudForm",
+        template: '<oa-form ref="form" :model="model" :schema="schema" :actions="actions" :service="service" :messages="messages"></oa-form>',
         props: {
         },
         data: function () {
@@ -117,5 +117,5 @@
             }
         },
     }
-    Vue.component('crud-form', CrudForm);
+    Vue.component('oa-crud-form', CrudForm);
 })();

@@ -217,7 +217,7 @@
         },
 
     }
-    Vue.component('address-component', addressComponent);
+    Vue.component('oa-address', addressComponent);
 
     function ensureGoogleMaps(options, fn) {
         if (!options.loadGoogleApi) {
