@@ -6,9 +6,9 @@
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -32,9 +32,6 @@
 /******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
 /******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
@@ -63,14 +60,14 @@
 /******/ 	__webpack_require__.p = "dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 27);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(4))(2);
+module.exports = (__webpack_require__(2))(2);
 
 /***/ }),
 /* 1 */
@@ -185,6 +182,12 @@ module.exports = function normalizeComponent (
 /* 2 */
 /***/ (function(module, exports) {
 
+module.exports = vendor_763c47554d3eb8c1c4f2;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
@@ -238,7 +241,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -466,12 +469,6 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-module.exports = vendor_81565629f961ad7ee6f0;
-
-/***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
@@ -505,17 +502,35 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 6 */,
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_vue__ = __webpack_require__(7);
+
+
+// mount
+new __WEBPACK_IMPORTED_MODULE_0_vue__["default"]({
+    el: '#app-root',
+    render: function (h) { return h(__WEBPACK_IMPORTED_MODULE_1__app_vue__["a" /* default */], {
+        props: { propMessage: 'World' }
+    }); }
+});
+
+
+/***/ }),
 /* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_app_vue__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_39169198_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_app_vue__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_39169198_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_app_vue__ = __webpack_require__(11);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(22)
+  __webpack_require__(8)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -557,95 +572,21 @@ if (false) {(function () {
   })
 })()}
 
-/* harmony default export */ __webpack_exports__["a"] = Component.exports;
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
 
 
 /***/ }),
-/* 8 */,
-/* 9 */,
-/* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = {
-    name: 'App',
-    data: function data() {
-        return {
-            msg: 'Welcome to Your Vue.js App'
-        };
-    }
-};
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\nh1[data-v-39169198] {\n    font-weight: normal;\n    color: dodgerblue;\n}\n", "", {"version":3,"sources":["/./ClientApp/home/ClientApp/home/app.vue?10baf6d7"],"names":[],"mappings":";AAsBA;IACA,oBAAA;IACA,kBAAA;CACA","file":"app.vue","sourcesContent":["<template>\r\n    <div class=\"hello\">\r\n      \r\n        <h1>{{ msg }}</h1>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import Vue from 'vue'\r\n\r\n    export default {\r\n        name: 'App',\r\n        data() {\r\n            return {\r\n                msg: 'Welcome to Your Vue.js App'\r\n            }\r\n        }\r\n    }\r\n</script>\r\n\r\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\r\n<style scoped>\r\n    h1 {\r\n        font-weight: normal;\r\n        color: dodgerblue;\r\n    }\r\n</style>"],"sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ }),
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "hello" }, [
-    _c("h1", [_vm._v(_vm._s(_vm.msg))])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = esExports;
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-39169198", esExports)
-  }
-}
-
-/***/ }),
-/* 20 */,
-/* 21 */,
-/* 22 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(11);
+var content = __webpack_require__(9);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("0c03ee9e", content, false, {});
+var update = __webpack_require__(4)("0c03ee9e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -661,27 +602,67 @@ if(false) {
 }
 
 /***/ }),
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, "\nh1[data-v-39169198] {\n    font-weight: normal;\n    color: dodgerblue;\n}\n", "", {"version":3,"sources":["/./ClientApp/home/ClientApp/home/app.vue?10baf6d7"],"names":[],"mappings":";AAsBA;IACA,oBAAA;IACA,kBAAA;CACA","file":"app.vue","sourcesContent":["<template>\r\n    <div class=\"hello\">\r\n      \r\n        <h1>{{ msg }}</h1>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import Vue from 'vue'\r\n\r\n    export default {\r\n        name: 'App',\r\n        data() {\r\n            return {\r\n                msg: 'Welcome to Your Vue.js App'\r\n            }\r\n        }\r\n    }\r\n</script>\r\n\r\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\r\n<style scoped>\r\n    h1 {\r\n        font-weight: normal;\r\n        color: dodgerblue;\r\n    }\r\n</style>"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_vue__ = __webpack_require__(7);
+//
+//
+//
+//
+//
+//
+//
 
 
-// mount
-new __WEBPACK_IMPORTED_MODULE_0_vue__["default"]({
-    el: '#app-root',
-    render: function (h) { return h(__WEBPACK_IMPORTED_MODULE_1__app_vue__["a" /* default */], {
-        props: { propMessage: 'World' }
-    }); }
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    name: 'App',
+    data: function data() {
+        return {
+            msg: 'Welcome to Your Vue.js App'
+        };
+    }
 });
 
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "hello" }, [
+    _c("h1", [_vm._v(_vm._s(_vm.msg))])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-39169198", esExports)
+  }
+}
 
 /***/ })
 /******/ ]);
