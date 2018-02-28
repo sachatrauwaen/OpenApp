@@ -53,7 +53,7 @@ for:
   branches:
     only:
       - develop
-      - /abp-update-v.*/
+#      - /abp-update-v.*/
 
   build:      
     publish_nuget: true
