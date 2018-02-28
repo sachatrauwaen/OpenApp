@@ -1,6 +1,5 @@
-﻿
-import Vue from 'vue'
-import Component from 'vue-class-component'
+﻿import Vue from 'vue'
+import Component from 'vue-class-component' // https://github.com/vuejs/vue-class-component
 
 @Component({   
     props: {
@@ -15,7 +14,7 @@ export default class App extends Vue {
     propMessage: string;
 
     // inital data
-    greeting: string = "";
+    greeting: string = '';
     msg: number = 123;
     
     get helloMsg() {
