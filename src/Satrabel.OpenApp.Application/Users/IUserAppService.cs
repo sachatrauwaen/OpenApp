@@ -6,7 +6,7 @@ using Satrabel.OpenApp.Users.Dto;
 
 namespace Satrabel.OpenApp.Users
 {
-    public interface IUserAppService : IAsyncCrudAppService<UserDto, long, PagedResultRequestDto, CreateUserDto, UpdateUserDto>
+    public interface IUserAppService : IAsyncCrudAppService<UserDto, long, UsersResultRequestDto, CreateUserDto, UpdateUserDto>
     {
         Task<ListResultDto<RoleDto>> GetRoles();
     }

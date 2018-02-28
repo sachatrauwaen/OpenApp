@@ -19,6 +19,10 @@ exports.default = {
       startTime: 'Час початку',
       endDate: 'Дата завершення',
       endTime: 'Час завершення',
+      prevYear: 'Previous Year', // to be translated
+      nextYear: 'Next Year', // to be translated
+      prevMonth: 'Previous Month', // to be translated
+      nextMonth: 'Next Month', // to be translated
       year: '',
       month1: 'Січень',
       month2: 'Лютий',
@@ -60,7 +64,7 @@ exports.default = {
     select: {
       loading: 'Завантаження',
       noMatch: 'Співпадінь не знайдено',
-      noData: 'Нема даних',
+      noData: 'Немає даних',
       placeholder: 'Обрати'
     },
     cascader: {
@@ -81,27 +85,28 @@ exports.default = {
       error: 'Неприпустимий ввід даних'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Видалити',
       preview: 'Перегляд',
       continue: 'Продовжити'
     },
     table: {
-      emptyText: 'Нема даних',
+      emptyText: 'Немає даних',
       confirmFilter: 'Підтвердити',
       resetFilter: 'Скинути',
       clearFilter: 'Все',
-      sumText: 'Sum' // to be translated
+      sumText: 'Сума'
     },
     tree: {
-      emptyText: 'Нема даних'
+      emptyText: 'Немає даних'
     },
     transfer: {
       noMatch: 'Співпадінь не знайдено',
       noData: 'Обрати',
-      titles: ['List 1', 'List 2'], // to be translated
-      filterPlaceholder: 'Enter keyword', // to be translated
-      noCheckedFormat: '{total} items', // to be translated
-      hasCheckedFormat: '{checked}/{total} checked' // to be translated
+      titles: ['Список 1', 'Список 2'],
+      filterPlaceholder: 'Введіть ключове слово',
+      noCheckedFormat: '{total} пунктів',
+      hasCheckedFormat: '{checked}/{total} вибрано'
     }
   }
 };

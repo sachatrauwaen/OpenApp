@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Abp.Reflection.Extensions;
 using Satrabel.OpenApp;
+using Satrabel.Starter.Web.Startup;
 
 namespace Satrabel.Starter.Web
 {
@@ -14,7 +15,7 @@ namespace Satrabel.Starter.Web
     {
         public static string CalculateContentRootFolder()
         {
-            var coreAssemblyDirectoryPath = Path.GetDirectoryName(typeof(OpenAppCoreModule).GetAssembly().Location);
+            var coreAssemblyDirectoryPath = Path.GetDirectoryName(typeof(WebMvcModule).GetAssembly().Location);
             if (coreAssemblyDirectoryPath == null)
             {
                 throw new Exception("Could not find location of Satrabel.OpenApp.Core assembly!");

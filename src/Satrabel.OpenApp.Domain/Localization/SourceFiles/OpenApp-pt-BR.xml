@@ -18,10 +18,10 @@
 
     <text name="LoginFailed" value="Falha no login!" />
 
-    <text name="NameSurname" value="Nome sobrenome" />
     <text name="UserName" value="Nome de usuário" />
     <text name="Name" value="Nome" />
     <text name="Surname" value="Sobrenome" />
+    <text name="NameSurname" value="Nome sobrenome" />
     <text name="EmailAddress" value="Endereço de e-mail" />
 
     <text name="Tenants" value="Tenants" />
@@ -39,6 +39,15 @@
     <text name="TenantSelection" value="Seleção de Tenant" />
     <text name="TenantSelection_Detail" value="Por favor selecione um dos seguintes tenants." />
     <text name="Logout" value="Sair" />
+
+
+
+
+
+
+
+
+
 
   </texts>
 </localizationDictionary>

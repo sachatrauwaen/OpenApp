@@ -1,6 +1,6 @@
 ﻿(function () {
     var formitem = {
-        name: "formitem",
+        name: "oaFormItem",
         template: '<el-form-item :label="label" :prop="prop"> \
                     <slot></slot> \
                 </el-form-item> \
@@ -17,5 +17,5 @@
         methods: {
         }
     }
-    Vue.component('formItem', formitem);
+    Vue.component('oa-form-item', formitem);
 })();

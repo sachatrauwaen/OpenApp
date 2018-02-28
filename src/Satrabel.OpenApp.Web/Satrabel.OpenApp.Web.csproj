@@ -20,32 +20,29 @@
     <DefineConstants>FEATURE_SIGNALR</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Views\lib\element-ui\lib\theme_chalk\**" />
+    <EmbeddedResource Remove="Views\lib\element-ui\lib\theme_chalk\**" />
+    <None Remove="Views\lib\element-ui\lib\theme_chalk\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Views\Account\Login.css" />
     <None Remove="Views\Account\Login.js" />
     <None Remove="Views\Account\Login.min.css" />
     <None Remove="Views\Account\Login.min.js" />
     <None Remove="Views\Account\Register.js" />
     <None Remove="Views\Account\Register.min.js" />
-    <None Remove="Views\Crud\Index.js" />
-    <None Remove="Views\css\font-awesome.css" />
-    <None Remove="Views\css\font-awesome.css.map" />
-    <None Remove="Views\css\font-awesome.min.css" />
-    <None Remove="Views\css\simple-line-icons.css" />
-    <None Remove="Views\css\style.css" />
     <None Remove="Views\fonts\fontawesome-webfont.eot" />
     <None Remove="Views\fonts\fontawesome-webfont.svg" />
     <None Remove="Views\fonts\fontawesome-webfont.ttf" />
     <None Remove="Views\fonts\fontawesome-webfont.woff" />
     <None Remove="Views\fonts\fontawesome-webfont.woff2" />
-    <None Remove="Views\fonts\FontAwesome.otf" />
-    <None Remove="Views\fonts\Simple-Line-Icons.eot" />
-    <None Remove="Views\fonts\Simple-Line-Icons.svg" />
     <None Remove="Views\fonts\Simple-Line-Icons.woff" />
-    <None Remove="Views\fonts\Simple-Line-Icons.woff2" />
-    <None Remove="Views\fonts\Simple_Line_Icons.eot" />
-    <None Remove="Views\fonts\Simple_Line_Icons.svg" />
-    <None Remove="Views\fonts\Simple_Line_Icons.woff" />
-    <None Remove="Views\fonts\Simple_Line_Icons.woff2" />
+    <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element-icons.ttf" />
+    <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element-icons.woff" />
+    <None Remove="Views\lib\vueforms\libs.css" />
+    <None Remove="Views\Localization\Index.cshtml" />
+    <None Remove="Views\Localization\Index.js" />
+    <None Remove="Views\Crud\Index.js" />
     <None Remove="Views\img\favicon.png" />
     <None Remove="Views\img\logo.png" />
     <None Remove="Views\lib\element-ui\bundle.js" />
@@ -60,8 +57,11 @@
     <None Remove="Views\lib\vue\vue.js" />
     <None Remove="Views\lib\vue\vue.min.js" />
     <None Remove="Views\Shared\Components\TopBarArea\Default.cshtml" />
+    <None Remove="Views\swagger\ui\abp.js" />
     <None Remove="Views\_Bundles\account-layout.min.css" />
     <None Remove="Views\_Bundles\account-layout.min.js" />
+    <None Remove="Views\_Bundles\embed-layout.min.css" />
+    <None Remove="Views\_Bundles\embed-layout.min.js" />
     <None Remove="Views\_Bundles\shared-layout.min.css" />
     <None Remove="Views\_Bundles\shared-layout.min.js" />
   </ItemGroup>
@@ -73,13 +73,19 @@
     <EmbeddedResource Include="Views\Account\Register.js" />
     <EmbeddedResource Include="Views\Account\Register.min.js" />
     <EmbeddedResource Include="Views\Crud\Index.js" />
-    <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.eot" />
-    <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.svg" />
-    <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.woff" />
-    <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.woff2" />
-    <EmbeddedResource Include="Views\lib\element-ui\bundle.js" />
-    <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element_icons.ttf" />
-    <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element_icons.woff" />
+    <EmbeddedResource Include="Views\fonts\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="Views\fonts\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="Views\fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="Views\fonts\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="Views\fonts\fontawesome-webfont.woff2" />
+    <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.woff" />
+    <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element-icons.ttf" />
+    <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element-icons.woff" />
+    <EmbeddedResource Include="Views\lib\vueforms\libs.css" />
+    <EmbeddedResource Include="Views\Localization\Index.js" />
+    <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.eot" />
+    <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.svg" />
+    <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.woff2" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\index.css" />
     <EmbeddedResource Include="Views\lib\json-ref-lite\json-ref-lite.min.js" />
   </ItemGroup>
@@ -92,12 +98,15 @@
     <EmbeddedResource Include="Views\Crud\Index.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Localization\Index.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\css\font-awesome.css" />
     <EmbeddedResource Include="Views\css\font-awesome.css.map" />
     <EmbeddedResource Include="Views\css\font-awesome.min.css" />
     <EmbeddedResource Include="Views\css\simple-line-icons.css" />
     <EmbeddedResource Include="Views\fonts\FontAwesome.otf" />
-    <EmbeddedResource Include="Views\fonts\Simple_Line_Icons.ttf" />
+    <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.ttf" />
     <EmbeddedResource Include="Views\img\favicon.png" />
     <EmbeddedResource Include="Views\img\logo.png" />
     <EmbeddedResource Include="Views\lib\vueforms\bundle.js" />
@@ -109,8 +118,12 @@
     <EmbeddedResource Include="Views\lib\vue\vue.js" />
     <EmbeddedResource Include="Views\lib\vue\vue.min.js" />
     <EmbeddedResource Include="Views\Shared\Components\TopBarArea\Default.cshtml" />
+    <EmbeddedResource Include="Views\swagger\ui\abp.js" />
+    <EmbeddedResource Include="Views\swagger\ui\oncomplete.js" />
     <EmbeddedResource Include="Views\_Bundles\account-layout.min.css" />
     <EmbeddedResource Include="Views\_Bundles\account-layout.min.js" />
+    <EmbeddedResource Include="Views\_Bundles\embed-layout.min.css" />
+    <EmbeddedResource Include="Views\_Bundles\embed-layout.min.js" />
     <EmbeddedResource Include="Views\_Bundles\shared-layout.min.css" />
     <EmbeddedResource Include="Views\_Bundles\shared-layout.min.js" />
   </ItemGroup>

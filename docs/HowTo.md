@@ -14,6 +14,8 @@
 * Make sure Visual Studio does not use it's own node version
     Tools > Options > Projects and Solutions > Web Package Management > Deselect $(VSINSTALLDIR)\Web\External
 
+* Resharper users would verify that resharper is following correct version. (options > code editing > typescript > inspections)
+
 
 ## Creating an OpenApp Solution
 
@@ -51,6 +53,19 @@ The OpenApp Core assemblies are available via Nuget. So there is no need to crea
 * Create a new /Application/Services/YourNewServiceClass.cs that inherits from MyApplicationServiceBase
 coming soon
 
+### How to create a data entity?
+
+* make dto that inherits from EntityDto<int>  
+
+(more details coming soon)
+
+### How to update the database schema?
+* In you AppDbContext, define a DbSet for each entity of the application.
+* In Package Manager Console, type Add-Migration. Make sure that your project is the Default project (in Package Manager Console). This will create the EntityFramework update scripts.
+* In Startup/AppConsts class in your project, increment the AppVersion.
+* Build your VS Solution to make sure all new code is taken into account.
+* Run the solution using Ctrl+F5 with Satrabel.Starter.Web.Spa as startup project 
+
 ### How to create a CRUD page?
 
 * Notes: 
@@ -72,16 +87,6 @@ coming soon
 	3.1 in NavigationProvider.cs, add a new MenuItemDefinition
 4. Todo: How to add filters
 5. Todo: Document the available annotations/components?
-
-### How to create a data entity?
-
-coming soon
-
-### How to update the database schema?
-* In you AppDbContext, define a DbSet for each entity of the application.
-* In Package Manager Console, type Add-Migration. Make sure that your project is the Default project (in Package Manager Console)
-* In AppConsts class in your project, increment the AppVersion.
-* Run the solution using Ctrl+F5 with Satrabel.Starter.Web.Spa as startup project 
 
 ### How to add a module page?
 * in the Startup folder, look at PageNames class. Add a page there.

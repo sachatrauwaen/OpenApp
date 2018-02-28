@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="fr">
   <texts>
-
     <text name="Admin" value="Admin" />
+    <text name="Languages">Langues</text>
     
     <text name="FormIsNotValidMessage" value="Le formulaire n'est pas valide. Veuillez le corriger." />
     <text name="TenantNameCanNotBeEmpty" value="Le nom de site doit être renseigné." />
@@ -20,12 +20,11 @@
 
     <text name="LoginFailed" value="Echec d'authentification !" />
 
-    <text name="Users" value="Utilisateurs" />
-    <text name="NameSurname" value="Nom de famille" />
     <text name="UserName" value="Nom d'utilisateur" />
     <text name="Name" value="Nom" />
     <text name="Firstname" value="Prénom" />
     <text name="Surname" value="Nom de famille" />
+    <text name="NameSurname" value="Nom ét nom de famille" />
     <text name="EmailAddress" value="Adresse email" />
 
     <text name="Tenants" value="Sites" />
@@ -45,13 +44,26 @@
     <text name="TenantSelection_Detail" value="Veuillez choisir l'un de ces sites suivants." />
     <text name="Logout" value="Déconnexion" />
 
-    <text name="RoleDetails" value="Détails du role" />
-    <text name="RolePermissions" value="Permissions" />
+    <text name="Users" value="Utilisateurs" />
+    <text name="Yes" value="Oui" />
+    <text name="No" value="Non" />
 
-    
-    <text name="Search" value="Rechercher" />
+    <text name="Roles">Rôles</text>
+    <text name="DisplayName">Nom visible</text>
+        
+
+    <text name="LanguageSource">Source</text>
+    <text name="LanguageName">Language</text>
+    <text name="LanguageKey">Key</text>
+    <text name="NotTranslatedOnly">Not Translated</text>
+    <text name="Localizations">Localizations</text>
     <text name="Reset" value="Réinitialiser" />
-    
+    <text name="Search" value="Rechercher" />
+    <text name="Enabled">Activé</text>
+    <text name="Default">Défaut</text>
+    <text name="Icon">Icône</text>
+    <text name="RoleDetails" value="Détails du rôle" />
+    <text name="RolePermissions" value="Permissions" />
 
   </texts>
 </localizationDictionary>

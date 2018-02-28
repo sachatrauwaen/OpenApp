@@ -48,7 +48,7 @@ namespace Satrabel.Starter.Web.Startup
                    new MenuItemDefinition(
                        PageNames.Home,
                        L("Users"),
-                       url: "/Crud#OpenApp/user",
+                       url: "/Crud#/OpenApp/user",
                        icon: "people",
                        requiredPermissionName: Satrabel.OpenApp.Authorization.PermissionNames.Pages_Users,
                        customData: "Users"

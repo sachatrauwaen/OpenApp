@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
-
+    <text name="Admin" value="Admin" />
+    <text name="Languages">Languages</text>
+    
     <text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />
     <text name="TenantNameCanNotBeEmpty" value="Tenant name can not be empty" />
 
@@ -20,11 +22,11 @@
 
     <text name="LoginFailed" value="Login failed!" />
 
-    <text name="NameSurname" value="Name surname" />
     <text name="UserName" value="User name" />
-    <text name="Firstname" value="Firstname" />
     <text name="Name" value="Name" />
+    <text name="Firstname" value="Firstname" />
     <text name="Surname" value="Surname" />
+    <text name="NameSurname" value="Name surname" />
     <text name="EmailAddress" value="Email address" />
 
     <text name="Tenants" value="Tenants" />
@@ -83,5 +85,12 @@
     <text name="EditUser">Edit user</text>
     <text name="TenantIdIsNotActive{0}">TenantId {0} is not active</text>
     <text name="UnknownTenantId{0}">Unknown tenantId {0}</text>
+
+    <text name="LanguageSource">Source</text>
+    <text name="LanguageName">Language</text>
+    <text name="LanguageKey">Key</text>
+    <text name="NotTranslatedOnly">Not Translated</text>
+    <text name="Localizations">Localizations</text>
+
   </texts>
 </localizationDictionary>

@@ -21,5 +21,5 @@
             }
         },
     }
-    Vue.component('textarea-component', textareaComponent);
+    Vue.component('oa-textarea', textareaComponent);
 })();

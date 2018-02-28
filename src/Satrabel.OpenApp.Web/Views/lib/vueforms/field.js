@@ -1,62 +1,60 @@
 ﻿(function () {
-    var comp = {
-        name: "comp",
-        template: '<el-form-item v-if="addFormItem" :label="label" :prop="prop"> \
+    var field = {
+        name: "oaField",
+        template: ' <el-form-item :label="label" :prop="prop"> \
                     <component v-bind:is="currentView" v-model="model" v-bind="$props" @propChange="propChange" ></component> \
-                </el-form-item> \
-                <component v-else v-bind:is="currentView" :label="label" :prop="prop" v-model="model" v-bind="$props" @propChange="propChange" ></component>',
+                    </el-form-item>',
         props: {
             value: {},
             schema: {},
             prop: String,
             messages: Object,
             service: {},
-        },
-        components: {
-            inputComponent: Vue.component('input-component'),
-            textareaComponent: Vue.component('textarea-component'),
-            selectComponent: Vue.component('select-component'),
-            switchComponent: Vue.component('switch-component'),
-            checkboxGroupComponent: Vue.component('checkbox-group-component'),
-            datetimeComponent: Vue.component('datetime-component'),
-            daterangeComponent: Vue.component('daterange-component'),
-            inputNumberComponent: Vue.component('input-number-component'),
-            addressComponent: Vue.component('address-component'),
-            relationComponent: Vue.component('relation-component')
-        },
+        },       
         computed: {
             currentView: function () {
                 var sch = this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
-                var type = Array.isArray(sch.type) ? sch.type[0] : sch.type;
+                var type = Array.isArray(sch.type) ? (sch.type[0] == "null" ? sch.type[1]:sch.type[0] ) : sch.type;
                 if (sch["x-type"]) {
                     type = sch["x-type"];
-                }
-                if (sch["x-rel-action"]) {
-                    return 'relationComponent';
+                } else if (sch["x-rel-action"]) {
+                    type = 'relation';
+                } else if (sch["x-rel-to-many-action"]) {
+                    type = 'relation-to-many';
                 } else if (sch.enum || sch["x-enum-action"]) {
                     if (type == 'array') {
-                        return 'checkboxGroupComponent';
+                        type = 'checkbox-group';
                     } else {
-                        return 'selectComponent';
+                        type = 'select';
                     }
                 } else if (type == 'boolean') {
-                    return 'switchComponent';
+                    type = 'switch';
                 } else if (type == 'integer' || type == 'number') {
-                    return 'inputNumberComponent';
+                    type = 'input-number';
                 } else if (type == 'array' && this.schema.items.format == 'date-time') {
-                    return 'daterangeComponent';
+                    type = 'daterange';
                 } else if (sch.format == 'date-time') {
-                    return 'datetimeComponent';
+                    type = 'datetime';
                 } else if (sch['x-ui-multiline']) {
-                    return 'textareaComponent';
+                    type = 'textarea';
                 } else if (type == 'address') {
-                    return 'addressComponent';
+                    type = 'address';
                 } else {
-                    return 'inputComponent';
+                    type = 'input';
                 }
-            },
-            addFormItem: function () {
-                return this.currentView != 'relationComponent';
+                var compName = 'oa-' + type;
+                var comp = Vue.component(compName);
+                if (!comp) {
+                    comp = function (resolve, reject) {
+                        Vue.$loadComponent({
+                            name: compName,
+                            path: abp.appPath+'lib/vueforms/'+type+'.js',
+                            onLoad: resolve,
+                            onError: reject
+                        });
+                    }
+                }
+                return comp;
             },
             model: {
                 get: function () {
@@ -81,5 +79,5 @@
         }
     }
 
-    Vue.component('comp', comp);
+    Vue.component('oa-field', field);
 })();

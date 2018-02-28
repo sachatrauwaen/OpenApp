@@ -2,20 +2,19 @@
     var RelationComponent = {
         name: "RelationComponent",
         template: '<div> \
-                <el-form-item :label="label" :prop="prop"> \
                     <el-select v-model="model" :value-key="relationValueField" filterable clearable v-on:clear="clear" remote :remote-method="remoteMethod" :loading="loading" > \
                         <el-option v-for="item in options" :key="item.value.id" :label="item.label" :value="item.value"></el-option> \
                     </el-select> \
-                <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
-                 <slot name="footer"></slot> \
-                </el-form-item> \
-                <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :size="dialogSize" :before-close="handleClose"> \
-                    <dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></dialog-form> \
-                </el-dialog > \
+                    <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
+                     <slot name="footer"></slot> \
+                    <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :fullscreen="fullscreen" :before-close="handleClose" :append-to-body="true" @open="openDialog" @close="closeDialog"> \
+                        <oa-dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></oa-dialog-form> \
+                    </el-dialog > \
                 </div>',
         props: {
             value: {},
             schema: {},
+            messages: Object,
             service: {},
             prop: String,
             label: String
@@ -23,8 +22,7 @@
         data: function () {
             var self = this;
             return {
-                form: {},
-                messages: abp.localization.values['JobManager'],
+                form: {},                
                 loading: false,
                 dialogVisible: false,
                 options: [],
@@ -63,13 +61,21 @@
                     this.$emit('input', val)
                 }
             },
-            dialogSize: function () {
-                return window.innerWidth < 700 ? 'full' : 'small';
+            fullscreen: function () {
+                return window.innerWidth < 700;
             },
             buttonIcon: function () {
-                return this.isnew ? "plus" : "edit";
+                return this.isnew ? "el-icon-plus" : "el-icon-edit";
             }
 
+        },
+        watch: {
+            value: function (val, oldVal) {
+                var self = this;
+                if (val) {
+                    this.options= [{ label: self.value[self.relationTextField], value: val }];
+                }    
+            }
         },
         methods: {
             remoteMethod: function (query) {
@@ -109,10 +115,24 @@
                     this.model = model;
                     this.options = [{ label: model[self.relationTextField], value: model }];
                 }
+            },
+            openDialog: function () {
+                if (this.fullscreen) {
+                    document.body.style.position = 'fixed'; // for ios cursor bug
+                }
+            },
+            closeDialog: function () {
+                if (this.fullscreen) {
+                    document.body.style.position = ''; // for ios cursor bug
+                }
             }
         },
         created: function () {
+            var self = this;
+            if (this.value) {
+                this.options = [{ label: self.value[self.relationTextField], value: this.value }];
+            }   
         }
     }
-    Vue.component('relation-component', RelationComponent);
+    Vue.component('oa-relation', RelationComponent);
 })();

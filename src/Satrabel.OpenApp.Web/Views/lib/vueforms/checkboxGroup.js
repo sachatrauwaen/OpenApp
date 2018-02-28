@@ -26,7 +26,6 @@
                     this.$emit('input', val)
                 }
             },
-
             resource: function () {
                 return this.$route.params.resource;
             },
@@ -54,5 +53,5 @@
             }
         }
     }
-    Vue.component('checkbox-group-component', checkboxGroupComponent);
+    Vue.component('oa-checkbox-group', checkboxGroupComponent);
 })();

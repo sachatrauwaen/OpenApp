@@ -1,15 +1,18 @@
 ﻿(function () {
     var CrudGrid = {
-        name: "CrudGrid",
+        name: "oaCrudGrid",
         template: '<div> \
-                <filterform v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :actions="filterActions" :messages="messages"></filterform> \
-                <gridcomp :model="model" :schema="schema" :messages="messages" :options="options" :actions="gridActions" :default-action="gridActions[0]"></gridcomp><br /> \
-                <el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
-                <div style="float:right"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
+                    <el-row :gutter="10" > \
+                        <el-col :xs="24" :sm="2" :md="2" :lg="2" :xl="2" style="padding-bottom: 20px;"> \
+                            <el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
+                        </el-col> \
+                        <el-col :xs="24" :sm="22" :md="22" :lg="22" :xl="22" > \
+                            <oa-filter-form v-if="hasFilter" ref="filterform" :model="filterModel" :schema="filterSchema" :service="service" :actions="filterActions" :messages="messages"></oa-filter-form> \
+                        </el-col> \
+                    </el-row> \
+                    <oa-grid :model="model" :schema="schema" :messages="messages" :options="options" :actions="gridActions" :default-action="gridActions[0]"></oa-grid><br /> \
+                    <div style="float:right"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
                 </div>',
-        props: {
-
-        },
         data: function () {
             return {
                 model: [],
@@ -26,6 +29,9 @@
             resource: function () {
                 return this.$route.params.resource;
             },
+            service: function () {
+                return abp.services.app[this.resource];
+            },
             schema: function () {
                 return jref.resolve(abp.schemas.app[this.resource].get.returnValue);
             },
@@ -37,21 +43,20 @@
                 return [
                     {
                         name: self.translate('Edit'),
-                        icon: 'edit',
+                        icon: 'el-icon-edit',
                         execute: function (row) {
                             self.$router.push({ name: 'edit', params: { resource: self.resource, id: row.id } })
                         }
                     },
                     {
                         name: self.translate('Delete'),
-                        icon: 'delete',
+                        icon: 'el-icon-delete',
                         execute: function (row) {
                             self.$confirm('Confirm delete ?', self.translate('Delete'), {
                                 confirmButtonText: 'OK',
                                 cancelButtonText: 'Cancel',
                                 type: 'warning'
                             }).then(function () {
-
                                 self.deleteData(row, function () {
                                     self.$message({
                                         type: 'success',
@@ -61,7 +66,13 @@
                             }).catch(function () {
 
                             });
-
+                        },
+                        visible: function (row, index) {
+                            if (typeof row.canDelete != 'undefined') {
+                                return row.canDelete;
+                            } else {
+                                return true;
+                            }
                         }
                     }
                 ]
@@ -73,8 +84,8 @@
                 var self = this;
                 return [
                     {
-                        name: self.translate('Add'),
-                        icon: 'plus',
+                        //name: self.translate('Add'),
+                        icon: 'el-icon-plus',
                         type: 'primary',
                         execute: function () {
                             self.$router.push({ name: 'add', params: { resource: self.resource } })
@@ -99,14 +110,16 @@
                 var self = this;
                 return [
                     {
-                        name: self.translate('Search'),
+                        //name: self.translate('Search'),
+                        icon: 'el-icon-search',
                         type: 'primary',
                         execute: function () {
                             self.fetchData();
                         }
                     },
                     {
-                        name: self.translate('Reset'),
+                        //name: self.translate('Reset'),
+                        icon: 'el-icon-close',
                         execute: function () {
                             self.$refs.filterform.resetForm();
                             self.fetchData();
@@ -141,7 +154,7 @@
                 self.filterModel.skipCount = (this.currentPage - 1) * this.pageSize;
                 self.filterModel.maxResultCount = this.pageSize;
                 //{ skipCount: 0, maxResultCount: 999 }
-                abp.services.app[this.resource].getAll(self.filterModel).done(function (data) {
+                self.service.getAll(self.filterModel).done(function (data) {
                     self.model = data.items;
                     self.totalCount = data.totalCount;
                     if (callback) callback();
@@ -152,7 +165,7 @@
             },
             deleteData: function (data, callback) {
                 var self = this;
-                abp.services.app[this.resource].delete({ id: data.id }).done(function (data) {
+                self.service.delete({ id: data.id }).done(function (data) {
                     self.fetchData(callback);
                 }).always(function () {
                     //abp.ui.clearBusy(_$app);
@@ -177,5 +190,5 @@
             }
         },
     }
-    Vue.component('crud-grid', CrudGrid);
+    Vue.component('oa-crud-grid', CrudGrid);
 })();

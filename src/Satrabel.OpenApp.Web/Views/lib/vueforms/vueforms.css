@@ -1,0 +1,28 @@
+﻿.pac-container {
+    z-index: 10000 !important;
+}
+
+.el-message-box {
+    width: 320px !important;
+}
+
+.el-table .crudcell .cell {
+    white-space: nowrap !important;
+}
+
+.el-form-item.is-required .el-form-item__label:before {
+    display: none;
+}
+
+.el-form-item.is-required > .el-form-item__label:before {
+    display: inline;
+}
+
+.el-time-panel__content::after, .el-time-panel__content::before {
+    margin-top: -7px !important;
+}
+
+.el-form--label-top .el-form-item__label {
+    margin-bottom: 0;
+    line-height: 14px;
+}

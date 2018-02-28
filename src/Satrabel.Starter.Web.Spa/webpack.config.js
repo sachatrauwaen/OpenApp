@@ -7,7 +7,8 @@ const bundleOutputDir = './wwwroot/dist';
 
 
 module.exports = (env) => {
-    const isDevBuild = !(env && env.prod);
+    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() ==='production');
+    const isDevBuild = !isProdBuild;
 
     return [{
         stats: { modules: false },
@@ -33,7 +34,8 @@ module.exports = (env) => {
                     include: /ClientApp/,
                     loader: 'vue-loader',
                     options: {
-                        esModule: true
+                        esModule: true,
+                        extractCSS: !isDevBuild
                     }
                 },
                 {
@@ -78,7 +80,10 @@ module.exports = (env) => {
         ] : [
             // Plugins that apply in production builds only
             new webpack.optimize.UglifyJsPlugin(),
-            new ExtractTextPlugin('site.css')
+            //new ExtractTextPlugin('site.css')
+            new ExtractTextPlugin({
+                filename: '[name].css'
+            })
         ])
     }];
 };

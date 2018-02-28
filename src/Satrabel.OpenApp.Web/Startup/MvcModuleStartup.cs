@@ -35,16 +35,16 @@ namespace Satrabel.OpenApp.Startup
     public class MvcModuleStartup<TModule> where TModule : AbpModule
     {
         private const string DefaultCorsPolicyName = "DefaultPolicy";
-        private readonly IConfigurationRoot _appConfiguration;
-        private readonly bool CorsEnabled = false;
-        private readonly bool SwaggerEnabled = false;
+        protected readonly IConfigurationRoot _appConfiguration;
+        private readonly bool _corsEnabled = false;
+        private readonly bool _swaggerEnabled = false;
         protected Version AppVersion;
 
         public MvcModuleStartup(IHostingEnvironment env)
         {
             _appConfiguration = env.GetAppConfiguration();
-            CorsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"]);
-            SwaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"]);
+            _corsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"]);
+            _swaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"]);
             Clock.Provider = ClockProviders.Local;
         }
 
@@ -54,7 +54,7 @@ namespace Satrabel.OpenApp.Startup
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                if (CorsEnabled)
+                if (_corsEnabled)
                 {
                     options.Filters.Add(new CorsAuthorizationFilterFactory(DefaultCorsPolicyName));
                 }
@@ -64,40 +64,28 @@ namespace Satrabel.OpenApp.Startup
             services.AddScoped<IWebResourceManager, WebResourceManager>();
             services.AddSingleton<IMigrationManager>(new MigrationManager());
             services.AddSingleton<IWebConfig>(new WebConfig());
-            if (CorsEnabled)
+
+            // Configure CORS for angular2 UI or other clients. This does not activate Cors. It only configures it.
+            services.AddCors(options =>
             {
-                //Configure CORS for angular2 UI
-                services.AddCors(options =>
+                options.AddPolicy(DefaultCorsPolicyName, builder =>
                 {
-                    options.AddPolicy(DefaultCorsPolicyName, builder =>
-                    {
                         //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
                         builder
-                            .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.RemovePostFix("/")).ToArray())
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
+                        .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim().RemovePostFix("/")).ToArray())
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
-            }
-            else
-            {
-                services.AddCors(options =>
-                {
-                    options.AddPolicy(DefaultCorsPolicyName, builder =>
-                    {
-                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                    });
-                });
-            }
-			
+            });
+
             //Swagger - Enable this line and the related lines in Configure method to enable swagger UI
-            if (SwaggerEnabled)
+            if (_swaggerEnabled)
             {
                 services.AddSwaggerGen(options =>
                 {
                     options.SwaggerDoc("v1", new Info { Title = "OpenApp API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
-
+                    options.CustomSchemaIds(x => x.FullName);
                     // Define the BearerAuth scheme that's in use
                     options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
                     {
@@ -129,7 +117,7 @@ namespace Satrabel.OpenApp.Startup
             migrationManager.AppVersion = AppVersion;
             app.UseAbp(); //Initializes ABP framework.
 
-            if (CorsEnabled)
+            if (_corsEnabled)
             {
                 app.UseCors(DefaultCorsPolicyName);
             }
@@ -157,7 +145,17 @@ namespace Satrabel.OpenApp.Startup
 
             ConfigureBeforeStaticFiles(app, env);
             app.UseStaticFiles();
-            app.UseEmbeddedFiles();
+            // start temp fix
+            //app.UseEmbeddedFiles(); 
+            app.UseStaticFiles(
+                new StaticFileOptions
+                {
+                    FileProvider = new Web.EmbeddedResources.EmbeddedResourceFileProvider(
+                        app.ApplicationServices.GetRequiredService<Abp.Dependency.IIocResolver>()
+                    )
+                }
+            );
+            // end temp fix
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
 
@@ -182,15 +180,15 @@ namespace Satrabel.OpenApp.Startup
                     defaults: new { controller = "ClientApp", action = "Run" });
 
             });
-            if (SwaggerEnabled)
+            if (_swaggerEnabled)
             {
                 // Enable middleware to serve generated Swagger as a JSON endpoint
                 app.UseSwagger();
                 // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
                 app.UseSwaggerUI(options =>
                 {
-                    options.InjectOnCompleteJavaScript("/swagger/ui/abp.js");
-                    options.InjectOnCompleteJavaScript("/swagger/ui/on-complete.js");
+                    options.InjectOnCompleteJavaScript("/Views/swagger/ui/abp.js");
+                    options.InjectOnCompleteJavaScript("/Views/swagger/ui/oncomplete.js");
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenApp API V1");
                 }); //URL: /swagger
             }
