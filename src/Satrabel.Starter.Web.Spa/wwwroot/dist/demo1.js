@@ -75,14 +75,12 @@ module.exports = (__webpack_require__(2))(2);
 
 /* globals __VUE_SSR_CONTEXT__ */
 
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
 
 module.exports = function normalizeComponent (
   rawScriptExports,
   compiledTemplate,
-  functionalTemplate,
   injectStyles,
   scopeId,
   moduleIdentifier /* server only */
@@ -106,12 +104,6 @@ module.exports = function normalizeComponent (
   if (compiledTemplate) {
     options.render = compiledTemplate.render
     options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
   }
 
   // scopedId
@@ -152,16 +144,12 @@ module.exports = function normalizeComponent (
     var existing = functional
       ? options.render
       : options.beforeCreate
-
     if (!functional) {
       // inject component registration as beforeCreate hook
       options.beforeCreate = existing
         ? [].concat(existing, hook)
         : [hook]
     } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
       // register for functioal component in vue file
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -531,8 +519,8 @@ new __WEBPACK_IMPORTED_MODULE_0_vue__["default"]({
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_app_vue__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_68bcd92f_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_app_vue__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_app_vue__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_578ac0f7_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_app_vue__ = __webpack_require__(27);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -543,24 +531,22 @@ var normalizeComponent = __webpack_require__(1)
 
 /* template */
 
-/* template functional */
-  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-68bcd92f"
+var __vue_scopeId__ = "data-v-578ac0f7"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_app_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_68bcd92f_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_app_vue__["a" /* default */],
-  __vue_template_functional__,
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_app_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_578ac0f7_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_app_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "ClientApp\\demo1\\app.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] app.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -569,10 +555,10 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-68bcd92f", Component.options)
+    hotAPI.createRecord("data-v-578ac0f7", Component.options)
   } else {
-    hotAPI.reload("data-v-68bcd92f", Component.options)
-' + '  }
+    hotAPI.reload("data-v-578ac0f7", Component.options)
+  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -592,13 +578,13 @@ var content = __webpack_require__(15);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("6df099ac", content, false, {});
+var update = __webpack_require__(4)("43e6f247", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-68bcd92f\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./app.vue", function() {
-     var newContent = require("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-68bcd92f\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./app.vue");
+   module.hot.accept("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-578ac0f7\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./app.vue", function() {
+     var newContent = require("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-578ac0f7\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./app.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -616,7 +602,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "\nh1[data-v-68bcd92f] {\n    font-weight: normal;\n    color: dodgerblue;\n}\n", "", {"version":3,"sources":["/./ClientApp/demo1/ClientApp/demo1/app.vue?a6ffdbb8"],"names":[],"mappings":";AAqDA;IACA,oBAAA;IACA,kBAAA;CACA","file":"app.vue","sourcesContent":["<template>\r\n    <div>\r\n        <!-- Breadcrumb -->\r\n        <ol class=\"breadcrumb\">\r\n            <li class=\"breadcrumb-item active\">Home</li>\r\n            <!-- Breadcrumb Menu-->\r\n            <li class=\"breadcrumb-menu d-md-down-none\">\r\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Button group\">\r\n                    <a class=\"btn\" href=\"/\"><i class=\"icon-calendar\"></i> &nbsp;Dashboard</a>\r\n                </div>\r\n            </li>\r\n        </ol>\r\n        <div class=\"container-fluid\">\r\n            <h1>{{ propMessage }}</h1>\r\n            <demo-javascript></demo-javascript>\r\n            <demo-typescript propMessage=\"demoTypescript\"></demo-typescript>\r\n\r\n            <el-alert title=\"Title.\"\r\n                      type=\"info\"\r\n                      description=\"This is a description.\">\r\n            </el-alert>\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import DemoJavascript from './DemoJavascript.vue';\r\n    import DemoTypescript from './DemoTypescript.vue';\r\n\r\n    import Vue from 'vue'\r\n    import ElementUI from 'element-ui'; // see http://element.eleme.io/#/en-US/component \r\n    Vue.use(ElementUI)\r\n\r\n    export default {\r\n        name: 'App',\r\n        props: {\r\n            propMessage: String\r\n        },\r\n        data() {\r\n            return {\r\n                msg: 'Welcome to Your Vue.js App'\r\n            }\r\n        },\r\n        components: {\r\n            demoJavascript: DemoJavascript,\r\n            demoTypescript: DemoTypescript\r\n        }\r\n\r\n    }\r\n</script>\r\n\r\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\r\n<style scoped>\r\n    h1 {\r\n        font-weight: normal;\r\n        color: dodgerblue;\r\n    }\r\n</style>"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\nh1[data-v-578ac0f7] {\n    font-weight: normal;\n    color: dodgerblue;\n}\n", "", {"version":3,"sources":["/./ClientApp/demo1/app.vue?a6ffdbb8"],"names":[],"mappings":";AAqDA;IACA,oBAAA;IACA,kBAAA;CACA","file":"app.vue","sourcesContent":["<template>\r\n    <div>\r\n        <!-- Breadcrumb -->\r\n        <ol class=\"breadcrumb\">\r\n            <li class=\"breadcrumb-item active\">Home</li>\r\n            <!-- Breadcrumb Menu-->\r\n            <li class=\"breadcrumb-menu d-md-down-none\">\r\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Button group\">\r\n                    <a class=\"btn\" href=\"/\"><i class=\"icon-calendar\"></i> &nbsp;Dashboard</a>\r\n                </div>\r\n            </li>\r\n        </ol>\r\n        <div class=\"container-fluid\">\r\n            <h1>{{ propMessage }}</h1>\r\n            <demo-javascript></demo-javascript>\r\n            <demo-typescript propMessage=\"demoTypescript\"></demo-typescript>\r\n\r\n            <el-alert title=\"Title.\"\r\n                      type=\"info\"\r\n                      description=\"This is a description.\">\r\n            </el-alert>\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import DemoJavascript from './DemoJavascript.vue';\r\n    import DemoTypescript from './DemoTypescript.vue';\r\n\r\n    import Vue from 'vue'\r\n    import ElementUI from 'element-ui'; // see http://element.eleme.io/#/en-US/component \r\n    Vue.use(ElementUI)\r\n\r\n    export default {\r\n        name: 'App',\r\n        props: {\r\n            propMessage: String\r\n        },\r\n        data() {\r\n            return {\r\n                msg: 'Welcome to Your Vue.js App'\r\n            }\r\n        },\r\n        components: {\r\n            demoJavascript: DemoJavascript,\r\n            demoTypescript: DemoTypescript\r\n        }\r\n\r\n    }\r\n</script>\r\n\r\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\r\n<style scoped>\r\n    h1 {\r\n        font-weight: normal;\r\n        color: dodgerblue;\r\n    }\r\n</style>"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -688,7 +674,7 @@ __WEBPACK_IMPORTED_MODULE_2_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_3_ele
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_DemoJavascript_vue_js__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_80d4609c_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_DemoJavascript_vue__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_64aa8a2c_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_DemoJavascript_vue__ = __webpack_require__(21);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -698,24 +684,22 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 /* template */
 
-/* template functional */
-  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-80d4609c"
+var __vue_scopeId__ = "data-v-64aa8a2c"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_DemoJavascript_vue_js__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_80d4609c_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_DemoJavascript_vue__["a" /* default */],
-  __vue_template_functional__,
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_64aa8a2c_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_DemoJavascript_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "ClientApp\\demo1\\DemoJavascript.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] DemoJavascript.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -724,10 +708,10 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-80d4609c", Component.options)
+    hotAPI.createRecord("data-v-64aa8a2c", Component.options)
   } else {
-    hotAPI.reload("data-v-80d4609c", Component.options)
-' + '  }
+    hotAPI.reload("data-v-64aa8a2c", Component.options)
+  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -747,13 +731,13 @@ var content = __webpack_require__(19);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("4c43cee6", content, false, {});
+var update = __webpack_require__(4)("0d501572", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-80d4609c\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./DemoJavascript.vue", function() {
-     var newContent = require("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-80d4609c\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./DemoJavascript.vue");
+   module.hot.accept("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-64aa8a2c\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DemoJavascript.vue", function() {
+     var newContent = require("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-64aa8a2c\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DemoJavascript.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -771,7 +755,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "\nh1[data-v-80d4609c], h2[data-v-80d4609c] {\n  font-weight: normal;\n}\nul[data-v-80d4609c] {\n  list-style-type: none;\n  padding: 0;\n}\nli[data-v-80d4609c] {\n  display: inline-block;\n  margin: 0 10px;\n}\na[data-v-80d4609c] {\n  color: #42b983;\n}\n", "", {"version":3,"sources":["/./ClientApp/demo1/ClientApp/demo1/DemoJavascript.vue?788d65fa"],"names":[],"mappings":";AAUA;EACA,oBAAA;CACA;AACA;EACA,sBAAA;EACA,WAAA;CACA;AACA;EACA,sBAAA;EACA,eAAA;CACA;AACA;EACA,eAAA;CACA","file":"DemoJavascript.vue","sourcesContent":["<template>\r\n    <div class=\"hello\">\r\n        <h1>{{ msg }}</h1>\r\n    </div>\r\n</template>\r\n\r\n<script src=\"./DemoJavascript.vue.js\"></script>\r\n\r\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\r\n<style scoped>\r\n    h1, h2 {\r\n      font-weight: normal;\r\n    }\r\n    ul {\r\n      list-style-type: none;\r\n      padding: 0;\r\n    }\r\n    li {\r\n      display: inline-block;\r\n      margin: 0 10px;\r\n    }\r\n    a {\r\n      color: #42b983;\r\n    }\r\n</style>"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\nh1[data-v-64aa8a2c], h2[data-v-64aa8a2c] {\n  font-weight: normal;\n}\nul[data-v-64aa8a2c] {\n  list-style-type: none;\n  padding: 0;\n}\nli[data-v-64aa8a2c] {\n  display: inline-block;\n  margin: 0 10px;\n}\na[data-v-64aa8a2c] {\n  color: #42b983;\n}\n", "", {"version":3,"sources":["/./ClientApp/demo1/DemoJavascript.vue?788d65fa"],"names":[],"mappings":";AAUA;EACA,oBAAA;CACA;AACA;EACA,sBAAA;EACA,WAAA;CACA;AACA;EACA,sBAAA;EACA,eAAA;CACA;AACA;EACA,eAAA;CACA","file":"DemoJavascript.vue","sourcesContent":["<template>\r\n    <div class=\"hello\">\r\n        <h1>{{ msg }}</h1>\r\n    </div>\r\n</template>\r\n\r\n<script src=\"./DemoJavascript.vue.js\"></script>\r\n\r\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\r\n<style scoped>\r\n    h1, h2 {\r\n      font-weight: normal;\r\n    }\r\n    ul {\r\n      list-style-type: none;\r\n      padding: 0;\r\n    }\r\n    li {\r\n      display: inline-block;\r\n      margin: 0 10px;\r\n    }\r\n    a {\r\n      color: #42b983;\r\n    }\r\n</style>"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -810,7 +794,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-80d4609c", esExports)
+     require("vue-hot-reload-api").rerender("data-v-64aa8a2c", esExports)
   }
 }
 
@@ -820,14 +804,12 @@ if (false) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_DemoTypescript_vue_ts__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_13f136ca_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_DemoTypescript_vue__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_22062202_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_DemoTypescript_vue__ = __webpack_require__(25);
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
 /* template */
 
-/* template functional */
-  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -836,14 +818,14 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__ts_loader_DemoTypescript_vue_ts__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_13f136ca_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_DemoTypescript_vue__["a" /* default */],
-  __vue_template_functional__,
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_22062202_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_DemoTypescript_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "ClientApp\\demo1\\DemoTypescript.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] DemoTypescript.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -852,10 +834,10 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-13f136ca", Component.options)
+    hotAPI.createRecord("data-v-22062202", Component.options)
   } else {
-    hotAPI.reload("data-v-13f136ca", Component.options)
-' + '  }
+    hotAPI.reload("data-v-22062202", Component.options)
+  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -1150,7 +1132,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-13f136ca", esExports)
+     require("vue-hot-reload-api").rerender("data-v-22062202", esExports)
   }
 }
 
@@ -1226,7 +1208,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-68bcd92f", esExports)
+     require("vue-hot-reload-api").rerender("data-v-578ac0f7", esExports)
   }
 }
 
