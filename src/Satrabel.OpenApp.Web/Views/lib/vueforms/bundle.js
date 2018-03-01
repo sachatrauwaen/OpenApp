@@ -611,7 +611,7 @@
             closeDialog: function () {
                 if (this.fullscreen) {
                     //document.body.style.position = ''; // for ios cursor bug
-                    document.body.classList.add("dialog-close");
+                    document.body.classList.remove("dialog-open");
                 }
             }
         },
