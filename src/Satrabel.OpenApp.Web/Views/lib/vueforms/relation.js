@@ -61,8 +61,11 @@
                     this.$emit('input', val)
                 }
             },
+            isMobile: function () {
+                return window.matchMedia("only screen and (max-width: 760px)").matches
+            },
             fullscreen: function () {
-                return window.innerWidth < 700;
+                return this.isMobile;
             },
             buttonIcon: function () {
                 return this.isnew ? "el-icon-plus" : "el-icon-edit";
@@ -118,12 +121,14 @@
             },
             openDialog: function () {
                 if (this.fullscreen) {
-                    document.body.style.position = 'fixed'; // for ios cursor bug
+                    //document.body.style.position = 'fixed'; // for ios cursor bug
+                    document.body.classList.add("dialog-open");
                 }
             },
             closeDialog: function () {
                 if (this.fullscreen) {
-                    document.body.style.position = ''; // for ios cursor bug
+                    //document.body.style.position = ''; // for ios cursor bug
+                    document.body.classList.remove("dialog-open");
                 }
             }
         },
