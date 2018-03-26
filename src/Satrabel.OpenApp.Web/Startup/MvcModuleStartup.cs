@@ -38,6 +38,7 @@ namespace Satrabel.OpenApp.Startup
         protected readonly IConfigurationRoot _appConfiguration;
         private readonly bool _corsEnabled = false;
         private readonly bool _swaggerEnabled = false;
+        
         protected Version AppVersion;
 
         public MvcModuleStartup(IHostingEnvironment env)
@@ -59,6 +60,7 @@ namespace Satrabel.OpenApp.Startup
                     options.Filters.Add(new CorsAuthorizationFilterFactory(DefaultCorsPolicyName));
                 }
             });
+
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
             services.AddScoped<IWebResourceManager, WebResourceManager>();
@@ -98,6 +100,9 @@ namespace Satrabel.OpenApp.Startup
                     options.OperationFilter<SecurityRequirementsOperationFilter>();
                 });
             }
+
+            AddAdditionalServices(services);
+
             //Configure Abp and Dependency Injection
             return services.AddAbp<TModule>(options =>
             {
@@ -144,6 +149,7 @@ namespace Satrabel.OpenApp.Startup
             }
 
             ConfigureBeforeStaticFiles(app, env);
+
             app.UseStaticFiles();
             // start temp fix
             //app.UseEmbeddedFiles(); 
@@ -192,6 +198,15 @@ namespace Satrabel.OpenApp.Startup
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenApp API V1");
                 }); //URL: /swagger
             }
+        }
+
+        /// <summary>
+        /// Override this method to add additional services
+        /// </summary>
+        /// <param name="services"></param>
+        protected virtual void AddAdditionalServices(IServiceCollection services)
+        {
+
         }
 
         protected virtual void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
