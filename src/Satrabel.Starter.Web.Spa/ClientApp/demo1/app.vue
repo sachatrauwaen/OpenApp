@@ -36,7 +36,7 @@
         props: {
             propMessage: String
         },
-        data() {
+        data: function() {
             return {
                 msg: 'Welcome to Your Vue.js App'
             }
