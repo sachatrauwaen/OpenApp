@@ -23,7 +23,7 @@ namespace Satrabel.Starter.EntityFramework.Repositories
 
     /// <summary>
     /// Base class for custom repositories of the application.
-    /// This is a shortcut of <see cref="OpenAppRepositoryBase{TEntity,TPrimaryKey}"/> for <see cref="int"/> primary key.
+    /// This is a shortcut of <see cref="StarterRepositoryBase{TEntity,TPrimaryKey}"/> for <see cref="int"/> primary key.
     /// </summary>
     /// <typeparam name="TEntity">Entity type</typeparam>
     public abstract class StarterRepositoryBase<TEntity> : StarterRepositoryBase<TEntity, int>

@@ -1,5 +1,4 @@
-﻿
-import Vue from 'vue'
+﻿import Vue from 'vue'
 import Component from 'vue-class-component'
 
 @Component({   
@@ -15,7 +14,7 @@ export default class App extends Vue {
     propMessage: string;
 
     // inital data
-    greeting: string = "";
+    greeting: string = '';
     msg: number = 123;
     
     get helloMsg() {

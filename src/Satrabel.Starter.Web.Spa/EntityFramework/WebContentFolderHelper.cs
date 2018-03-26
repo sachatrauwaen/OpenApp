@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Abp.Reflection.Extensions;
-using Satrabel.OpenApp;
-using Satrabel.Starter.Web.Startup;
+﻿using Satrabel.Starter.Web.Startup;
 
 namespace Satrabel.Starter.Web
 {

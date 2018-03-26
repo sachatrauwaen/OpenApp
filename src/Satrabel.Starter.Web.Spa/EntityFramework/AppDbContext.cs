@@ -1,7 +1,4 @@
-﻿using Abp.Zero.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-using Abp.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Satrabel.OpenApp.EntityFramework;
 
 namespace Satrabel.Starter.EntityFramework

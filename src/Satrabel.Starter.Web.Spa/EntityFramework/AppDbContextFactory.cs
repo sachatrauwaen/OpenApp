@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using Satrabel.OpenApp;
-using Satrabel.Starter.Web;
 
 namespace Satrabel.Starter.EntityFramework
 {
@@ -19,7 +17,7 @@ namespace Satrabel.Starter.EntityFramework
         public AppDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<AppDbContext>();
-            var configuration = AppConfigurations.Get(typeof(AppDbContextFactory).Assembly);
+            var configuration = AppConfigurations.Get(typeof(AppDbContextFactory).Assembly, null, true);
 
             AppDbContextConfigurer.Configure(builder, configuration.GetConnectionString(Web.AppConsts.ConnectionStringName));
 

@@ -6,7 +6,7 @@
                         <el-option v-for="item in options" :key="item.value.id" :label="item.label" :value="item.value"></el-option> \
                     </el-select> \
                     <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
-                     <slot name="footer"></slot> \
+                    <slot name="footer"></slot> \
                     <el-dialog v-if="relationResource" ref="customerDialog" title="Client" :visible.sync="dialogVisible" :fullscreen="fullscreen" :before-close="handleClose" :append-to-body="true" @open="openDialog" @close="closeDialog"> \
                         <oa-dialog-form ref="form" :resource="relationResource" v-model="model" v-on:close="close" ></oa-dialog-form> \
                     </el-dialog > \
