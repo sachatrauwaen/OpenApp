@@ -5,7 +5,7 @@
       "Views/fonts/roboto/roboto.css",
       "Views/lib/toastr/toastr.css",
       "Views/lib/sweetalert/dist/sweetalert.css",
-      "Views/lib/font-awesome/css/font-awesome.css",
+      "Views/css/font-awesome.css",
       "Views/css/simple-line-icons.css",
       "Views/lib/animate.css/animate.css",
       "Views/css/style.css",
