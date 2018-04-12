@@ -16,9 +16,10 @@ using System;
 namespace Satrabel.OpenApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180412201631_Upgraded_To_Abp_v3.5")]
+    partial class Upgraded_To_Abp_v35
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
