@@ -193,8 +193,10 @@ namespace Satrabel.OpenApp.Startup
                 // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
                 app.UseSwaggerUI(options =>
                 {
-                    options.InjectOnCompleteJavaScript("/Views/swagger/ui/abp.js");
-                    options.InjectOnCompleteJavaScript("/Views/swagger/ui/oncomplete.js");
+                    // todo: next two line have been disabled since Abp 3.5
+                    //       see https://www.myget.org/feed/domaindrivendev/package/nuget/Swashbuckle.AspNetCore for more info on how to refactor this
+                    //options.InjectOnCompleteJavaScript("/Views/swagger/ui/abp.js");
+                    //options.InjectOnCompleteJavaScript("/Views/swagger/ui/oncomplete.js");
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenApp API V1");
                 }); //URL: /swagger
             }
