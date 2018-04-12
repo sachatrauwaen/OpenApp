@@ -269,6 +269,10 @@ exports.default = {
   mixins: [_emitter2.default],
 
   inject: {
+    elForm: {
+      default: ''
+    },
+
     elFormItem: {
       default: ''
     }
@@ -325,7 +329,7 @@ exports.default = {
       return this.isGroup ? this._radioGroup.radioGroupSize || temRadioSize : temRadioSize;
     },
     isDisabled: function isDisabled() {
-      return this.isGroup ? this._radioGroup.disabled || this.disabled : this.disabled;
+      return this.isGroup ? this._radioGroup.disabled || this.disabled || (this.elForm || {}).disabled : this.disabled || (this.elForm || {}).disabled;
     },
     tabIndex: function tabIndex() {
       return !this.isDisabled ? this.isGroup ? this.model === this.label ? 0 : -1 : 0 : -1;

@@ -269,6 +269,9 @@ exports.default = {
   mixins: [_emitter2.default],
 
   inject: {
+    elForm: {
+      default: ''
+    },
     elFormItem: {
       default: ''
     }
@@ -330,7 +333,7 @@ exports.default = {
       return this._checkboxGroup ? this._checkboxGroup.value : this.value;
     },
     isDisabled: function isDisabled() {
-      return this.isGroup ? this._checkboxGroup.disabled || this.disabled : this.disabled;
+      return this.isGroup ? this._checkboxGroup.disabled || this.disabled || (this.elForm || {}).disabled : this.disabled || (this.elForm || {}).disabled;
     },
     _elFormItemSize: function _elFormItemSize() {
       return (this.elFormItem || {}).elFormItemSize;

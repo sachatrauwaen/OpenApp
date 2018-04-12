@@ -61,12 +61,12 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 235);
+/******/ 	return __webpack_require__(__webpack_require__.s = 237);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 12:
+/***/ 14:
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce/debounce");
@@ -76,7 +76,7 @@ module.exports = require("throttle-debounce/debounce");
 /***/ 2:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/util");
+module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
@@ -87,15 +87,15 @@ module.exports = require("element-ui/lib/utils/vdom");
 
 /***/ }),
 
-/***/ 235:
+/***/ 237:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(236);
+module.exports = __webpack_require__(238);
 
 
 /***/ }),
 
-/***/ 236:
+/***/ 238:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -103,7 +103,7 @@ module.exports = __webpack_require__(236);
 
 exports.__esModule = true;
 
-var _main = __webpack_require__(237);
+var _main = __webpack_require__(239);
 
 var _main2 = _interopRequireDefault(_main);
 
@@ -118,7 +118,7 @@ exports.default = _main2.default;
 
 /***/ }),
 
-/***/ 237:
+/***/ 239:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -126,19 +126,21 @@ exports.default = _main2.default;
 
 exports.__esModule = true;
 
-var _vuePopper = __webpack_require__(8);
+var _vuePopper = __webpack_require__(7);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-var _debounce = __webpack_require__(12);
+var _debounce = __webpack_require__(14);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
+var _dom = __webpack_require__(2);
+
 var _vdom = __webpack_require__(20);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(3);
 
-var _vue = __webpack_require__(5);
+var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
@@ -159,6 +161,10 @@ exports.default = {
     effect: {
       type: String,
       default: 'dark'
+    },
+    arrowOffset: {
+      type: Number,
+      default: 0
     },
     popperClass: String,
     content: String,
@@ -264,33 +270,42 @@ exports.default = {
     if (!vnode) return vnode;
 
     var data = vnode.data = vnode.data || {};
-    var on = vnode.data.on = vnode.data.on || {};
-    var nativeOn = vnode.data.nativeOn = vnode.data.nativeOn || {};
-
     data.staticClass = this.concatClass(data.staticClass, 'el-tooltip');
-    nativeOn.mouseenter = on.mouseenter = this.addEventHandle(on.mouseenter, this.show);
-    nativeOn.mouseleave = on.mouseleave = this.addEventHandle(on.mouseleave, this.hide);
-    nativeOn.focus = on.focus = this.addEventHandle(on.focus, this.handleFocus);
-    nativeOn.blur = on.blur = this.addEventHandle(on.blur, this.handleBlur);
-    nativeOn.click = on.click = this.addEventHandle(on.click, function () {
-      _this2.focusing = false;
-    });
+
     return vnode;
   },
   mounted: function mounted() {
+    var _this3 = this;
+
     this.referenceElm = this.$el;
     if (this.$el.nodeType === 1) {
       this.$el.setAttribute('aria-describedby', this.tooltipId);
       this.$el.setAttribute('tabindex', 0);
+      (0, _dom.on)(this.referenceElm, 'mouseenter', this.show);
+      (0, _dom.on)(this.referenceElm, 'mouseleave', this.hide);
+      (0, _dom.on)(this.referenceElm, 'focus', function () {
+        if (!_this3.$slots.default || !_this3.$slots.default.length) {
+          _this3.handleFocus();
+          return;
+        }
+        var instance = _this3.$slots.default[0].componentInstance;
+        if (instance && instance.focus) {
+          instance.focus();
+        } else {
+          _this3.handleFocus();
+        }
+      });
+      (0, _dom.on)(this.referenceElm, 'blur', this.handleBlur);
+      (0, _dom.on)(this.referenceElm, 'click', this.removeFocusing);
     }
   },
 
   watch: {
     focusing: function focusing(val) {
       if (val) {
-        this.referenceElm.className += ' focusing';
+        (0, _dom.addClass)(this.referenceElm, 'focusing');
       } else {
-        this.referenceElm.className = this.referenceElm.className.replace('focusing', '');
+        (0, _dom.removeClass)(this.referenceElm, 'focusing');
       }
     }
   },
@@ -311,31 +326,25 @@ exports.default = {
       this.focusing = false;
       this.hide();
     },
-    addEventHandle: function addEventHandle(old, fn) {
-      if (!old) {
-        return fn;
-      } else if (Array.isArray(old)) {
-        return old.indexOf(fn) > -1 ? old : old.concat(fn);
-      } else {
-        return old === fn ? old : [old, fn];
-      }
+    removeFocusing: function removeFocusing() {
+      this.focusing = false;
     },
     concatClass: function concatClass(a, b) {
       if (a && a.indexOf(b) > -1) return a;
       return a ? b ? a + ' ' + b : a : b || '';
     },
     handleShowPopper: function handleShowPopper() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (!this.expectedState || this.manual) return;
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
-        _this3.showPopper = true;
+        _this4.showPopper = true;
       }, this.openDelay);
 
       if (this.hideAfter > 0) {
         this.timeoutPending = setTimeout(function () {
-          _this3.showPopper = false;
+          _this4.showPopper = false;
         }, this.hideAfter);
       }
     },
@@ -347,6 +356,10 @@ exports.default = {
         clearTimeout(this.timeoutPending);
       }
       this.showPopper = false;
+
+      if (this.disabled) {
+        this.doDestroy();
+      }
     },
     setExpectedState: function setExpectedState(expectedState) {
       if (expectedState === false) {
@@ -354,19 +367,35 @@ exports.default = {
       }
       this.expectedState = expectedState;
     }
+  },
+
+  destroyed: function destroyed() {
+    var reference = this.referenceElm;
+    (0, _dom.off)(reference, 'mouseenter', this.show);
+    (0, _dom.off)(reference, 'mouseleave', this.hide);
+    (0, _dom.off)(reference, 'focus', this.handleFocus);
+    (0, _dom.off)(reference, 'blur', this.handleBlur);
+    (0, _dom.off)(reference, 'click', this.removeFocusing);
   }
 };
 
 /***/ }),
 
-/***/ 5:
+/***/ 3:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/util");
+
+/***/ }),
+
+/***/ 4:
 /***/ (function(module, exports) {
 
 module.exports = require("vue");
 
 /***/ }),
 
-/***/ 8:
+/***/ 7:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/vue-popper");

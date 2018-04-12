@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 229);
+/******/ 	return __webpack_require__(__webpack_require__.s = 231);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -179,19 +179,19 @@ module.exports = function normalizeComponent (
 /***/ 2:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/util");
+module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
-/***/ 229:
+/***/ 231:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(230);
+module.exports = __webpack_require__(232);
 
 
 /***/ }),
 
-/***/ 230:
+/***/ 232:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -199,15 +199,15 @@ module.exports = __webpack_require__(230);
 
 exports.__esModule = true;
 
-var _main = __webpack_require__(231);
+var _main = __webpack_require__(233);
 
 var _main2 = _interopRequireDefault(_main);
 
-var _directive = __webpack_require__(234);
+var _directive = __webpack_require__(236);
 
 var _directive2 = _interopRequireDefault(_directive);
 
-var _vue = __webpack_require__(5);
+var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
@@ -226,14 +226,14 @@ exports.default = _main2.default;
 
 /***/ }),
 
-/***/ 231:
+/***/ 233:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(234);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_14fd8dc3_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(233);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_14fd8dc3_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(235);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -261,7 +261,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 232:
+/***/ 234:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -269,16 +269,19 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _vuePopper = __webpack_require__(8);
+var _vuePopper = __webpack_require__(7);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-var _dom = __webpack_require__(4);
+var _dom = __webpack_require__(2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
 //
 //
 //
@@ -326,6 +329,10 @@ exports.default = {
     visibleArrow: {
       default: true
     },
+    arrowOffset: {
+      type: Number,
+      default: 0
+    },
     transition: {
       type: String,
       default: 'fade-in-linear'
@@ -344,6 +351,8 @@ exports.default = {
   },
 
   mounted: function mounted() {
+    var _this = this;
+
     var reference = this.referenceElm = this.reference || this.$refs.reference;
     var popper = this.popper || this.$refs.popper;
 
@@ -355,9 +364,20 @@ exports.default = {
       (0, _dom.addClass)(reference, 'el-popover__reference');
       reference.setAttribute('aria-describedby', this.tooltipId);
       reference.setAttribute('tabindex', 0); // tab序列
+      popper.setAttribute('tabindex', 0);
 
-      this.trigger !== 'click' && (0, _dom.on)(reference, 'focus', this.handleFocus);
-      this.trigger !== 'click' && (0, _dom.on)(reference, 'blur', this.handleBlur);
+      if (this.trigger !== 'click') {
+        (0, _dom.on)(reference, 'focusin', function () {
+          _this.handleFocus();
+          var instance = reference.__vue__;
+          if (instance && instance.focus) {
+            instance.focus();
+          }
+        });
+        (0, _dom.on)(popper, 'focusin', this.handleFocus);
+        (0, _dom.on)(reference, 'focusout', this.handleBlur);
+        (0, _dom.on)(popper, 'focusout', this.handleBlur);
+      }
       (0, _dom.on)(reference, 'keydown', this.handleKeydown);
       (0, _dom.on)(reference, 'click', this.handleClick);
     }
@@ -377,8 +397,8 @@ exports.default = {
         var len = children.length;
         for (var i = 0; i < len; i++) {
           if (children[i].nodeName === 'INPUT' || children[i].nodeName === 'TEXTAREA') {
-            (0, _dom.on)(children[i], 'focus', this.doShow);
-            (0, _dom.on)(children[i], 'blur', this.doClose);
+            (0, _dom.on)(children[i], 'focusin', this.doShow);
+            (0, _dom.on)(children[i], 'focusout', this.doClose);
             found = true;
             break;
           }
@@ -386,8 +406,8 @@ exports.default = {
       }
       if (found) return;
       if (reference.nodeName === 'INPUT' || reference.nodeName === 'TEXTAREA') {
-        (0, _dom.on)(reference, 'focus', this.doShow);
-        (0, _dom.on)(reference, 'blur', this.doClose);
+        (0, _dom.on)(reference, 'focusin', this.doShow);
+        (0, _dom.on)(reference, 'focusout', this.doClose);
       } else {
         (0, _dom.on)(reference, 'mousedown', this.doShow);
         (0, _dom.on)(reference, 'mouseup', this.doClose);
@@ -418,12 +438,12 @@ exports.default = {
       if (this.trigger !== 'manual') this.showPopper = false;
     },
     handleMouseEnter: function handleMouseEnter() {
-      var _this = this;
+      var _this2 = this;
 
       clearTimeout(this._timer);
       if (this.openDelay) {
         this._timer = setTimeout(function () {
-          _this.showPopper = true;
+          _this2.showPopper = true;
         }, this.openDelay);
       } else {
         this.showPopper = true;
@@ -436,11 +456,11 @@ exports.default = {
       }
     },
     handleMouseLeave: function handleMouseLeave() {
-      var _this2 = this;
+      var _this3 = this;
 
       clearTimeout(this._timer);
       this._timer = setTimeout(function () {
-        _this2.showPopper = false;
+        _this3.showPopper = false;
       }, 200);
     },
     handleDocumentClick: function handleDocumentClick(e) {
@@ -452,6 +472,13 @@ exports.default = {
       }
       if (!this.$el || !reference || this.$el.contains(e.target) || reference.contains(e.target) || !popper || popper.contains(e.target)) return;
       this.showPopper = false;
+    },
+    handleAfterEnter: function handleAfterEnter() {
+      this.$emit('after-enter');
+    },
+    handleAfterLeave: function handleAfterLeave() {
+      this.$emit('after-leave');
+      this.doDestroy();
     }
   },
 
@@ -461,8 +488,8 @@ exports.default = {
     (0, _dom.off)(reference, 'click', this.doToggle);
     (0, _dom.off)(reference, 'mouseup', this.doClose);
     (0, _dom.off)(reference, 'mousedown', this.doShow);
-    (0, _dom.off)(reference, 'focus', this.doShow);
-    (0, _dom.off)(reference, 'blur', this.doClose);
+    (0, _dom.off)(reference, 'focusin', this.doShow);
+    (0, _dom.off)(reference, 'focusout', this.doClose);
     (0, _dom.off)(reference, 'mouseleave', this.handleMouseLeave);
     (0, _dom.off)(reference, 'mouseenter', this.handleMouseEnter);
     (0, _dom.off)(document, 'click', this.handleDocumentClick);
@@ -471,47 +498,58 @@ exports.default = {
 
 /***/ }),
 
-/***/ 233:
+/***/ 235:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',[_c('transition',{attrs:{"name":_vm.transition},on:{"after-leave":_vm.doDestroy}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.disabled && _vm.showPopper),expression:"!disabled && showPopper"}],ref:"popper",staticClass:"el-popover el-popper",class:[_vm.popperClass, _vm.content && 'el-popover--plain'],style:({ width: _vm.width + 'px' }),attrs:{"role":"tooltip","id":_vm.tooltipId,"aria-hidden":(_vm.disabled || !_vm.showPopper) ? 'true' : 'false'}},[(_vm.title)?_c('div',{staticClass:"el-popover__title",domProps:{"textContent":_vm._s(_vm.title)}}):_vm._e(),_vm._t("default",[_vm._v(_vm._s(_vm.content))])],2)]),_vm._t("reference")],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',[_c('transition',{attrs:{"name":_vm.transition},on:{"after-enter":_vm.handleAfterEnter,"after-leave":_vm.handleAfterLeave}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.disabled && _vm.showPopper),expression:"!disabled && showPopper"}],ref:"popper",staticClass:"el-popover el-popper",class:[_vm.popperClass, _vm.content && 'el-popover--plain'],style:({ width: _vm.width + 'px' }),attrs:{"role":"tooltip","id":_vm.tooltipId,"aria-hidden":(_vm.disabled || !_vm.showPopper) ? 'true' : 'false'}},[(_vm.title)?_c('div',{staticClass:"el-popover__title",domProps:{"textContent":_vm._s(_vm.title)}}):_vm._e(),_vm._t("default",[_vm._v(_vm._s(_vm.content))])],2)]),_vm._t("reference")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
-/***/ 234:
+/***/ 236:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 exports.__esModule = true;
-exports.default = {
-  bind: function bind(el, binding, vnode) {
-    vnode.context.$refs[binding.arg].$refs.reference = el;
+var getReference = function getReference(el, binding, vnode) {
+  var _ref = binding.expression ? binding.value : binding.arg;
+  var popper = vnode.context.$refs[_ref];
+  if (popper) {
+    popper.$refs.reference = el;
   }
 };
+
+exports.default = {
+  bind: function bind(el, binding, vnode) {
+    getReference(el, binding, vnode);
+  },
+  inserted: function inserted(el, binding, vnode) {
+    getReference(el, binding, vnode);
+  }
+};
+
+/***/ }),
+
+/***/ 3:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
 /***/ 4:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/dom");
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, exports) {
-
 module.exports = require("vue");
 
 /***/ }),
 
-/***/ 8:
+/***/ 7:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/vue-popper");
