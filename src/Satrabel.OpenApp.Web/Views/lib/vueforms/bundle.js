@@ -1703,7 +1703,9 @@
                 return abp.services.app[this.resource];
             },
             schema: function () {
-                return jref.resolve(abp.schemas.app[this.resource].get.returnValue);
+                var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].get.returnValue));
+                return jref.resolve(clone);
+                //return jref.resolve(abp.schemas.app[this.resource].get.returnValue);
             },
             messages: function () {
                 return abp.localization.values[this.module];
