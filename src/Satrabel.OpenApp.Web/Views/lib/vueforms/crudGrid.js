@@ -33,7 +33,8 @@
                 return abp.services.app[this.resource];
             },
             schema: function () {
-                return jref.resolve(abp.schemas.app[this.resource].get.returnValue);
+                var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].get.returnValue));
+                return jref.resolve(clone);
             },
             messages: function () {
                 return abp.localization.values[this.module];
