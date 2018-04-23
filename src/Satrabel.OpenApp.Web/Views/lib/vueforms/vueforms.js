@@ -21,6 +21,11 @@
     };
 
     jref = require('json-ref-lite');
+    var _originalResolvefn = jref.resolve;
+    jref.resolve = function (json) {
+        var clone = JSON.parse(JSON.stringify(json)); // create clone because jref.resolve changes the input value
+        return _originalResolvefn(clone);
+    };
 
     Vue.$loadComponent = function (opts) {
         var script = document.createElement('script');

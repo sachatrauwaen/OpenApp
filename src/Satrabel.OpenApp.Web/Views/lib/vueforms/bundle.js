@@ -1070,14 +1070,10 @@
                 return this.schema["x-rel-valuefield"] || 'id';
             },
             schema: function () {
-                if (this.isnew) {
-                    var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].create.parameters.input)); // create clone because jref.resolve changes the input value
-                    return jref.resolve(clone);
-                }
-                else {
-                    var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].update.parameters.input)); // create clone because jref.resolve changes the input value
-                    return jref.resolve(clone);
-                }
+                if (this.isnew)
+                    return jref.resolve(abp.schemas.app[this.resource].create.parameters.input);
+                else
+                    return jref.resolve(abp.schemas.app[this.resource].update.parameters.input);
             },
             service: function () {
                 return abp.services.app[this.resource];
@@ -1430,14 +1426,10 @@
                 return this.schema["x-rel-valuefield"] || 'id';
             },
             schema: function () {
-                if (this.isnew) {
-                    var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].create.parameters.input)); // create clone because jref.resolve changes the input value
-                    return jref.resolve(clone);
-                }
-                else {
-                    var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].update.parameters.input)); // create clone because jref.resolve changes the input value
-                    return jref.resolve(clone);
-                }
+                if (this.isnew)
+                    return jref.resolve(abp.schemas.app[this.resource].create.parameters.input);
+                else
+                    return jref.resolve(abp.schemas.app[this.resource].update.parameters.input);
             },
             service: function () {
                 return abp.services.app[this.resource];
@@ -1544,15 +1536,10 @@
                 return !this.id;
             },
             schema: function () {
-                if (this.isnew) {
-                    var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].create.parameters.input)); // create clone because jref.resolve changes the input value
-                    return jref.resolve(clone);
-                }
+                if (this.isnew)
+                    return jref.resolve(abp.schemas.app[this.resource].create.parameters.input);
                 else
-                {
-                    var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].update.parameters.input)); // create clone because jref.resolve changes the input value
-                    return jref.resolve(clone);
-                }
+                    return jref.resolve(abp.schemas.app[this.resource].update.parameters.input);
             },
             options: function () {
                 /*
@@ -1716,8 +1703,7 @@
                 return abp.services.app[this.resource];
             },
             schema: function () {
-                var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].get.returnValue)); // create clone because jref.resolve changes the input value
-                return jref.resolve(clone);
+                return jref.resolve(abp.schemas.app[this.resource].get.returnValue);
             },
             messages: function () {
                 return abp.localization.values[this.module];
@@ -1899,6 +1885,11 @@
     };
 
     jref = require('json-ref-lite');
+    var _originalResolvefn = jref.resolve;
+    jref.resolve = function (json) {
+        var clone = JSON.parse(JSON.stringify(json)); // create clone because jref.resolve changes the input value
+        return _originalResolvefn(clone);
+    };
 
     Vue.$loadComponent = function (opts) {
         var script = document.createElement('script');

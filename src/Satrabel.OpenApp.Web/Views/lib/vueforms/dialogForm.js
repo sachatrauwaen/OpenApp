@@ -52,14 +52,10 @@
                 return this.schema["x-rel-valuefield"] || 'id';
             },
             schema: function () {
-                if (this.isnew) {
-                    var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].create.parameters.input)); // create clone because jref.resolve changes the input value
-                    return jref.resolve(clone);
-                }
-                else {
-                    var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].update.parameters.input)); // create clone because jref.resolve changes the input value
-                    return jref.resolve(clone);
-                }
+                if (this.isnew)
+                    return jref.resolve(abp.schemas.app[this.resource].create.parameters.input);
+                else
+                    return jref.resolve(abp.schemas.app[this.resource].update.parameters.input);
             },
             service: function () {
                 return abp.services.app[this.resource];
