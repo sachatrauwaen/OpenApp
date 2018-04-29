@@ -26,8 +26,7 @@
                 return abp.services.app[this.resource];
             },
             schema: function () {
-                var clone = JSON.parse(JSON.stringify(abp.schemas.app[this.resource].get.returnValue)); // create clone because jref.resolve changes the input value
-                return jref.resolve(clone);
+                return jref.resolve(abp.schemas.app[this.resource].get.returnValue);
             },
             messages: function () {
                 return abp.localization.values[this.module];
