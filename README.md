@@ -4,7 +4,7 @@ The Goal is to Create a base framework for creating web applcations.
 
 It will be composed of a number of other open source prjects :
 
-1. Asp.Net Boilerplate 3 [https://aspnetboilerplate.com/]
+### 1. Asp.Net Boilerplate 3 [https://aspnetboilerplate.com/]
 * Layered Architecture
 * Modular Design
 * Domain Driven Design
@@ -12,16 +12,16 @@ It will be composed of a number of other open source prjects :
 * Multi Tenancy
 * User and role management
 
-2. CoreUI [http://coreui.io/]
+### 2. CoreUI [http://coreui.io/]
 * Bootstrap 4 Admin Template
 
-3. Vuejs 2 [https://vuejs.org/]
+### 3. Vuejs 2 [https://vuejs.org/]
 * Progressive JavaScript Framework
 * Approachable
 * Versatile
 * Performant
 
-4. Element UI library [http://element.eleme.io]
+### 4. Element UI library [http://element.eleme.io]
 * Vuejs 2 based component library
 
 We started from Asp.Net Boilerplate 3 and chose for dotnetcore, entity framework core, sql server, mvc.
