@@ -61,20 +61,20 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 329);
+/******/ 	return __webpack_require__(__webpack_require__.s = 331);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 329:
+/***/ 331:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(330);
+module.exports = __webpack_require__(332);
 
 
 /***/ }),
 
-/***/ 330:
+/***/ 332:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -82,7 +82,7 @@ module.exports = __webpack_require__(330);
 
 exports.__esModule = true;
 
-var _col = __webpack_require__(331);
+var _col = __webpack_require__(333);
 
 var _col2 = _interopRequireDefault(_col);
 
@@ -97,7 +97,7 @@ exports.default = _col2.default;
 
 /***/ }),
 
-/***/ 331:
+/***/ 333:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

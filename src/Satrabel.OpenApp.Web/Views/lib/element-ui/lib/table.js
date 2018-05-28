@@ -179,11 +179,18 @@ module.exports = function normalizeComponent (
 /***/ 10:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/merge");
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
 
-/***/ 12:
+/***/ 13:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/popup");
+
+/***/ }),
+
+/***/ 14:
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce/debounce");
@@ -197,10 +204,10 @@ module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
 
-/***/ 17:
+/***/ 18:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/popup");
+module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
 
@@ -242,7 +249,7 @@ exports.default = _table2.default;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_vue__ = __webpack_require__(186);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_271dac46_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_vue__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_271dac46_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_vue__ = __webpack_require__(198);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -282,48 +289,47 @@ var _checkbox = __webpack_require__(16);
 
 var _checkbox2 = _interopRequireDefault(_checkbox);
 
-var _throttle = __webpack_require__(36);
-
-var _throttle2 = _interopRequireDefault(_throttle);
-
-var _debounce = __webpack_require__(12);
+var _debounce = __webpack_require__(14);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _resizeEvent = __webpack_require__(19);
+var _resizeEvent = __webpack_require__(18);
 
-var _locale = __webpack_require__(3);
+var _mousewheel = __webpack_require__(187);
+
+var _mousewheel2 = _interopRequireDefault(_mousewheel);
+
+var _locale = __webpack_require__(5);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _migrating = __webpack_require__(7);
+var _migrating = __webpack_require__(8);
 
 var _migrating2 = _interopRequireDefault(_migrating);
 
-var _tableStore = __webpack_require__(187);
+var _tableStore = __webpack_require__(189);
 
 var _tableStore2 = _interopRequireDefault(_tableStore);
 
-var _tableLayout = __webpack_require__(188);
+var _tableLayout = __webpack_require__(190);
 
 var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-var _tableBody = __webpack_require__(189);
+var _tableBody = __webpack_require__(191);
 
 var _tableBody2 = _interopRequireDefault(_tableBody);
 
-var _tableHeader = __webpack_require__(190);
+var _tableHeader = __webpack_require__(192);
 
 var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-var _tableFooter = __webpack_require__(195);
+var _tableFooter = __webpack_require__(197);
 
 var _tableFooter2 = _interopRequireDefault(_tableFooter);
 
-var _util = __webpack_require__(37);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var tableIdSeed = 1; //
 //
 //
 //
@@ -476,13 +482,76 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-
-var tableIdSeed = 1;
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   name: 'ElTable',
 
   mixins: [_locale2.default, _migrating2.default],
+
+  directives: {
+    Mousewheel: _mousewheel2.default
+  },
 
   props: {
     data: {
@@ -554,7 +623,12 @@ exports.default = {
 
     tooltipEffect: String,
 
-    spanMethod: Function
+    spanMethod: Function,
+
+    selectOnIndeterminate: {
+      type: Boolean,
+      default: true
+    }
   },
 
   components: {
@@ -598,15 +672,38 @@ exports.default = {
     updateScrollY: function updateScrollY() {
       this.layout.updateScrollY();
     },
-    bindEvents: function bindEvents() {
-      var _this = this;
+    handleFixedMousewheel: function handleFixedMousewheel(event, data) {
+      var bodyWrapper = this.bodyWrapper;
+      if (Math.abs(data.spinY) > 0) {
+        var currentScrollTop = bodyWrapper.scrollTop;
+        if (data.pixelY < 0 && currentScrollTop !== 0) {
+          event.preventDefault();
+        }
+        if (data.pixelY > 0 && bodyWrapper.scrollHeight - bodyWrapper.clientHeight > currentScrollTop) {
+          event.preventDefault();
+        }
+        bodyWrapper.scrollTop += Math.ceil(data.pixelY / 5);
+      } else {
+        bodyWrapper.scrollLeft += Math.ceil(data.pixelX / 5);
+      }
+    },
+    handleHeaderFooterMousewheel: function handleHeaderFooterMousewheel(event, data) {
+      var pixelX = data.pixelX,
+          pixelY = data.pixelY;
 
+      if (Math.abs(pixelX) >= Math.abs(pixelY)) {
+        event.preventDefault();
+        this.bodyWrapper.scrollLeft += data.pixelX / 5;
+      }
+    },
+    bindEvents: function bindEvents() {
       var _$refs = this.$refs,
           headerWrapper = _$refs.headerWrapper,
           footerWrapper = _$refs.footerWrapper;
 
       var refs = this.$refs;
       var self = this;
+
       this.bodyWrapper.addEventListener('scroll', function () {
         if (headerWrapper) headerWrapper.scrollLeft = this.scrollLeft;
         if (footerWrapper) footerWrapper.scrollLeft = this.scrollLeft;
@@ -623,57 +720,49 @@ exports.default = {
         }
       });
 
-      var scrollBodyWrapper = function scrollBodyWrapper(event) {
-        var deltaX = event.deltaX,
-            deltaY = event.deltaY;
-
-
-        if (Math.abs(deltaX) < Math.abs(deltaY)) return;
-
-        if (deltaX > 0) {
-          _this.bodyWrapper.scrollLeft += 10;
-        } else if (deltaX < 0) {
-          _this.bodyWrapper.scrollLeft -= 10;
-        }
-      };
-      if (headerWrapper) {
-        (0, _util.mousewheel)(headerWrapper, (0, _throttle2.default)(16, scrollBodyWrapper));
-      }
-      if (footerWrapper) {
-        (0, _util.mousewheel)(footerWrapper, (0, _throttle2.default)(16, scrollBodyWrapper));
-      }
-
       if (this.fit) {
-        this.windowResizeListener = (0, _throttle2.default)(50, function () {
-          if (_this.$ready) _this.doLayout();
-        });
-        (0, _resizeEvent.addResizeListener)(this.$el, this.windowResizeListener);
+        (0, _resizeEvent.addResizeListener)(this.$el, this.resizeListener);
+      }
+    },
+    resizeListener: function resizeListener() {
+      if (!this.$ready) return;
+      var shouldUpdateLayout = false;
+      var el = this.$el;
+      var _resizeState = this.resizeState,
+          oldWidth = _resizeState.width,
+          oldHeight = _resizeState.height;
+
+
+      var width = el.offsetWidth;
+      if (oldWidth !== width) {
+        shouldUpdateLayout = true;
+      }
+
+      var height = el.offsetHeight;
+      if ((this.height || this.shouldUpdateHeight) && oldHeight !== height) {
+        shouldUpdateLayout = true;
+      }
+
+      if (shouldUpdateLayout) {
+        this.resizeState.width = width;
+        this.resizeState.height = height;
+        this.doLayout();
       }
     },
     doLayout: function doLayout() {
-      var _this2 = this;
-
-      this.store.updateColumns();
-      this.updateScrollY();
-      this.layout.update();
-      this.$nextTick(function () {
-        if (_this2.height) {
-          _this2.layout.setHeight(_this2.height);
-        } else if (_this2.maxHeight) {
-          _this2.layout.setMaxHeight(_this2.maxHeight);
-        } else if (_this2.shouldUpdateHeight) {
-          _this2.layout.updateHeight();
-        }
-      });
+      this.layout.updateColumnsWidth();
+      if (this.shouldUpdateHeight) {
+        this.layout.updateElsHeight();
+      }
     }
   },
 
   created: function created() {
-    var _this3 = this;
+    var _this = this;
 
-    this.tableId = 'el-table_' + tableIdSeed + '_';
-    this.debouncedLayout = (0, _debounce2.default)(50, function () {
-      return _this3.doLayout();
+    this.tableId = 'el-table_' + tableIdSeed++;
+    this.debouncedUpdateLayout = (0, _debounce2.default)(50, function () {
+      return _this.doLayout();
     });
   },
 
@@ -686,7 +775,7 @@ exports.default = {
       return this.$refs.bodyWrapper;
     },
     shouldUpdateHeight: function shouldUpdateHeight() {
-      return typeof this.height === 'number' || this.fixedColumns.length > 0 || this.rightFixedColumns.length > 0;
+      return this.height || this.maxHeight || this.fixedColumns.length > 0 || this.rightFixedColumns.length > 0;
     },
     selection: function selection() {
       return this.store.states.selection;
@@ -703,21 +792,6 @@ exports.default = {
     rightFixedColumns: function rightFixedColumns() {
       return this.store.states.rightFixedColumns;
     },
-    bodyHeight: function bodyHeight() {
-      var style = {};
-
-      if (this.height) {
-        style = {
-          height: this.layout.bodyHeight ? this.layout.bodyHeight + 'px' : ''
-        };
-      } else if (this.maxHeight) {
-        style = {
-          'max-height': (this.showHeader ? this.maxHeight - this.layout.headerHeight - this.layout.footerHeight : this.maxHeight - this.layout.footerHeight) + 'px'
-        };
-      }
-
-      return style;
-    },
     bodyWidth: function bodyWidth() {
       var _layout = this.layout,
           bodyWidth = _layout.bodyWidth,
@@ -726,11 +800,21 @@ exports.default = {
 
       return bodyWidth ? bodyWidth - (scrollY ? gutterWidth : 0) + 'px' : '';
     },
-    fixedBodyHeight: function fixedBodyHeight() {
-      var style = {};
-
+    bodyHeight: function bodyHeight() {
       if (this.height) {
-        style = {
+        return {
+          height: this.layout.bodyHeight ? this.layout.bodyHeight + 'px' : ''
+        };
+      } else if (this.maxHeight) {
+        return {
+          'max-height': (this.showHeader ? this.maxHeight - this.layout.headerHeight - this.layout.footerHeight : this.maxHeight - this.layout.footerHeight) + 'px'
+        };
+      }
+      return {};
+    },
+    fixedBodyHeight: function fixedBodyHeight() {
+      if (this.height) {
+        return {
           height: this.layout.fixedBodyHeight ? this.layout.fixedBodyHeight + 'px' : ''
         };
       } else if (this.maxHeight) {
@@ -740,37 +824,53 @@ exports.default = {
           maxHeight -= this.layout.headerHeight;
         }
 
-        style = {
+        maxHeight -= this.layout.footerHeight;
+
+        return {
           'max-height': maxHeight + 'px'
         };
       }
 
-      return style;
+      return {};
     },
     fixedHeight: function fixedHeight() {
-      var style = {};
-
       if (this.maxHeight) {
-        style = {
+        if (this.showSummary) {
+          return {
+            bottom: 0
+          };
+        }
+        return {
           bottom: this.layout.scrollX && this.data.length ? this.layout.gutterWidth + 'px' : ''
         };
       } else {
-        style = {
+        if (this.showSummary) {
+          return {
+            height: this.layout.tableHeight ? this.layout.tableHeight + 'px' : ''
+          };
+        }
+        return {
           height: this.layout.viewportHeight ? this.layout.viewportHeight + 'px' : ''
         };
       }
-
-      return style;
     }
   },
 
   watch: {
-    height: function height(value) {
-      this.layout.setHeight(value);
+    height: {
+      immediate: true,
+      handler: function handler(value) {
+        this.layout.setHeight(value);
+      }
     },
-    maxHeight: function maxHeight(value) {
-      this.layout.setMaxHeight(value);
+
+    maxHeight: {
+      immediate: true,
+      handler: function handler(value) {
+        this.layout.setMaxHeight(value);
+      }
     },
+
     currentRowKey: function currentRowKey(newVal) {
       this.store.setCurrentRowKey(newVal);
     },
@@ -778,13 +878,13 @@ exports.default = {
 
     data: {
       immediate: true,
-      handler: function handler(val) {
-        var _this4 = this;
+      handler: function handler(value) {
+        var _this2 = this;
 
-        this.store.commit('setData', val);
+        this.store.commit('setData', value);
         if (this.$ready) {
           this.$nextTick(function () {
-            _this4.doLayout();
+            _this2.doLayout();
           });
         }
       }
@@ -801,18 +901,24 @@ exports.default = {
   },
 
   destroyed: function destroyed() {
-    if (this.windowResizeListener) (0, _resizeEvent.removeResizeListener)(this.$el, this.windowResizeListener);
+    if (this.resizeListener) (0, _resizeEvent.removeResizeListener)(this.$el, this.resizeListener);
   },
   mounted: function mounted() {
-    var _this5 = this;
+    var _this3 = this;
 
     this.bindEvents();
+    this.store.updateColumns();
     this.doLayout();
+
+    this.resizeState = {
+      width: this.$el.offsetWidth,
+      height: this.$el.offsetHeight
+    };
 
     // init filters
     this.store.states.columns.forEach(function (column) {
       if (column.filteredValue && column.filteredValue.length) {
-        _this5.store.commit('filterChange', {
+        _this3.store.commit('filterChange', {
           column: column,
           values: column.filteredValue,
           silent: true
@@ -825,7 +931,8 @@ exports.default = {
   data: function data() {
     var store = new _tableStore2.default(this, {
       rowKey: this.rowKey,
-      defaultExpandAll: this.defaultExpandAll
+      defaultExpandAll: this.defaultExpandAll,
+      selectOnIndeterminate: this.selectOnIndeterminate
     });
     var layout = new _tableLayout2.default({
       store: store,
@@ -834,11 +941,15 @@ exports.default = {
       showHeader: this.showHeader
     });
     return {
-      store: store,
       layout: layout,
+      store: store,
       isHidden: false,
       renderExpanded: null,
       resizeProxyVisible: false,
+      resizeState: {
+        width: null,
+        height: null
+      },
       // 是否拥有多级表头
       isGroup: false,
       scrollPosition: 'left'
@@ -856,19 +967,59 @@ exports.default = {
 
 exports.__esModule = true;
 
-var _vue = __webpack_require__(5);
+var _normalizeWheel = __webpack_require__(188);
+
+var _normalizeWheel2 = _interopRequireDefault(_normalizeWheel);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+
+var mousewheel = function mousewheel(element, callback) {
+  if (element && element.addEventListener) {
+    element.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', function (event) {
+      var normalized = (0, _normalizeWheel2.default)(event);
+      callback && callback.apply(this, [event, normalized]);
+    });
+  }
+};
+
+exports.default = {
+  bind: function bind(el, binding) {
+    mousewheel(el, binding.value);
+  }
+};
+
+/***/ }),
+
+/***/ 188:
+/***/ (function(module, exports) {
+
+module.exports = require("normalize-wheel");
+
+/***/ }),
+
+/***/ 189:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _debounce = __webpack_require__(12);
+var _debounce = __webpack_require__(14);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _merge = __webpack_require__(10);
+var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _util = __webpack_require__(37);
+var _util = __webpack_require__(47);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -961,8 +1112,10 @@ var TableStore = function TableStore(table) {
     leafColumns: [],
     fixedLeafColumns: [],
     rightFixedLeafColumns: [],
+    leafColumnsLength: 0,
+    fixedLeafColumnsLength: 0,
+    rightFixedLeafColumnsLength: 0,
     isComplex: false,
-    _data: null,
     filteredData: null,
     data: null,
     sortingColumn: null,
@@ -976,7 +1129,8 @@ var TableStore = function TableStore(table) {
     hoverRow: null,
     filters: {},
     expandRows: [],
-    defaultExpandAll: false
+    defaultExpandAll: false,
+    selectOnIndeterminate: false
   };
 
   for (var prop in initialState) {
@@ -1000,7 +1154,7 @@ TableStore.prototype.mutations = {
       if (column && column.filterMethod) {
         data = data.filter(function (row) {
           return values.some(function (value) {
-            return column.filterMethod.call(null, value, row);
+            return column.filterMethod.call(null, value, row, column);
           });
         });
       }
@@ -1008,15 +1162,6 @@ TableStore.prototype.mutations = {
 
     states.filteredData = data;
     states.data = sortData(data || [], states);
-
-    // states.data.forEach((item) => {
-    //   if (!item.$extra) {
-    //     Object.defineProperty(item, '$extra', {
-    //       value: {},
-    //       enumerable: false
-    //     });
-    //   }
-    // });
 
     this.updateCurrentRow();
 
@@ -1105,7 +1250,7 @@ TableStore.prototype.mutations = {
       if (column && column.filterMethod) {
         data = data.filter(function (row) {
           return values.some(function (value) {
-            return column.filterMethod.call(null, value, row);
+            return column.filterMethod.call(null, value, row, column);
           });
         });
       }
@@ -1140,17 +1285,25 @@ TableStore.prototype.mutations = {
       states.reserveSelection = column.reserveSelection;
     }
 
-    this.updateColumns(); // hack for dynamics insert column
-    this.scheduleLayout();
+    if (this.table.$ready) {
+      this.updateColumns(); // hack for dynamics insert column
+      this.scheduleLayout();
+    }
   },
-  removeColumn: function removeColumn(states, column) {
-    var _columns = states._columns;
-    if (_columns) {
-      _columns.splice(_columns.indexOf(column), 1);
+  removeColumn: function removeColumn(states, column, parent) {
+    var array = states._columns;
+    if (parent) {
+      array = parent.children;
+      if (!array) array = parent.children = [];
+    }
+    if (array) {
+      array.splice(array.indexOf(column), 1);
     }
 
-    this.updateColumns(); // hack for dynamics remove column
-    this.scheduleLayout();
+    if (this.table.$ready) {
+      this.updateColumns(); // hack for dynamics remove column
+      this.scheduleLayout();
+    }
   },
   setHoverRow: function setHoverRow(states, row) {
     states.hoverRow = row;
@@ -1169,7 +1322,7 @@ TableStore.prototype.mutations = {
 
     if (changed) {
       var table = this.table;
-      table.$emit('selection-change', selection);
+      table.$emit('selection-change', selection ? selection.slice() : []);
       table.$emit('select', selection, row);
     }
 
@@ -1179,8 +1332,11 @@ TableStore.prototype.mutations = {
 
   toggleAllSelection: (0, _debounce2.default)(10, function (states) {
     var data = states.data || [];
-    var value = !states.isAllSelected;
+    if (data.length === 0) return;
     var selection = this.states.selection;
+    // when only some rows are selected (but not all), select or deselect all of them
+    // depending on the value of selectOnIndeterminate
+    var value = states.selectOnIndeterminate ? !states.isAllSelected : !(states.isAllSelected || selection.length);
     var selectionChanged = false;
 
     data.forEach(function (item, index) {
@@ -1197,7 +1353,7 @@ TableStore.prototype.mutations = {
 
     var table = this.table;
     if (selectionChanged) {
-      table.$emit('selection-change', selection);
+      table.$emit('selection-change', selection ? selection.slice() : []);
     }
     table.$emit('select-all', selection);
     states.isAllSelected = value;
@@ -1256,9 +1412,11 @@ TableStore.prototype.clearSelection = function () {
   var states = this.states;
   states.isAllSelected = false;
   var oldSelection = states.selection;
-  states.selection = [];
+  if (states.selection.length) {
+    states.selection = [];
+  }
   if (oldSelection.length > 0) {
-    this.table.$emit('selection-change', states.selection);
+    this.table.$emit('selection-change', states.selection ? states.selection.slice() : []);
   }
 };
 
@@ -1281,7 +1439,7 @@ TableStore.prototype.setExpandRowKeys = function (rowKeys) {
 TableStore.prototype.toggleRowSelection = function (row, selected) {
   var changed = toggleRowSelection(this.states, row, selected);
   if (changed) {
-    this.table.$emit('selection-change', this.states.selection);
+    this.table.$emit('selection-change', this.states.selection ? this.states.selection.slice() : []);
   }
 };
 
@@ -1289,7 +1447,21 @@ TableStore.prototype.toggleRowExpansion = function (row, expanded) {
   var changed = toggleRowExpansion(this.states, row, expanded);
   if (changed) {
     this.table.$emit('expand-change', row, this.states.expandRows);
+    this.scheduleLayout();
   }
+};
+
+TableStore.prototype.isRowExpanded = function (row) {
+  var _states = this.states,
+      _states$expandRows = _states.expandRows,
+      expandRows = _states$expandRows === undefined ? [] : _states$expandRows,
+      rowKey = _states.rowKey;
+
+  if (rowKey) {
+    var expandMap = getKeysMap(expandRows, rowKey);
+    return !!expandMap[(0, _util.getRowIdentity)(row, rowKey)];
+  }
+  return expandRows.indexOf(row) !== -1;
 };
 
 TableStore.prototype.cleanSelection = function () {
@@ -1317,7 +1489,7 @@ TableStore.prototype.cleanSelection = function () {
   });
 
   if (deleted.length) {
-    this.table.$emit('selection-change', selection);
+    this.table.$emit('selection-change', selection ? selection.slice() : []);
   }
 };
 
@@ -1391,23 +1563,14 @@ TableStore.prototype.updateAllSelected = function () {
   var selectedCount = 0;
   for (var i = 0, j = data.length; i < j; i++) {
     var item = data[i];
-    if (selectable) {
-      var isRowSelectable = selectable.call(null, item, i);
-      if (isRowSelectable) {
-        if (!isSelected(item)) {
-          isAllSelected = false;
-          break;
-        } else {
-          selectedCount++;
-        }
-      }
-    } else {
-      if (!isSelected(item)) {
+    var isRowSelectable = selectable && selectable.call(null, item, i);
+    if (!isSelected(item)) {
+      if (!selectable || isRowSelectable) {
         isAllSelected = false;
         break;
-      } else {
-        selectedCount++;
       }
+    } else {
+      selectedCount++;
     }
   }
 
@@ -1416,8 +1579,11 @@ TableStore.prototype.updateAllSelected = function () {
   states.isAllSelected = isAllSelected;
 };
 
-TableStore.prototype.scheduleLayout = function () {
-  this.table.debouncedLayout();
+TableStore.prototype.scheduleLayout = function (updateColumns) {
+  if (updateColumns) {
+    this.updateColumns();
+  }
+  this.table.debouncedUpdateLayout();
 };
 
 TableStore.prototype.setCurrentRowKey = function (key) {
@@ -1464,7 +1630,7 @@ exports.default = TableStore;
 
 /***/ }),
 
-/***/ 188:
+/***/ 190:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1472,9 +1638,13 @@ exports.default = TableStore;
 
 exports.__esModule = true;
 
-var _scrollbarWidth = __webpack_require__(38);
+var _scrollbarWidth = __webpack_require__(37);
 
 var _scrollbarWidth2 = _interopRequireDefault(_scrollbarWidth);
+
+var _vue = __webpack_require__(4);
+
+var _vue2 = _interopRequireDefault(_vue);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1484,6 +1654,7 @@ var TableLayout = function () {
   function TableLayout(options) {
     _classCallCheck(this, TableLayout);
 
+    this.observers = [];
     this.table = null;
     this.store = null;
     this.columns = null;
@@ -1525,30 +1696,33 @@ var TableLayout = function () {
     var bodyWrapper = this.table.bodyWrapper;
     if (this.table.$el && bodyWrapper) {
       var body = bodyWrapper.querySelector('.el-table__body');
-      this.scrollY = body.offsetHeight > bodyWrapper.offsetHeight;
+      this.scrollY = body.offsetHeight > this.bodyHeight;
     }
   };
 
   TableLayout.prototype.setHeight = function setHeight(value) {
+    var _this = this;
+
     var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'height';
 
+    if (_vue2.default.prototype.$isServer) return;
     var el = this.table.$el;
     if (typeof value === 'string' && /^\d+$/.test(value)) {
       value = Number(value);
     }
-
     this.height = value;
 
-    if (!el) return;
+    if (!el && (value || value === 0)) return _vue2.default.nextTick(function () {
+      return _this.setHeight(value, prop);
+    });
+
     if (typeof value === 'number') {
       el.style[prop] = value + 'px';
 
-      this.updateHeight();
+      this.updateElsHeight();
     } else if (typeof value === 'string') {
-      if (value === '') {
-        el.style[prop] = '';
-      }
-      this.updateHeight();
+      el.style[prop] = value;
+      this.updateElsHeight();
     }
   };
 
@@ -1556,41 +1730,43 @@ var TableLayout = function () {
     return this.setHeight(value, 'max-height');
   };
 
-  TableLayout.prototype.updateHeight = function updateHeight() {
-    var height = this.tableHeight = this.table.$el.clientHeight;
-    var noData = !this.table.data || this.table.data.length === 0;
+  TableLayout.prototype.updateElsHeight = function updateElsHeight() {
+    var _this2 = this;
+
+    if (!this.table.$ready) return _vue2.default.nextTick(function () {
+      return _this2.updateElsHeight();
+    });
     var _table$$refs = this.table.$refs,
         headerWrapper = _table$$refs.headerWrapper,
         appendWrapper = _table$$refs.appendWrapper,
         footerWrapper = _table$$refs.footerWrapper;
 
-    var footerHeight = this.footerHeight = footerWrapper ? footerWrapper.offsetHeight : 0;
     this.appendHeight = appendWrapper ? appendWrapper.offsetHeight : 0;
+
     if (this.showHeader && !headerWrapper) return;
-    if (!this.showHeader) {
-      this.headerHeight = 0;
-      if (this.height !== null && (!isNaN(this.height) || typeof this.height === 'string')) {
-        this.bodyHeight = height - footerHeight + (footerWrapper ? 1 : 0);
-      }
-      this.fixedBodyHeight = this.scrollX ? height - this.gutterWidth : height;
-    } else {
-      var headerHeight = this.headerHeight = headerWrapper.offsetHeight;
-      var bodyHeight = height - headerHeight - footerHeight + (footerWrapper ? 1 : 0);
-      if (this.height !== null && (!isNaN(this.height) || typeof this.height === 'string')) {
-        this.bodyHeight = bodyHeight;
-      }
-      this.fixedBodyHeight = this.scrollX ? bodyHeight - this.gutterWidth : bodyHeight;
+    var headerHeight = this.headerHeight = !this.showHeader ? 0 : headerWrapper.offsetHeight;
+    if (this.showHeader && headerWrapper.offsetWidth > 0 && (this.table.columns || []).length > 0 && headerHeight < 2) {
+      return _vue2.default.nextTick(function () {
+        return _this2.updateElsHeight();
+      });
     }
-    this.viewportHeight = this.scrollX ? height - (noData ? 0 : this.gutterWidth) : height;
+    var tableHeight = this.tableHeight = this.table.$el.clientHeight;
+    if (this.height !== null && (!isNaN(this.height) || typeof this.height === 'string')) {
+      var footerHeight = this.footerHeight = footerWrapper ? footerWrapper.offsetHeight : 0;
+      this.bodyHeight = tableHeight - headerHeight - footerHeight + (footerWrapper ? 1 : 0);
+    }
+    this.fixedBodyHeight = this.scrollX ? this.bodyHeight - this.gutterWidth : this.bodyHeight;
+
+    var noData = !this.table.data || this.table.data.length === 0;
+    this.viewportHeight = this.scrollX ? tableHeight - (noData ? 0 : this.gutterWidth) : tableHeight;
+
+    this.updateScrollY();
+    this.notifyObservers('scrollable');
   };
 
-  TableLayout.prototype.update = function update() {
-    var fit = this.fit;
-    var columns = this.table.columns;
-    var bodyWidth = this.table.$el.clientWidth;
-    var bodyMinWidth = 0;
-
+  TableLayout.prototype.getFlattenColumns = function getFlattenColumns() {
     var flattenColumns = [];
+    var columns = this.table.columns;
     columns.forEach(function (column) {
       if (column.isColumnGroup) {
         flattenColumns.push.apply(flattenColumns, column.columns);
@@ -1599,8 +1775,22 @@ var TableLayout = function () {
       }
     });
 
+    return flattenColumns;
+  };
+
+  TableLayout.prototype.updateColumnsWidth = function updateColumnsWidth() {
+    var fit = this.fit;
+    var bodyWidth = this.table.$el.clientWidth;
+    var bodyMinWidth = 0;
+
+    var flattenColumns = this.getFlattenColumns();
     var flexColumns = flattenColumns.filter(function (column) {
       return typeof column.width !== 'number';
+    });
+
+    flattenColumns.forEach(function (column) {
+      // Clean those columns whose width changed from flex to unflex
+      if (typeof column.width === 'number' && column.realWidth) column.realWidth = null;
     });
 
     if (flexColumns.length > 0 && fit) {
@@ -1645,6 +1835,7 @@ var TableLayout = function () {
       }
 
       this.bodyWidth = Math.max(bodyMinWidth, bodyWidth);
+      this.table.resizeState.width = this.bodyWidth;
     } else {
       flattenColumns.forEach(function (column) {
         if (!column.width && !column.minWidth) {
@@ -1665,7 +1856,7 @@ var TableLayout = function () {
     if (fixedColumns.length > 0) {
       var fixedWidth = 0;
       fixedColumns.forEach(function (column) {
-        fixedWidth += column.realWidth;
+        fixedWidth += column.realWidth || column.width;
       });
 
       this.fixedWidth = fixedWidth;
@@ -1675,11 +1866,42 @@ var TableLayout = function () {
     if (rightFixedColumns.length > 0) {
       var rightFixedWidth = 0;
       rightFixedColumns.forEach(function (column) {
-        rightFixedWidth += column.realWidth;
+        rightFixedWidth += column.realWidth || column.width;
       });
 
       this.rightFixedWidth = rightFixedWidth;
     }
+
+    this.notifyObservers('columns');
+  };
+
+  TableLayout.prototype.addObserver = function addObserver(observer) {
+    this.observers.push(observer);
+  };
+
+  TableLayout.prototype.removeObserver = function removeObserver(observer) {
+    var index = this.observers.indexOf(observer);
+    if (index !== -1) {
+      this.observers.splice(index, 1);
+    }
+  };
+
+  TableLayout.prototype.notifyObservers = function notifyObservers(event) {
+    var _this3 = this;
+
+    var observers = this.observers;
+    observers.forEach(function (observer) {
+      switch (event) {
+        case 'columns':
+          observer.onColumnsChange(_this3);
+          break;
+        case 'scrollable':
+          observer.onScrollableChange(_this3);
+          break;
+        default:
+          throw new Error('Table Layout don\'t have event ' + event + '.');
+      }
+    });
   };
 
   return TableLayout;
@@ -1689,7 +1911,7 @@ exports.default = TableLayout;
 
 /***/ }),
 
-/***/ 189:
+/***/ 191:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1699,9 +1921,9 @@ exports.__esModule = true;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _util = __webpack_require__(37);
+var _util = __webpack_require__(47);
 
-var _dom = __webpack_require__(4);
+var _dom = __webpack_require__(2);
 
 var _checkbox = __webpack_require__(16);
 
@@ -1711,13 +1933,21 @@ var _tooltip = __webpack_require__(22);
 
 var _tooltip2 = _interopRequireDefault(_tooltip);
 
-var _debounce = __webpack_require__(12);
+var _debounce = __webpack_require__(14);
 
 var _debounce2 = _interopRequireDefault(_debounce);
+
+var _layoutObserver = __webpack_require__(38);
+
+var _layoutObserver2 = _interopRequireDefault(_layoutObserver);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
+  name: 'ElTableBody',
+
+  mixins: [_layoutObserver2.default],
+
   components: {
     ElCheckbox: _checkbox2.default,
     ElTooltip: _tooltip2.default
@@ -1729,9 +1959,6 @@ exports.default = {
     },
     stripe: Boolean,
     context: {},
-    layout: {
-      required: true
-    },
     rowClassName: [String, Function],
     rowStyle: [Object, Function],
     fixed: String,
@@ -1759,10 +1986,7 @@ exports.default = {
           return h(
             'col',
             {
-              attrs: {
-                name: column.id,
-                width: column.realWidth || column.width
-              }
+              attrs: { name: column.id }
             },
             []
           );
@@ -1850,12 +2074,8 @@ exports.default = {
                   );
                 }
               }
-            }), !_this.fixed && _this.layout.scrollY && _this.layout.gutterWidth ? h(
-              'td',
-              { 'class': 'gutter' },
-              []
-            ) : '']
-          ), _this.store.states.expandRows.indexOf(row) > -1 ? h(
+            })]
+          ), _this.store.isRowExpanded(row) ? h(
             'tr',
             null,
             [h(
@@ -1909,7 +2129,7 @@ exports.default = {
       var newRow = rows[data.indexOf(newVal)];
       if (oldRow) {
         (0, _dom.removeClass)(oldRow, 'current-row');
-      } else if (rows) {
+      } else {
         [].forEach.call(rows, function (row) {
           return (0, _dom.removeClass)(row, 'current-row');
         });
@@ -2083,7 +2303,7 @@ exports.default = {
 
       if ((0, _dom.hasClass)(cellChild, 'el-tooltip') && cellChild.scrollWidth > cellChild.offsetWidth && this.$refs.tooltip) {
         var tooltip = this.$refs.tooltip;
-
+        // TODO 会引起整个 Table 的重新渲染，需要优化
         this.tooltipContent = cell.textContent || cell.innerText;
         tooltip.referenceElm = cell;
         tooltip.$refs.popper && (tooltip.$refs.popper.style.display = 'none');
@@ -2101,7 +2321,7 @@ exports.default = {
       var cell = (0, _util.getCell)(event);
       if (!cell) return;
 
-      var oldHoverState = this.table.hoverState;
+      var oldHoverState = this.table.hoverState || {};
       this.table.$emit('cell-mouse-leave', oldHoverState.row, oldHoverState.column, oldHoverState.cell, event);
     },
     handleMouseEnter: function handleMouseEnter(index) {
@@ -2132,7 +2352,8 @@ exports.default = {
       }
       table.$emit('row-' + name, row, event, column);
     },
-    handleExpandClick: function handleExpandClick(row) {
+    handleExpandClick: function handleExpandClick(row, e) {
+      e.stopPropagation();
       this.store.toggleRowExpansion(row);
     }
   }
@@ -2140,14 +2361,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 19:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/resize-event");
-
-/***/ }),
-
-/***/ 190:
+/***/ 192:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2155,7 +2369,7 @@ module.exports = require("element-ui/lib/utils/resize-event");
 
 exports.__esModule = true;
 
-var _dom = __webpack_require__(4);
+var _dom = __webpack_require__(2);
 
 var _checkbox = __webpack_require__(16);
 
@@ -2165,13 +2379,17 @@ var _tag = __webpack_require__(24);
 
 var _tag2 = _interopRequireDefault(_tag);
 
-var _vue = __webpack_require__(5);
+var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _filterPanel = __webpack_require__(191);
+var _filterPanel = __webpack_require__(193);
 
 var _filterPanel2 = _interopRequireDefault(_filterPanel);
+
+var _layoutObserver = __webpack_require__(38);
+
+var _layoutObserver2 = _interopRequireDefault(_layoutObserver);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2236,6 +2454,8 @@ var convertToRows = function convertToRows(originColumns) {
 exports.default = {
   name: 'ElTableHeader',
 
+  mixins: [_layoutObserver2.default],
+
   render: function render(h) {
     var _this = this;
 
@@ -2244,7 +2464,6 @@ exports.default = {
     // 是否拥有多级表头
     var isGroup = columnRows.length > 1;
     if (isGroup) this.$parent.isGroup = true;
-
     return h(
       'table',
       {
@@ -2260,17 +2479,14 @@ exports.default = {
           return h(
             'col',
             {
-              attrs: {
-                name: column.id,
-                width: column.realWidth || column.width
-              }
+              attrs: { name: column.id }
             },
             []
           );
-        }), !this.fixed && this.layout.gutterWidth ? h(
+        }), this.hasGutter ? h(
           'col',
           {
-            attrs: { name: 'gutter', width: this.layout.scrollY ? this.layout.gutterWidth : '' }
+            attrs: { name: 'gutter' }
           },
           []
         ) : '']
@@ -2302,6 +2518,9 @@ exports.default = {
                     },
                     'click': function click($event) {
                       return _this.handleHeaderClick($event, column);
+                    },
+                    'contextmenu': function contextmenu($event) {
+                      return _this.handleHeaderContextMenu($event, column);
                     }
                   },
 
@@ -2320,7 +2539,7 @@ exports.default = {
                     },
                     [h(
                       'i',
-                      { 'class': 'sort-caret ascending el-icon-caret-top', on: {
+                      { 'class': 'sort-caret ascending', on: {
                           'click': function click($event) {
                             return _this.handleSortClick($event, column, 'ascending');
                           }
@@ -2329,7 +2548,7 @@ exports.default = {
                       []
                     ), h(
                       'i',
-                      { 'class': 'sort-caret descending el-icon-caret-bottom', on: {
+                      { 'class': 'sort-caret descending', on: {
                           'click': function click($event) {
                             return _this.handleSortClick($event, column, 'descending');
                           }
@@ -2355,7 +2574,7 @@ exports.default = {
               );
             }), _this.hasGutter ? h(
               'th',
-              { 'class': 'gutter', style: { width: _this.layout.scrollY ? _this.layout.gutterWidth + 'px' : '0' } },
+              { 'class': 'gutter' },
               []
             ) : '']
           );
@@ -2368,9 +2587,6 @@ exports.default = {
   props: {
     fixed: String,
     store: {
-      required: true
-    },
-    layout: {
       required: true
     },
     border: Boolean,
@@ -2416,7 +2632,7 @@ exports.default = {
       return this.store.states.columns;
     },
     hasGutter: function hasGutter() {
-      return !this.fixed && this.layout.gutterWidth;
+      return !this.fixed && this.tableLayout.gutterWidth;
     }
   },
 
@@ -2539,7 +2755,8 @@ exports.default = {
     handleFilterClick: function handleFilterClick(event, column) {
       event.stopPropagation();
       var target = event.target;
-      var cell = target.parentNode;
+      var cell = target.tagName === 'TH' ? target : target.parentNode;
+      cell = cell.querySelector('.el-table__column-filter-trigger') || cell;
       var table = this.$parent;
 
       var filterPanel = this.filterPanels[column.id];
@@ -2573,6 +2790,9 @@ exports.default = {
       }
 
       this.$parent.$emit('header-click', column, event);
+    },
+    handleHeaderContextMenu: function handleHeaderContextMenu(event, column) {
+      this.$parent.$emit('header-contextmenu', column, event);
     },
     handleMouseDown: function handleMouseDown(event, column) {
       var _this3 = this;
@@ -2713,7 +2933,7 @@ exports.default = {
       var sortOrder = void 0;
       var sortingColumn = states.sortingColumn;
 
-      if (sortingColumn !== column) {
+      if (sortingColumn !== column || sortingColumn === column && sortingColumn.order === null) {
         if (sortingColumn) {
           sortingColumn.order = null;
         }
@@ -2747,14 +2967,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 191:
+/***/ 193:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue__ = __webpack_require__(194);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a82ec7a0_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_filter_panel_vue__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a82ec7a0_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_filter_panel_vue__ = __webpack_require__(196);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -2782,7 +3002,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 192:
+/***/ 194:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2790,21 +3010,21 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _vuePopper = __webpack_require__(8);
+var _vuePopper = __webpack_require__(7);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-var _popup = __webpack_require__(17);
+var _popup = __webpack_require__(13);
 
-var _locale = __webpack_require__(3);
+var _locale = __webpack_require__(5);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _clickoutside = __webpack_require__(9);
+var _clickoutside = __webpack_require__(10);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-var _dropdown = __webpack_require__(193);
+var _dropdown = __webpack_require__(195);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
@@ -2877,7 +3097,11 @@ exports.default = {
       return filter.value === this.filterValue;
     },
     handleOutsideClick: function handleOutsideClick() {
-      this.showPopper = false;
+      var _this = this;
+
+      setTimeout(function () {
+        _this.showPopper = false;
+      }, 16);
     },
     handleConfirm: function handleConfirm() {
       this.confirmFilter(this.filteredValue);
@@ -2904,6 +3128,7 @@ exports.default = {
         column: this.column,
         values: filteredValue
       });
+      this.table.store.updateAllSelected();
     }
   },
 
@@ -2960,20 +3185,20 @@ exports.default = {
   },
 
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     this.popperElm = this.$el;
     this.referenceElm = this.cell;
     this.table.bodyWrapper.addEventListener('scroll', function () {
-      _this.updatePopper();
+      _this2.updatePopper();
     });
 
     this.$watch('showPopper', function (value) {
-      if (_this.column) _this.column.filterOpened = value;
+      if (_this2.column) _this2.column.filterOpened = value;
       if (value) {
-        _dropdown2.default.open(_this);
+        _dropdown2.default.open(_this2);
       } else {
-        _dropdown2.default.close(_this);
+        _dropdown2.default.close(_this2);
       }
     });
   },
@@ -3019,10 +3244,18 @@ exports.default = {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
-/***/ 193:
+/***/ 195:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3030,7 +3263,7 @@ exports.default = {
 
 exports.__esModule = true;
 
-var _vue = __webpack_require__(5);
+var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
@@ -3065,26 +3298,35 @@ exports.default = {
 
 /***/ }),
 
-/***/ 194:
+/***/ 196:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"el-zoom-in-top"}},[(_vm.multiple)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('div',{staticClass:"el-table-filter__content"},[_c('el-checkbox-group',{staticClass:"el-table-filter__checkbox-group",model:{value:(_vm.filteredValue),callback:function ($$v) {_vm.filteredValue=$$v},expression:"filteredValue"}},_vm._l((_vm.filters),function(filter){return _c('el-checkbox',{key:filter.value,attrs:{"label":filter.value}},[_vm._v(_vm._s(filter.text))])}))],1),_c('div',{staticClass:"el-table-filter__bottom"},[_c('button',{class:{ 'is-disabled': _vm.filteredValue.length === 0 },attrs:{"disabled":_vm.filteredValue.length === 0},on:{"click":_vm.handleConfirm}},[_vm._v(_vm._s(_vm.t('el.table.confirmFilter')))]),_c('button',{on:{"click":_vm.handleReset}},[_vm._v(_vm._s(_vm.t('el.table.resetFilter')))])])]):_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('ul',{staticClass:"el-table-filter__list"},[_c('li',{staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.filterValue === undefined || _vm.filterValue === null },on:{"click":function($event){_vm.handleSelect(null)}}},[_vm._v(_vm._s(_vm.t('el.table.clearFilter')))]),_vm._l((_vm.filters),function(filter){return _c('li',{key:filter.value,staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.isActive(filter) },attrs:{"label":filter.value},on:{"click":function($event){_vm.handleSelect(filter.value)}}},[_vm._v(_vm._s(filter.text))])})],2)])])}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"el-zoom-in-top"}},[(_vm.multiple)?_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleOutsideClick),expression:"handleOutsideClick"},{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('div',{staticClass:"el-table-filter__content"},[_c('el-checkbox-group',{staticClass:"el-table-filter__checkbox-group",model:{value:(_vm.filteredValue),callback:function ($$v) {_vm.filteredValue=$$v},expression:"filteredValue"}},_vm._l((_vm.filters),function(filter){return _c('el-checkbox',{key:filter.value,attrs:{"label":filter.value}},[_vm._v(_vm._s(filter.text))])}))],1),_c('div',{staticClass:"el-table-filter__bottom"},[_c('button',{class:{ 'is-disabled': _vm.filteredValue.length === 0 },attrs:{"disabled":_vm.filteredValue.length === 0},on:{"click":_vm.handleConfirm}},[_vm._v(_vm._s(_vm.t('el.table.confirmFilter')))]),_c('button',{on:{"click":_vm.handleReset}},[_vm._v(_vm._s(_vm.t('el.table.resetFilter')))])])]):_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleOutsideClick),expression:"handleOutsideClick"},{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('ul',{staticClass:"el-table-filter__list"},[_c('li',{staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.filterValue === undefined || _vm.filterValue === null },on:{"click":function($event){_vm.handleSelect(null)}}},[_vm._v(_vm._s(_vm.t('el.table.clearFilter')))]),_vm._l((_vm.filters),function(filter){return _c('li',{key:filter.value,staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.isActive(filter) },attrs:{"label":filter.value},on:{"click":function($event){_vm.handleSelect(filter.value)}}},[_vm._v(_vm._s(filter.text))])})],2)])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
-/***/ 195:
+/***/ 197:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 exports.__esModule = true;
+
+var _layoutObserver = __webpack_require__(38);
+
+var _layoutObserver2 = _interopRequireDefault(_layoutObserver);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = {
   name: 'ElTableFooter',
+
+  mixins: [_layoutObserver2.default],
 
   render: function render(h) {
     var _this = this;
@@ -3137,17 +3379,14 @@ exports.default = {
           return h(
             'col',
             {
-              attrs: {
-                name: column.id,
-                width: column.realWidth || column.width
-              }
+              attrs: { name: column.id }
             },
             []
           );
-        }), !this.fixed && this.layout.gutterWidth ? h(
+        }), this.hasGutter ? h(
           'col',
           {
-            attrs: { name: 'gutter', width: this.layout.scrollY ? this.layout.gutterWidth : '' }
+            attrs: { name: 'gutter' }
           },
           []
         ) : '']
@@ -3173,8 +3412,8 @@ exports.default = {
               )]
             );
           }), this.hasGutter ? h(
-            'td',
-            { 'class': 'gutter', style: { width: this.layout.scrollY ? this.layout.gutterWidth + 'px' : '0' } },
+            'th',
+            { 'class': 'gutter' },
             []
           ) : '']
         )]
@@ -3186,9 +3425,6 @@ exports.default = {
   props: {
     fixed: String,
     store: {
-      required: true
-    },
-    layout: {
       required: true
     },
     summaryMethod: Function,
@@ -3206,6 +3442,9 @@ exports.default = {
   },
 
   computed: {
+    table: function table() {
+      return this.$parent;
+    },
     isAllSelected: function isAllSelected() {
       return this.store.states.isAllSelected;
     },
@@ -3222,7 +3461,7 @@ exports.default = {
       return this.store.states.columns;
     },
     hasGutter: function hasGutter() {
-      return !this.fixed && this.layout.gutterWidth;
+      return !this.fixed && this.tableLayout.gutterWidth;
     }
   },
 
@@ -3245,7 +3484,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 196:
+/***/ 198:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3256,22 +3495,49 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     'el-table--hidden': _vm.isHidden,
     'el-table--group': _vm.isGroup,
     'el-table--fluid-height': _vm.maxHeight,
+    'el-table--scrollable-x': _vm.layout.scrollX,
+    'el-table--scrollable-y': _vm.layout.scrollY,
     'el-table--enable-row-hover': !_vm.store.states.isComplex,
     'el-table--enable-row-transition': (_vm.store.states.data || []).length !== 0 && (_vm.store.states.data || []).length < 100
-  }, _vm.tableSize ? ("el-table--" + _vm.tableSize) : ''],on:{"mouseleave":function($event){_vm.handleMouseLeave($event)}}},[_c('div',{ref:"hiddenColumns",staticClass:"hidden-columns"},[_vm._t("default")],2),(_vm.showHeader)?_c('div',{ref:"headerWrapper",staticClass:"el-table__header-wrapper"},[_c('table-header',{ref:"tableHeader",style:({ width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : '' }),attrs:{"store":_vm.store,"layout":_vm.layout,"border":_vm.border,"default-sort":_vm.defaultSort}})],1):_vm._e(),_c('div',{ref:"bodyWrapper",staticClass:"el-table__body-wrapper",class:[("is-scroll-" + _vm.scrollPosition)],style:([_vm.bodyHeight])},[_c('table-body',{style:({ width: _vm.bodyWidth }),attrs:{"context":_vm.context,"store":_vm.store,"stripe":_vm.stripe,"layout":_vm.layout,"row-class-name":_vm.rowClassName,"row-style":_vm.rowStyle,"highlight":_vm.highlightCurrentRow}}),(!_vm.data || _vm.data.length === 0)?_c('div',{staticClass:"el-table__empty-block",style:({ width: _vm.bodyWidth })},[_c('span',{staticClass:"el-table__empty-text"},[_vm._t("empty",[_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])],2)]):_vm._e(),(_vm.$slots.append)?_c('div',{ref:"appendWrapper",staticClass:"el-table__append-wrapper"},[_vm._t("append")],2):_vm._e()],1),(_vm.showSummary)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.data && _vm.data.length > 0),expression:"data && data.length > 0"}],ref:"footerWrapper",staticClass:"el-table__footer-wrapper"},[_c('table-footer',{style:({ width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : '' }),attrs:{"store":_vm.store,"layout":_vm.layout,"border":_vm.border,"sum-text":_vm.sumText || _vm.t('el.table.sumText'),"summary-method":_vm.summaryMethod,"default-sort":_vm.defaultSort}})],1):_vm._e(),(_vm.fixedColumns.length > 0)?_c('div',{ref:"fixedWrapper",staticClass:"el-table__fixed",style:([
-      { width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : '' },
-      _vm.fixedHeight
-    ])},[(_vm.showHeader)?_c('div',{ref:"fixedHeaderWrapper",staticClass:"el-table__fixed-header-wrapper"},[_c('table-header',{ref:"fixedTableHeader",style:({ width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : '' }),attrs:{"fixed":"left","border":_vm.border,"store":_vm.store,"layout":_vm.layout}})],1):_vm._e(),_c('div',{ref:"fixedBodyWrapper",staticClass:"el-table__fixed-body-wrapper",style:([
-        { top: _vm.layout.headerHeight + 'px' },
-        _vm.fixedBodyHeight
-      ])},[_c('table-body',{style:({ width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : '' }),attrs:{"fixed":"left","store":_vm.store,"stripe":_vm.stripe,"layout":_vm.layout,"highlight":_vm.highlightCurrentRow,"row-class-name":_vm.rowClassName,"row-style":_vm.rowStyle}}),(_vm.$slots.append)?_c('div',{staticClass:"el-table__append-gutter",style:({ height: _vm.layout.appendHeight + 'px' })}):_vm._e()],1),(_vm.showSummary)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.data && _vm.data.length > 0),expression:"data && data.length > 0"}],ref:"fixedFooterWrapper",staticClass:"el-table__fixed-footer-wrapper"},[_c('table-footer',{style:({ width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : '' }),attrs:{"fixed":"left","border":_vm.border,"sum-text":_vm.sumText || _vm.t('el.table.sumText'),"summary-method":_vm.summaryMethod,"store":_vm.store,"layout":_vm.layout}})],1):_vm._e()]):_vm._e(),(_vm.rightFixedColumns.length > 0)?_c('div',{ref:"rightFixedWrapper",staticClass:"el-table__fixed-right",style:([
-      { width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '' },
-      { right: _vm.layout.scrollY ? (_vm.border ? _vm.layout.gutterWidth : (_vm.layout.gutterWidth || 0)) + 'px' : '' },
-      _vm.fixedHeight
-    ])},[(_vm.showHeader)?_c('div',{ref:"rightFixedHeaderWrapper",staticClass:"el-table__fixed-header-wrapper"},[_c('table-header',{ref:"rightFixedTableHeader",style:({ width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '' }),attrs:{"fixed":"right","border":_vm.border,"store":_vm.store,"layout":_vm.layout}})],1):_vm._e(),_c('div',{ref:"rightFixedBodyWrapper",staticClass:"el-table__fixed-body-wrapper",style:([
-        { top: _vm.layout.headerHeight + 'px' },
-        _vm.fixedBodyHeight
-      ])},[_c('table-body',{style:({ width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '' }),attrs:{"fixed":"right","store":_vm.store,"stripe":_vm.stripe,"layout":_vm.layout,"row-class-name":_vm.rowClassName,"row-style":_vm.rowStyle,"highlight":_vm.highlightCurrentRow}})],1),(_vm.showSummary)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.data && _vm.data.length > 0),expression:"data && data.length > 0"}],ref:"rightFixedFooterWrapper",staticClass:"el-table__fixed-footer-wrapper"},[_c('table-footer',{style:({ width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '' }),attrs:{"fixed":"right","border":_vm.border,"sum-text":_vm.sumText || _vm.t('el.table.sumText'),"summary-method":_vm.summaryMethod,"store":_vm.store,"layout":_vm.layout}})],1):_vm._e()]):_vm._e(),(_vm.rightFixedColumns.length > 0)?_c('div',{staticClass:"el-table__fixed-right-patch",style:({ width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0', height: _vm.layout.headerHeight + 'px' })}):_vm._e(),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.resizeProxyVisible),expression:"resizeProxyVisible"}],ref:"resizeProxy",staticClass:"el-table__column-resize-proxy"})])}
+  }, _vm.tableSize ? ("el-table--" + _vm.tableSize) : ''],on:{"mouseleave":function($event){_vm.handleMouseLeave($event)}}},[_c('div',{ref:"hiddenColumns",staticClass:"hidden-columns"},[_vm._t("default")],2),(_vm.showHeader)?_c('div',{directives:[{name:"mousewheel",rawName:"v-mousewheel",value:(_vm.handleHeaderFooterMousewheel),expression:"handleHeaderFooterMousewheel"}],ref:"headerWrapper",staticClass:"el-table__header-wrapper"},[_c('table-header',{ref:"tableHeader",style:({
+        width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
+      }),attrs:{"store":_vm.store,"border":_vm.border,"default-sort":_vm.defaultSort}})],1):_vm._e(),_c('div',{ref:"bodyWrapper",staticClass:"el-table__body-wrapper",class:[_vm.layout.scrollX ? ("is-scrolling-" + _vm.scrollPosition) : 'is-scrolling-none'],style:([_vm.bodyHeight])},[_c('table-body',{style:({
+         width: _vm.bodyWidth
+      }),attrs:{"context":_vm.context,"store":_vm.store,"stripe":_vm.stripe,"row-class-name":_vm.rowClassName,"row-style":_vm.rowStyle,"highlight":_vm.highlightCurrentRow}}),(!_vm.data || _vm.data.length === 0)?_c('div',{ref:"emptyBlock",staticClass:"el-table__empty-block",style:({
+        width: _vm.bodyWidth
+      })},[_c('span',{staticClass:"el-table__empty-text"},[_vm._t("empty",[_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])],2)]):_vm._e(),(_vm.$slots.append)?_c('div',{ref:"appendWrapper",staticClass:"el-table__append-wrapper"},[_vm._t("append")],2):_vm._e()],1),(_vm.showSummary)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.data && _vm.data.length > 0),expression:"data && data.length > 0"},{name:"mousewheel",rawName:"v-mousewheel",value:(_vm.handleHeaderFooterMousewheel),expression:"handleHeaderFooterMousewheel"}],ref:"footerWrapper",staticClass:"el-table__footer-wrapper"},[_c('table-footer',{style:({
+        width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
+      }),attrs:{"store":_vm.store,"border":_vm.border,"sum-text":_vm.sumText || _vm.t('el.table.sumText'),"summary-method":_vm.summaryMethod,"default-sort":_vm.defaultSort}})],1):_vm._e(),(_vm.fixedColumns.length > 0)?_c('div',{directives:[{name:"mousewheel",rawName:"v-mousewheel",value:(_vm.handleFixedMousewheel),expression:"handleFixedMousewheel"}],ref:"fixedWrapper",staticClass:"el-table__fixed",style:([{
+      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
+    },
+    _vm.fixedHeight])},[(_vm.showHeader)?_c('div',{ref:"fixedHeaderWrapper",staticClass:"el-table__fixed-header-wrapper"},[_c('table-header',{ref:"fixedTableHeader",style:({
+          width: _vm.bodyWidth
+        }),attrs:{"fixed":"left","border":_vm.border,"store":_vm.store}})],1):_vm._e(),_c('div',{ref:"fixedBodyWrapper",staticClass:"el-table__fixed-body-wrapper",style:([{
+        top: _vm.layout.headerHeight + 'px'
+      },
+      _vm.fixedBodyHeight])},[_c('table-body',{style:({
+          width: _vm.bodyWidth
+        }),attrs:{"fixed":"left","store":_vm.store,"stripe":_vm.stripe,"highlight":_vm.highlightCurrentRow,"row-class-name":_vm.rowClassName,"row-style":_vm.rowStyle}}),(_vm.$slots.append)?_c('div',{staticClass:"el-table__append-gutter",style:({
+          height: _vm.layout.appendHeight + 'px'
+        })}):_vm._e()],1),(_vm.showSummary)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.data && _vm.data.length > 0),expression:"data && data.length > 0"}],ref:"fixedFooterWrapper",staticClass:"el-table__fixed-footer-wrapper"},[_c('table-footer',{style:({
+          width: _vm.bodyWidth
+        }),attrs:{"fixed":"left","border":_vm.border,"sum-text":_vm.sumText || _vm.t('el.table.sumText'),"summary-method":_vm.summaryMethod,"store":_vm.store}})],1):_vm._e()]):_vm._e(),(_vm.rightFixedColumns.length > 0)?_c('div',{directives:[{name:"mousewheel",rawName:"v-mousewheel",value:(_vm.handleFixedMousewheel),expression:"handleFixedMousewheel"}],ref:"rightFixedWrapper",staticClass:"el-table__fixed-right",style:([{
+      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '',
+      right: _vm.layout.scrollY ? (_vm.border ? _vm.layout.gutterWidth : (_vm.layout.gutterWidth || 0)) + 'px' : ''
+    },
+    _vm.fixedHeight])},[(_vm.showHeader)?_c('div',{ref:"rightFixedHeaderWrapper",staticClass:"el-table__fixed-header-wrapper"},[_c('table-header',{ref:"rightFixedTableHeader",style:({
+          width: _vm.bodyWidth
+        }),attrs:{"fixed":"right","border":_vm.border,"store":_vm.store}})],1):_vm._e(),_c('div',{ref:"rightFixedBodyWrapper",staticClass:"el-table__fixed-body-wrapper",style:([{
+        top: _vm.layout.headerHeight + 'px'
+      },
+      _vm.fixedBodyHeight])},[_c('table-body',{style:({
+          width: _vm.bodyWidth
+        }),attrs:{"fixed":"right","store":_vm.store,"stripe":_vm.stripe,"row-class-name":_vm.rowClassName,"row-style":_vm.rowStyle,"highlight":_vm.highlightCurrentRow}})],1),(_vm.showSummary)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.data && _vm.data.length > 0),expression:"data && data.length > 0"}],ref:"rightFixedFooterWrapper",staticClass:"el-table__fixed-footer-wrapper"},[_c('table-footer',{style:({
+          width: _vm.bodyWidth
+        }),attrs:{"fixed":"right","border":_vm.border,"sum-text":_vm.sumText || _vm.t('el.table.sumText'),"summary-method":_vm.summaryMethod,"store":_vm.store}})],1):_vm._e()]):_vm._e(),(_vm.rightFixedColumns.length > 0)?_c('div',{ref:"rightFixedPatch",staticClass:"el-table__fixed-right-patch",style:({
+      width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0',
+      height: _vm.layout.headerHeight + 'px'
+    })}):_vm._e(),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.resizeProxyVisible),expression:"resizeProxyVisible"}],ref:"resizeProxy",staticClass:"el-table__column-resize-proxy"})])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -3281,7 +3547,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ 2:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/util");
+module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
@@ -3302,29 +3568,120 @@ module.exports = require("element-ui/lib/tag");
 /***/ 3:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/mixins/locale");
-
-/***/ }),
-
-/***/ 36:
-/***/ (function(module, exports) {
-
-module.exports = require("throttle-debounce/throttle");
+module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
 /***/ 37:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/scrollbar-width");
+
+/***/ }),
+
+/***/ 38:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 exports.__esModule = true;
-exports.getRowIdentity = exports.mousewheel = exports.getColumnByCell = exports.getColumnById = exports.orderBy = exports.getCell = undefined;
+exports.default = {
+  created: function created() {
+    this.tableLayout.addObserver(this);
+  },
+  destroyed: function destroyed() {
+    this.tableLayout.removeObserver(this);
+  },
+
+
+  computed: {
+    tableLayout: function tableLayout() {
+      var layout = this.layout;
+      if (!layout && this.table) {
+        layout = this.table.layout;
+      }
+      if (!layout) {
+        throw new Error('Can not find table layout.');
+      }
+      return layout;
+    }
+  },
+
+  mounted: function mounted() {
+    this.onColumnsChange(this.tableLayout);
+    this.onScrollableChange(this.tableLayout);
+  },
+  updated: function updated() {
+    if (this.__updated__) return;
+    this.onColumnsChange(this.tableLayout);
+    this.onScrollableChange(this.tableLayout);
+    this.__updated__ = true;
+  },
+
+
+  methods: {
+    onColumnsChange: function onColumnsChange() {
+      var cols = this.$el.querySelectorAll('colgroup > col');
+      if (!cols.length) return;
+      var flattenColumns = this.tableLayout.getFlattenColumns();
+      var columnsMap = {};
+      flattenColumns.forEach(function (column) {
+        columnsMap[column.id] = column;
+      });
+      for (var i = 0, j = cols.length; i < j; i++) {
+        var col = cols[i];
+        var name = col.getAttribute('name');
+        var column = columnsMap[name];
+        if (column) {
+          col.setAttribute('width', column.realWidth || column.width);
+        }
+      }
+    },
+    onScrollableChange: function onScrollableChange(layout) {
+      var cols = this.$el.querySelectorAll('colgroup > col[name=gutter]');
+      for (var i = 0, j = cols.length; i < j; i++) {
+        var col = cols[i];
+        col.setAttribute('width', layout.scrollY ? layout.gutterWidth : '0');
+      }
+      var ths = this.$el.querySelectorAll('th.gutter');
+      for (var _i = 0, _j = ths.length; _i < _j; _i++) {
+        var th = ths[_i];
+        th.style.width = layout.scrollY ? layout.gutterWidth + 'px' : '0';
+        th.style.display = layout.scrollY ? '' : 'none';
+      }
+    }
+  }
+};
+
+/***/ }),
+
+/***/ 39:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/checkbox-group");
+
+/***/ }),
+
+/***/ 4:
+/***/ (function(module, exports) {
+
+module.exports = require("vue");
+
+/***/ }),
+
+/***/ 47:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.getRowIdentity = exports.getColumnByCell = exports.getColumnById = exports.orderBy = exports.getCell = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(3);
 
 var getCell = exports.getCell = function getCell(event) {
   var cell = event.target;
@@ -3420,14 +3777,6 @@ var getColumnByCell = exports.getColumnByCell = function getColumnByCell(table, 
   return null;
 };
 
-var isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-
-var mousewheel = exports.mousewheel = function mousewheel(element, callback) {
-  if (element && element.addEventListener) {
-    element.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', callback);
-  }
-};
-
 var getRowIdentity = exports.getRowIdentity = function getRowIdentity(row, rowKey) {
   if (!row) throw new Error('row is required when get row identity');
   if (typeof rowKey === 'string') {
@@ -3447,52 +3796,31 @@ var getRowIdentity = exports.getRowIdentity = function getRowIdentity(row, rowKe
 
 /***/ }),
 
-/***/ 38:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/scrollbar-width");
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/checkbox-group");
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/dom");
-
-/***/ }),
-
 /***/ 5:
 /***/ (function(module, exports) {
 
-module.exports = require("vue");
+module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ }),
 
 /***/ 7:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/mixins/migrating");
+module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ }),
 
 /***/ 8:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/vue-popper");
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 
 /***/ 9:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/clickoutside");
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

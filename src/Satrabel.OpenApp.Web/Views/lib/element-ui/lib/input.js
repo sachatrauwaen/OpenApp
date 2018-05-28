@@ -183,13 +183,6 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
-
-/***/ }),
-
 /***/ 111:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -268,7 +261,7 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _migrating = __webpack_require__(7);
+var _migrating = __webpack_require__(8);
 
 var _migrating2 = _interopRequireDefault(_migrating);
 
@@ -276,12 +269,23 @@ var _calcTextareaHeight = __webpack_require__(115);
 
 var _calcTextareaHeight2 = _interopRequireDefault(_calcTextareaHeight);
 
-var _merge = __webpack_require__(10);
+var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -376,6 +380,8 @@ exports.default = {
 
   mixins: [_emitter2.default, _migrating2.default],
 
+  inheritAttrs: false,
+
   inject: {
     elForm: {
       default: ''
@@ -387,28 +393,22 @@ exports.default = {
 
   data: function data() {
     return {
-      currentValue: this.value,
+      currentValue: this.value || '',
       textareaCalcStyle: {},
       prefixOffset: null,
       suffixOffset: null,
       hovering: false,
-      focused: false
+      focused: false,
+      isOnComposition: false
     };
   },
 
 
   props: {
     value: [String, Number],
-    placeholder: String,
     size: String,
     resize: String,
-    name: String,
     form: String,
-    id: String,
-    maxlength: Number,
-    minlength: Number,
-    readonly: Boolean,
-    autofocus: Boolean,
     disabled: Boolean,
     type: {
       type: String,
@@ -418,17 +418,10 @@ exports.default = {
       type: [Boolean, Object],
       default: false
     },
-    rows: {
-      type: Number,
-      default: 2
-    },
     autoComplete: {
       type: String,
       default: 'off'
     },
-    max: {},
-    min: {},
-    step: {},
     validateEvent: {
       type: Boolean,
       default: true
@@ -439,7 +432,8 @@ exports.default = {
     clearable: {
       type: Boolean,
       default: false
-    }
+    },
+    tabindex: String
   },
 
   computed: {
@@ -465,11 +459,14 @@ exports.default = {
     inputSize: function inputSize() {
       return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
     },
+    inputDisabled: function inputDisabled() {
+      return this.disabled || (this.elForm || {}).disabled;
+    },
     isGroup: function isGroup() {
       return this.$slots.prepend || this.$slots.append;
     },
     showClear: function showClear() {
-      return this.clearable && this.currentValue !== '' && (this.focused || this.hovering);
+      return this.clearable && !this.disabled && this.currentValue !== '' && (this.focused || this.hovering);
     }
   },
 
@@ -482,6 +479,9 @@ exports.default = {
   methods: {
     focus: function focus() {
       (this.$refs.input || this.$refs.textarea).focus();
+    },
+    blur: function blur() {
+      (this.$refs.input || this.$refs.textarea).blur();
     },
     getMigratingConfig: function getMigratingConfig() {
       return {
@@ -501,7 +501,7 @@ exports.default = {
         this.dispatch('ElFormItem', 'el.form.blur', [this.currentValue]);
       }
     },
-    inputSelect: function inputSelect() {
+    select: function select() {
       (this.$refs.input || this.$refs.textarea).select();
     },
     resizeTextarea: function resizeTextarea() {
@@ -525,7 +525,16 @@ exports.default = {
       this.focused = true;
       this.$emit('focus', event);
     },
+    handleComposition: function handleComposition(event) {
+      if (event.type === 'compositionend') {
+        this.isOnComposition = false;
+        this.handleInput(event);
+      } else {
+        this.isOnComposition = true;
+      }
+    },
     handleInput: function handleInput(event) {
+      if (this.isOnComposition) return;
       var value = event.target.value;
       this.$emit('input', value);
       this.setCurrentValue(value);
@@ -560,13 +569,14 @@ exports.default = {
     clear: function clear() {
       this.$emit('input', '');
       this.$emit('change', '');
+      this.$emit('clear');
       this.setCurrentValue('');
       this.focus();
     }
   },
 
   created: function created() {
-    this.$on('inputSelect', this.inputSelect);
+    this.$on('inputSelect', this.select);
   },
   mounted: function mounted() {
     this.resizeTextarea();
@@ -670,24 +680,31 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   _vm.type === 'textarea' ? 'el-textarea' : 'el-input',
   _vm.inputSize ? 'el-input--' + _vm.inputSize : '',
   {
-    'is-disabled': _vm.disabled,
+    'is-disabled': _vm.inputDisabled,
     'el-input-group': _vm.$slots.prepend || _vm.$slots.append,
     'el-input-group--append': _vm.$slots.append,
     'el-input-group--prepend': _vm.$slots.prepend,
     'el-input--prefix': _vm.$slots.prefix || _vm.prefixIcon,
     'el-input--suffix': _vm.$slots.suffix || _vm.suffixIcon
   }
-  ],on:{"mouseenter":function($event){_vm.hovering = true},"mouseleave":function($event){_vm.hovering = false}}},[(_vm.type !== 'textarea')?[(_vm.$slots.prepend)?_c('div',{staticClass:"el-input-group__prepend",attrs:{"tabindex":"0"}},[_vm._t("prepend")],2):_vm._e(),(_vm.type !== 'textarea')?_c('input',_vm._b({ref:"input",staticClass:"el-input__inner",attrs:{"autocomplete":_vm.autoComplete,"aria-label":_vm.label},domProps:{"value":_vm.currentValue},on:{"input":_vm.handleInput,"focus":_vm.handleFocus,"blur":_vm.handleBlur,"change":_vm.handleChange}},'input',_vm.$props,false)):_vm._e(),(_vm.$slots.prefix || _vm.prefixIcon)?_c('span',{staticClass:"el-input__prefix",style:(_vm.prefixOffset)},[_vm._t("prefix"),(_vm.prefixIcon)?_c('i',{staticClass:"el-input__icon",class:_vm.prefixIcon}):_vm._e()],2):_vm._e(),(_vm.$slots.suffix || _vm.suffixIcon || _vm.showClear || _vm.validateState && _vm.needStatusIcon)?_c('span',{staticClass:"el-input__suffix",style:(_vm.suffixOffset)},[_c('span',{staticClass:"el-input__suffix-inner"},[(!_vm.showClear)?[_vm._t("suffix"),(_vm.suffixIcon)?_c('i',{staticClass:"el-input__icon",class:_vm.suffixIcon}):_vm._e()]:_c('i',{staticClass:"el-input__icon el-icon-circle-close el-input__clear",on:{"click":_vm.clear}})],2),(_vm.validateState)?_c('i',{staticClass:"el-input__icon",class:['el-input__validateIcon', _vm.validateIcon]}):_vm._e()]):_vm._e(),(_vm.$slots.append)?_c('div',{staticClass:"el-input-group__append"},[_vm._t("append")],2):_vm._e()]:_c('textarea',_vm._b({ref:"textarea",staticClass:"el-textarea__inner",style:(_vm.textareaStyle),attrs:{"aria-label":_vm.label},domProps:{"value":_vm.currentValue},on:{"input":_vm.handleInput,"focus":_vm.handleFocus,"blur":_vm.handleBlur,"change":_vm.handleChange}},'textarea',_vm.$props,false))],2)}
+  ],on:{"mouseenter":function($event){_vm.hovering = true},"mouseleave":function($event){_vm.hovering = false}}},[(_vm.type !== 'textarea')?[(_vm.$slots.prepend)?_c('div',{staticClass:"el-input-group__prepend"},[_vm._t("prepend")],2):_vm._e(),(_vm.type !== 'textarea')?_c('input',_vm._b({ref:"input",staticClass:"el-input__inner",attrs:{"tabindex":_vm.tabindex,"type":_vm.type,"disabled":_vm.inputDisabled,"autocomplete":_vm.autoComplete,"aria-label":_vm.label},domProps:{"value":_vm.currentValue},on:{"compositionstart":_vm.handleComposition,"compositionupdate":_vm.handleComposition,"compositionend":_vm.handleComposition,"input":_vm.handleInput,"focus":_vm.handleFocus,"blur":_vm.handleBlur,"change":_vm.handleChange}},'input',_vm.$attrs,false)):_vm._e(),(_vm.$slots.prefix || _vm.prefixIcon)?_c('span',{staticClass:"el-input__prefix",style:(_vm.prefixOffset)},[_vm._t("prefix"),(_vm.prefixIcon)?_c('i',{staticClass:"el-input__icon",class:_vm.prefixIcon}):_vm._e()],2):_vm._e(),(_vm.$slots.suffix || _vm.suffixIcon || _vm.showClear || _vm.validateState && _vm.needStatusIcon)?_c('span',{staticClass:"el-input__suffix",style:(_vm.suffixOffset)},[_c('span',{staticClass:"el-input__suffix-inner"},[(!_vm.showClear)?[_vm._t("suffix"),(_vm.suffixIcon)?_c('i',{staticClass:"el-input__icon",class:_vm.suffixIcon}):_vm._e()]:_c('i',{staticClass:"el-input__icon el-icon-circle-close el-input__clear",on:{"click":_vm.clear}})],2),(_vm.validateState)?_c('i',{staticClass:"el-input__icon",class:['el-input__validateIcon', _vm.validateIcon]}):_vm._e()]):_vm._e(),(_vm.$slots.append)?_c('div',{staticClass:"el-input-group__append"},[_vm._t("append")],2):_vm._e()]:_c('textarea',_vm._b({ref:"textarea",staticClass:"el-textarea__inner",style:(_vm.textareaStyle),attrs:{"tabindex":_vm.tabindex,"disabled":_vm.inputDisabled,"aria-label":_vm.label},domProps:{"value":_vm.currentValue},on:{"compositionstart":_vm.handleComposition,"compositionupdate":_vm.handleComposition,"compositionend":_vm.handleComposition,"input":_vm.handleInput,"focus":_vm.handleFocus,"blur":_vm.handleBlur,"change":_vm.handleChange}},'textarea',_vm.$attrs,false))],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
-/***/ 7:
+/***/ 8:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/migrating");
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

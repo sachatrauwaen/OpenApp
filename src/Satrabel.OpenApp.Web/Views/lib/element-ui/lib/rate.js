@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 372);
+/******/ 	return __webpack_require__(__webpack_require__.s = 374);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -176,15 +176,22 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 372:
+/***/ 2:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/dom");
+
+/***/ }),
+
+/***/ 374:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(373);
+module.exports = __webpack_require__(375);
 
 
 /***/ }),
 
-/***/ 373:
+/***/ 375:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -192,7 +199,7 @@ module.exports = __webpack_require__(373);
 
 exports.__esModule = true;
 
-var _main = __webpack_require__(374);
+var _main = __webpack_require__(376);
 
 var _main2 = _interopRequireDefault(_main);
 
@@ -207,14 +214,14 @@ exports.default = _main2.default;
 
 /***/ }),
 
-/***/ 374:
+/***/ 376:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(375);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(377);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_14663ae4_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(376);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_14663ae4_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(378);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -242,7 +249,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 375:
+/***/ 377:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -250,9 +257,9 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _dom = __webpack_require__(4);
+var _dom = __webpack_require__(2);
 
-var _migrating = __webpack_require__(7);
+var _migrating = __webpack_require__(8);
 
 var _migrating2 = _interopRequireDefault(_migrating);
 
@@ -297,9 +304,14 @@ exports.default = {
 
   mixins: [_migrating2.default],
 
+  inject: {
+    elForm: {
+      default: ''
+    }
+  },
+
   data: function data() {
     return {
-      classMap: {},
       pointerAtLeftHalf: true,
       currentValue: this.value,
       hoverIndex: -1
@@ -388,7 +400,7 @@ exports.default = {
     text: function text() {
       var result = '';
       if (this.showScore) {
-        result = this.scoreTemplate.replace(/\{\s*value\s*\}/, this.disabled ? this.value : this.currentValue);
+        result = this.scoreTemplate.replace(/\{\s*value\s*\}/, this.rateDisabled ? this.value : this.currentValue);
       } else if (this.showText) {
         result = this.texts[Math.ceil(this.currentValue) - 1];
       }
@@ -396,7 +408,7 @@ exports.default = {
     },
     decimalStyle: function decimalStyle() {
       var width = '';
-      if (this.disabled) {
+      if (this.rateDisabled) {
         width = (this.valueDecimal < 50 ? 0 : 50) + '%';
       }
       if (this.allowHalf) {
@@ -414,7 +426,7 @@ exports.default = {
       return this.getValueFromMap(this.value, this.classMap);
     },
     voidClass: function voidClass() {
-      return this.disabled ? this.classMap.disabledVoidClass : this.classMap.voidClass;
+      return this.rateDisabled ? this.classMap.disabledVoidClass : this.classMap.voidClass;
     },
     activeClass: function activeClass() {
       return this.getValueFromMap(this.currentValue, this.classMap);
@@ -445,6 +457,18 @@ exports.default = {
         result.push(this.voidClass);
       }
       return result;
+    },
+    classMap: function classMap() {
+      return {
+        lowClass: this.iconClasses[0],
+        mediumClass: this.iconClasses[1],
+        highClass: this.iconClasses[2],
+        voidClass: this.voidIconClass,
+        disabledVoidClass: this.disabledVoidIconClass
+      };
+    },
+    rateDisabled: function rateDisabled() {
+      return this.disabled || (this.elForm || {}).disabled;
     }
   },
 
@@ -475,19 +499,19 @@ exports.default = {
       return result;
     },
     showDecimalIcon: function showDecimalIcon(item) {
-      var showWhenDisabled = this.disabled && this.valueDecimal > 0 && item - 1 < this.value && item > this.value;
+      var showWhenDisabled = this.rateDisabled && this.valueDecimal > 0 && item - 1 < this.value && item > this.value;
       /* istanbul ignore next */
       var showWhenAllowHalf = this.allowHalf && this.pointerAtLeftHalf && item - 0.5 <= this.currentValue && item > this.currentValue;
       return showWhenDisabled || showWhenAllowHalf;
     },
     getIconStyle: function getIconStyle(item) {
-      var voidColor = this.disabled ? this.colorMap.disabledVoidColor : this.colorMap.voidColor;
+      var voidColor = this.rateDisabled ? this.colorMap.disabledVoidColor : this.colorMap.voidColor;
       return {
         color: item <= this.currentValue ? this.activeColor : voidColor
       };
     },
     selectValue: function selectValue(value) {
-      if (this.disabled) {
+      if (this.rateDisabled) {
         return;
       }
       if (this.allowHalf && this.pointerAtLeftHalf) {
@@ -498,7 +522,7 @@ exports.default = {
         this.$emit('change', value);
       }
     },
-    handelKey: function handelKey(e) {
+    handleKey: function handleKey(e) {
       var currentValue = this.currentValue;
       var keyCode = e.keyCode;
       if (keyCode === 38 || keyCode === 39) {
@@ -526,7 +550,7 @@ exports.default = {
       this.$emit('change', currentValue);
     },
     setCurrentValue: function setCurrentValue(value, event) {
-      if (this.disabled) {
+      if (this.rateDisabled) {
         return;
       }
       /* istanbul ignore if */
@@ -546,7 +570,7 @@ exports.default = {
       this.hoverIndex = value;
     },
     resetCurrentValue: function resetCurrentValue() {
-      if (this.disabled) {
+      if (this.rateDisabled) {
         return;
       }
       if (this.allowHalf) {
@@ -561,37 +585,23 @@ exports.default = {
     if (!this.value) {
       this.$emit('input', 0);
     }
-    this.classMap = {
-      lowClass: this.iconClasses[0],
-      mediumClass: this.iconClasses[1],
-      highClass: this.iconClasses[2],
-      voidClass: this.voidIconClass,
-      disabledVoidClass: this.disabledVoidIconClass
-    };
   }
 };
 
 /***/ }),
 
-/***/ 376:
+/***/ 378:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-rate",attrs:{"role":"slider","aria-valuenow":_vm.currentValue,"aria-valuetext":_vm.text,"aria-valuemin":"0","aria-valuemax":_vm.max,"tabindex":"0"},on:{"keydown":_vm.handelKey}},[_vm._l((_vm.max),function(item){return _c('span',{staticClass:"el-rate__item",style:({ cursor: _vm.disabled ? 'auto' : 'pointer' }),on:{"mousemove":function($event){_vm.setCurrentValue(item, $event)},"mouseleave":_vm.resetCurrentValue,"click":function($event){_vm.selectValue(item)}}},[_c('i',{staticClass:"el-rate__icon",class:[_vm.classes[item - 1], { 'hover': _vm.hoverIndex === item }],style:(_vm.getIconStyle(item))},[(_vm.showDecimalIcon(item))?_c('i',{staticClass:"el-rate__decimal",class:_vm.decimalIconClass,style:(_vm.decimalStyle)}):_vm._e()])])}),(_vm.showText || _vm.showScore)?_c('span',{staticClass:"el-rate__text",style:({ color: _vm.textColor })},[_vm._v(_vm._s(_vm.text))]):_vm._e()],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-rate",attrs:{"role":"slider","aria-valuenow":_vm.currentValue,"aria-valuetext":_vm.text,"aria-valuemin":"0","aria-valuemax":_vm.max,"tabindex":"0"},on:{"keydown":_vm.handleKey}},[_vm._l((_vm.max),function(item){return _c('span',{staticClass:"el-rate__item",style:({ cursor: _vm.rateDisabled ? 'auto' : 'pointer' }),on:{"mousemove":function($event){_vm.setCurrentValue(item, $event)},"mouseleave":_vm.resetCurrentValue,"click":function($event){_vm.selectValue(item)}}},[_c('i',{staticClass:"el-rate__icon",class:[_vm.classes[item - 1], { 'hover': _vm.hoverIndex === item }],style:(_vm.getIconStyle(item))},[(_vm.showDecimalIcon(item))?_c('i',{staticClass:"el-rate__decimal",class:_vm.decimalIconClass,style:(_vm.decimalStyle)}):_vm._e()])])}),(_vm.showText || _vm.showScore)?_c('span',{staticClass:"el-rate__text",style:({ color: _vm.textColor })},[_vm._v(_vm._s(_vm.text))]):_vm._e()],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
-/***/ 4:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/dom");
-
-/***/ }),
-
-/***/ 7:
+/***/ 8:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/migrating");

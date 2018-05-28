@@ -1,7 +1,4 @@
-'use strict';
-
-exports.__esModule = true;
-exports.default = {
+export default {
   el: {
     colorpicker: {
       confirm: 'OK',
@@ -15,14 +12,14 @@ exports.default = {
       confirm: 'OK',
       selectDate: 'Vybrat datum',
       selectTime: 'Vybrat čas',
-      startDate: 'Datum Začátku',
-      startTime: 'Čas Začátku',
-      endDate: 'Datum Konce',
-      endTime: 'Čas Konce',
-      prevYear: 'Previous Year', // to be translated
-      nextYear: 'Next Year', // to be translated
-      prevMonth: 'Previous Month', // to be translated
-      nextMonth: 'Next Month', // to be translated
+      startDate: 'Datum začátku',
+      startTime: 'Čas začátku',
+      endDate: 'Datum konce',
+      endTime: 'Čas konce',
+      prevYear: 'Předchozí rok',
+      nextYear: 'Příští rok',
+      prevMonth: 'Předchozí měsíc',
+      nextMonth: 'Příští měsíc',
       day: 'Den',
       week: 'Týden',
       month: 'Měsíc',
@@ -77,7 +74,7 @@ exports.default = {
     pagination: {
       goto: 'Jít na',
       pagesize: 'na stranu',
-      total: 'Vše {total}',
+      total: 'Celkem {total}',
       pageClassifier: ''
     },
     messagebox: {
@@ -87,7 +84,7 @@ exports.default = {
       error: 'Neplatný vstup'
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
+      deleteTip: 'Stisknout pro smazání',
       delete: 'Vymazat',
       preview: 'Náhled',
       continue: 'Pokračovat'
@@ -97,7 +94,7 @@ exports.default = {
       confirmFilter: 'Potvrdit',
       resetFilter: 'Resetovat',
       clearFilter: 'Vše',
-      sumText: 'Sum' // to be translated
+      sumText: 'Celkem'
     },
     tree: {
       emptyText: 'Žádná data'
@@ -105,10 +102,10 @@ exports.default = {
     transfer: {
       noMatch: 'Žádná shoda',
       noData: 'Žádná data',
-      titles: ['List 1', 'List 2'], // to be translated
-      filterPlaceholder: 'Enter keyword', // to be translated
-      noCheckedFormat: '{total} items', // to be translated
-      hasCheckedFormat: '{checked}/{total} checked' // to be translated
+      titles: ['Seznam 1', 'Seznam 2'],
+      filterPlaceholder: 'Klíčové slovo',
+      noCheckedFormat: '{total} položek',
+      hasCheckedFormat: '{checked}/{total} vybráno'
     }
   }
 };

@@ -61,17 +61,10 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 197);
+/******/ 	return __webpack_require__(__webpack_require__.s = 199);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
-
-/***/ }),
 
 /***/ 16:
 /***/ (function(module, exports) {
@@ -80,15 +73,15 @@ module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
 
-/***/ 197:
+/***/ 199:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(198);
+module.exports = __webpack_require__(200);
 
 
 /***/ }),
 
-/***/ 198:
+/***/ 200:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -96,7 +89,7 @@ module.exports = __webpack_require__(198);
 
 exports.__esModule = true;
 
-var _tableColumn = __webpack_require__(199);
+var _tableColumn = __webpack_require__(201);
 
 var _tableColumn2 = _interopRequireDefault(_tableColumn);
 
@@ -111,7 +104,7 @@ exports.default = _tableColumn2.default;
 
 /***/ }),
 
-/***/ 199:
+/***/ 201:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -127,11 +120,11 @@ var _tag = __webpack_require__(24);
 
 var _tag2 = _interopRequireDefault(_tag);
 
-var _merge = __webpack_require__(10);
+var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -164,28 +157,38 @@ var defaults = {
 
 var forced = {
   selection: {
-    renderHeader: function renderHeader(h) {
-      return h(
-        'el-checkbox',
-        {
-          nativeOn: {
-            'click': this.toggleAllSelection
-          },
-          attrs: {
-            value: this.isAllSelected }
-        },
-        []
-      );
-    },
-    renderCell: function renderCell(h, _ref) {
-      var row = _ref.row,
-          column = _ref.column,
-          store = _ref.store,
-          $index = _ref.$index;
+    renderHeader: function renderHeader(h, _ref) {
+      var store = _ref.store;
 
       return h(
         'el-checkbox',
         {
+          attrs: {
+            disabled: store.states.data && store.states.data.length === 0,
+            indeterminate: store.states.selection.length > 0 && !this.isAllSelected,
+
+            value: this.isAllSelected },
+          nativeOn: {
+            'click': this.toggleAllSelection
+          }
+        },
+        []
+      );
+    },
+    renderCell: function renderCell(h, _ref2) {
+      var row = _ref2.row,
+          column = _ref2.column,
+          store = _ref2.store,
+          $index = _ref2.$index;
+
+      return h(
+        'el-checkbox',
+        {
+          nativeOn: {
+            'click': function click(event) {
+              return event.stopPropagation();
+            }
+          },
           attrs: {
             value: store.isSelected(row),
             disabled: column.selectable ? !column.selectable.call(null, row, $index) : false
@@ -203,14 +206,14 @@ var forced = {
     resizable: false
   },
   index: {
-    renderHeader: function renderHeader(h, _ref2) {
-      var column = _ref2.column;
+    renderHeader: function renderHeader(h, _ref3) {
+      var column = _ref3.column;
 
       return column.label || '#';
     },
-    renderCell: function renderCell(h, _ref3) {
-      var $index = _ref3.$index,
-          column = _ref3.column;
+    renderCell: function renderCell(h, _ref4) {
+      var $index = _ref4.$index,
+          column = _ref4.column;
 
       var i = $index + 1;
       var index = column.index;
@@ -230,22 +233,22 @@ var forced = {
     sortable: false
   },
   expand: {
-    renderHeader: function renderHeader(h, _ref4) {
-      var column = _ref4.column;
+    renderHeader: function renderHeader(h, _ref5) {
+      var column = _ref5.column;
 
       return column.label || '';
     },
-    renderCell: function renderCell(h, _ref5, proxy) {
-      var row = _ref5.row,
-          store = _ref5.store;
+    renderCell: function renderCell(h, _ref6, proxy) {
+      var row = _ref6.row,
+          store = _ref6.store;
 
       var expanded = store.states.expandRows.indexOf(row) > -1;
       return h(
         'div',
         { 'class': 'el-table__expand-icon ' + (expanded ? 'el-table__expand-icon--expanded' : ''),
           on: {
-            'click': function click() {
-              return proxy.handleExpandClick(row);
+            'click': function click(e) {
+              return proxy.handleExpandClick(row, e);
             }
           }
         },
@@ -280,21 +283,42 @@ var getDefaultColumn = function getDefaultColumn(type, options) {
     column.minWidth = 80;
   }
 
-  column.realWidth = column.width || column.minWidth;
+  column.realWidth = column.width === undefined ? column.minWidth : column.width;
 
   return column;
 };
 
-var DEFAULT_RENDER_CELL = function DEFAULT_RENDER_CELL(h, _ref6) {
-  var row = _ref6.row,
-      column = _ref6.column;
+var DEFAULT_RENDER_CELL = function DEFAULT_RENDER_CELL(h, _ref7) {
+  var row = _ref7.row,
+      column = _ref7.column,
+      $index = _ref7.$index;
 
   var property = column.property;
   var value = property && (0, _util.getPropByPath)(row, property).v;
   if (column && column.formatter) {
-    return column.formatter(row, column, value);
+    return column.formatter(row, column, value, $index);
   }
   return value;
+};
+
+var parseWidth = function parseWidth(width) {
+  if (width !== undefined) {
+    width = parseInt(width, 10);
+    if (isNaN(width)) {
+      width = null;
+    }
+  }
+  return width;
+};
+
+var parseMinWidth = function parseMinWidth(minWidth) {
+  if (minWidth !== undefined) {
+    minWidth = parseInt(minWidth, 10);
+    if (isNaN(minWidth)) {
+      minWidth = 80;
+    }
+  }
+  return minWidth;
 };
 
 exports.default = {
@@ -369,6 +393,13 @@ exports.default = {
         parent = parent.$parent;
       }
       return parent;
+    },
+    columnOrTableParent: function columnOrTableParent() {
+      var parent = this.$parent;
+      while (parent && !parent.tableId && !parent.columnId) {
+        parent = parent.$parent;
+      }
+      return parent;
     }
   },
 
@@ -379,29 +410,16 @@ exports.default = {
     this.$options.render = function (h) {
       return h('div', _this.$slots.default);
     };
-    this.columnId = (this.$parent.tableId || this.$parent.columnId + '_') + 'column_' + columnIdSeed++;
 
-    var parent = this.$parent;
+    var parent = this.columnOrTableParent;
     var owner = this.owner;
     this.isSubColumn = owner !== parent;
+    this.columnId = (parent.tableId || parent.columnId) + '_column_' + columnIdSeed++;
 
     var type = this.type;
 
-    var width = this.width;
-    if (width !== undefined) {
-      width = parseInt(width, 10);
-      if (isNaN(width)) {
-        width = null;
-      }
-    }
-
-    var minWidth = this.minWidth;
-    if (minWidth !== undefined) {
-      minWidth = parseInt(minWidth, 10);
-      if (isNaN(minWidth)) {
-        minWidth = 80;
-      }
-    }
+    var width = parseWidth(this.width);
+    var minWidth = parseMinWidth(this.minWidth);
 
     var isColumnGroup = false;
 
@@ -476,7 +494,7 @@ exports.default = {
 
       return _self.showOverflowTooltip || _self.showTooltipWhenOverflow ? h(
         'div',
-        { 'class': 'cell el-tooltip', style: 'width:' + (data.column.realWidth || data.column.width) + 'px' },
+        { 'class': 'cell el-tooltip', style: { width: (data.column.realWidth || data.column.width) - 1 + 'px' } },
         [renderCell(h, data)]
       ) : h(
         'div',
@@ -487,7 +505,8 @@ exports.default = {
   },
   destroyed: function destroyed() {
     if (!this.$parent) return;
-    this.owner.store.commit('removeColumn', this.columnConfig);
+    var parent = this.$parent;
+    this.owner.store.commit('removeColumn', this.columnConfig, this.isSubColumn ? parent.columnConfig : null);
   },
 
 
@@ -533,20 +552,20 @@ exports.default = {
     },
     width: function width(newVal) {
       if (this.columnConfig) {
-        this.columnConfig.width = newVal;
+        this.columnConfig.width = parseWidth(newVal);
         this.owner.store.scheduleLayout();
       }
     },
     minWidth: function minWidth(newVal) {
       if (this.columnConfig) {
-        this.columnConfig.minWidth = newVal;
+        this.columnConfig.minWidth = parseMinWidth(newVal);
         this.owner.store.scheduleLayout();
       }
     },
     fixed: function fixed(newVal) {
       if (this.columnConfig) {
         this.columnConfig.fixed = newVal;
-        this.owner.store.scheduleLayout();
+        this.owner.store.scheduleLayout(true);
       }
     },
     sortable: function sortable(newVal) {
@@ -558,12 +577,17 @@ exports.default = {
       if (this.columnConfig) {
         this.columnConfig.index = newVal;
       }
+    },
+    formatter: function formatter(newVal) {
+      if (this.columnConfig) {
+        this.columnConfig.formatter = newVal;
+      }
     }
   },
 
   mounted: function mounted() {
     var owner = this.owner;
-    var parent = this.$parent;
+    var parent = this.columnOrTableParent;
     var columnIndex = void 0;
 
     if (!this.isSubColumn) {
@@ -578,17 +602,24 @@ exports.default = {
 
 /***/ }),
 
-/***/ 2:
+/***/ 24:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/tag");
+
+/***/ }),
+
+/***/ 3:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 24:
+/***/ 9:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/tag");
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

@@ -257,7 +257,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _menuMixin = __webpack_require__(32);
+var _menuMixin = __webpack_require__(33);
 
 var _menuMixin2 = _interopRequireDefault(_menuMixin);
 
@@ -285,14 +285,8 @@ exports.default = {
       type: String,
       required: true
     },
-    route: {
-      type: [String, Object],
-      required: false
-    },
-    disabled: {
-      type: Boolean,
-      required: false
-    }
+    route: [String, Object],
+    disabled: Boolean
   },
   computed: {
     active: function active() {
@@ -336,8 +330,10 @@ exports.default = {
       this.$el.style.backgroundColor = this.backgroundColor;
     },
     handleClick: function handleClick() {
-      this.dispatch('ElMenu', 'item-click', this);
-      this.$emit('click', this);
+      if (!this.disabled) {
+        this.dispatch('ElMenu', 'item-click', this);
+        this.$emit('click', this);
+      };
     }
   },
   created: function created() {
@@ -388,7 +384,7 @@ exports.default = {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{staticClass:"el-menu-item",class:{
     'is-active': _vm.active,
     'is-disabled': _vm.disabled
-  },style:([_vm.paddingStyle, _vm.itemStyle, { backgroundColor: _vm.backgroundColor }]),attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":_vm.handleClick,"mouseenter":_vm.onMouseEnter,"focus":_vm.onMouseEnter,"blur":_vm.onMouseLeave,"mouseleave":_vm.onMouseLeave}},[(_vm.$parent === _vm.rootMenu && _vm.rootMenu.collapse)?_c('el-tooltip',{attrs:{"effect":"dark","placement":"right"}},[_c('div',{attrs:{"slot":"content"},slot:"content"},[_vm._t("title")],2),_c('div',{staticStyle:{"position":"absolute","left":"0","top":"0","height":"100%","width":"100%","display":"inline-block","box-sizing":"border-box","padding":"0 20px"}},[_vm._t("default")],2)]):[_vm._t("default"),_vm._t("title")]],2)}
+  },style:([_vm.paddingStyle, _vm.itemStyle, { backgroundColor: _vm.backgroundColor }]),attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":_vm.handleClick,"mouseenter":_vm.onMouseEnter,"focus":_vm.onMouseEnter,"blur":_vm.onMouseLeave,"mouseleave":_vm.onMouseLeave}},[(_vm.parentMenu.$options.componentName === 'ElMenu' && _vm.rootMenu.collapse && _vm.$slots.title)?_c('el-tooltip',{attrs:{"effect":"dark","placement":"right"}},[_c('div',{attrs:{"slot":"content"},slot:"content"},[_vm._t("title")],2),_c('div',{staticStyle:{"position":"absolute","left":"0","top":"0","height":"100%","width":"100%","display":"inline-block","box-sizing":"border-box","padding":"0 20px"}},[_vm._t("default")],2)]):[_vm._t("default"),_vm._t("title")]],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -402,7 +398,7 @@ module.exports = require("element-ui/lib/tooltip");
 
 /***/ }),
 
-/***/ 32:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -410,6 +406,7 @@ module.exports = require("element-ui/lib/tooltip");
 
 exports.__esModule = true;
 exports.default = {
+  inject: ['rootMenu'],
   computed: {
     indexPath: function indexPath() {
       var path = [this.index];
@@ -421,13 +418,6 @@ exports.default = {
         parent = parent.$parent;
       }
       return path;
-    },
-    rootMenu: function rootMenu() {
-      var parent = this.$parent;
-      while (parent && parent.$options.componentName !== 'ElMenu') {
-        parent = parent.$parent;
-      }
-      return parent;
     },
     parentMenu: function parentMenu() {
       var parent = this.$parent;

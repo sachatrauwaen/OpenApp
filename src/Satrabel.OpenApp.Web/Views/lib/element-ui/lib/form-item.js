@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 260);
+/******/ 	return __webpack_require__(__webpack_require__.s = 262);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -183,22 +183,15 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/util");
-
-/***/ }),
-
-/***/ 260:
+/***/ 262:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(261);
+module.exports = __webpack_require__(263);
 
 
 /***/ }),
 
-/***/ 261:
+/***/ 263:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -206,7 +199,7 @@ module.exports = __webpack_require__(261);
 
 exports.__esModule = true;
 
-var _formItem = __webpack_require__(262);
+var _formItem = __webpack_require__(264);
 
 var _formItem2 = _interopRequireDefault(_formItem);
 
@@ -221,14 +214,14 @@ exports.default = _formItem2.default;
 
 /***/ }),
 
-/***/ 262:
+/***/ 264:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue__ = __webpack_require__(263);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue__ = __webpack_require__(265);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_f06fe54a_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_form_item_vue__ = __webpack_require__(265);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_f06fe54a_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_form_item_vue__ = __webpack_require__(267);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -256,7 +249,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 263:
+/***/ 265:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -264,7 +257,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _asyncValidator = __webpack_require__(264);
+var _asyncValidator = __webpack_require__(266);
 
 var _asyncValidator2 = _interopRequireDefault(_asyncValidator);
 
@@ -272,9 +265,45 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _util = __webpack_require__(2);
+var _merge = __webpack_require__(9);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _util = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   name: 'ElFormItem',
@@ -315,9 +344,12 @@ exports.default = {
     size: String
   },
   watch: {
-    error: function error(value) {
-      this.validateMessage = value;
-      this.validateState = value ? 'error' : '';
+    error: {
+      immediate: true,
+      handler: function handler(value) {
+        this.validateMessage = value;
+        this.validateState = value ? 'error' : '';
+      }
     },
     validateStatus: function validateStatus(value) {
       this.validateState = value;
@@ -439,11 +471,12 @@ exports.default = {
 
       model[this.prop] = this.fieldValue;
 
-      validator.validate(model, { firstFields: true }, function (errors, fields) {
+      validator.validate(model, { firstFields: true }, function (errors, invalidFields) {
         _this.validateState = !errors ? 'success' : 'error';
         _this.validateMessage = errors ? errors[0].message : '';
 
-        callback(_this.validateMessage);
+        callback(_this.validateMessage, invalidFields);
+        _this.elForm && _this.elForm.$emit('validate', _this.prop, !errors);
       });
     },
     clearValidate: function clearValidate() {
@@ -464,20 +497,26 @@ exports.default = {
 
       var prop = (0, _util.getPropByPath)(model, path, true);
 
+      this.validateDisabled = true;
       if (Array.isArray(value)) {
-        this.validateDisabled = true;
         prop.o[prop.k] = [].concat(this.initialValue);
       } else {
-        this.validateDisabled = true;
         prop.o[prop.k] = this.initialValue;
       }
+      /* Select 的值被代码改变时不会触发校验，
+         这里需要强行触发一次，刷新 validateDisabled 的值，
+         确保 Select 下一次值改变时能正确触发校验 */
+      this.broadcast('ElSelect', 'fieldReset');
+
+      this.broadcast('ElTimeSelect', 'fieldReset', this.initialValue);
     },
     getRules: function getRules() {
       var formRules = this.form.rules;
       var selfRules = this.rules;
       var requiredRule = this.required !== undefined ? { required: !!this.required } : [];
 
-      formRules = formRules ? formRules[this.prop] : [];
+      var prop = (0, _util.getPropByPath)(formRules, this.prop || '');
+      formRules = formRules ? prop.o[this.prop || ''] || prop.v : [];
 
       return [].concat(selfRules || formRules || []).concat(requiredRule);
     },
@@ -485,7 +524,14 @@ exports.default = {
       var rules = this.getRules();
 
       return rules.filter(function (rule) {
-        return !rule.trigger || rule.trigger.indexOf(trigger) !== -1;
+        if (!rule.trigger || trigger === '') return true;
+        if (Array.isArray(rule.trigger)) {
+          return rule.trigger.indexOf(trigger) > -1;
+        } else {
+          return rule.trigger === trigger;
+        }
+      }).map(function (rule) {
+        return (0, _merge2.default)({}, rule);
       });
     },
     onFieldBlur: function onFieldBlur() {
@@ -523,48 +569,18 @@ exports.default = {
   beforeDestroy: function beforeDestroy() {
     this.dispatch('ElForm', 'el.form.removeField', [this]);
   }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 
-/***/ 264:
+/***/ 266:
 /***/ (function(module, exports) {
 
 module.exports = require("async-validator");
 
 /***/ }),
 
-/***/ 265:
+/***/ 267:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -584,6 +600,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
+/***/ 3:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/util");
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

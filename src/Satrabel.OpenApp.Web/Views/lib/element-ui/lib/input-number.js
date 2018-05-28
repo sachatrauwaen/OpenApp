@@ -242,13 +242,6 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 12:
-/***/ (function(module, exports) {
-
-module.exports = require("throttle-debounce/debounce");
-
-/***/ }),
-
 /***/ 120:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -261,11 +254,7 @@ var _input = __webpack_require__(6);
 
 var _input2 = _interopRequireDefault(_input);
 
-var _debounce = __webpack_require__(12);
-
-var _debounce2 = _interopRequireDefault(_debounce);
-
-var _focus = __webpack_require__(13);
+var _focus = __webpack_require__(19);
 
 var _focus2 = _interopRequireDefault(_focus);
 
@@ -275,64 +264,13 @@ var _repeatClick2 = _interopRequireDefault(_repeatClick);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 exports.default = {
   name: 'ElInputNumber',
   mixins: [(0, _focus2.default)('input')],
   inject: {
+    elForm: {
+      default: ''
+    },
     elFormItem: {
       default: ''
     }
@@ -356,9 +294,7 @@ exports.default = {
       type: Number,
       default: -Infinity
     },
-    value: {
-      default: 0
-    },
+    value: {},
     disabled: Boolean,
     size: String,
     controls: {
@@ -368,10 +304,6 @@ exports.default = {
     controlsPosition: {
       type: String,
       default: ''
-    },
-    debounce: {
-      type: Number,
-      default: 300
     },
     name: String,
     label: String
@@ -386,8 +318,8 @@ exports.default = {
     value: {
       immediate: true,
       handler: function handler(value) {
-        var newVal = Number(value);
-        if (isNaN(newVal)) return;
+        var newVal = value === undefined ? value : Number(value);
+        if (newVal !== undefined && isNaN(newVal)) return;
         if (newVal >= this.max) newVal = this.max;
         if (newVal <= this.min) newVal = this.min;
         this.currentValue = newVal;
@@ -417,6 +349,9 @@ exports.default = {
     },
     inputNumberSize: function inputNumberSize() {
       return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+    },
+    inputNumberDisabled: function inputNumberDisabled() {
+      return this.disabled || (this.elForm || {}).disabled;
     }
   },
   methods: {
@@ -425,6 +360,7 @@ exports.default = {
       return parseFloat(parseFloat(Number(num).toFixed(precision)));
     },
     getPrecision: function getPrecision(value) {
+      if (value === undefined) return 0;
       var valueString = value.toString();
       var dotPosition = valueString.indexOf('.');
       var precision = 0;
@@ -434,31 +370,29 @@ exports.default = {
       return precision;
     },
     _increase: function _increase(val, step) {
-      if (typeof val !== 'number') return this.currentValue;
+      if (typeof val !== 'number' && val !== undefined) return this.currentValue;
 
       var precisionFactor = Math.pow(10, this.precision);
-
+      // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
       return this.toPrecision((precisionFactor * val + precisionFactor * step) / precisionFactor);
     },
     _decrease: function _decrease(val, step) {
-      if (typeof val !== 'number') return this.currentValue;
+      if (typeof val !== 'number' && val !== undefined) return this.currentValue;
 
       var precisionFactor = Math.pow(10, this.precision);
 
       return this.toPrecision((precisionFactor * val - precisionFactor * step) / precisionFactor);
     },
     increase: function increase() {
-      if (this.disabled || this.maxDisabled) return;
+      if (this.inputNumberDisabled || this.maxDisabled) return;
       var value = this.value || 0;
       var newVal = this._increase(value, this.step);
-      if (newVal > this.max) return;
       this.setCurrentValue(newVal);
     },
     decrease: function decrease() {
-      if (this.disabled || this.minDisabled) return;
+      if (this.inputNumberDisabled || this.minDisabled) return;
       var value = this.value || 0;
       var newVal = this._decrease(value, this.step);
-      if (newVal < this.min) return;
       this.setCurrentValue(newVal);
     },
     handleBlur: function handleBlur(event) {
@@ -476,37 +410,16 @@ exports.default = {
         this.$refs.input.setCurrentValue(this.currentValue);
         return;
       }
-      this.$emit('change', newVal, oldVal);
       this.$emit('input', newVal);
+      this.$emit('change', newVal, oldVal);
       this.currentValue = newVal;
     },
-    handleInput: function handleInput(value) {
-      if (value === '') {
-        return;
-      }
-
-      if (value.indexOf('.') === value.length - 1) {
-        return;
-      }
-
-      if (value.indexOf('-') === value.length - 1) {
-        return;
-      }
-
-      var newVal = Number(value);
-      if (!isNaN(newVal)) {
+    handleInputChange: function handleInputChange(value) {
+      var newVal = value === '' ? undefined : Number(value);
+      if (!isNaN(newVal) || value === '') {
         this.setCurrentValue(newVal);
-      } else {
-        this.$refs.input.setCurrentValue(this.currentValue);
       }
     }
-  },
-  created: function created() {
-    var _this = this;
-
-    this.debounceHandleInput = (0, _debounce2.default)(this.debounce, function (value) {
-      _this.handleInput(value);
-    });
   },
   mounted: function mounted() {
     var innerInput = this.$refs.input.$refs.input;
@@ -514,13 +427,63 @@ exports.default = {
     innerInput.setAttribute('aria-valuemax', this.max);
     innerInput.setAttribute('aria-valuemin', this.min);
     innerInput.setAttribute('aria-valuenow', this.currentValue);
-    innerInput.setAttribute('aria-disabled', this.disabled);
+    innerInput.setAttribute('aria-disabled', this.inputNumberDisabled);
   },
   updated: function updated() {
     var innerInput = this.$refs.input.$refs.input;
     innerInput.setAttribute('aria-valuenow', this.currentValue);
   }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -528,22 +491,30 @@ exports.default = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-input-number",class:[
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:[
+    'el-input-number',
     _vm.inputNumberSize ? 'el-input-number--' + _vm.inputNumberSize : '',
-    { 'is-disabled': _vm.disabled },
+    { 'is-disabled': _vm.inputNumberDisabled },
     { 'is-without-controls': !_vm.controls },
     { 'is-controls-right': _vm.controlsAtRight }
-  ]},[(_vm.controls)?_c('span',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.decrease),expression:"decrease"}],staticClass:"el-input-number__decrease",class:{'is-disabled': _vm.minDisabled},attrs:{"role":"button"},on:{"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.decrease($event)}}},[_c('i',{class:("el-icon-" + (_vm.controlsAtRight ? 'arrow-down' : 'minus'))})]):_vm._e(),(_vm.controls)?_c('span',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.increase),expression:"increase"}],staticClass:"el-input-number__increase",class:{'is-disabled': _vm.maxDisabled},attrs:{"role":"button"},on:{"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.increase($event)}}},[_c('i',{class:("el-icon-" + (_vm.controlsAtRight ? 'arrow-up' : 'plus'))})]):_vm._e(),_c('el-input',{ref:"input",attrs:{"value":_vm.currentValue,"disabled":_vm.disabled,"size":_vm.inputNumberSize,"max":_vm.max,"min":_vm.min,"name":_vm.name,"label":_vm.label},on:{"blur":_vm.handleBlur,"focus":_vm.handleFocus,"input":_vm.debounceHandleInput},nativeOn:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.increase($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.decrease($event)}]}},[(_vm.$slots.prepend)?_c('template',{attrs:{"slot":"prepend"},slot:"prepend"},[_vm._t("prepend")],2):_vm._e(),(_vm.$slots.append)?_c('template',{attrs:{"slot":"append"},slot:"append"},[_vm._t("append")],2):_vm._e()],2)],1)}
+  ],on:{"dragstart":function($event){$event.preventDefault();}}},[(_vm.controls)?_c('span',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.decrease),expression:"decrease"}],staticClass:"el-input-number__decrease",class:{'is-disabled': _vm.minDisabled},attrs:{"role":"button"},on:{"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.decrease($event)}}},[_c('i',{class:("el-icon-" + (_vm.controlsAtRight ? 'arrow-down' : 'minus'))})]):_vm._e(),(_vm.controls)?_c('span',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.increase),expression:"increase"}],staticClass:"el-input-number__increase",class:{'is-disabled': _vm.maxDisabled},attrs:{"role":"button"},on:{"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.increase($event)}}},[_c('i',{class:("el-icon-" + (_vm.controlsAtRight ? 'arrow-up' : 'plus'))})]):_vm._e(),_c('el-input',{ref:"input",attrs:{"value":_vm.currentValue,"disabled":_vm.inputNumberDisabled,"size":_vm.inputNumberSize,"max":_vm.max,"min":_vm.min,"name":_vm.name,"label":_vm.label},on:{"blur":_vm.handleBlur,"focus":_vm.handleFocus,"change":_vm.handleInputChange},nativeOn:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.increase($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.decrease($event)}]}},[(_vm.$slots.prepend)?_c('template',{attrs:{"slot":"prepend"},slot:"prepend"},[_vm._t("prepend")],2):_vm._e(),(_vm.$slots.append)?_c('template',{attrs:{"slot":"append"},slot:"append"},[_vm._t("append")],2):_vm._e()],2)],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
-/***/ 13:
+/***/ 19:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/focus");
+
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
@@ -555,7 +526,7 @@ module.exports = require("element-ui/lib/mixins/focus");
 
 exports.__esModule = true;
 
-var _dom = __webpack_require__(4);
+var _dom = __webpack_require__(2);
 
 exports.default = {
   bind: function bind(el, binding, vnode) {
@@ -581,13 +552,6 @@ exports.default = {
     });
   }
 };
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 

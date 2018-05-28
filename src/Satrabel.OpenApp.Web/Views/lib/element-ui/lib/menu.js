@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 88);
+/******/ 	return __webpack_require__(__webpack_require__.s = 90);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -183,7 +183,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 4:
+/***/ 2:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/dom");
@@ -322,22 +322,22 @@ exports.default = aria.Utils;
 
 /***/ }),
 
-/***/ 7:
+/***/ 8:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 
-/***/ 88:
+/***/ 90:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(89);
+module.exports = __webpack_require__(91);
 
 
 /***/ }),
 
-/***/ 89:
+/***/ 91:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -345,7 +345,7 @@ module.exports = __webpack_require__(89);
 
 exports.__esModule = true;
 
-var _menu = __webpack_require__(90);
+var _menu = __webpack_require__(92);
 
 var _menu2 = _interopRequireDefault(_menu);
 
@@ -360,19 +360,18 @@ exports.default = _menu2.default;
 
 /***/ }),
 
-/***/ 90:
+/***/ 92:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_700225d6_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_menu_vue__ = __webpack_require__(95);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
-
+var __vue_template__ = null
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -383,7 +382,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_700225d6_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_menu_vue__["a" /* default */],
+  __vue_template__,
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -395,7 +394,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 91:
+/***/ 93:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -407,36 +406,50 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _migrating = __webpack_require__(7);
+var _migrating = __webpack_require__(8);
 
 var _migrating2 = _interopRequireDefault(_migrating);
 
-var _ariaMenubar = __webpack_require__(92);
+var _ariaMenubar = __webpack_require__(94);
 
 var _ariaMenubar2 = _interopRequireDefault(_ariaMenubar);
 
-var _dom = __webpack_require__(4);
+var _dom = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 exports.default = {
   name: 'ElMenu',
+
+  render: function render(h) {
+    var component = h(
+      'ul',
+      {
+        attrs: {
+          role: 'menubar'
+        },
+        key: +this.collapse,
+        style: { backgroundColor: this.backgroundColor || '' },
+        'class': {
+          'el-menu--horizontal': this.mode === 'horizontal',
+          'el-menu--collapse': this.collapse,
+          "el-menu": true
+        }
+      },
+      [this.$slots.default]
+    );
+
+    if (this.collapseTransition) {
+      return h(
+        'el-menu-collapse-transition',
+        null,
+        [component]
+      );
+    } else {
+      return component;
+    }
+  },
+
 
   componentName: 'ElMenu',
 
@@ -475,30 +488,21 @@ exports.default = {
               if ((0, _dom.hasClass)(el, 'el-menu--collapse')) {
                 (0, _dom.removeClass)(el, 'el-menu--collapse');
                 el.dataset.oldOverflow = el.style.overflow;
-                el.dataset.scrollWidth = el.scrollWidth;
+                el.dataset.scrollWidth = el.clientWidth;
                 (0, _dom.addClass)(el, 'el-menu--collapse');
+              } else {
+                (0, _dom.addClass)(el, 'el-menu--collapse');
+                el.dataset.oldOverflow = el.style.overflow;
+                el.dataset.scrollWidth = el.clientWidth;
+                (0, _dom.removeClass)(el, 'el-menu--collapse');
               }
 
               el.style.width = el.scrollWidth + 'px';
               el.style.overflow = 'hidden';
             },
             leave: function leave(el) {
-              if (!(0, _dom.hasClass)(el, 'el-menu--collapse')) {
-                (0, _dom.addClass)(el, 'horizontal-collapse-transition');
-                el.style.width = '64px';
-              } else {
-                (0, _dom.addClass)(el, 'horizontal-collapse-transition');
-                el.style.width = el.dataset.scrollWidth + 'px';
-              }
-            },
-            afterLeave: function afterLeave(el) {
-              (0, _dom.removeClass)(el, 'horizontal-collapse-transition');
-              if ((0, _dom.hasClass)(el, 'el-menu--collapse')) {
-                el.style.width = el.dataset.scrollWidth + 'px';
-              } else {
-                el.style.width = '64px';
-              }
-              el.style.overflow = el.dataset.oldOverflow;
+              (0, _dom.addClass)(el, 'horizontal-collapse-transition');
+              el.style.width = el.dataset.scrollWidth + 'px';
             }
           }
         };
@@ -526,7 +530,11 @@ exports.default = {
     collapse: Boolean,
     backgroundColor: String,
     textColor: String,
-    activeTextColor: String
+    activeTextColor: String,
+    collapseTransition: {
+      type: Boolean,
+      default: true
+    }
   },
   data: function data() {
     return {
@@ -540,18 +548,14 @@ exports.default = {
   computed: {
     hoverBackground: function hoverBackground() {
       return this.backgroundColor ? this.mixColor(this.backgroundColor, 0.2) : '';
+    },
+    isMenuPopup: function isMenuPopup() {
+      return this.mode === 'horizontal' || this.mode === 'vertical' && this.collapse;
     }
   },
   watch: {
-    defaultActive: function defaultActive(value) {
-      var item = this.items[value];
-      if (item) {
-        this.activeIndex = item.index;
-        this.initOpenedMenu();
-      } else {
-        this.activeIndex = '';
-      }
-    },
+    defaultActive: 'updateActiveIndex',
+
     defaultOpeneds: function defaultOpeneds(value) {
       if (!this.collapse) {
         this.openedMenus = value;
@@ -559,9 +563,19 @@ exports.default = {
     },
     collapse: function collapse(value) {
       if (value) this.openedMenus = [];
+      this.broadcast('ElSubmenu', 'toggle-collapse', value);
     }
   },
   methods: {
+    updateActiveIndex: function updateActiveIndex() {
+      var item = this.items[this.defaultActive];
+      if (item) {
+        this.activeIndex = item.index;
+        this.initOpenedMenu();
+      } else {
+        this.activeIndex = null;
+      }
+    },
     getMigratingConfig: function getMigratingConfig() {
       return {
         props: {
@@ -656,8 +670,12 @@ exports.default = {
       }
     },
     handleItemClick: function handleItemClick(item) {
+      var _this = this;
+
       var index = item.index,
           indexPath = item.indexPath;
+
+      var oldActiveIndex = this.activeIndex;
 
       this.activeIndex = item.index;
       this.$emit('select', index, indexPath, item);
@@ -667,14 +685,17 @@ exports.default = {
       }
 
       if (this.router) {
-        this.routeToItem(item);
+        this.routeToItem(item, function (error) {
+          _this.activeIndex = oldActiveIndex;
+          if (error) console.error(error);
+        });
       }
     },
 
     // 初始化展开菜单
     // initialize opened menu
     initOpenedMenu: function initOpenedMenu() {
-      var _this = this;
+      var _this2 = this;
 
       var index = this.activeIndex;
       var activeItem = this.items[index];
@@ -685,25 +706,25 @@ exports.default = {
       // 展开该菜单项的路径上所有子菜单
       // expand all submenus of the menu item
       indexPath.forEach(function (index) {
-        var submenu = _this.submenus[index];
-        submenu && _this.openMenu(index, submenu.indexPath);
+        var submenu = _this2.submenus[index];
+        submenu && _this2.openMenu(index, submenu.indexPath);
       });
     },
-    routeToItem: function routeToItem(item) {
+    routeToItem: function routeToItem(item, onError) {
       var route = item.route || item.index;
       try {
-        this.$router.push(route);
+        this.$router.push(route, function () {}, onError);
       } catch (e) {
         console.error(e);
       }
     },
     open: function open(index) {
-      var _this2 = this;
+      var _this3 = this;
 
       var indexPath = this.submenus[index.toString()].indexPath;
 
       indexPath.forEach(function (i) {
-        return _this2.openMenu(i, indexPath);
+        return _this3.openMenu(i, indexPath);
       });
     },
     close: function close(index) {
@@ -717,12 +738,13 @@ exports.default = {
     if (this.mode === 'horizontal') {
       new _ariaMenubar2.default(this.$el); // eslint-disable-line
     }
+    this.$watch('items', this.updateActiveIndex);
   }
 };
 
 /***/ }),
 
-/***/ 92:
+/***/ 94:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -730,7 +752,7 @@ exports.default = {
 
 exports.__esModule = true;
 
-var _ariaMenuitem = __webpack_require__(93);
+var _ariaMenuitem = __webpack_require__(95);
 
 var _ariaMenuitem2 = _interopRequireDefault(_ariaMenuitem);
 
@@ -753,7 +775,7 @@ exports.default = Menu;
 
 /***/ }),
 
-/***/ 93:
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -765,7 +787,7 @@ var _ariaUtils = __webpack_require__(46);
 
 var _ariaUtils2 = _interopRequireDefault(_ariaUtils);
 
-var _ariaSubmenu = __webpack_require__(94);
+var _ariaSubmenu = __webpack_require__(96);
 
 var _ariaSubmenu2 = _interopRequireDefault(_ariaSubmenu);
 
@@ -795,12 +817,12 @@ MenuItem.prototype.addListeners = function () {
     switch (event.keyCode) {
       case keys.down:
         _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseenter');
-        _this.submenu.gotoSubIndex(0);
+        _this.submenu && _this.submenu.gotoSubIndex(0);
         prevDef = true;
         break;
       case keys.up:
         _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseenter');
-        _this.submenu.gotoSubIndex(_this.submenu.subMenuItems.length - 1);
+        _this.submenu && _this.submenu.gotoSubIndex(_this.submenu.subMenuItems.length - 1);
         prevDef = true;
         break;
       case keys.tab:
@@ -822,7 +844,7 @@ exports.default = MenuItem;
 
 /***/ }),
 
-/***/ 94:
+/***/ 96:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -895,20 +917,6 @@ SubMenu.prototype.addListeners = function () {
 };
 
 exports.default = SubMenu;
-
-/***/ }),
-
-/***/ 95:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-menu-collapse-transition',[_c('ul',{key:+_vm.collapse,staticClass:"el-menu",class:{
-      'el-menu--horizontal': _vm.mode === 'horizontal',
-      'el-menu--collapse': _vm.collapse
-    },style:({ backgroundColor: _vm.backgroundColor || '' }),attrs:{"role":"menubar"}},[_vm._t("default")],2)])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ })
 

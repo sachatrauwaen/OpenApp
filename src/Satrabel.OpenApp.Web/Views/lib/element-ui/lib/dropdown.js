@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 73);
+/******/ 	return __webpack_require__(__webpack_require__.s = 75);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -183,6 +183,13 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/clickoutside");
+
+/***/ }),
+
 /***/ 15:
 /***/ (function(module, exports) {
 
@@ -190,29 +197,22 @@ module.exports = require("element-ui/lib/button");
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 7:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/migrating");
-
-/***/ }),
-
-/***/ 73:
+/***/ 75:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(74);
+module.exports = __webpack_require__(76);
 
 
 /***/ }),
 
-/***/ 74:
+/***/ 76:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -220,7 +220,7 @@ module.exports = __webpack_require__(74);
 
 exports.__esModule = true;
 
-var _dropdown = __webpack_require__(75);
+var _dropdown = __webpack_require__(77);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
@@ -235,12 +235,12 @@ exports.default = _dropdown2.default;
 
 /***/ }),
 
-/***/ 75:
+/***/ 77:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue__);
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -269,7 +269,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 76:
+/***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -277,7 +277,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _clickoutside = __webpack_require__(9);
+var _clickoutside = __webpack_require__(10);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -285,7 +285,7 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _migrating = __webpack_require__(7);
+var _migrating = __webpack_require__(8);
 
 var _migrating2 = _interopRequireDefault(_migrating);
 
@@ -293,11 +293,11 @@ var _button = __webpack_require__(15);
 
 var _button2 = _interopRequireDefault(_button);
 
-var _buttonGroup = __webpack_require__(77);
+var _buttonGroup = __webpack_require__(79);
 
 var _buttonGroup2 = _interopRequireDefault(_buttonGroup);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -416,7 +416,7 @@ exports.default = {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
         _this.visible = true;
-      }, this.showTimeout);
+      }, this.trigger === 'click' ? 0 : this.showTimeout);
     },
     hide: function hide() {
       var _this2 = this;
@@ -427,11 +427,15 @@ exports.default = {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
         _this2.visible = false;
-      }, this.hideTimeout);
+      }, this.trigger === 'click' ? 0 : this.hideTimeout);
     },
     handleClick: function handleClick() {
       if (this.triggerElm.disabled) return;
-      this.visible = !this.visible;
+      if (this.visible) {
+        this.hide();
+      } else {
+        this.show();
+      }
     },
     handleTriggerKeyDown: function handleTriggerKeyDown(ev) {
       var keyCode = ev.keyCode;
@@ -508,7 +512,7 @@ exports.default = {
         // 自定义
         this.triggerElm.setAttribute('role', 'button');
         this.triggerElm.setAttribute('tabindex', '0');
-        this.triggerElm.setAttribute('class', this.triggerElm.getAttribute('class') + ' el-dropdown-selfdefine'); // 控制
+        this.triggerElm.setAttribute('class', (this.triggerElm.getAttribute('class') || '') + ' el-dropdown-selfdefine'); // 控制
       }
     },
     initEvent: function initEvent() {
@@ -554,6 +558,9 @@ exports.default = {
         this.visible = false;
       }
       this.$emit('command', command, instance);
+    },
+    focus: function focus() {
+      this.triggerElm.focus && this.triggerElm.focus();
     }
   },
 
@@ -609,17 +616,17 @@ exports.default = {
 
 /***/ }),
 
-/***/ 77:
+/***/ 79:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/button-group");
 
 /***/ }),
 
-/***/ 9:
+/***/ 8:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/clickoutside");
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ })
 

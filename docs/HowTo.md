@@ -6,7 +6,7 @@
 2. Create a new OpenApp module
 
 
-## How to prepare Visual Studio for OpenApp Developement
+## How to prepare Visual Studio for OpenApp Development
 * Install plugins
     * WebPack Task Runner - https://marketplace.visualstudio.com/items?itemName=MadsKristensen.WebPackTaskRunner
     * Vue Pack 2017 - https://github.com/madskristensen/VuePack2017
@@ -19,31 +19,45 @@
 
 ## Creating an OpenApp Solution
 
-### How to create Full OpenApp Solution: an OpenApp solution where you can debug the OpenApp Core projects
+### How to create FULL OpenApp Solution
+
+Most of the time you are fine with a Compact OpenApp solution (next section).
+But if you want to be able to debug the OpenApp Core projects, then follow these steps to create a Full OpenApp solution.
+
 1. Checkout development branch
 2. Create a database named 'OpenAppDb' in your Sql Server (or give it a name of your choice)
 3. Open Satrabel.OpenApp.sln Solution in root folder
-4. Check (and modify if necessary) the default connectionstring in \Satrabel.Starter.Web.Spa\appsettings.json
-5. Run the solution using Ctrl+F5 with Satrabel.Starter.Web.Spa as startup project 
-6. The browser will open asking you to refresh the page. Refresh the page. 
+4. Verify (and modify if necessary) the default connectionstring in \Satrabel.Starter.Web.Spa\appsettings.json
+5. Set the project 'Satrabel.Starter.Web.Spa' as startup project
+5. Run the solution using Ctrl+F5
+6. The browser will open and, after a while, ask you to refresh the page. Refresh the page by hitting Ctrl+F5
    Instead, if the browser just closes, then run the project again. (It means you were hitting F5 instead of Ctrl+F5. No worries.)
 7. Login with User name 'admin' and password '123qwe'
 8. Goto Roles. Give Admin all the available permissions
 
-### How to create Compact OpenApp solution: an OpenApp solution where use the OpenApp Core assemblies from Nuget
-The OpenApp Core assemblies are available via Nuget. So there is no need to create a Full OpenApp Solution. Follow these steps to create a more Compact solution:
-1. Checkout development branch
-2. Create a database named 'OpenAppDb' in your Sql Server (or give it a name of your choice)
-3. Goto into the /src folder and decide if you want to use the MVC or SPA approach. Keep the project of your choice and delete all the other projects.
-   In the next steps we will focus on the SPA approach
-4. Open Satrabel.OpenApp.sln Solution in root folder
-5. Remove all projects from the Solution that are marked "unavailable"
-6. Remove all project from the Satrabel.Starter.Web.Spa/Dependencies/Projects that are missing
-7. Remove all project from the Satrabel.OpenApp.Tests/Dependencies/Projects that are missing
-8. Open Nuget Package Manager for Solution. Add extra Package Source (top right corner), namely https://ci.appveyor.com/nuget/openapp
-9. Install, from this source, the package Satrabel.OpenApp.Web
-9. Check (and modify if necessary) the default connectionstring in \Satrabel.Starter.Web.Spa\appsettings.json
-10. Run the solution using Ctrl+F5 with Satrabel.Starter.Web.Spa as startup project 
+### How to create COMPACT OpenApp solution
+
+The OpenApp Core assemblies are available via Nuget. 
+So there is no need to create a Full OpenApp Solution. 
+Follow these steps to create the more Compact solution:
+
+ 1. Checkout development branch
+ 2. Create a database named 'OpenAppDb' in your Sql Server (or give it a name of your choice)
+ 3. Goto into the /src folder and decide if you want to use the MVC or SPA approach. Delete ALL the other projects exept SPA or MVC depending of your choice.
+    In the next steps we will focus on the SPA approach
+ 4. Open Satrabel.OpenApp.sln Solution in root folder
+ 5. Remove all projects from the Solution that are marked "unavailable"
+ 6. Remove all project from the Satrabel.Starter.Web.Spa/Dependencies/Projects that are missing
+ 7. Remove all project from the Satrabel.OpenApp.Tests/Dependencies/Projects that are missing
+ 8. Right-click Solution and open Nuget Package Manager for Solution. Add extra Package Source (top right corner), namely https://ci.appveyor.com/nuget/openapp
+ 9. Browse to (Search), from this source, the package 'Satrabel.OpenApp.Web' and add it to the two remaining projects
+10. Verify (and modify if necessary) the default connectionstring in \Satrabel.Starter.Web.Spa\appsettings.json
+11. Set the project 'Satrabel.Starter.Web.Spa' as startup project
+12. Run the solution using Ctrl+F5
+13. The browser will open and, after a while, ask you to refresh the page. Refresh the page by hitting Ctrl+F5
+    Instead, if the browser just closes, then run the project again. (It means you were hitting F5 instead of Ctrl+F5. No worries.)
+14. Login with User name 'admin' and password '123qwe'
+15. Goto Roles. Give Admin all the available permissions
 
 
 ## Creating an OpenApp module

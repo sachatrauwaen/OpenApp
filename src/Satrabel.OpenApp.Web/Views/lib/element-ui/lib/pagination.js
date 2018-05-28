@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 52);
+/******/ 	return __webpack_require__(__webpack_require__.s = 54);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -176,29 +176,29 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 3:
+/***/ 5:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ }),
 
-/***/ 52:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(53);
+module.exports = __webpack_require__(55);
 
 
 /***/ }),
 
-/***/ 53:
+/***/ 55:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -206,7 +206,7 @@ module.exports = __webpack_require__(53);
 
 exports.__esModule = true;
 
-var _pagination = __webpack_require__(54);
+var _pagination = __webpack_require__(56);
 
 var _pagination2 = _interopRequireDefault(_pagination);
 
@@ -221,7 +221,7 @@ exports.default = _pagination2.default;
 
 /***/ }),
 
-/***/ 54:
+/***/ 56:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -229,15 +229,15 @@ exports.default = _pagination2.default;
 
 exports.__esModule = true;
 
-var _pager = __webpack_require__(55);
+var _pager = __webpack_require__(57);
 
 var _pager2 = _interopRequireDefault(_pager);
 
-var _select = __webpack_require__(58);
+var _select = __webpack_require__(60);
 
 var _select2 = _interopRequireDefault(_select);
 
-var _option = __webpack_require__(59);
+var _option = __webpack_require__(61);
 
 var _option2 = _interopRequireDefault(_option);
 
@@ -245,11 +245,11 @@ var _input = __webpack_require__(6);
 
 var _input2 = _interopRequireDefault(_input);
 
-var _locale = __webpack_require__(3);
+var _locale = __webpack_require__(5);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -290,13 +290,17 @@ exports.default = {
 
     nextText: String,
 
-    background: Boolean
+    background: Boolean,
+
+    disabled: Boolean
   },
 
   data: function data() {
     return {
       internalCurrentPage: 1,
-      internalPageSize: 0
+      internalPageSize: 0,
+      lastEmittedPage: -1,
+      userChangePageSize: false
     };
   },
   render: function render(h) {
@@ -324,7 +328,7 @@ exports.default = {
       pager: h(
         'pager',
         {
-          attrs: { currentPage: this.internalCurrentPage, pageCount: this.internalPageCount },
+          attrs: { currentPage: this.internalCurrentPage, pageCount: this.internalPageCount, disabled: this.disabled },
           on: {
             'change': this.handleCurrentChange
           }
@@ -364,6 +368,8 @@ exports.default = {
     );
     var haveRightWrapper = false;
 
+    template.children = template.children || [];
+    rightWrapper.children = rightWrapper.children || [];
     components.forEach(function (compo) {
       if (compo === '->') {
         haveRightWrapper = true;
@@ -397,10 +403,11 @@ exports.default = {
           'button',
           {
             attrs: {
-              type: 'button'
+              type: 'button',
+
+              disabled: this.$parent.disabled || this.$parent.internalCurrentPage <= 1
             },
-            'class': ['btn-prev', { disabled: this.$parent.internalCurrentPage <= 1 }],
-            on: {
+            'class': 'btn-prev', on: {
               'click': this.$parent.prev
             }
           },
@@ -423,10 +430,11 @@ exports.default = {
           'button',
           {
             attrs: {
-              type: 'button'
+              type: 'button',
+
+              disabled: this.$parent.disabled || this.$parent.internalCurrentPage === this.$parent.internalPageCount || this.$parent.internalPageCount === 0
             },
-            'class': ['btn-next', { disabled: this.$parent.internalCurrentPage === this.$parent.internalPageCount || this.$parent.internalPageCount === 0 }],
-            on: {
+            'class': 'btn-next', on: {
               'click': this.$parent.next
             }
           },
@@ -473,8 +481,9 @@ exports.default = {
             {
               attrs: {
                 value: this.$parent.internalPageSize,
-                popperClass: (this.$parent.popperClass || '') + ' is-arrow-fixed'
-              },
+                popperClass: this.$parent.popperClass || '',
+
+                disabled: this.$parent.disabled },
               on: {
                 'input': this.handleChange
               }
@@ -504,6 +513,7 @@ exports.default = {
         handleChange: function handleChange(val) {
           if (val !== this.$parent.internalPageSize) {
             this.$parent.internalPageSize = val = parseInt(val, 10);
+            this.$parent.userChangePageSize = true;
             this.$parent.$emit('size-change', val);
           }
         }
@@ -522,6 +532,16 @@ exports.default = {
 
       components: { ElInput: _input2.default },
 
+      watch: {
+        '$parent.internalPageSize': function $parentInternalPageSize() {
+          var _this2 = this;
+
+          this.$nextTick(function () {
+            _this2.$refs.input.$el.querySelector('input').value = _this2.$parent.internalCurrentPage;
+          });
+        }
+      },
+
       methods: {
         handleFocus: function handleFocus(event) {
           this.oldValue = event.target.value;
@@ -532,8 +552,17 @@ exports.default = {
           this.resetValueIfNeed(target.value);
           this.reassignMaxValue(target.value);
         },
+        handleKeyup: function handleKeyup(_ref2) {
+          var keyCode = _ref2.keyCode,
+              target = _ref2.target;
+
+          if (keyCode === 13 && this.oldValue && target.value !== this.oldValue) {
+            this.handleChange(target.value);
+          }
+        },
         handleChange: function handleChange(value) {
           this.$parent.internalCurrentPage = this.$parent.getValidCurrentPage(value);
+          this.$parent.emitChange();
           this.oldValue = null;
           this.resetValueIfNeed(value);
         },
@@ -566,12 +595,16 @@ exports.default = {
                 max: this.$parent.internalPageCount,
                 value: this.$parent.internalCurrentPage,
 
-                type: 'number'
+                type: 'number',
+
+                disabled: this.$parent.disabled
               },
               domProps: {
                 'value': this.$parent.internalCurrentPage
               },
-              ref: 'input',
+              ref: 'input', nativeOn: {
+                'keyup': this.handleKeyup
+              },
               on: {
                 'change': this.handleChange,
                 'focus': this.handleFocus,
@@ -602,14 +635,20 @@ exports.default = {
   methods: {
     handleCurrentChange: function handleCurrentChange(val) {
       this.internalCurrentPage = this.getValidCurrentPage(val);
+      this.userChangePageSize = true;
+      this.emitChange();
     },
     prev: function prev() {
+      if (this.disabled) return;
       var newVal = this.internalCurrentPage - 1;
       this.internalCurrentPage = this.getValidCurrentPage(newVal);
+      this.emitChange();
     },
     next: function next() {
+      if (this.disabled) return;
       var newVal = this.internalCurrentPage + 1;
       this.internalCurrentPage = this.getValidCurrentPage(newVal);
+      this.emitChange();
     },
     getValidCurrentPage: function getValidCurrentPage(value) {
       value = parseInt(value, 10);
@@ -634,6 +673,17 @@ exports.default = {
       }
 
       return resetValue === undefined ? value : resetValue;
+    },
+    emitChange: function emitChange() {
+      var _this3 = this;
+
+      this.$nextTick(function () {
+        if (_this3.internalCurrentPage !== _this3.lastEmittedPage || _this3.userChangePageSize) {
+          _this3.$emit('current-change', _this3.internalCurrentPage);
+          _this3.lastEmittedPage = _this3.internalCurrentPage;
+          _this3.userChangePageSize = false;
+        }
+      });
     }
   },
 
@@ -659,35 +709,33 @@ exports.default = {
     pageSize: {
       immediate: true,
       handler: function handler(val) {
-        this.internalPageSize = val;
+        this.internalPageSize = isNaN(val) ? 10 : val;
       }
     },
 
-    internalCurrentPage: function internalCurrentPage(newVal, oldVal) {
-      var _this2 = this;
+    internalCurrentPage: {
+      immediate: true,
+      handler: function handler(newVal, oldVal) {
+        newVal = parseInt(newVal, 10);
 
-      newVal = parseInt(newVal, 10);
+        /* istanbul ignore if */
+        if (isNaN(newVal)) {
+          newVal = oldVal || 1;
+        } else {
+          newVal = this.getValidCurrentPage(newVal);
+        }
 
-      /* istanbul ignore if */
-      if (isNaN(newVal)) {
-        newVal = oldVal || 1;
-      } else {
-        newVal = this.getValidCurrentPage(newVal);
-      }
-
-      if (newVal !== undefined) {
-        this.$nextTick(function () {
-          _this2.internalCurrentPage = newVal;
+        if (newVal !== undefined) {
+          this.internalCurrentPage = newVal;
           if (oldVal !== newVal) {
-            _this2.$emit('update:currentPage', newVal);
-            _this2.$emit('current-change', _this2.internalCurrentPage);
+            this.$emit('update:currentPage', newVal);
           }
-        });
-      } else {
-        this.$emit('update:currentPage', newVal);
-        this.$emit('current-change', this.internalCurrentPage);
+        } else {
+          this.$emit('update:currentPage', newVal);
+        }
       }
     },
+
     internalPageCount: function internalPageCount(newVal) {
       /* istanbul ignore if */
       var oldPage = this.internalCurrentPage;
@@ -695,21 +743,23 @@ exports.default = {
         this.internalCurrentPage = 1;
       } else if (oldPage > newVal) {
         this.internalCurrentPage = newVal === 0 ? 1 : newVal;
+        this.userChangePageSize && this.emitChange();
       }
+      this.userChangePageSize = false;
     }
   }
 };
 
 /***/ }),
 
-/***/ 55:
+/***/ 57:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e5b72590_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_pager_vue__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e5b72590_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_pager_vue__ = __webpack_require__(59);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -737,13 +787,14 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 56:
+/***/ 58:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 exports.__esModule = true;
+//
 //
 //
 //
@@ -782,7 +833,9 @@ exports.default = {
   props: {
     currentPage: Number,
 
-    pageCount: Number
+    pageCount: Number,
+
+    disabled: Boolean
   },
 
   watch: {
@@ -797,7 +850,7 @@ exports.default = {
   methods: {
     onPagerClick: function onPagerClick(event) {
       var target = event.target;
-      if (target.tagName === 'UL') {
+      if (target.tagName === 'UL' || this.disabled) {
         return;
       }
 
@@ -826,6 +879,14 @@ exports.default = {
 
       if (newPage !== currentPage) {
         this.$emit('change', newPage);
+      }
+    },
+    onMouseenter: function onMouseenter(direction) {
+      if (this.disabled) return;
+      if (direction === 'left') {
+        this.quickprevIconClass = 'el-icon-d-arrow-left';
+      } else {
+        this.quicknextIconClass = 'el-icon-d-arrow-right';
       }
     }
   },
@@ -892,28 +953,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 57:
+/***/ 59:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"el-pager",on:{"click":_vm.onPagerClick}},[(_vm.pageCount > 0)?_c('li',{staticClass:"number",class:{ active: _vm.currentPage === 1 }},[_vm._v("1")]):_vm._e(),(_vm.showPrevMore)?_c('li',{staticClass:"el-icon more btn-quickprev",class:[_vm.quickprevIconClass],on:{"mouseenter":function($event){_vm.quickprevIconClass = 'el-icon-d-arrow-left'},"mouseleave":function($event){_vm.quickprevIconClass = 'el-icon-more'}}}):_vm._e(),_vm._l((_vm.pagers),function(pager){return _c('li',{staticClass:"number",class:{ active: _vm.currentPage === pager }},[_vm._v(_vm._s(pager))])}),(_vm.showNextMore)?_c('li',{staticClass:"el-icon more btn-quicknext",class:[_vm.quicknextIconClass],on:{"mouseenter":function($event){_vm.quicknextIconClass = 'el-icon-d-arrow-right'},"mouseleave":function($event){_vm.quicknextIconClass = 'el-icon-more'}}}):_vm._e(),(_vm.pageCount > 1)?_c('li',{staticClass:"number",class:{ active: _vm.currentPage === _vm.pageCount }},[_vm._v(_vm._s(_vm.pageCount))]):_vm._e()],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"el-pager",on:{"click":_vm.onPagerClick}},[(_vm.pageCount > 0)?_c('li',{staticClass:"number",class:{ active: _vm.currentPage === 1, disabled: _vm.disabled }},[_vm._v("1")]):_vm._e(),(_vm.showPrevMore)?_c('li',{staticClass:"el-icon more btn-quickprev",class:[_vm.quickprevIconClass, { disabled: _vm.disabled }],on:{"mouseenter":function($event){_vm.onMouseenter('left')},"mouseleave":function($event){_vm.quickprevIconClass = 'el-icon-more'}}}):_vm._e(),_vm._l((_vm.pagers),function(pager){return _c('li',{key:pager,staticClass:"number",class:{ active: _vm.currentPage === pager, disabled: _vm.disabled }},[_vm._v(_vm._s(pager))])}),(_vm.showNextMore)?_c('li',{staticClass:"el-icon more btn-quicknext",class:[_vm.quicknextIconClass, { disabled: _vm.disabled }],on:{"mouseenter":function($event){_vm.onMouseenter('right')},"mouseleave":function($event){_vm.quicknextIconClass = 'el-icon-more'}}}):_vm._e(),(_vm.pageCount > 1)?_c('li',{staticClass:"number",class:{ active: _vm.currentPage === _vm.pageCount, disabled: _vm.disabled }},[_vm._v(_vm._s(_vm.pageCount))]):_vm._e()],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
-/***/ 58:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/select");
-
-/***/ }),
-
-/***/ 59:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/option");
 
 /***/ }),
 
@@ -921,6 +968,20 @@ module.exports = require("element-ui/lib/option");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/input");
+
+/***/ }),
+
+/***/ 60:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/select");
+
+/***/ }),
+
+/***/ 61:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/option");
 
 /***/ })
 

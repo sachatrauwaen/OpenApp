@@ -22,7 +22,7 @@ namespace Satrabel.OpenApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
+                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Abp.Application.Editions.Edition", b =>
@@ -391,15 +391,18 @@ namespace Satrabel.OpenApp.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(64);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
 
                     b.Property<int?>("TenantId");
 
                     b.Property<long>("UserId");
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasMaxLength(512);
 
                     b.HasKey("Id");
 
@@ -837,7 +840,8 @@ namespace Satrabel.OpenApp.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(128);
 
                     b.Property<DateTime>("CreationTime");
 
@@ -898,7 +902,8 @@ namespace Satrabel.OpenApp.Migrations
                         .HasMaxLength(64);
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(128);
 
                     b.Property<DateTime>("CreationTime");
 
@@ -954,9 +959,11 @@ namespace Satrabel.OpenApp.Migrations
                     b.Property<string>("PasswordResetCode")
                         .HasMaxLength(328);
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(32);
 
-                    b.Property<string>("SecurityStamp");
+                    b.Property<string>("SecurityStamp")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Surname")
                         .IsRequired()
