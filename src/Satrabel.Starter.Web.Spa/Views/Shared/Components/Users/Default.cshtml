@@ -1,0 +1,6 @@
+﻿@using Satrabel.Starter.Web.Views.Shared.Components.Users
+@model UsersViewModel
+
+<li class="nav-item d-md-down-none">
+    <a class="nav-link" href="@Model.MenuItem.Url"><i class="icon-@Model.MenuItem.Icon"></i><span id="sms-count" style="@(Model.Count>0 ? "":"display:none;")" class="badge badge-pill badge-danger">@Model.Count</span></a>
+</li>

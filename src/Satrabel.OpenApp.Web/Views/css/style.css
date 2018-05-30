@@ -7030,7 +7030,7 @@ base-chart.chart {
     padding-left: 7.5px; }
 
 .main .container-fluid {
-  padding: 0 30px; }
+  /*padding: 0 30px;*/ }
 
 .input-group-addon,
 .input-group-btn {

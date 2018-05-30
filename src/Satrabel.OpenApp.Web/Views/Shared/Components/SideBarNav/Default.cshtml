@@ -23,7 +23,7 @@
         <ul class="nav">
             @foreach (var menuItem in Model.MainMenu.Items)
             {
-                @if (menuItem.Items.IsNullOrEmpty())
+                if (menuItem.Items.IsNullOrEmpty())
                 {
                     <li class="nav-item @(Model.ActiveMenuItemName == menuItem.Name ? "active" : "")">
                         <a class="nav-link" href="@calculateMenuUrl(menuItem.Url)">
@@ -48,8 +48,7 @@
                         <ul class="nav-dropdown-items">
                             @foreach (var subMenuItem in menuItem.Items)
                             {
-
-                                @if (subMenuItem.Items.IsNullOrEmpty())
+                                if (subMenuItem.Items.IsNullOrEmpty())
                                 {
                                     <li class="nav-item @(Model.ActiveMenuItemName == subMenuItem.Name ? "active" : "")">
                                         <a class="nav-link" href="@calculateMenuUrl(subMenuItem.Url)">

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Satrabel.OpenApp.Web.Views.Shared.Components.AccountLanguages
 {
-    public class AccountLanguagesViewComponent : JobManagerViewComponent
+    public class AccountLanguagesViewComponent : OpenAppViewComponent
     {
         private readonly ILanguageManager _languageManager;
 

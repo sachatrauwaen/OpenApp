@@ -16,6 +16,8 @@ using Satrabel.OpenApp.ProxyScripting;
 using Abp.Configuration.Startup;
 using Abp.Resources.Embedded;
 using Satrabel.OpenApp.Web.Startup;
+using Satrabel.OpenApp.Startup;
+using Abp.Dependency;
 
 #if FEATURE_SIGNALR
 using Abp.Web.SignalR;
@@ -49,17 +51,13 @@ namespace Satrabel.OpenApp
             );
 
             //Use database for language management
-            Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
-
+            //Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization(); // to be done in top level module
             Configuration.Modules.AbpAspNetCore()
                  .CreateControllersForAppServices(
                      typeof(OpenAppApplicationModule).GetAssembly()
                  );
-
             Configuration.Modules.AbpWebCommon().ApiProxyScripting.Generators[JsonSchemaProxyScriptGenerator.Name] = typeof(JsonSchemaProxyScriptGenerator);
-
             ConfigureTokenAuth();
-
             Configuration.EmbeddedResources.Sources.Add(
                 new EmbeddedResourceSet(
                     "/Views/",
@@ -67,7 +65,6 @@ namespace Satrabel.OpenApp
                     "Satrabel.OpenApp.Views"
                 )
             );
-            
             Configuration.Navigation.Providers.Add<OpenAppNavigationProvider>();
         }
 

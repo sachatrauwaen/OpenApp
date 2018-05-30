@@ -75,6 +75,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         arrowElement: '[x-arrow]',
 
+        arrowOffset: 0,
+
         // list of functions used to modify the offsets before they are applied to the popper
         modifiers: ['shift', 'offset', 'preventOverflow', 'keepTogether', 'arrow', 'flip', 'applyStyle'],
 
@@ -461,6 +463,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 target = root;
             }
             target.addEventListener('scroll', this.state.updateBound);
+            this.state.scrollTarget = target;
         }
     };
 
@@ -473,13 +476,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     Popper.prototype._removeEventListeners = function () {
         // NOTE: 1 DOM access here
         root.removeEventListener('resize', this.state.updateBound);
-        if (this._options.boundariesElement !== 'window') {
-            var target = getScrollParent(this._reference);
-            // here it could be both `body` or `documentElement` thanks to Firefox, we then check both
-            if (target === root.document.body || target === root.document.documentElement) {
-                target = root;
-            }
-            target.removeEventListener('scroll', this.state.updateBound);
+        if (this._options.boundariesElement !== 'window' && this.state.scrollTarget) {
+            this.state.scrollTarget.removeEventListener('scroll', this.state.updateBound);
+            this.state.scrollTarget = null;
         }
         this.state.updateBound = null;
     };
@@ -866,6 +865,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      */
     Popper.prototype.modifiers.arrow = function (data) {
         var arrow = this._options.arrowElement;
+        var arrowOffset = this._options.arrowOffset;
 
         // if the arrowElement is a string, suppose it's a CSS selector
         if (typeof arrow === 'string') {
@@ -897,6 +897,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         var len = isVertical ? 'height' : 'width';
         var side = isVertical ? 'top' : 'left';
+        var translate = isVertical ? 'translateY' : 'translateX';
         var altSide = isVertical ? 'left' : 'top';
         var opSide = isVertical ? 'bottom' : 'right';
         var arrowSize = getOuterSizes(arrow)[len];
@@ -915,12 +916,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
 
         // compute center of the popper
-        var center = reference[side] + reference[len] / 2 - arrowSize / 2;
+        var center = reference[side] + (arrowOffset || reference[len] / 2 - arrowSize / 2);
 
         var sideValue = center - popper[side];
 
         // prevent arrow from being placed not contiguously to its popper
-        sideValue = Math.max(Math.min(popper[len] - arrowSize - 3, sideValue), 3);
+        sideValue = Math.max(Math.min(popper[len] - arrowSize - 8, sideValue), 8);
         arrowStyle[side] = sideValue;
         arrowStyle[altSide] = ''; // make sure to remove any old style from the arrow
 
@@ -1050,7 +1051,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (parent === root.document) {
             // Firefox puts the scrollTOp value on `documentElement` instead of `body`, we then check which of them is
             // greater than 0 and return the proper element
-            if (root.document.body.scrollTop) {
+            if (root.document.body.scrollTop || root.document.body.scrollLeft) {
                 return root.document.body;
             } else {
                 return root.document.documentElement;

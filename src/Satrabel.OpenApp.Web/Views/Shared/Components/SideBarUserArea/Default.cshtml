@@ -1,6 +1,5 @@
 ﻿@using Satrabel.OpenApp.Web.Views.Shared.Components.SideBarUserArea
 @model SideBarUserAreaViewModel
-
 @*
     <div class="user-info">
         <div class="image">
@@ -19,11 +18,14 @@
     </div>
 *@
 <li class="nav-item d-md-down-none">
+
+</li>
+<li class="nav-item d-md-down-none">
     <i class="icon-user"></i> @Html.Raw(Model.GetShownLoginName()) ( @Model.LoginInformations.User.EmailAddress )
 </li>
 <li class="nav-item d-md-down-none">
 
 </li>
-<li class="nav-item d-md-down-none">
-    <a class="nav-link" href="@Url.Action("Logout", "Account")"><i class="icon-logout"></i> Logoff</a>
+<li class="nav-item">
+    <a class="nav-link" href="@Url.Action("Logout", "Account")"><i class="icon-logout"></i><span class="d-md-down-none"> Logoff</span></a>
 </li>

@@ -1,6 +1,5 @@
 ﻿using System;
 using Abp.Dependency;
-using Satrabel.OpenApp.EntityFramework;
 using Satrabel.OpenApp.Identity;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor.MsDependencyInjection;

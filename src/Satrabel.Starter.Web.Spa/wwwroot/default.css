@@ -1,0 +1,7 @@
+﻿
+/**** Logo ****/
+
+.app-header.navbar .navbar-brand {
+    background-image: url(logo.png);
+    background-size: 80px auto;
+}

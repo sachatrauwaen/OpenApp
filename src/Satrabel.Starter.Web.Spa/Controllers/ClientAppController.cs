@@ -1,5 +1,4 @@
 ﻿using Abp.AspNetCore.Mvc.Authorization;
-using Satrabel.OpenApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Satrabel.Starter.Web.Controllers
@@ -7,10 +6,9 @@ namespace Satrabel.Starter.Web.Controllers
     [AbpMvcAuthorize]
     public class ClientAppController : StarterControllerBase
     {
-        [Route("App/{id}")]
-        public ActionResult Vue(string id)
+        public ActionResult Run(string id)
         {
-            return View("Index", id);
+            return View("Run", id);
         }
     }
 

@@ -18,10 +18,10 @@
 
     <text name="LoginFailed" value="Prisijungimas nepavyko!" />
 
-    <text name="NameSurname" value="Vardas pavardė" />
     <text name="UserName" value="Vartotojo vardas" />
     <text name="Name" value="Vardas" />
     <text name="Surname" value="Pavardė" />
+    <text name="NameSurname" value="Vardas pavardė" />
     <text name="EmailAddress" value="El. pašto adresas" />
 
     <text name="Tenants" value="Savininkai" />

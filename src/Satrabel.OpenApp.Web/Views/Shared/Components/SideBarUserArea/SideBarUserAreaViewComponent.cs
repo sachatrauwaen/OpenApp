@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Satrabel.OpenApp.Web.Views.Shared.Components.SideBarUserArea
 {
-    public class SideBarUserAreaViewComponent : JobManagerViewComponent
+    public class SideBarUserAreaViewComponent : OpenAppViewComponent
     {
         private readonly ISessionAppService _sessionAppService;
         private readonly IMultiTenancyConfig _multiTenancyConfig;

@@ -8,5 +8,7 @@
         public const string Users = "Users";
         public const string Roles = "Roles";
         public const string Crud = "Crud";
+        public const string Languages = "Languages";        
+        public const string Localizations = "Localizations";        
     }
 }

@@ -16,11 +16,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    @*<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">*@
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="keyword" content="">
-    <link rel="shortcut icon" href="img/favicon.png">
+    <link rel="shortcut icon" href="~/Views/img/favicon.png">
     <title>Login</title>
 
     <environment names="Development">
@@ -48,21 +51,11 @@
     <!-- Plugins and scripts required by this views -->
     <!-- Custom scripts required by this view -->
 
-
     <environment names="Development">
         <script src="~/Views/_Bundles/account-layout.min.js" asp-append-version="true"></script>
-        <!-- GenesisUI main scripts -->
-        <script src="~/Views/js/app.js" asp-append-version="true"></script>
-        
-
-
-    
     </environment>
     <environment names="Staging,Production">
         <script src="~/Views/_Bundles/account-layout.min.js" asp-append-version="true"></script>
-        <!-- GenesisUI main scripts -->
-        <script src="~/Views/js/app.js" asp-append-version="true"></script>
-
     </environment>
     <script>
     //Localizing momentjs

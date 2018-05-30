@@ -25,25 +25,35 @@ namespace Satrabel.Starter.Web.Startup
                 .AddItem(
                     new MenuItemDefinition(
                         PageNames.Home,
+                        L("ClientApp"),
+                        url: "/App/Demo1",
+                        icon: "question",
+                        requiredPermissionName: PermissionNames.Pages_Home
+                    )
+                )
+                .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.Home,
                         L("About"),
                         url: "/About",
                         icon: "question",
                         requiredPermissionName: PermissionNames.Pages_About
                     )
                 )
-                .AddItem(
-                    new MenuItemDefinition(
-                        PageNames.Home,
-                        L("ClientApp"),
-                        url: "/App/Demo1",
-                        icon: "question",
-                        requiredPermissionName: PermissionNames.Pages_Home
-                    )
-                    
-
-
-                );
+                ;
             context.Manager.MainMenu.Items.MoveMenuItemToBottom("Admin");
+
+            context.Manager.Menus["TopMenu"]
+                .AddItem(
+                   new MenuItemDefinition(
+                       PageNames.Home,
+                       L("Users"),
+                       url: "/Crud#/OpenApp/user",
+                       icon: "people",
+                       requiredPermissionName: Satrabel.OpenApp.Authorization.PermissionNames.Pages_Users,
+                       customData: "Users"
+                   )
+                );
         }
 
         private static ILocalizableString L(string name)

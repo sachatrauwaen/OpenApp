@@ -23,6 +23,8 @@ using Abp.Threading;
 using Abp.BackgroundJobs;
 using Satrabel.OpenApp.Web.Migration;
 using Abp.AspNetCore.Configuration;
+using Abp.AutoMapper;
+using Abp.Zero.Configuration;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -66,6 +68,9 @@ namespace Satrabel.Starter.Web.Startup
             //Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
 
+            //Use database for language management
+            Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
+
             Configuration.Modules.AbpAspNetCore()
                  .CreateControllersForAppServices(
                      typeof(WebMvcModule).GetAssembly()
@@ -82,7 +87,13 @@ namespace Satrabel.Starter.Web.Startup
 
         public override void Initialize()
         {
-            IocManager.RegisterAssemblyByConvention(typeof(WebMvcModule).GetAssembly());
+            Assembly thisAssembly = typeof(WebMvcModule).GetAssembly();
+            IocManager.RegisterAssemblyByConvention(thisAssembly);
+            Configuration.Modules.AbpAutoMapper().Configurators.Add(cfg =>
+            {
+                //Scan the assembly for classes which inherit from AutoMapper.Profile
+                cfg.AddProfiles(thisAssembly);
+            });
         }
         public override void PostInitialize()
         {

@@ -10,7 +10,7 @@
 
     export default {
         name: 'App',
-        data() {
+        data: function() {
             return {
                 msg: 'Welcome to Your Vue.js App'
             }

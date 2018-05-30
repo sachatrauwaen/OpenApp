@@ -5,24 +5,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Satrabel.OpenApp;
 using Abp.EntityFrameworkCore.Configuration;
-using Satrabel.OpenApp.EntityFramework;
 using Satrabel.Starter.Web.Localization;
 using Satrabel.OpenApp.EntityFramework.Seed;
 using Satrabel.OpenApp.Configuration;
 using Satrabel.Starter.Web.Authorization;
 using Satrabel.Starter.EntityFramework;
-using Abp.MultiTenancy;
-using Abp.Dependency;
-using Abp.Threading.BackgroundWorkers;
-using System;
-using System.Data.SqlClient;
-using Abp.Events.Bus;
-using Castle.MicroKernel.Registration;
-using System.IO;
-using Abp.Threading;
-using Abp.BackgroundJobs;
 using Satrabel.OpenApp.Web.Migration;
 using Abp.AspNetCore.Configuration;
+using Satrabel.OpenApp.Startup;
+using Abp.AutoMapper;
+using Abp.Zero.Configuration;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -32,16 +24,18 @@ namespace Satrabel.Starter.Web.Startup
         private readonly IHostingEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IMigrationManager _migrationManager;
+        private readonly IWebConfig _webConfig;
 
         /* Used it tests to skip dbcontext registration, in order to use in-memory database of EF Core */
         public bool SkipDbContextRegistration { get; set; }
         public bool SkipDbSeed { get; set; }
 
-        public WebMvcModule(IHostingEnvironment env, IMigrationManager migrationManager)
+        public WebMvcModule(IHostingEnvironment env, IMigrationManager migrationManager, IWebConfig webConfig)
         {
             _env = env;
             _migrationManager = migrationManager;
             _appConfiguration = env.GetAppConfiguration();
+            _webConfig = webConfig;
         }
 
         public override void PreInitialize()
@@ -61,9 +55,20 @@ namespace Satrabel.Starter.Web.Startup
                     }
                 });
             }
-            LocalizationConfigurer.Configure(Configuration.Localization);
-            //Enable this line to create a multi-tenant application.
+
+            // Load localization keys
+            LocalizationConfigurer.Configure(Configuration.Localization); 
+
+            // Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
+
+            _webConfig.MetaTitle = AppConsts.MetaTitle;
+            _webConfig.FooterLinkText = AppConsts.FooterLinkText;
+            _webConfig.FooterLinkUrl = AppConsts.FooterLinkUrl;
+            _webConfig.FooterCopyright = AppConsts.FooterCopyright;
+
+            // Use database for language management
+            Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
 
             // automatic webapi's for Application Services
             Configuration.Modules.AbpAspNetCore()
@@ -83,7 +88,13 @@ namespace Satrabel.Starter.Web.Startup
 
         public override void Initialize()
         {
-            IocManager.RegisterAssemblyByConvention(typeof(WebMvcModule).GetAssembly());
+            Assembly thisAssembly = typeof(WebMvcModule).GetAssembly();
+            IocManager.RegisterAssemblyByConvention(thisAssembly);
+            Configuration.Modules.AbpAutoMapper().Configurators.Add(cfg =>
+            {
+                //Scan the assembly for classes which inherit from AutoMapper.Profile
+                cfg.AddProfiles(thisAssembly);
+            });
         }
         public override void PostInitialize()
         {

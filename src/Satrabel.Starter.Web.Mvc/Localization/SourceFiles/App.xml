@@ -3,6 +3,6 @@
   <texts>
     <text name="Home" value="Home page" />
     <text name="About" value="About" />
-    <text name="WellcomeMessage" value="Welcome to OpenApp!" />
+    <text name="WelcomeMessage" value="Welcome to OpenApp!" />
   </texts>
 </localizationDictionary>

@@ -1,62 +1,83 @@
-﻿var comp = {
-    name: "comp",
-    template: '<el-form-item :label="label" :prop="prop"> \
-                    <component v-bind:is="currentView" v-model="model" v-bind="$props" ></component> \
-                </el-form-item>',
-    props: {
-        value: {},
-        schema: {},
-        prop: String,
-        messages: Object
-    },
-    components: {
-        inputComponent: inputComponent,
-        textareaComponent: textareaComponent,
-        selectComponent: selectComponent,
-        switchComponent: switchComponent,
-        checkboxGroupComponent: checkboxGroupComponent,
-        datetimeComponent: datetimeComponent,
-        inputNumberComponent: inputNumberComponent
-    },
-    computed: {
-        currentView: function () {
-            var type = Array.isArray(this.schema.type) ? this.schema.type[0] : this.schema.type;
-            if (this.schema["x-rel-app"]) {
-
-            } else if (this.schema.enum || this.schema["x-enum-action"]) {
-                if (type == 'array') {
-                    return 'checkboxGroupComponent';
+﻿(function () {
+    var field = {
+        name: "oaField",
+        template: ' <el-form-item :label="label" :prop="prop"> \
+                    <component v-bind:is="currentView" v-model="model" v-bind="$props" @propChange="propChange" ></component> \
+                    </el-form-item>',
+        props: {
+            value: {},
+            schema: {},
+            prop: String,
+            messages: Object,
+            service: {},
+        },       
+        computed: {
+            currentView: function () {
+                var sch = this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
+                var type = Array.isArray(sch.type) ? (sch.type[0] == "null" ? sch.type[1]:sch.type[0] ) : sch.type;
+                if (sch["x-type"]) {
+                    type = sch["x-type"];
+                } else if (sch["x-rel-action"]) {
+                    type = 'relation';
+                } else if (sch["x-rel-to-many-action"]) {
+                    type = 'relation-to-many';
+                } else if (sch.enum || sch["x-enum-action"]) {
+                    if (type == 'array') {
+                        type = 'checkbox-group';
+                    } else {
+                        type = 'select';
+                    }
+                } else if (type == 'boolean') {
+                    type = 'switch';
+                } else if (type == 'integer' || type == 'number') {
+                    type = 'input-number';
+                } else if (type == 'array' && this.schema.items.format == 'date-time') {
+                    type = 'daterange';
+                } else if (sch.format == 'date-time') {
+                    type = 'datetime';
+                } else if (sch['x-ui-multiline']) {
+                    type = 'textarea';
+                } else if (type == 'address') {
+                    type = 'address';
                 } else {
-                    return 'selectComponent';
+                    type = 'input';
                 }
-            } else if (type == 'boolean') {
-                return 'switchComponent';
-            } else if (type == 'integer' || type == 'number') {
-                return 'inputNumberComponent';
-            } else if (this.schema.format == 'date-time') {
-                return 'datetimeComponent';
-            } else if (this.schema['x-ui-multiline']) {
-                return 'textareaComponent';
-            } else {
-                return 'inputComponent';
-            }
-        },
-        model: {
-            get() {
-                return this.value
+                var compName = 'oa-' + type;
+                var comp = Vue.component(compName);
+                if (!comp) {
+                    comp = function (resolve, reject) {
+                        Vue.$loadComponent({
+                            name: compName,
+                            path: abp.appPath+'lib/vueforms/'+type+'.js',
+                            onLoad: resolve,
+                            onError: reject
+                        });
+                    }
+                }
+                return comp;
             },
-            set(val) {
-                this.$emit('input', val)
+            model: {
+                get: function () {
+                    return this.value
+                },
+                set: function (val) {
+                    this.$emit('input', val)
+                }
+            },
+            label: function () {
+                var name = this.schema.title ? this.schema.title : this.prop.capitalize();
+                if (this.messages && this.messages[name])
+                    return this.messages[name];
+                else
+                    return this.schema.title ? this.schema.title : name;
+            },
+        },
+        methods: {
+            propChange: function (key, value) {
+                this.$emit('propChange', key, value);
             }
-        },
-        label: function () {
-            var name = this.schema.title ? this.schema.title : this.prop.capitalize();
-            if (this.messages && this.messages[name])
-                return this.messages[name];
-            else
-                return this.schema.title ? this.schema.title : name;
-        },
+        }
     }
-}
 
-Vue.component('comp', comp);
+    Vue.component('oa-field', field);
+})();

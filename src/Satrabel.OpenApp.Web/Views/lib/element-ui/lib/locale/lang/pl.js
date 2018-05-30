@@ -19,6 +19,10 @@ exports.default = {
       startTime: 'Godzina początkowa',
       endDate: 'Data końcowa',
       endTime: 'Czas końcowa',
+      prevYear: 'Poprzedni rok',
+      nextYear: 'Następny rok',
+      prevMonth: 'Poprzedni miesiąc',
+      nextMonth: 'Następny miesiąc',
       year: 'rok',
       month1: 'styczeń',
       month2: 'luty',
@@ -81,6 +85,7 @@ exports.default = {
       error: 'Wiadomość zawiera niedozwolone znaki'
     },
     upload: {
+      deleteTip: 'kliknij kasuj aby usunąć',
       delete: 'Kasuj',
       preview: 'Podgląd',
       continue: 'Kontynuuj'
@@ -90,7 +95,7 @@ exports.default = {
       confirmFilter: 'Potwierdź',
       resetFilter: 'Resetuj',
       clearFilter: 'Wszystko',
-      sumText: 'Sum' // to be translated
+      sumText: 'Razem'
     },
     tree: {
       emptyText: 'Brak danych'
@@ -98,10 +103,10 @@ exports.default = {
     transfer: {
       noMatch: 'Brak dopasowań',
       noData: 'Brak danych',
-      titles: ['List 1', 'List 2'], // to be translated
-      filterPlaceholder: 'Enter keyword', // to be translated
-      noCheckedFormat: '{total} items', // to be translated
-      hasCheckedFormat: '{checked}/{total} checked' // to be translated
+      titles: ['Lista 1', 'Lista 2'],
+      filterPlaceholder: 'Wpisz szukaną frazę',
+      noCheckedFormat: 'razem: {total}',
+      hasCheckedFormat: 'wybranych: {checked}/{total}'
     }
   }
 };

@@ -12,18 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Abp.Timing;
 using Abp.Modules;
 
 using Satrabel.OpenApp.Web.Resources;
 using Satrabel.OpenApp.Web.Startup;
-using Abp.Resources.Embedded;
-using Microsoft.Extensions.FileProviders;
-using Abp.Web.Configuration;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Satrabel.OpenApp.Web.Migration;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
@@ -41,17 +34,18 @@ namespace Satrabel.OpenApp.Startup
 {
     public class MvcModuleStartup<TModule> where TModule : AbpModule
     {
-        private const string DefaultCorsPolicyName = "localhost";
-        private readonly IConfigurationRoot _appConfiguration;
-        private readonly bool CorsEnabled = false;
-        private readonly bool SwaggerEnabled = false;
+        private const string DefaultCorsPolicyName = "DefaultPolicy";
+        protected readonly IConfigurationRoot _appConfiguration;
+        private readonly bool _corsEnabled = false;
+        private readonly bool _swaggerEnabled = false;
+        
         protected Version AppVersion;
 
         public MvcModuleStartup(IHostingEnvironment env)
         {
             _appConfiguration = env.GetAppConfiguration();
-            CorsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"]);
-            SwaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"]);
+            _corsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"]);
+            _swaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"]);
             Clock.Provider = ClockProviders.Local;
         }
 
@@ -61,51 +55,54 @@ namespace Satrabel.OpenApp.Startup
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                if (CorsEnabled)
+                if (_corsEnabled)
                 {
                     options.Filters.Add(new CorsAuthorizationFilterFactory(DefaultCorsPolicyName));
                 }
             });
+
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
             services.AddScoped<IWebResourceManager, WebResourceManager>();
             services.AddSingleton<IMigrationManager>(new MigrationManager());
-            if (CorsEnabled)
+            services.AddSingleton<IWebConfig>(new WebConfig());
+
+            // Configure CORS for angular2 UI or other clients. This does not activate Cors. It only configures it.
+            services.AddCors(options =>
             {
-                //Configure CORS for angular2 UI
-                services.AddCors(options =>
+                options.AddPolicy(DefaultCorsPolicyName, builder =>
                 {
-                    options.AddPolicy(DefaultCorsPolicyName, builder =>
-                    {
                         //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
                         builder
-                            .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.RemovePostFix("/")).ToArray())
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
+                        .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim().RemovePostFix("/")).ToArray())
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
-            }
+            });
 
             //Swagger - Enable this line and the related lines in Configure method to enable swagger UI
-            if (SwaggerEnabled)
+            if (_swaggerEnabled)
             {
                 services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new Info { Title = "OpenApp API", Version = "v1" });
-                options.DocInclusionPredicate((docName, description) => true);
-
-                // Define the BearerAuth scheme that's in use
-                options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                    Name = "Authorization",
-                    In = "header",
-                    Type = "apiKey"
+                    options.SwaggerDoc("v1", new Info { Title = "OpenApp API", Version = "v1" });
+                    options.DocInclusionPredicate((docName, description) => true);
+                    options.CustomSchemaIds(x => x.FullName);
+                    // Define the BearerAuth scheme that's in use
+                    options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
+                    {
+                        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                        Name = "Authorization",
+                        In = "header",
+                        Type = "apiKey"
+                    });
+                    // Assign scope requirements to operations based on AuthorizeAttribute
+                    options.OperationFilter<SecurityRequirementsOperationFilter>();
                 });
-                // Assign scope requirements to operations based on AuthorizeAttribute
-                options.OperationFilter<SecurityRequirementsOperationFilter>();
-            });
             }
+
+            AddAdditionalServices(services);
+
             //Configure Abp and Dependency Injection
             return services.AddAbp<TModule>(options =>
             {
@@ -119,11 +116,17 @@ namespace Satrabel.OpenApp.Startup
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             var applicationLifetime = app.ApplicationServices.GetRequiredService<IApplicationLifetime>();
-            var _migrationManager = app.ApplicationServices.GetRequiredService<IMigrationManager>();
-            _migrationManager.ApplicationLifetime = applicationLifetime;
-            _migrationManager.HostingEnvironment = env;
-            _migrationManager.AppVersion = AppVersion;
+            var migrationManager = app.ApplicationServices.GetRequiredService<IMigrationManager>();
+            migrationManager.ApplicationLifetime = applicationLifetime;
+            migrationManager.HostingEnvironment = env;
+            migrationManager.AppVersion = AppVersion;
             app.UseAbp(); //Initializes ABP framework.
+
+            if (_corsEnabled)
+            {
+                app.UseCors(DefaultCorsPolicyName);
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -133,20 +136,32 @@ namespace Satrabel.OpenApp.Startup
                 app.UseExceptionHandler("/Error");
             }
 
-            if (_migrationManager.NeedMigration)
+            if (migrationManager.NeedMigration)
             {
                 app.Run(async (context) =>
                 {
                     {
-                        await context.Response.WriteAsync("Database Migrated to version " + _migrationManager.AppVersion + ". Refresh page to start website.");
+                        await context.Response.WriteAsync("Database Migrated to version " + migrationManager.AppVersion + ". Refresh page to start website.");
                     }
                     applicationLifetime.StopApplication();
                 });
                 return;
             }
+
             ConfigureBeforeStaticFiles(app, env);
+
             app.UseStaticFiles();
-            app.UseEmbeddedFiles();
+            // start temp fix
+            //app.UseEmbeddedFiles(); 
+            app.UseStaticFiles(
+                new StaticFileOptions
+                {
+                    FileProvider = new Web.EmbeddedResources.EmbeddedResourceFileProvider(
+                        app.ApplicationServices.GetRequiredService<Abp.Dependency.IIocResolver>()
+                    )
+                }
+            );
+            // end temp fix
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
 
@@ -164,19 +179,36 @@ namespace Satrabel.OpenApp.Startup
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "clientApp",
+                    template: "App/{id}",
+                    defaults: new { controller = "ClientApp", action = "Run" });
+
             });
-            if (SwaggerEnabled)
+            if (_swaggerEnabled)
             {
                 // Enable middleware to serve generated Swagger as a JSON endpoint
                 app.UseSwagger();
                 // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
                 app.UseSwaggerUI(options =>
                 {
-                    options.InjectOnCompleteJavaScript("/swagger/ui/abp.js");
-                    options.InjectOnCompleteJavaScript("/swagger/ui/on-complete.js");
+                    // todo: next two line have been disabled since Abp 3.5
+                    //       see https://www.myget.org/feed/domaindrivendev/package/nuget/Swashbuckle.AspNetCore for more info on how to refactor this
+                    //options.InjectOnCompleteJavaScript("/Views/swagger/ui/abp.js");
+                    //options.InjectOnCompleteJavaScript("/Views/swagger/ui/oncomplete.js");
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenApp API V1");
                 }); //URL: /swagger
             }
+        }
+
+        /// <summary>
+        /// Override this method to add additional services
+        /// </summary>
+        /// <param name="services"></param>
+        protected virtual void AddAdditionalServices(IServiceCollection services)
+        {
+
         }
 
         protected virtual void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
@@ -188,9 +220,7 @@ namespace Satrabel.OpenApp.Startup
         private static void ConfigureOwinServices(IAppBuilder app)
         {
             app.Properties["host.AppName"] = "OpenApp";
-
             app.UseAbp();
-
             app.MapSignalR();
         }
 #endif

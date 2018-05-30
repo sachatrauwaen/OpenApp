@@ -11,28 +11,29 @@ import Component from 'vue-class-component'
 })
 export default class App extends Vue {
     // props have to be declared for typescript
-    propMessage: string
+    propMessage: string;
 
     // inital data
-    msg: number = 123
-
-    // use prop values for initial data
-    helloMsg: string = 'Hello, ' + this.propMessage
+    greeting: string = '';
+    msg: number = 123;
+    
+    get helloMsg() {
+        return 'Hello, ' + this.propMessage + ': ' + this.greeting;
+    }
 
     // lifecycle hook
     mounted() {
-        this.greet()
+        this.greet();
     }
 
     // computed
     get computedMsg() {
-        return 'computed ' + this.msg
+        return 'computed ' + this.msg;
     }
 
     // method
-    greet() {
-        //alert('greeting: ' + this.msg)
-        
+    async greet() {
+        this.greeting = await abp.services.app.demo1Service.getMyGreeting();
     }
 
 }

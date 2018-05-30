@@ -3,7 +3,8 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (env) => {
-    const isDevBuild = !(env && env.prod);
+    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() ==='production');
+    const isDevBuild = !isProdBuild;
     const extractCSS = new ExtractTextPlugin('vendor.css');
 
     return [{
@@ -13,7 +14,7 @@ module.exports = (env) => {
             vendor: [
                 'event-source-polyfill',
                 'element-ui',
-                'element-ui/lib/theme-default/index.css',
+                'element-ui/lib/theme-chalk/index.css',
                 'vue',
                 'vue-router'
             ],
