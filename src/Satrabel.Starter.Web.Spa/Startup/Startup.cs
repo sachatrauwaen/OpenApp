@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Rewrite;
 using Satrabel.OpenApp.Startup;
 
 namespace Satrabel.Starter.Web.Startup
@@ -13,6 +14,8 @@ namespace Satrabel.Starter.Web.Startup
 
         protected override void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var options = new RewriteOptions().Add(new PageRule());
+            app.UseRewriter(options);
             //if (env.IsDevelopment())
             //{
             //    app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions

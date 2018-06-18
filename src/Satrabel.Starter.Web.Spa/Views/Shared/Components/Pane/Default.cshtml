@@ -1,0 +1,10 @@
+﻿@using Satrabel.Starter.Web.Application
+@model IEnumerable<ModuleDto> 
+
+
+@foreach (var module in Model)
+{
+    @await Html.PartialAsync("ModuleToolbar")
+    @await Component.InvokeAsync(module.ViewComponent, module)
+}
+

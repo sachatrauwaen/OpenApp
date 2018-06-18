@@ -1,0 +1,48 @@
+﻿@using Satrabel.Starter.Web.Startup
+@model Satrabel.Starter.Web.Application.PageDto
+
+@using Satrabel.Starter.Web.ViewComponents
+@addTagHelper *, Satrabel.Starter.Web.Spa
+
+@{
+    ViewBag.CurrentPageName = PageNames.About; //The menu item will be active for this page.
+}
+
+ <!-- Breadcrumb -->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item active">About</li>
+    <!-- Breadcrumb Menu-->
+    <li class="breadcrumb-menu d-md-down-none">
+        <div class="btn-group" role="group" aria-label="Button group">
+            <a class="btn" href="/"><i class="icon-calendar"></i> &nbsp;Dashboard</a>
+        </div>
+    </li>
+</ol>
+<div class="container-fluid">
+    <h2>@Model.Name</h2>
+    
+            @*
+        @foreach (var module in Model.Modules)
+        {
+            @await Html.PartialAsync("ModuleToolbar")
+            @await Component.InvokeAsync(module.ViewComponent, module)
+        }
+            @await Component.InvokeAsync(typeof(PaneViewComponent), Model.Modules)
+            
+            *@
+        
+    
+
+    <div class="row">
+        <div class="col-md-4">
+            <pane name="LeftPane" modules="Model.Modules"></pane>
+        </div>
+        <div class="col-md-4">
+            <pane name="ContentPane" modules="Model.Modules"></pane>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+
+</div>
