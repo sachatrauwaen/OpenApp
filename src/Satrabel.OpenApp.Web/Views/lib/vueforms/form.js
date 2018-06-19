@@ -42,7 +42,7 @@
                                 fields[key] = this.schema.properties[key];
                             }
                         } else {
-                            if (key != 'id' && !this.schema.properties[key].readOnly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
+                            if (key != 'id' && !this.schema.properties[key].readonly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
                                 fields[key] = this.schema.properties[key];
                             }
                         }
