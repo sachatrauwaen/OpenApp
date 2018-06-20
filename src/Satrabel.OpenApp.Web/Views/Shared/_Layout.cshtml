@@ -41,10 +41,10 @@
     <link rel="shortcut icon" href="img/favicon.png">
     <title>@WebConfig.MetaTitle</title>
     <environment names="Development">
-        <link href="~/Views/_Bundles/shared-layout.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/Views/_Bundles/shared-layout.min.css?v=@(AppTimes.StartupTime.Ticks)" rel="stylesheet" />
     </environment>
     <environment names="Staging,Production">
-        <link href="~/Views/_Bundles/shared-layout.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/Views/_Bundles/shared-layout.min.css?v=@(AppTimes.StartupTime.Ticks)" rel="stylesheet" />
     </environment>
     <link href="~/default.css" rel="stylesheet" asp-append-version="true" />
     <!-- View specific styles -->

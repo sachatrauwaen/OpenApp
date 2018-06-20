@@ -1,25 +1,26 @@
 ﻿@using Satrabel.OpenApp.Web.Startup
+@inject Satrabel.OpenApp.Timing.AppTimes AppTimes
 @{
     ViewBag.CurrentPageName = PageNames.Crud; //The menu item will be active for this page.
 }
 
 @section styles
 {
-    <link rel="stylesheet" href="~/Views/lib/vueforms/libs.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Views/lib/vueforms/libs.css?v=@(AppTimes.StartupTime.Ticks)"  />
 }
 
 @section scripts
 {
     <environment names="Development">
-        <script src="~/Views/lib/vueforms/libs.js"></script>
-        <script src="~/Views/lib/vueforms/bundle.js" ></script>
-        <script src="~/Views/Crud/Index.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/vueforms/libs.js?v=@(AppTimes.StartupTime.Ticks)"></script>
+        <script src="~/Views/lib/vueforms/bundle.js?v=@(AppTimes.StartupTime.Ticks)" ></script>
+        <script src="~/Views/Crud/Index.js?v=@(AppTimes.StartupTime.Ticks)" ></script>
     </environment>
 
     <environment names="Staging,Production">
-        <script src="~/Views/lib/vueforms/libs.js" asp-append-version="true"></script>
-        <script src="~/Views/lib/vueforms/bundle.js" asp-append-version="true"></script>
-        <script src="~/Views/Crud/Index.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/vueforms/libs.js?v=@(AppTimes.StartupTime.Ticks)"></script>
+        <script src="~/Views/lib/vueforms/bundle.js?v=@(AppTimes.StartupTime.Ticks)"></script>
+        <script src="~/Views/Crud/Index.js?v=@(AppTimes.StartupTime.Ticks)"></script>
     </environment>
 }
 
@@ -40,9 +41,7 @@
                 </li>
             </ol>
             <div class="container-fluid">
-                <keep-alive>
-                    <router-view></router-view>
-                </keep-alive>
+                <router-view></router-view>
             </div>
         </div>
     </template>
