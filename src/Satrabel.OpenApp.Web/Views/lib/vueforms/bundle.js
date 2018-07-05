@@ -1605,12 +1605,23 @@
 (function () {
     var grid = {
         name: "oa-grid",
-        template: '<el-table :data="model" @row-click="rowClick" style="width: 100%" :row-style="{cursor: \'pointer\'}"  > \
-                <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell" ></el-table-column> \
-                <el-table-column align="right" min-width="120px"> \
-                    <template slot-scope="scope"><el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" v-show="actionVisible(action, scope.row, scope.$index)" @click="action.execute(scope.row, scope.$index)"></el-button></template> \
-                </el-table-column> \
-                </el-table>',
+        template: '<div> \
+                    <el-table v-if="!isMobile" :data="model" @row-click="rowClick" style="width: 100%" :row-style="{cursor: \'pointer\'}"  > \
+                        <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell" ></el-table-column> \
+                        <el-table-column align="right" min-width="120px"> \
+                        <template slot-scope="scope"><el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" v-show="actionVisible(action, scope.row, scope.$index)" @click="action.execute(scope.row, scope.$index)"></el-button></template> \
+                        </el-table-column> \
+                    </el-table> \
+                    <el-card v-else style="margin-bottom:10px;" v-for="row in model" :key="row.id" > \
+                        <el-row :gutter="10" v-for="(value, key) in columns" :key="key" > \
+                            <el-col :span="12">{{label(key)}}</el-col> \
+                            <el-col :span="12">{{row[key]}}</el-col> \
+                        </el-row> \
+                        <div style="padding-top:10px;"> \
+                        <el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" v-show="actionVisible(action, row)" @click="action.execute(row)"></el-button> \
+                        </div> \
+                    </el-card> \
+                </div>',
         props: {
             model: {},
             schema: {},
@@ -1629,7 +1640,10 @@
                     }
                 }
                 return fields;
-            }
+            },
+            isMobile: function () {
+                return window.matchMedia("only screen and (max-width: 760px)").matches
+            },
         },
         methods: {
             label: function (prop) {
@@ -1684,7 +1698,7 @@
                         </el-col> \
                     </el-row> \
                     <oa-grid :model="model" :schema="schema" :messages="messages" :options="options" :actions="gridActions" :default-action="gridActions[0]"></oa-grid><br /> \
-                    <div style="float:right"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
+                    <div style="float:right;margin-bottom:10px;"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
                 </div>',
         data: function () {
             return {
