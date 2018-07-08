@@ -95,7 +95,7 @@
             },
             filterSchema: function () {
                 var schema = { properties: {} };
-                var action = abp.schemas.app[this.resource].getAll.parameters;
+                var action = abp.schemas.app[this.resource].getAll.parameters.input.properties;
                 for (var key in action) {
                     if (key != 'skipCount' && key != 'maxResultCount') {
                         schema.properties[key] = action[key];

@@ -1276,7 +1276,7 @@
     var filterform = {
         name: "oaFilterform",
         template: '<el-form ref="form" :model="model" :rules="rules" label-position="right" :label-width="labelwidth" :inline="!isMobile" :label-position="labelPosition"> \
-                <oa-field v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" :service="service" ></oa-field> \
+                <oa-field v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" :service="service" @propChange="propChange" ></oa-field> \
                 <el-form-item> \
                     <el-button v-for="action in actions" :key="action.name" size="small" :icon="action.icon" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
                 </el-form-item> \
@@ -1357,6 +1357,9 @@
                     return this.messages[name];
                 else
                     return name;
+            },
+            propChange: function (key, value) {
+                this.$set(this.model, key, value);
             }
         },
         /*
@@ -1782,7 +1785,7 @@
             },
             filterSchema: function () {
                 var schema = { properties: {} };
-                var action = abp.schemas.app[this.resource].getAll.parameters;
+                var action = abp.schemas.app[this.resource].getAll.parameters.input.properties;
                 for (var key in action) {
                     if (key != 'skipCount' && key != 'maxResultCount') {
                         schema.properties[key] = action[key];

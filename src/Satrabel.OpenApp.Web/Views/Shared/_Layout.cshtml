@@ -471,7 +471,7 @@
     </script>
     <!-- Dynamic scripts of ABP system (They are created on runtime and can not be bundled) -->
     <script src="~/AbpServiceProxies/GetAll?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
-    <script src="~/AbpServiceProxies/GetAll?type=json&v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
+    <script src="~/OpenAppServiceProxies/GetAll?type=json&v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     <script src="~/AbpScripts/GetScripts?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     @if (SignalRFeature.IsAvailable)
     {
