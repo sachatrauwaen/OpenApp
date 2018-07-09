@@ -37,8 +37,22 @@
     <None Remove="Views\fonts\fontawesome-webfont.woff" />
     <None Remove="Views\fonts\fontawesome-webfont.woff2" />
     <None Remove="Views\fonts\Simple-Line-Icons.woff" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.blockUI.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jquery.d.ts" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jquery.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jtable.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.moment.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr-client.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr.d.ts" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.spin.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.sweet-alert.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.toastr.js" />
     <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element-icons.ttf" />
     <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element-icons.woff" />
+    <None Remove="Views\lib\signalr-client\signalr.min.js" />
+    <None Remove="Views\lib\signalr\jquery.signalR.js" />
+    <None Remove="Views\lib\signalr\jquery.signalR.min.js" />
     <None Remove="Views\lib\vueforms\libs.css" />
     <None Remove="Views\Localization\Index.cshtml" />
     <None Remove="Views\Localization\Index.js" />
@@ -79,8 +93,22 @@
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.woff" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.woff2" />
     <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.woff" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.blockUI.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jquery.d.ts" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jquery.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jtable.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.moment.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr-client.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr.d.ts" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.spin.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.sweet-alert.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.toastr.js" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element-icons.ttf" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element-icons.woff" />
+    <EmbeddedResource Include="Views\lib\signalr-client\signalr.min.js" />
+    <EmbeddedResource Include="Views\lib\signalr\jquery.signalR.js" />
+    <EmbeddedResource Include="Views\lib\signalr\jquery.signalR.min.js" />
     <EmbeddedResource Include="Views\lib\vueforms\libs.css" />
     <EmbeddedResource Include="Views\Localization\Index.js" />
     <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.eot" />
@@ -193,6 +221,7 @@
     <ProjectReference Include="..\Satrabel.OpenApp.EntityFramework\Satrabel.OpenApp.EntityFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Abp.AspNetCore.SignalR" Version="3.7.2" />
     <PackageReference Include="Abp.Castle.Log4Net" Version="3.7.2" />
     <PackageReference Include="Castle.LoggingFacility.MsLogging" Version="3.1.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />

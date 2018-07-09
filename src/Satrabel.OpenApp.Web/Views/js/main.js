@@ -7,7 +7,7 @@
         //Desktop notification
         Push.create("OpenApp", {
             body: userNotification.notification.data.message,
-            icon: abp.appPath + 'images/app-logo-small.png',
+            icon: abp.appPath + 'Views/img/logo.png',
             timeout: 6000,
             onClick: function () {
                 window.focus();

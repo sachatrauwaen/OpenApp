@@ -19,6 +19,9 @@
                       type="info"
                       description="This is a description.">
             </el-alert>
+
+            <el-button @click="sendNotification">Send Notification</el-button>
+
         </div>
     </div>
 </template>
@@ -44,6 +47,11 @@
         components: {
             demoJavascript: DemoJavascript,
             demoTypescript: DemoTypescript
+        },
+        methods: {
+            sendNotification() {
+                abp.services.app.demo1Service.sendNotification("helloooo");
+            }
         }
 
     }

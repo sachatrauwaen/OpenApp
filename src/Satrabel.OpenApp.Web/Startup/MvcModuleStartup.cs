@@ -23,12 +23,8 @@ using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Linq;
 using Abp.Extensions;
-
-#if FEATURE_SIGNALR
-using Owin;
-using Abp.Owin;
-using Satrabel.OpenApp.Owin;
-#endif
+using Abp.AspNetCore.SignalR.Hubs;
+using Satrabel.OpenApp.SignalR;
 
 namespace Satrabel.OpenApp.Startup
 {
@@ -38,7 +34,8 @@ namespace Satrabel.OpenApp.Startup
         protected readonly IConfigurationRoot _appConfiguration;
         private readonly bool _corsEnabled = false;
         private readonly bool _swaggerEnabled = false;
-        
+        private readonly bool _signalREnabled = false;
+
         protected Version AppVersion;
 
         public MvcModuleStartup(IHostingEnvironment env)
@@ -46,6 +43,9 @@ namespace Satrabel.OpenApp.Startup
             _appConfiguration = env.GetAppConfiguration();
             _corsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"]);
             _swaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"]);
+            _signalREnabled = bool.Parse(_appConfiguration["SignalR:IsEnabled"]);
+
+            SignalRFeature.IsAvailable = _signalREnabled;
             Clock.Provider = ClockProviders.Local;
         }
 
@@ -72,11 +72,11 @@ namespace Satrabel.OpenApp.Startup
             {
                 options.AddPolicy(DefaultCorsPolicyName, builder =>
                 {
-                        //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
-                        builder
-                        .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim().RemovePostFix("/")).ToArray())
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
+                    //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
+                    builder
+                    .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim().RemovePostFix("/")).ToArray())
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
                 });
             });
 
@@ -102,7 +102,10 @@ namespace Satrabel.OpenApp.Startup
             }
 
             AddAdditionalServices(services);
-
+            if (_signalREnabled)
+            {
+                services.AddSignalR();
+            }
             //Configure Abp and Dependency Injection
             return services.AddAbp<TModule>(options =>
             {
@@ -164,12 +167,13 @@ namespace Satrabel.OpenApp.Startup
             // end temp fix
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
-
-#if FEATURE_SIGNALR
-            //Integrate to OWIN
-            app.UseAppBuilder(ConfigureOwinServices);
-#endif
-
+            if (_signalREnabled)
+            {
+                app.UseSignalR(routes =>
+                {
+                    routes.MapHub<AbpCommonHub>("/signalr");
+                });
+            }
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

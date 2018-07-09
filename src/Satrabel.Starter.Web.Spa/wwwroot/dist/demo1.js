@@ -602,7 +602,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "\nh1[data-v-578ac0f7] {\n    font-weight: normal;\n    color: dodgerblue;\n}\n", "", {"version":3,"sources":["/./ClientApp/demo1/app.vue?a6ffdbb8"],"names":[],"mappings":";AAqDA;IACA,oBAAA;IACA,kBAAA;CACA","file":"app.vue","sourcesContent":["<template>\r\n    <div>\r\n        <!-- Breadcrumb -->\r\n        <ol class=\"breadcrumb\">\r\n            <li class=\"breadcrumb-item active\">Home</li>\r\n            <!-- Breadcrumb Menu-->\r\n            <li class=\"breadcrumb-menu d-md-down-none\">\r\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Button group\">\r\n                    <a class=\"btn\" href=\"/\"><i class=\"icon-calendar\"></i> &nbsp;Dashboard</a>\r\n                </div>\r\n            </li>\r\n        </ol>\r\n        <div class=\"container-fluid\">\r\n            <h1>{{ propMessage }}</h1>\r\n            <demo-javascript></demo-javascript>\r\n            <demo-typescript propMessage=\"demoTypescript\"></demo-typescript>\r\n\r\n            <el-alert title=\"Title.\"\r\n                      type=\"info\"\r\n                      description=\"This is a description.\">\r\n            </el-alert>\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import DemoJavascript from './DemoJavascript.vue';\r\n    import DemoTypescript from './DemoTypescript.vue';\r\n\r\n    import Vue from 'vue'\r\n    import ElementUI from 'element-ui'; // see http://element.eleme.io/#/en-US/component \r\n    Vue.use(ElementUI)\r\n\r\n    export default {\r\n        name: 'App',\r\n        props: {\r\n            propMessage: String\r\n        },\r\n        data() {\r\n            return {\r\n                msg: 'Welcome to Your Vue.js App'\r\n            }\r\n        },\r\n        components: {\r\n            demoJavascript: DemoJavascript,\r\n            demoTypescript: DemoTypescript\r\n        }\r\n\r\n    }\r\n</script>\r\n\r\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\r\n<style scoped>\r\n    h1 {\r\n        font-weight: normal;\r\n        color: dodgerblue;\r\n    }\r\n</style>"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\nh1[data-v-578ac0f7] {\n    font-weight: normal;\n    color: dodgerblue;\n}\n", "", {"version":3,"sources":["/./ClientApp/demo1/app.vue?5961851f"],"names":[],"mappings":";AA6DA;IACA,oBAAA;IACA,kBAAA;CACA","file":"app.vue","sourcesContent":["<template>\r\n    <div>\r\n        <!-- Breadcrumb -->\r\n        <ol class=\"breadcrumb\">\r\n            <li class=\"breadcrumb-item active\">Home</li>\r\n            <!-- Breadcrumb Menu-->\r\n            <li class=\"breadcrumb-menu d-md-down-none\">\r\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Button group\">\r\n                    <a class=\"btn\" href=\"/\"><i class=\"icon-calendar\"></i> &nbsp;Dashboard</a>\r\n                </div>\r\n            </li>\r\n        </ol>\r\n        <div class=\"container-fluid\">\r\n            <h1>{{ propMessage }}</h1>\r\n            <demo-javascript></demo-javascript>\r\n            <demo-typescript propMessage=\"demoTypescript\"></demo-typescript>\r\n\r\n            <el-alert title=\"Title.\"\r\n                      type=\"info\"\r\n                      description=\"This is a description.\">\r\n            </el-alert>\r\n\r\n            <el-button @click=\"sendNotification\">Send Notification</el-button>\r\n\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import DemoJavascript from './DemoJavascript.vue';\r\n    import DemoTypescript from './DemoTypescript.vue';\r\n\r\n    import Vue from 'vue'\r\n    import ElementUI from 'element-ui'; // see http://element.eleme.io/#/en-US/component \r\n    Vue.use(ElementUI)\r\n\r\n    export default {\r\n        name: 'App',\r\n        props: {\r\n            propMessage: String\r\n        },\r\n        data: function() {\r\n            return {\r\n                msg: 'Welcome to Your Vue.js App'\r\n            }\r\n        },\r\n        components: {\r\n            demoJavascript: DemoJavascript,\r\n            demoTypescript: DemoTypescript\r\n        },\r\n        methods: {\r\n            sendNotification() {\r\n                abp.services.app.demo1Service.sendNotification(\"helloooo\");\r\n            }\r\n        }\r\n\r\n    }\r\n</script>\r\n\r\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\r\n<style scoped>\r\n    h1 {\r\n        font-weight: normal;\r\n        color: dodgerblue;\r\n    }\r\n</style>"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -617,6 +617,9 @@ exports.push([module.i, "\nh1[data-v-578ac0f7] {\n    font-weight: normal;\n    
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_element_ui__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_element_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_element_ui__);
+//
+//
+//
 //
 //
 //
@@ -660,10 +663,14 @@ __WEBPACK_IMPORTED_MODULE_2_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_3_ele
             msg: 'Welcome to Your Vue.js App'
         };
     },
-
     components: {
         demoJavascript: __WEBPACK_IMPORTED_MODULE_0__DemoJavascript_vue__["a" /* default */],
         demoTypescript: __WEBPACK_IMPORTED_MODULE_1__DemoTypescript_vue__["a" /* default */]
+    },
+    methods: {
+        sendNotification: function sendNotification() {
+            abp.services.app.demo1Service.sendNotification("helloooo");
+        }
     }
 
 });
@@ -912,7 +919,7 @@ var App = /** @class */ (function (_super) {
     function App() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         // inital data
-        _this.greeting = "";
+        _this.greeting = '';
         _this.msg = 123;
         return _this;
     }
@@ -970,8 +977,8 @@ var App = /** @class */ (function (_super) {
 
 "use strict";
 /**
-  * vue-class-component v6.0.0
-  * (c) 2015-2017 Evan You
+  * vue-class-component v6.2.0
+  * (c) 2015-present Evan You
   * @license MIT
   */
 
@@ -982,6 +989,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var Vue = _interopDefault(__webpack_require__(0));
 
+var hasProto = { __proto__: [] } instanceof Array;
 function createDecorator(factory) {
     return function (target, key, index) {
         var Ctor = typeof target === 'function'
@@ -996,6 +1004,17 @@ function createDecorator(factory) {
         Ctor.__decorators__.push(function (options) { return factory(options, key, index); });
     };
 }
+function mixins() {
+    var Ctors = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        Ctors[_i] = arguments[_i];
+    }
+    return Vue.extend({ mixins: Ctors });
+}
+function isPrimitive(value) {
+    var type = typeof value;
+    return value == null || (type !== "object" && type !== "function");
+}
 function warn(message) {
     if (typeof console !== 'undefined') {
         console.warn('[vue-class-component] ' + message);
@@ -1003,9 +1022,13 @@ function warn(message) {
 }
 
 function collectDataFromConstructor(vm, Component) {
+    // override _init to prevent to init as Vue instance
+    var originalInit = Component.prototype._init;
     Component.prototype._init = function () {
         var _this = this;
+        // proxy to actual vm
         var keys = Object.getOwnPropertyNames(vm);
+        // 2.2.0 compat (props are no longer exposed as self properties)
         if (vm.$options.props) {
             for (var key in vm.$options.props) {
                 if (!vm.hasOwnProperty(key)) {
@@ -1017,12 +1040,17 @@ function collectDataFromConstructor(vm, Component) {
             if (key.charAt(0) !== '_') {
                 Object.defineProperty(_this, key, {
                     get: function () { return vm[key]; },
-                    set: function (value) { return vm[key] = value; }
+                    set: function (value) { return vm[key] = value; },
+                    configurable: true
                 });
             }
         });
     };
+    // should be acquired class property values
     var data = new Component();
+    // restore original _init to avoid memory leak (#209)
+    Component.prototype._init = originalInit;
+    // create plain data object
     var plainData = {};
     Object.keys(data).forEach(function (key) {
         if (data[key] !== undefined) {
@@ -1051,25 +1079,29 @@ var $internalHooks = [
     'activated',
     'deactivated',
     'render',
-    'errorCaptured'
+    'errorCaptured' // 2.5
 ];
 function componentFactory(Component, options) {
     if (options === void 0) { options = {}; }
     options.name = options.name || Component._componentTag || Component.name;
+    // prototype props.
     var proto = Component.prototype;
     Object.getOwnPropertyNames(proto).forEach(function (key) {
         if (key === 'constructor') {
             return;
         }
+        // hooks
         if ($internalHooks.indexOf(key) > -1) {
             options[key] = proto[key];
             return;
         }
         var descriptor = Object.getOwnPropertyDescriptor(proto, key);
         if (typeof descriptor.value === 'function') {
+            // methods
             (options.methods || (options.methods = {}))[key] = descriptor.value;
         }
         else if (descriptor.get || descriptor.set) {
+            // computed properties
             (options.computed || (options.computed = {}))[key] = {
                 get: descriptor.get,
                 set: descriptor.set
@@ -1081,15 +1113,79 @@ function componentFactory(Component, options) {
             return collectDataFromConstructor(this, Component);
         }
     });
+    // decorate options
     var decorators = Component.__decorators__;
     if (decorators) {
         decorators.forEach(function (fn) { return fn(options); });
+        delete Component.__decorators__;
     }
+    // find super
     var superProto = Object.getPrototypeOf(Component.prototype);
     var Super = superProto instanceof Vue
         ? superProto.constructor
         : Vue;
-    return Super.extend(options);
+    var Extended = Super.extend(options);
+    forwardStaticMembers(Extended, Component, Super);
+    return Extended;
+}
+var reservedPropertyNames = [
+    // Unique id
+    'cid',
+    // Super Vue constructor
+    'super',
+    // Component options that will be used by the component
+    'options',
+    'superOptions',
+    'extendOptions',
+    'sealedOptions',
+    // Private assets
+    'component',
+    'directive',
+    'filter'
+];
+function forwardStaticMembers(Extended, Original, Super) {
+    // We have to use getOwnPropertyNames since Babel registers methods as non-enumerable
+    Object.getOwnPropertyNames(Original).forEach(function (key) {
+        // `prototype` should not be overwritten
+        if (key === 'prototype') {
+            return;
+        }
+        // Some browsers does not allow reconfigure built-in properties
+        var extendedDescriptor = Object.getOwnPropertyDescriptor(Extended, key);
+        if (extendedDescriptor && !extendedDescriptor.configurable) {
+            return;
+        }
+        var descriptor = Object.getOwnPropertyDescriptor(Original, key);
+        // If the user agent does not support `__proto__` or its family (IE <= 10),
+        // the sub class properties may be inherited properties from the super class in TypeScript.
+        // We need to exclude such properties to prevent to overwrite
+        // the component options object which stored on the extended constructor (See #192).
+        // If the value is a referenced value (object or function),
+        // we can check equality of them and exclude it if they have the same reference.
+        // If it is a primitive value, it will be forwarded for safety.
+        if (!hasProto) {
+            // Only `cid` is explicitly exluded from property forwarding
+            // because we cannot detect whether it is a inherited property or not
+            // on the no `__proto__` environment even though the property is reserved.
+            if (key === 'cid') {
+                return;
+            }
+            var superDescriptor = Object.getOwnPropertyDescriptor(Super, key);
+            if (!isPrimitive(descriptor.value)
+                && superDescriptor
+                && superDescriptor.value === descriptor.value) {
+                return;
+            }
+        }
+        // Warn if the users manually declare reserved properties
+        if ("development" !== 'production'
+            && reservedPropertyNames.indexOf(key) >= 0) {
+            warn("Static property name '" + key + "' declared on class '" + Original.name + "' " +
+                'conflicts with reserved property name of Vue internal. ' +
+                'It may cause unexpected behavior of the component. Consider renaming the property.');
+        }
+        Object.defineProperty(Extended, key, descriptor);
+    });
 }
 
 function Component(options) {
@@ -1108,8 +1204,9 @@ function Component(options) {
 })(Component || (Component = {}));
 var Component$1 = Component;
 
-exports['default'] = Component$1;
+exports.default = Component$1;
 exports.createDecorator = createDecorator;
+exports.mixins = mixins;
 
 
 /***/ }),
@@ -1170,7 +1267,11 @@ var render = function() {
             type: "info",
             description: "This is a description."
           }
-        })
+        }),
+        _vm._v(" "),
+        _c("el-button", { on: { click: _vm.sendNotification } }, [
+          _vm._v("Send Notification")
+        ])
       ],
       1
     )
