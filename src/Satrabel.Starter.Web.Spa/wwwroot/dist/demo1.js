@@ -602,7 +602,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "\nh1[data-v-578ac0f7] {\n    font-weight: normal;\n    color: dodgerblue;\n}\n", "", {"version":3,"sources":["/./ClientApp/demo1/app.vue?5961851f"],"names":[],"mappings":";AA6DA;IACA,oBAAA;IACA,kBAAA;CACA","file":"app.vue","sourcesContent":["<template>\r\n    <div>\r\n        <!-- Breadcrumb -->\r\n        <ol class=\"breadcrumb\">\r\n            <li class=\"breadcrumb-item active\">Home</li>\r\n            <!-- Breadcrumb Menu-->\r\n            <li class=\"breadcrumb-menu d-md-down-none\">\r\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Button group\">\r\n                    <a class=\"btn\" href=\"/\"><i class=\"icon-calendar\"></i> &nbsp;Dashboard</a>\r\n                </div>\r\n            </li>\r\n        </ol>\r\n        <div class=\"container-fluid\">\r\n            <h1>{{ propMessage }}</h1>\r\n            <demo-javascript></demo-javascript>\r\n            <demo-typescript propMessage=\"demoTypescript\"></demo-typescript>\r\n\r\n            <el-alert title=\"Title.\"\r\n                      type=\"info\"\r\n                      description=\"This is a description.\">\r\n            </el-alert>\r\n\r\n            <el-button @click=\"sendNotification\">Send Notification</el-button>\r\n\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import DemoJavascript from './DemoJavascript.vue';\r\n    import DemoTypescript from './DemoTypescript.vue';\r\n\r\n    import Vue from 'vue'\r\n    import ElementUI from 'element-ui'; // see http://element.eleme.io/#/en-US/component \r\n    Vue.use(ElementUI)\r\n\r\n    export default {\r\n        name: 'App',\r\n        props: {\r\n            propMessage: String\r\n        },\r\n        data: function() {\r\n            return {\r\n                msg: 'Welcome to Your Vue.js App'\r\n            }\r\n        },\r\n        components: {\r\n            demoJavascript: DemoJavascript,\r\n            demoTypescript: DemoTypescript\r\n        },\r\n        methods: {\r\n            sendNotification() {\r\n                abp.services.app.demo1Service.sendNotification(\"helloooo\");\r\n            }\r\n        }\r\n\r\n    }\r\n</script>\r\n\r\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\r\n<style scoped>\r\n    h1 {\r\n        font-weight: normal;\r\n        color: dodgerblue;\r\n    }\r\n</style>"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\nh1[data-v-578ac0f7] {\n    font-weight: normal;\n    color: dodgerblue;\n}\n", "", {"version":3,"sources":["/./ClientApp/demo1/app.vue?a732c910"],"names":[],"mappings":";AAqEA;IACA,oBAAA;IACA,kBAAA;CACA","file":"app.vue","sourcesContent":["<template>\r\n    <div>\r\n        <!-- Breadcrumb -->\r\n        <ol class=\"breadcrumb\">\r\n            <li class=\"breadcrumb-item active\">Home</li>\r\n            <!-- Breadcrumb Menu-->\r\n            <li class=\"breadcrumb-menu d-md-down-none\">\r\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Button group\">\r\n                    <a class=\"btn\" href=\"/\"><i class=\"icon-calendar\"></i> &nbsp;Dashboard</a>\r\n                </div>\r\n            </li>\r\n        </ol>\r\n        <div class=\"container-fluid\">\r\n            <h1>{{ propMessage }}</h1>\r\n            <demo-javascript></demo-javascript>\r\n            <demo-typescript propMessage=\"demoTypescript\"></demo-typescript>\r\n\r\n            <el-alert title=\"Title.\"\r\n                      type=\"info\"\r\n                      description=\"This is a description.\">\r\n            </el-alert>\r\n\r\n            <el-button @click=\"sendNotification\">Send Notification</el-button>\r\n            {{notifications}}\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import DemoJavascript from './DemoJavascript.vue';\r\n    import DemoTypescript from './DemoTypescript.vue';\r\n\r\n    import Vue from 'vue'\r\n    import ElementUI from 'element-ui'; // see http://element.eleme.io/#/en-US/component \r\n    Vue.use(ElementUI)\r\n\r\n    export default {\r\n        name: 'App',\r\n        props: {\r\n            propMessage: String\r\n        },\r\n        data: function() {\r\n            return {\r\n                msg: 'Welcome to Your Vue.js App',\r\n                notifications:[]\r\n            }\r\n        },\r\n        components: {\r\n            demoJavascript: DemoJavascript,\r\n            demoTypescript: DemoTypescript\r\n        },\r\n        methods: {\r\n            sendNotification() {\r\n                abp.services.app.demo1Service.sendNotification(\"helloooo\");\r\n            }\r\n        },\r\n        created() {\r\n            var self = this;\r\n            abp.event.on('abp.notifications.received', function (userNotification) {\r\n                self.notifications.push(userNotification);\r\n            });\r\n\r\n        }\r\n\r\n    }\r\n</script>\r\n\r\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\r\n<style scoped>\r\n    h1 {\r\n        font-weight: normal;\r\n        color: dodgerblue;\r\n    }\r\n</style>"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -660,7 +660,8 @@ __WEBPACK_IMPORTED_MODULE_2_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_3_ele
     },
     data: function data() {
         return {
-            msg: 'Welcome to Your Vue.js App'
+            msg: 'Welcome to Your Vue.js App',
+            notifications: []
         };
     },
     components: {
@@ -671,8 +672,13 @@ __WEBPACK_IMPORTED_MODULE_2_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_3_ele
         sendNotification: function sendNotification() {
             abp.services.app.demo1Service.sendNotification("helloooo");
         }
+    },
+    created: function created() {
+        var self = this;
+        abp.event.on('abp.notifications.received', function (userNotification) {
+            self.notifications.push(userNotification);
+        });
     }
-
 });
 
 /***/ }),
@@ -1271,7 +1277,8 @@ var render = function() {
         _vm._v(" "),
         _c("el-button", { on: { click: _vm.sendNotification } }, [
           _vm._v("Send Notification")
-        ])
+        ]),
+        _vm._v("\n        " + _vm._s(_vm.notifications) + "\n    ")
       ],
       1
     )
