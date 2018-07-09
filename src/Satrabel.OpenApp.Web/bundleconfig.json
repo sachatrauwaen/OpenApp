@@ -57,7 +57,6 @@
       "Views/lib/coreui/popper.js/index.js",
       "Views/lib/coreui/tether/dist/js/tether.min.js",
       "Views/lib/coreui/bootstrap/dist/js/bootstrap.min.js",
-      "Views/lib/coreui/pace/pace.min.js",
       "Views/lib/json2/json2.js",
       "Views/lib/moment/min/moment-with-locales.js",
       "Views/lib/jquery-validation/dist/jquery.validate.js",

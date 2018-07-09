@@ -72,10 +72,12 @@ var abp = abp || {};
             url += '?' + abp.signalr.qs;
         }
 
-        return function start(transport) {
-            abp.log.debug('Starting connection using ' + signalR.HttpTransportType[transport] + ' transport');
+        return function start() {
+            abp.log.debug('Starting connection ');
             var connection = new signalR.HubConnectionBuilder()
-                .withUrl(url, transport)
+                //.configureLogging(signalR.LogLevel.Trace)
+                //.withUrl(url, transport)
+                .withUrl(url) // automatic negotion
                 .build();
             if (configureConnection && typeof configureConnection === 'function') {
                 configureConnection(connection);
@@ -86,14 +88,15 @@ var abp = abp || {};
                     return connection;
                 })
                 .catch(function (error) {
-                    abp.log.debug('Cannot start the connection using ' + signalR.HttpTransportType[transport] + ' transport. ' + error.message);
-                    if (transport !== signalR.HttpTransportType.LongPolling) {
-                        return start(transport + 1);
-                    }
+                    abp.log.debug('Cannot start the connection : ' + error.message);
+                    //abp.log.debug('Cannot start the connection using ' + signalR.HttpTransportType[transport] + ' transport. ' + error.message);
+                    //if (transport !== signalR.HttpTransportType.LongPolling) {
+                    //    return start(transport + 1);
+                    //}
 
                     return Promise.reject(error);
                 });
-        }(signalR.HttpTransportType.WebSockets);
+        }();
     }
 
     abp.signalr.startConnection = startConnection;

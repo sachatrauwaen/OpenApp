@@ -461,8 +461,17 @@
     <environment names="Staging,Production">
         <script src="~/Views/_Bundles/shared-layout.min.js" asp-append-version="true"></script>
     </environment>
+    @if (SignalRFeature.IsAvailable)
+    {
+        <script src="/Views/lib/signalr-client/signalr.min.js" asp-append-version="true"></script>
+        <script src="~/Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.signalr-client.js" asp-append-version="true"></script>
+    }
+    else
+    {
+        @* for Internet explorer 11 because this make disfunction signalR *@
+        <script src="~/Views/lib/coreui/pace/pace.min.js" asp-append-version="true"></script>
+    }
 
-    
     <script>
     //Localizing momentjs
     moment.locale('@CultureInfo.CurrentUICulture.Name');
@@ -472,11 +481,7 @@
     <script src="~/AbpServiceProxies/GetAll?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     <script src="~/OpenAppServiceProxies/GetAll?type=json&v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     <script src="~/AbpScripts/GetScripts?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
-    @if (SignalRFeature.IsAvailable)
-    {
-            <script src="/Views/lib/signalr-client/signalr.min.js" asp-append-version="true"></script>
-            <script src="~/Views/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.signalr-client.js" asp-append-version="true"></script>
-    }
+
     @WebResourceManager.RenderScripts()
     <!-- View specific scripts -->
     @RenderSection("scripts", required: false)
