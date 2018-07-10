@@ -13,7 +13,7 @@
         },       
         computed: {
             currentView: function () {
-                var sch = this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
+                var sch = this.schemaType(this.schema);
                 var type = Array.isArray(sch.type) ? (sch.type[0] == "null" ? sch.type[1]:sch.type[0] ) : sch.type;
                 if (sch["x-type"]) {
                     type = sch["x-type"];
@@ -75,6 +75,18 @@
         methods: {
             propChange: function (key, value) {
                 this.$emit('propChange', key, value);
+            },
+            schemaType: function (schema) {
+                if (this.schema.oneOf) {
+                    var lst = schema.oneOf.filter(function (s) { s.type != "null" });
+                    if (lst.length > 0) {
+                        return lst[0];
+                    } else {
+                        return schema;
+                    }
+                } else {
+                    return this.schema;
+                }
             }
         }
     }
