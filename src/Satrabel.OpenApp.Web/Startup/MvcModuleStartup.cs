@@ -49,6 +49,19 @@ namespace Satrabel.OpenApp.Startup
             Clock.Provider = ClockProviders.Local;
         }
 
+
+        #region Helpers for Swagger name generation
+        private string CreateGenericTypeName(Type[] generics)
+        {
+            return generics.Count() > 0 ? "[" + String.Join("_", generics.Select(type => CreateTypeNameWithNameSpace(type))) + "]" : "";
+        }
+
+        private string CreateTypeNameWithNameSpace(Type type)
+        {
+            return type.Namespace + "." + type.Name.Replace("`1", "") + CreateGenericTypeName(type.GenericTypeArguments);
+        }
+        #endregion
+
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
         {
             //MVC
@@ -87,7 +100,35 @@ namespace Satrabel.OpenApp.Startup
                 {
                     options.SwaggerDoc("v1", new Info { Title = "OpenApp API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
-                    options.CustomSchemaIds(x => x.FullName);
+
+                    /*
+                     * Explanation of code bellow concerning CustomSchemaId
+                     * 
+                     * Swashbuckle for .Net Core generates simple DTO names by default. This is good and readable, but can become a problem when there are multiple DTO's with the same name in different Namespaces.
+                     * 
+                     * Thus, a more robust approach is to generate a FullName. This includes namespace, assembly version, etc, etc.
+                     * Another problem is that when returning a DTO with generics. Like, for example, PagedResultDto<LanguageDto> a weird name is generated, including a backtick.
+                     * This weird syntax
+                     *  1. Is not very readable
+                     *  2. Breaks code generation in later stages (for e.g. TypeScript)
+                     *  
+                     * We run into this issue when using CrudAppService. To fix this we apply a simple replace of the weird syntax characters to produce a Swagger definition that can be used for CodeGen.
+                     * 
+                     * A problem with the FullName is that it generates very long and unreadable names, since it includes version number of the assembly, etc, etc
+                     * To get around this we provide an alternative where we only include Namespace, TypeName and generics. This approach seems to work for now, but might break in untested edge cases.
+                     * 
+                     * In any case FullName doesn't seem robust anyway whenever using generics, so it is hard to rely on FullName as a robust solution overall and it seems reasonable that our implementation is simply better.
+                     * 
+                     * A case in which the current implementation might break would be with more than 1 generic. This, however, is not the case with CrudAppService and thus should only be adjusted when there is a use case for multiple generics.
+                     * This use case could very well be in a user's project. Whenever someone runs into this problem, a fix should be pushed to OpenApp.
+                     */
+
+                    //options.CustomSchemaIds(x => x.FullName); /* Using FullName */
+                    //options.CustomSchemaIds(t => t.FullName.Replace("`1", "")); /* Using FullName with fix for Generics (only 1) */
+
+                    options.CustomSchemaIds(type => CreateTypeNameWithNameSpace(type)); /* Custom naming implementation to support generics and multiple DTO's with the same name in different namespaces */
+
+
                     // Define the BearerAuth scheme that's in use
                     options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
                     {
