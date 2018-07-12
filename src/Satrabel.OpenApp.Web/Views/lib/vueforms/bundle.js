@@ -351,7 +351,7 @@
 (function () {
     var timeComponent = {
         name: "timeComponent",
-        template: '<el-time-picker v-model="model" :picker-options="{start: start, step: step, end: end }" ></el-time-picker>',
+        template: '<el-time-select v-model="model" :picker-options="{start: start, step: step, end: end }" ></el-time-select>',
         props: {
             value: {},
             schema: {},
