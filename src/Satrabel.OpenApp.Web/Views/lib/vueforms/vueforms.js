@@ -51,6 +51,5 @@
 
         document.body.appendChild(script);
     }
-
     
 })();
