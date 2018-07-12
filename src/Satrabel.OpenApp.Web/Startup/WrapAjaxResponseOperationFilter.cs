@@ -31,11 +31,11 @@ namespace Satrabel.OpenApp.Web.Startup
             context.ApiDescription.SupportedResponseTypes
                 .Where(x => x.StatusCode == 200 || x.StatusCode == 500)
                 .Where(x => x != null)
-                .Where(x => x.Type.Equals(typeof(void)) == false)
+                //.Where(x => x.Type.Equals(typeof(void)) == false)
                 .ToList()
                 .ForEach(response => {
                     // Wrap the type with AjaxResponse<GenericType> so we get AjaxResponse<SpecificType>
-                    var wrappedType = typeof(AjaxResponse<>).MakeGenericType(response.Type);
+                    var wrappedType = response.Type.Equals(typeof(void)) ? typeof(AjaxResponse) : typeof(AjaxResponse<>).MakeGenericType(response.Type);
                     var wrappedTypeFriendlyId = wrappedType.FriendlyId();
 
                     // Add AjaxResponse<SpecificType> schema manually (since it will not be picked up by ApiDefinition/Swashbuckle)
