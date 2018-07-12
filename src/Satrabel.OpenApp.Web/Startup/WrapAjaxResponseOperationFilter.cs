@@ -11,13 +11,6 @@ namespace Satrabel.OpenApp.Web.Startup
 {
     public class WrapAjaxResponseOperationFilter : IOperationFilter
     {
-        //private readonly IOptions<AuthorizationOptions> authorizationOptions;
-
-        //public WrapAjaxResponseOperationFilter(IOptions<AuthorizationOptions> authorizationOptions)
-        //{
-        //    this.authorizationOptions = authorizationOptions;
-        //}
-
         public void Apply(Operation operation, OperationFilterContext context)
         {
             /*
@@ -36,7 +29,7 @@ namespace Satrabel.OpenApp.Web.Startup
                 // 2. Check that the DontWrap attribute is not on this method/class
 
             context.ApiDescription.SupportedResponseTypes
-                .Where(x => x.StatusCode == 200)
+                .Where(x => x.StatusCode == 200 || x.StatusCode == 500)
                 .Where(x => x != null)
                 .Where(x => x.Type.Equals(typeof(void)) == false)
                 .ToList()
@@ -53,7 +46,7 @@ namespace Satrabel.OpenApp.Web.Startup
 
                     // Replace the schema of the original response with the created schema of the wrapped response
                     operation.Responses
-                        .Where(x => x.Key == "200")
+                        .Where(x => x.Key == "200" || x.Key == "500")
                         .Select(x => x.Value)
                         .ToList()
                         .ForEach(x => x.Schema = schema);

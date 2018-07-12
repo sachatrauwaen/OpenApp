@@ -138,11 +138,12 @@ namespace Satrabel.OpenApp.Startup
                         Type = "apiKey"
                     });
 
-                    // By default ABP wraps API Responses with AjaxResponse. These don't get picked up automatically, so add them by enabling this OperationFilter.
-                    options.OperationFilter<WrapAjaxResponseOperationFilter>();
-
                     // Assign scope requirements to operations based on AuthorizeAttribute
                     options.OperationFilter<SecurityRequirementsOperationFilter>();
+
+                    // By default ABP wraps API Responses with AjaxResponse. These don't get picked up automatically, so add them by enabling this OperationFilter.
+                    // IMPORTANT: Should run after SecurityRequirementsOperationFilter. Otherwise the response type for alternative error codes will be incorrect.
+                    options.OperationFilter<WrapAjaxResponseOperationFilter>();
                 });
             }
 
