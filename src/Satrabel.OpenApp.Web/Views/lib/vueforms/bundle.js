@@ -351,7 +351,7 @@
 (function () {
     var timeComponent = {
         name: "timeComponent",
-        template: '<el-time-picker v-model="model" ></el-time-picker>',
+        template: '<el-time-picker v-model="model" :picker-options="{start: start, step: step, end: end }" ></el-time-picker>',
         props: {
             value: {},
             schema: {},
@@ -363,11 +363,20 @@
         computed: {
             model: {
                 get: function () {
-                    return this.value
+                    return this.value;
                 },
                 set: function (val) {
-                    this.$emit('input', val)
+                    this.$emit('input', val);
                 }
+            },
+            start: function () {
+                return this.schema['x-ui-start'] ? this.schema['x-ui-start'] : '00:00';
+            },
+            step: function () {
+                return this.schema['x-ui-step'] ? this.schema['x-ui-step'] : '00:30';
+            },
+            end: function () {
+                return this.schema['x-ui-end'] ? this.schema['x-ui-end'] : '23:30';
             }
         },
     }
