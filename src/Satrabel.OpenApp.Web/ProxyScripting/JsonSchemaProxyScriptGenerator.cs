@@ -28,7 +28,8 @@ namespace Satrabel.OpenApp.ProxyScripting
             settings.DefaultPropertyNameHandling = NJsonSchema.PropertyNameHandling.CamelCase;
             settings.DefaultReferenceTypeNullHandling = NJsonSchema.ReferenceTypeNullHandling.NotNull;
             settings.AllowReferencesWithProperties = true;
-            settings.SchemaType = NJsonSchema.SchemaType.Swagger2;
+
+            settings.SchemaType = NJsonSchema.SchemaType.JsonSchema;
             generator = new JsonSchemaGenerator(settings);
         }
 

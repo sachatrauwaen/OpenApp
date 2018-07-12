@@ -43,6 +43,8 @@ namespace Satrabel.OpenApp.Web.Startup
                     }
                 };
             }
+
+            operation.Responses.Add("500", new Response { Description = "Server Error" });
         }
     }
 }

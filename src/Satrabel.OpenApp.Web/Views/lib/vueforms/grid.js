@@ -38,7 +38,7 @@
                 return fields;
             },
             isMobile: function () {
-                return window.matchMedia("only screen and (max-width: 760px)").matches
+                return VueForms.isMobile();
             },
         },
         methods: {
@@ -50,7 +50,7 @@
                     return name;
             },
             formatter: function (row, column, cellValue) {
-                var schema = this.schema.properties[column.property];
+                var schema = VueForms.jsonSchema.getNotNull(this.schema.properties[column.property]);
                 if (schema.type == 'boolean') {
                     return cellValue ? this.messages["Yes"] : this.messages["No"];
                 } else if (schema.format == 'date-time') {
@@ -58,10 +58,7 @@
                     return moment(cellValue).locale('fr').format('lll');
                 } else if (schema.enum) {
                     var i = schema.enum.indexOf(cellValue);
-                    return this.messages[schema['x-enumNames'][i]];
-                } else if (schema.oneOf && schema.oneOf.length > 0 && schema.oneOf[0].enum) {
-                    var i = schema.oneOf[0].enum.indexOf(cellValue);
-                    return this.messages[schema.oneOf[0]['x-enumNames'][i]];
+                    return this.messages[schema['x-enumNames'][i]] ? this.messages[schema['x-enumNames'][i]] : schema['x-enumNames'][i];
                 }
                 return cellValue;
             },
