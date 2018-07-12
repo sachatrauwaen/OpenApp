@@ -34,7 +34,6 @@ namespace Satrabel.OpenApp.Web.Startup
             {
                 operation.Responses.Add("401", new Response { Description = "Unauthorized" });
                 operation.Responses.Add("403", new Response { Description = "Forbidden" });
-                operation.Responses.Add("500", new Response { Description = "Server Error" });
 
                 operation.Security = new List<IDictionary<string, IEnumerable<string>>>
                 {
@@ -44,6 +43,8 @@ namespace Satrabel.OpenApp.Web.Startup
                     }
                 };
             }
+
+            operation.Responses.Add("500", new Response { Description = "Server Error" });
         }
     }
 }
