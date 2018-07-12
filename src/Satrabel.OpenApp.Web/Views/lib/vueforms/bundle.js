@@ -930,7 +930,7 @@
         },       
         computed: {
             currentView: function () {
-                var sch = this.schemaType(this.schema);
+                var sch = VueForms.jsonSchema.getNotNull(this.schema);
                 var type = Array.isArray(sch.type) ? (sch.type[0] == "null" ? sch.type[1]:sch.type[0] ) : sch.type;
                 if (sch["x-type"]) {
                     type = sch["x-type"];
@@ -992,18 +992,6 @@
         methods: {
             propChange: function (key, value) {
                 this.$emit('propChange', key, value);
-            },
-            schemaType: function (schema) {
-                if (this.schema.oneOf) {
-                    var lst = schema.oneOf.filter(function (s) { s.type != "null" });
-                    if (lst.length > 0) {
-                        return lst[0];
-                    } else {
-                        return schema;
-                    }
-                } else {
-                    return this.schema;
-                }
             }
         }
     }
@@ -1657,7 +1645,7 @@
                 return fields;
             },
             isMobile: function () {
-                return window.matchMedia("only screen and (max-width: 760px)").matches
+                return VueForms.isMobile();
             },
         },
         methods: {
@@ -1669,7 +1657,7 @@
                     return name;
             },
             formatter: function (row, column, cellValue) {
-                var schema = this.schema.properties[column.property];
+                var schema = VueForms.jsonSchema.getNotNull(this.schema.properties[column.property]);
                 if (schema.type == 'boolean') {
                     return cellValue ? this.messages["Yes"] : this.messages["No"];
                 } else if (schema.format == 'date-time') {
@@ -1677,10 +1665,7 @@
                     return moment(cellValue).locale('fr').format('lll');
                 } else if (schema.enum) {
                     var i = schema.enum.indexOf(cellValue);
-                    return this.messages[schema['x-enumNames'][i]];
-                } else if (schema.oneOf && schema.oneOf.length > 0 && schema.oneOf[0].enum) {
-                    var i = schema.oneOf[0].enum.indexOf(cellValue);
-                    return this.messages[schema.oneOf[0]['x-enumNames'][i]];
+                    return this.messages[schema['x-enumNames'][i]] ? this.messages[schema['x-enumNames'][i]] : schema['x-enumNames'][i];
                 }
                 return cellValue;
             },
@@ -1894,6 +1879,8 @@
     }
     Vue.component('oa-crud-grid', CrudGrid);
 })();
+VueForms = {};
+
 (function () {
     String.prototype.capitalize = function () {
         return this.charAt(0).toUpperCase() + this.slice(1);
@@ -1948,5 +1935,21 @@
         document.body.appendChild(script);
     }
 
+    VueForms.jsonSchema = {};
+    VueForms.jsonSchema.getNotNull = function (schema) {
+        if (schema.oneOf) {
+            var lst = schema.oneOf.filter(function (s) { s.type != "null" });
+            if (lst.length > 0) {
+                return lst[0];
+            } else {
+                return schema;
+            }
+        } else {
+            return schema;
+        }
+    };
+    VueForms.isMobile = function () {
+        return window.matchMedia("only screen and (max-width: 760px)").matches;
+    };
     
 })();
