@@ -27,12 +27,13 @@ namespace Satrabel.Starter.Web.Application
 
             var defaultTenantAdmin = new UserIdentifier(1, 2);
             var hostAdmin = new UserIdentifier(null, 1);
+            var admin = new UserIdentifier(1, 1); // multi tenant disabled
 
             _notiticationPublisher.Publish(
                 "App.SimpleMessage",
                 new MessageNotificationData(message),
                 severity: NotificationSeverity.Info,
-                userIds: new[] { defaultTenantAdmin, hostAdmin }
+                userIds: new[] { defaultTenantAdmin, hostAdmin, admin }
             );
         }
 
