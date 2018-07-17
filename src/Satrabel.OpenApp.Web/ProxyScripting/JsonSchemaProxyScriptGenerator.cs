@@ -13,6 +13,7 @@ using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Castle.Core.Logging;
 
 namespace Satrabel.OpenApp.ProxyScripting
 {
@@ -24,7 +25,7 @@ namespace Satrabel.OpenApp.ProxyScripting
         //private static Lazy<PropertyRenameAndIgnoreSerializerContractResolver> ContractResolver = new Lazy<PropertyRenameAndIgnoreSerializerContractResolver>(
         //    () => JsonSchema4.CreateJsonSerializerContractResolver(SerializationSchemaType));
 
-
+        public ILogger Logger { get; set; }
 
         /// <summary>
         /// "jquery".
@@ -35,7 +36,7 @@ namespace Satrabel.OpenApp.ProxyScripting
 
         public JsonSchemaProxyScriptGenerator()
         {
-
+            Logger = NullLogger.Instance;
             var settings = new JsonSchemaGeneratorSettings();
             settings.FlattenInheritanceHierarchy = true;
             settings.DefaultPropertyNameHandling = NJsonSchema.PropertyNameHandling.CamelCase;
@@ -43,6 +44,7 @@ namespace Satrabel.OpenApp.ProxyScripting
             settings.AllowReferencesWithProperties = false;
             settings.SchemaType = NJsonSchema.SchemaType.JsonSchema;
             generator = new JsonSchemaGenerator(settings);
+
         }
 
 
@@ -184,10 +186,18 @@ namespace Satrabel.OpenApp.ProxyScripting
         private JsonSchema4 CleanUpSchema(JsonSchema4 schema)
         {
             var sch = new JsonSchema4();
-            CopyFields(schema, sch);
-            foreach (var item in schema.ActualSchema.ActualProperties)
+            try
             {
-                sch.Properties.Add(item.Key, CleanUpSchema(item.Value));
+                CopyFields(schema, sch);
+                foreach (var item in schema.ActualSchema.ActualProperties)
+                {
+                    sch.Properties.Add(item.Key, CleanUpSchema(item.Value));
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("CleanupSchema error ("+schema.Title+")", ex);
+                throw;
             }
             return sch;
         }
