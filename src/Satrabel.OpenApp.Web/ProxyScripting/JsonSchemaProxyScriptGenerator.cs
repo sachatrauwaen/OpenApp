@@ -185,6 +185,7 @@ namespace Satrabel.OpenApp.ProxyScripting
 
         private JsonSchema4 CleanUpSchema(JsonSchema4 schema)
         {
+            return schema;
             var sch = new JsonSchema4();
             try
             {
