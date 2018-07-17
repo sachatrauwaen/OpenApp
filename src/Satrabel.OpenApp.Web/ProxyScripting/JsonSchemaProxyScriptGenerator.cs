@@ -8,12 +8,24 @@ using System.Threading.Tasks;
 using System.Linq;
 using Abp;
 using System;
+using NJsonSchema.Generation.TypeMappers;
+using NJsonSchema;
+using NJsonSchema.Infrastructure;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Satrabel.OpenApp.ProxyScripting
 {
 
     class JsonSchemaProxyScriptGenerator : IProxyScriptGenerator, ITransientDependency
     {
+
+        //private const SchemaType SerializationSchemaType = SchemaType.JsonSchema;
+        //private static Lazy<PropertyRenameAndIgnoreSerializerContractResolver> ContractResolver = new Lazy<PropertyRenameAndIgnoreSerializerContractResolver>(
+        //    () => JsonSchema4.CreateJsonSerializerContractResolver(SerializationSchemaType));
+
+
+
         /// <summary>
         /// "jquery".
         /// </summary>
@@ -23,6 +35,7 @@ namespace Satrabel.OpenApp.ProxyScripting
 
         public JsonSchemaProxyScriptGenerator()
         {
+
             var settings = new JsonSchemaGeneratorSettings();
             settings.FlattenInheritanceHierarchy = true;
             settings.DefaultPropertyNameHandling = NJsonSchema.PropertyNameHandling.CamelCase;
@@ -138,6 +151,7 @@ namespace Satrabel.OpenApp.ProxyScripting
                     type = type.GetGenericArguments()[0]; // use this...
                 }
                 var schema = generator.GenerateAsync(type).GetAwaiter().GetResult();
+                schema = CleanUpSchema(schema);                
                 var schemaData = schema.ToJson();
                 //schema.Title = action.ReturnValue.Type.Name;
                 script.Append($"abp.schemas.{module.Name.ToCamelCase()}.{controller.Name.ToCamelCase()}.{action.Name.ToCamelCase()}.returnValue =  ");
@@ -157,6 +171,7 @@ namespace Satrabel.OpenApp.ProxyScripting
                         schema.Default = parameter.DefaultValue;
                         //schema.re = parameter.IsOptional
                     }
+                    schema = CleanUpSchema(schema);
                     var schemaData = schema.ToJson();
                     script.Append($"    {parameter.Name.ToCamelCase()} :  ");
                     script.Append(schemaData);
@@ -165,5 +180,87 @@ namespace Satrabel.OpenApp.ProxyScripting
                 script.AppendLine("};");
             }
         }
+
+        private JsonSchema4 CleanUpSchema(JsonSchema4 schema)
+        {
+            var sch = new JsonSchema4();
+            CopyFields(schema, sch);
+            foreach (var item in schema.ActualSchema.ActualProperties)
+            {
+                sch.Properties.Add(item.Key, CleanUpSchema(item.Value));
+            }
+            return sch;
+        }
+        private JsonProperty CleanUpSchema(JsonProperty schema)
+        {
+            var sch = new JsonProperty();
+            sch.IsRequired = schema.IsRequired;
+            sch.IsReadOnly = schema.IsReadOnly;
+            CopyFields(schema, sch);
+            foreach (var item in schema.ActualSchema.ActualProperties)
+            {
+                sch.Properties.Add(item.Key, CleanUpSchema(item.Value));
+            }
+            if (schema.OneOf.Count == 1)
+            {
+                CopyFields(schema.OneOf.First().ActualSchema, sch);
+            }
+            return sch;
+        }
+
+        private static void CopyFields(JsonSchema4 schema, JsonSchema4 sch)
+        {
+            if (!string.IsNullOrEmpty(schema.Title))
+            {
+                sch.Title = schema.Title;
+            }
+            if (schema.Type != JsonObjectType.None)
+            {
+                sch.Type = schema.Type;
+                sch.Type &= ~JsonObjectType.Null; // remove null
+            }
+            if (!string.IsNullOrEmpty(schema.Format))
+            {
+                sch.Format = schema.Format;
+            }
+            if (schema.Minimum.HasValue)
+            {
+                sch.Minimum = schema.Minimum;
+            }
+            if (schema.Maximum.HasValue)
+            {
+                sch.Maximum = schema.Maximum;
+            }
+            if (schema.MinLength.HasValue)
+            {
+                sch.MinLength = schema.MinLength;
+            }
+            if (schema.MaxLength.HasValue)
+            {
+                sch.MaxLength = schema.MaxLength;
+            }
+            foreach (var item in schema.Enumeration)
+            {
+                sch.Enumeration.Add(item);
+            }
+            foreach (var item in schema.EnumerationNames)
+            {
+                sch.EnumerationNames.Add(item);
+            }
+            // arrays
+            foreach (var item in schema.Items)
+            {
+                sch.Items.Add(item);
+            }
+            if (schema.ExtensionData != null)
+            {
+                sch.ExtensionData = new Dictionary<string, object>();
+                foreach (var item in schema.ExtensionData)
+                {
+                    sch.ExtensionData.Add(item);
+                }
+            }
+        }
     }
+
 }
