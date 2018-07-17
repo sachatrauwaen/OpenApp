@@ -60,6 +60,9 @@
                     this.noneLabel = this.messages[this.noneLabel];
                 }
             }
+            if (sch["x-enum-hideNone"]) {
+                this.hideNone = sch["x-enum-hideNone"];
+            }
         }
     }
     Vue.component('oa-select', selectComponent);
