@@ -1,7 +1,7 @@
 ﻿(function () {
     var field = {
         name: "oaField",
-        template: ' <el-form-item :label="label" :prop="prop" label-width="labelWidth"> \
+        template: ' <el-form-item :label="label" :prop="prop" :label-width="labelWidth"> \
                     <component v-bind:is="currentView" v-model="model" v-bind="$props" @propChange="propChange" ></component> \
                     </el-form-item>',
         props: {
