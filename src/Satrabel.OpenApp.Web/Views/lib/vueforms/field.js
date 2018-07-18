@@ -1,7 +1,7 @@
 ﻿(function () {
     var field = {
         name: "oaField",
-        template: ' <el-form-item :label="label" :prop="prop"> \
+        template: ' <el-form-item :label="label" :prop="prop" label-width="labelWidth"> \
                     <component v-bind:is="currentView" v-model="model" v-bind="$props" @propChange="propChange" ></component> \
                     </el-form-item>',
         props: {
@@ -65,12 +65,19 @@
                 }
             },
             label: function () {
+                if (this.hideLabel) return "";
                 var name = this.schema.title ? this.schema.title : this.prop.capitalize();
                 if (this.messages && this.messages[name])
                     return this.messages[name];
                 else
                     return this.schema.title ? this.schema.title : name;
             },
+            hideLabel: function () {
+                return this.schema["x-ui-hideLabel"];
+            },
+            labelWidth: function () {
+                return this.hideLabel ? "0px : "";
+            }
         },
         methods: {
             propChange: function (key, value) {
