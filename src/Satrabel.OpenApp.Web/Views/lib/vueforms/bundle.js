@@ -1030,7 +1030,7 @@
                 return this.schema["x-ui-hideLabel"];
             },
             labelWidth: function () {
-                return this.hideLabel ? "0px : "";
+                return this.hideLabel ? "0px" : "";
             }
         },
         methods: {
