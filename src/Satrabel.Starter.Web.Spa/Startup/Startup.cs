@@ -11,10 +11,12 @@ namespace Satrabel.Starter.Web.Startup
         {
             AppVersion = AppConsts.AppVersion;           
         }
+		
         protected override void AddAdditionalServices(IServiceCollection services)
         {
            
         }
+
         protected override void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
         {
             //if (env.IsDevelopment())

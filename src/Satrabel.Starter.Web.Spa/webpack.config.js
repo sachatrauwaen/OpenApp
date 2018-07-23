@@ -7,7 +7,7 @@ const bundleOutputDir = './wwwroot/dist';
 
 
 module.exports = (env) => {
-    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() ==='production');
+    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'production');
     const isDevBuild = !isProdBuild;
 
     return [{
@@ -64,7 +64,7 @@ module.exports = (env) => {
             publicPath: 'dist/'
         },
         plugins: [
-//            new CheckerPlugin(),
+            //new CheckerPlugin(),
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: JSON.stringify(isDevBuild ? 'development' : 'production')
@@ -80,13 +80,13 @@ module.exports = (env) => {
                 filename: '[file].map', // Remove this line if you prefer inline source maps
                 moduleFilenameTemplate: path.relative(bundleOutputDir, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
             })
-        ] : [
-            // Plugins that apply in production builds only
-            new webpack.optimize.UglifyJsPlugin(),
-            //new ExtractTextPlugin('site.css')
-            new ExtractTextPlugin({
-                filename: '[name].css'
-            })
-        ])
+            ] : [
+                // Plugins that apply in production builds only
+                new webpack.optimize.UglifyJsPlugin(),
+                //new ExtractTextPlugin('site.css')
+                new ExtractTextPlugin({
+                    filename: '[name].css'
+                })
+            ])
     }];
 };
