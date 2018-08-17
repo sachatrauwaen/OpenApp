@@ -225,7 +225,7 @@ namespace Satrabel.OpenApp.Migrations
                     b.Property<long?>("UserLinkId");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(32);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -397,8 +397,10 @@ namespace Satrabel.OpenApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("ExpireDate");
+
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(64);
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
                         .HasMaxLength(128);
@@ -966,7 +968,7 @@ namespace Satrabel.OpenApp.Migrations
 
                     b.Property<string>("NormalizedUserName")
                         .IsRequired()
-                        .HasMaxLength(32);
+                        .HasMaxLength(256);
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -989,7 +991,7 @@ namespace Satrabel.OpenApp.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(32);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
