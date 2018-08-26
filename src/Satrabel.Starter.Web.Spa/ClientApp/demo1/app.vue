@@ -19,6 +19,9 @@
                       type="info"
                       description="This is a description.">
             </el-alert>
+
+            <el-button @click="sendNotification">Send Notification</el-button>
+            {{notifications}}
         </div>
     </div>
 </template>
@@ -38,12 +41,25 @@
         },
         data: function() {
             return {
-                msg: 'Welcome to Your Vue.js App'
+                msg: 'Welcome to Your Vue.js App',
+                notifications:[]
             }
         },
         components: {
             demoJavascript: DemoJavascript,
             demoTypescript: DemoTypescript
+        },
+        methods: {
+            sendNotification() {
+                abp.services.app.demo1Service.sendNotification("helloooo");
+            }
+        },
+        created() {
+            var self = this;
+            abp.event.on('abp.notifications.received', function (userNotification) {
+                self.notifications.push(userNotification);
+            });
+
         }
 
     }

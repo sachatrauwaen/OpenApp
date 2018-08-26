@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Rewrite;
+using Microsoft.Extensions.DependencyInjection;
 using Satrabel.OpenApp.Startup;
 
 namespace Satrabel.Starter.Web.Startup
@@ -11,11 +11,14 @@ namespace Satrabel.Starter.Web.Startup
         {
             AppVersion = AppConsts.AppVersion;           
         }
+		
+        protected override void AddAdditionalServices(IServiceCollection services)
+        {
+           
+        }
 
         protected override void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
         {
-            var options = new RewriteOptions().Add(new PageRule());
-            app.UseRewriter(options);
             //if (env.IsDevelopment())
             //{
             //    app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions

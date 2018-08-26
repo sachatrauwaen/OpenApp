@@ -29,17 +29,20 @@
             };
         },
         computed: {
+            sch: function () {
+                return this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
+            },
             relationResource: function () {
-                return this.schema["x-rel-app"];
+                return this.sch["x-rel-app"];
             },
             relationAction: function () {
-                return this.schema["x-rel-action"] || 'get' + this.prop.capitalize() + 's';
+                return this.sch["x-rel-action"] || 'get' + this.prop.capitalize() + 's';
             },
             relationValueField: function () {
-                return this.schema["x-rel-valuefield"] || 'id';
+                return this.sch["x-rel-valuefield"] || 'id';
             },
             relationTextField: function () {
-                return this.schema["x-rel-textfield"] || 'fullName';
+                return this.sch["x-rel-textfield"] || 'fullName';
             },
             id: function () {
                 return this.value ? this.value[this.relationValueField] : null;

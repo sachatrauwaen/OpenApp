@@ -6,6 +6,7 @@ using Abp.AutoMapper;
 using Satrabel.OpenApp.Authorization.Users;
 using System.ComponentModel;
 using NJsonSchema.Annotations;
+using Satrabel.OpenApp.UIAttributes;
 
 namespace Satrabel.OpenApp.Users.Dto
 {
@@ -18,7 +19,8 @@ namespace Satrabel.OpenApp.Users.Dto
 
         [Required]
         [StringLength(AbpUserBase.MaxNameLength)]
-        [JsonSchemaExtensionData("x-ui-grid", false)]
+        //[JsonSchemaExtensionData("x-ui-grid", false)]
+        [UIGrid(false)]
         public string Name { get; set; }
 
         [Required]

@@ -23,12 +23,8 @@ using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Linq;
 using Abp.Extensions;
-
-#if FEATURE_SIGNALR
-using Owin;
-using Abp.Owin;
-using Satrabel.OpenApp.Owin;
-#endif
+using Abp.AspNetCore.SignalR.Hubs;
+using Satrabel.OpenApp.SignalR;
 
 namespace Satrabel.OpenApp.Startup
 {
@@ -38,7 +34,8 @@ namespace Satrabel.OpenApp.Startup
         protected readonly IConfigurationRoot _appConfiguration;
         private readonly bool _corsEnabled = false;
         private readonly bool _swaggerEnabled = false;
-        
+        private readonly bool _signalREnabled = false;
+
         protected Version AppVersion;
 
         public MvcModuleStartup(IHostingEnvironment env)
@@ -46,8 +43,24 @@ namespace Satrabel.OpenApp.Startup
             _appConfiguration = env.GetAppConfiguration();
             _corsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"]);
             _swaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"]);
+            _signalREnabled = bool.Parse(_appConfiguration["SignalR:IsEnabled"]);
+
+            SignalRFeature.IsAvailable = _signalREnabled;
             Clock.Provider = ClockProviders.Local;
         }
+
+
+        #region Helpers for Swagger name generation
+        private string CreateGenericTypeName(Type[] generics)
+        {
+            return generics.Count() > 0 ? "[" + String.Join("_", generics.Select(type => CreateTypeNameWithNameSpace(type))) + "]" : "";
+        }
+
+        private string CreateTypeNameWithNameSpace(Type type)
+        {
+            return type.Namespace + "." + type.Name.Replace("`1", "") + CreateGenericTypeName(type.GenericTypeArguments);
+        }
+        #endregion
 
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
         {
@@ -72,11 +85,11 @@ namespace Satrabel.OpenApp.Startup
             {
                 options.AddPolicy(DefaultCorsPolicyName, builder =>
                 {
-                        //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
-                        builder
-                        .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim().RemovePostFix("/")).ToArray())
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
+                    //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
+                    builder
+                    .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim().RemovePostFix("/")).ToArray())
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
                 });
             });
 
@@ -87,7 +100,35 @@ namespace Satrabel.OpenApp.Startup
                 {
                     options.SwaggerDoc("v1", new Info { Title = "OpenApp API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
-                    options.CustomSchemaIds(x => x.FullName);
+
+                    /*
+                     * Explanation of code bellow concerning CustomSchemaId
+                     * 
+                     * Swashbuckle for .Net Core generates simple DTO names by default. This is good and readable, but can become a problem when there are multiple DTO's with the same name in different Namespaces.
+                     * 
+                     * Thus, a more robust approach is to generate a FullName. This includes namespace, assembly version, etc, etc.
+                     * Another problem is that when returning a DTO with generics. Like, for example, PagedResultDto<LanguageDto> a weird name is generated, including a backtick.
+                     * This weird syntax
+                     *  1. Is not very readable
+                     *  2. Breaks code generation in later stages (for e.g. TypeScript)
+                     *  
+                     * We run into this issue when using CrudAppService. To fix this we apply a simple replace of the weird syntax characters to produce a Swagger definition that can be used for CodeGen.
+                     * 
+                     * A problem with the FullName is that it generates very long and unreadable names, since it includes version number of the assembly, etc, etc
+                     * To get around this we provide an alternative where we only include Namespace, TypeName and generics. This approach seems to work for now, but might break in untested edge cases.
+                     * 
+                     * In any case FullName doesn't seem robust anyway whenever using generics, so it is hard to rely on FullName as a robust solution overall and it seems reasonable that our implementation is simply better.
+                     * 
+                     * A case in which the current implementation might break would be with more than 1 generic. This, however, is not the case with CrudAppService and thus should only be adjusted when there is a use case for multiple generics.
+                     * This use case could very well be in a user's project. Whenever someone runs into this problem, a fix should be pushed to OpenApp.
+                     */
+
+                    //options.CustomSchemaIds(x => x.FullName); /* Using FullName */
+                    //options.CustomSchemaIds(t => t.FullName.Replace("`1", "")); /* Using FullName with fix for Generics (only 1) */
+
+                    options.CustomSchemaIds(type => CreateTypeNameWithNameSpace(type)); /* Custom naming implementation to support generics and multiple DTO's with the same name in different namespaces */
+
+
                     // Define the BearerAuth scheme that's in use
                     options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
                     {
@@ -96,13 +137,21 @@ namespace Satrabel.OpenApp.Startup
                         In = "header",
                         Type = "apiKey"
                     });
+
                     // Assign scope requirements to operations based on AuthorizeAttribute
                     options.OperationFilter<SecurityRequirementsOperationFilter>();
+
+                    // By default ABP wraps API Responses with AjaxResponse. These don't get picked up automatically, so add them by enabling this OperationFilter.
+                    // IMPORTANT: Should run after SecurityRequirementsOperationFilter. Otherwise the response type for alternative error codes will be incorrect.
+                    options.OperationFilter<WrapAjaxResponseOperationFilter>();
                 });
             }
 
             AddAdditionalServices(services);
-
+            if (_signalREnabled)
+            {
+                services.AddSignalR();
+            }
             //Configure Abp and Dependency Injection
             return services.AddAbp<TModule>(options =>
             {
@@ -164,12 +213,13 @@ namespace Satrabel.OpenApp.Startup
             // end temp fix
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
-
-#if FEATURE_SIGNALR
-            //Integrate to OWIN
-            app.UseAppBuilder(ConfigureOwinServices);
-#endif
-
+            if (_signalREnabled)
+            {
+                app.UseSignalR(routes =>
+                {
+                    routes.MapHub<AbpCommonHub>("/signalr");
+                });
+            }
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

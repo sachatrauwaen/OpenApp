@@ -2,10 +2,10 @@
     var filterform = {
         name: "oaFilterform",
         template: '<el-form ref="form" :model="model" :rules="rules" label-position="right" :label-width="labelwidth" :inline="!isMobile" :label-position="labelPosition"> \
-                <oa-field v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" :service="service" ></oa-field> \
-                <el-form-item> \
-                    <el-button v-for="action in actions" :key="action.name" size="small" :icon="action.icon" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
-                </el-form-item> \
+                    <oa-field v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" :service="service" @propChange="propChange" ></oa-field> \
+                    <el-form-item> \
+                        <el-button v-for="action in actions" :key="action.name" size="small" :icon="action.icon" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
+                    </el-form-item> \
                 </el-form>',
         props: {
             model: {},
@@ -32,7 +32,7 @@
                 else {
                     var fields = {};
                     for (var key in this.schema.properties) {
-                        if (key != 'id' && !this.schema.properties[key].readOnly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
+                        if (key != 'id' && !this.schema.properties[key].readonly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
                             fields[key] = this.schema.properties[key];
                         }
                     }
@@ -83,6 +83,9 @@
                     return this.messages[name];
                 else
                     return name;
+            },
+            propChange: function (key, value) {
+                this.$set(this.model, key, value);
             }
         },
         /*

@@ -8,7 +8,9 @@ namespace Satrabel.OpenApp.Tests
         {
             if (!OpenAppConsts.MultiTenancyEnabled)
             {
+#pragma warning disable CS0162 // Impossible d'atteindre le code détecté
                 Skip = "MultiTenancy is disabled.";
+#pragma warning restore CS0162 // Impossible d'atteindre le code détecté
             }
         }
     }

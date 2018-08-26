@@ -1,7 +1,7 @@
 ﻿(function () {
     var field = {
         name: "oaField",
-        template: ' <el-form-item :label="label" :prop="prop"> \
+        template: ' <el-form-item :label="label" :prop="prop" :label-width="labelWidth"> \
                     <component v-bind:is="currentView" v-model="model" v-bind="$props" @propChange="propChange" ></component> \
                     </el-form-item>',
         props: {
@@ -13,7 +13,7 @@
         },       
         computed: {
             currentView: function () {
-                var sch = this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
+                var sch = VueForms.jsonSchema.getNotNull(this.schema);
                 var type = Array.isArray(sch.type) ? (sch.type[0] == "null" ? sch.type[1]:sch.type[0] ) : sch.type;
                 if (sch["x-type"]) {
                     type = sch["x-type"];
@@ -65,12 +65,19 @@
                 }
             },
             label: function () {
+                if (this.hideLabel) return "";
                 var name = this.schema.title ? this.schema.title : this.prop.capitalize();
                 if (this.messages && this.messages[name])
                     return this.messages[name];
                 else
                     return this.schema.title ? this.schema.title : name;
             },
+            hideLabel: function () {
+                return this.schema["x-ui-hideLabel"];
+            },
+            labelWidth: function () {
+                return this.hideLabel ? "0px" : "120px";
+            }
         },
         methods: {
             propChange: function (key, value) {

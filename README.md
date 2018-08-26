@@ -46,12 +46,13 @@ This way the reusable part of the Abp template are isolated and maintained centr
 ## Roadmap
 Version 1.0.0
 - [x] Language selector
-- [ ] Login UI fixes
-- [ ] Register UI
-- [ ] Reset password
+- [x] Login UI fixes
+- [x] Register UI
 
-Version 1.x
+Version 1.1
+- [x] Languages UI
+
+Version 1.2
 - [ ] Audit logs UI
-- [ ] Languages UI
+- [ ] Reset password
 - [ ] Settings UI (Email settings,...)
-

@@ -207,7 +207,7 @@
                             fields[key] = this.schema.properties[key];
                         }
                     } else {
-                        if (key != 'id' && !this.schema.properties[key].readOnly && !this.schema.properties[key]["x-rel-app"]) {
+                        if (key != 'id' && !this.schema.properties[key].readonly && !this.schema.properties[key]["x-rel-app"]) {
                             fields[key] = this.schema.properties[key];
                         }
                     }
@@ -347,6 +347,40 @@
         }
     }
     Vue.component('oa-checkbox-group', checkboxGroupComponent);
+})();
+(function () {
+    var timeComponent = {
+        name: "timeComponent",
+        template: '<el-time-select v-model="model" :picker-options="{start: start, step: step, end: end }" ></el-time-select>',
+        props: {
+            value: {},
+            schema: {},
+            prop: String,
+            options: {
+
+            },
+        },
+        computed: {
+            model: {
+                get: function () {
+                    return this.value;
+                },
+                set: function (val) {
+                    this.$emit('input', val);
+                }
+            },
+            start: function () {
+                return this.schema['x-ui-start'] ? this.schema['x-ui-start'] : '00:00';
+            },
+            step: function () {
+                return this.schema['x-ui-step'] ? this.schema['x-ui-step'] : '00:30';
+            },
+            end: function () {
+                return this.schema['x-ui-end'] ? this.schema['x-ui-end'] : '23:30';
+            }
+        },
+    }
+    Vue.component('oa-time', timeComponent);
 })();
 (function () {
     var datetimeComponent = {
@@ -512,17 +546,20 @@
             };
         },
         computed: {
+            sch: function () {
+                return this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
+            },
             relationResource: function () {
-                return this.schema["x-rel-app"];
+                return this.sch["x-rel-app"];
             },
             relationAction: function () {
-                return this.schema["x-rel-action"] || 'get' + this.prop.capitalize() + 's';
+                return this.sch["x-rel-action"] || 'get' + this.prop.capitalize() + 's';
             },
             relationValueField: function () {
-                return this.schema["x-rel-valuefield"] || 'id';
+                return this.sch["x-rel-valuefield"] || 'id';
             },
             relationTextField: function () {
-                return this.schema["x-rel-textfield"] || 'fullName';
+                return this.sch["x-rel-textfield"] || 'fullName';
             },
             id: function () {
                 return this.value ? this.value[this.relationValueField] : null;
@@ -858,6 +895,9 @@
                     this.noneLabel = this.messages[this.noneLabel];
                 }
             }
+            if (sch["x-enum-hideNone"]) {
+                this.hideNone = sch["x-enum-hideNone"];
+            }
         }
     }
     Vue.component('oa-select', selectComponent);
@@ -915,7 +955,7 @@
 (function () {
     var field = {
         name: "oaField",
-        template: ' <el-form-item :label="label" :prop="prop"> \
+        template: ' <el-form-item :label="label" :prop="prop" :label-width="labelWidth"> \
                     <component v-bind:is="currentView" v-model="model" v-bind="$props" @propChange="propChange" ></component> \
                     </el-form-item>',
         props: {
@@ -927,7 +967,7 @@
         },       
         computed: {
             currentView: function () {
-                var sch = this.schema.oneOf && this.schema.oneOf[0] ? this.schema.oneOf[0] : this.schema;
+                var sch = VueForms.jsonSchema.getNotNull(this.schema);
                 var type = Array.isArray(sch.type) ? (sch.type[0] == "null" ? sch.type[1]:sch.type[0] ) : sch.type;
                 if (sch["x-type"]) {
                     type = sch["x-type"];
@@ -979,12 +1019,19 @@
                 }
             },
             label: function () {
+                if (this.hideLabel) return "";
                 var name = this.schema.title ? this.schema.title : this.prop.capitalize();
                 if (this.messages && this.messages[name])
                     return this.messages[name];
                 else
                     return this.schema.title ? this.schema.title : name;
             },
+            hideLabel: function () {
+                return this.schema["x-ui-hideLabel"];
+            },
+            labelWidth: function () {
+                return this.hideLabel ? "0px" : "120px";
+            }
         },
         methods: {
             propChange: function (key, value) {
@@ -1128,10 +1175,18 @@
         template: '<el-form ref="form" :model="model" :rules="rules" label-position="right" label-width="120px" :label-position="labelPosition" > \
                 <el-tabs v-if="Object.keys(tabs).length > 1" :value="Object.keys(tabs)[0]">\
                     <el-tab-pane v-for="(gvalue, gkey) in tabs" :key="gkey" :label="label(gkey)" :name="gkey"> \
-                        <oa-field v-for="(value, key) in gvalue" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
+                        <el-row :gutter="10">\
+                            <el-col v-for="(cvalue, ckey) in gvalue.columns" :key="ckey" :xs="24/Object.keys(gvalue.columns).length" :sm="24/Object.keys(gvalue.columns).length" :md="24/Object.keys(gvalue.columns).length" :lg="24/Object.keys(gvalue.columns).length" :xl="24/Object.keys(gvalue.columns).length">\
+                                <oa-field v-for="(value, key) in cvalue" :key="ckey" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
+                            </el-col>\
+                        </el-row>\
                     </el-tab-pane> \
                 </el-tabs> \
-                <oa-field v-else v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
+                <el-row v-else :gutter="10">\
+                    <el-col v-for="(cvalue, ckey) in columns" :key="ckey" :xs="24/Object.keys(columns).length" :sm="24/Object.keys(columns).length" :md="24/Object.keys(columns).length" :lg="24/Object.keys(columns).length" :xl="24/Object.keys(columns).length">\
+                        <oa-field v-for="(value, key) in cvalue" :key="ckey" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
+                    </el-col>\
+                </el-row>\
                 <el-form-item> \
                     <el-button v-for="action in actions" :key="action.name" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
                 </el-form-item> \
@@ -1142,9 +1197,6 @@
             options: {},
             messages: {},
             actions: {},
-            columns: {
-
-            },
             service: {}
         },
         data: function () {
@@ -1161,14 +1213,8 @@
                 else {
                     var fields = {};
                     for (var key in this.schema.properties) {
-                        if (this.columns) {
-                            if (this.columns.indexOf(key) > 0) {
-                                fields[key] = this.schema.properties[key];
-                            }
-                        } else {
-                            if (key != 'id' && !this.schema.properties[key].readOnly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
-                                fields[key] = this.schema.properties[key];
-                            }
+                        if (key != 'id' && !this.schema.properties[key].readonly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
+                            fields[key] = this.schema.properties[key];
                         }
                     }
                     return fields;
@@ -1203,7 +1249,6 @@
                 return rules;
             },
             tabs: function () {
-
                 var groups = {};
                 for (var key in this.fields) {
                     var el = this.fields[key];
@@ -1213,6 +1258,12 @@
                     }
                     groups[group][key] = el;
                 };
+
+                for (var key in groups) {
+                    var el = groups[key];
+                    el.columns = this.generateColumns(el)
+                };
+
                 return groups;
                 return Object.keys(groups).map(function (key) {
                     return {
@@ -1228,6 +1279,9 @@
                         if (tabs.indexOf(group))
                     }
                 }*/
+            },
+            columns: function () {
+                return this.generateColumns(this.fields);
             },
             isMobile: function () {
                 return window.matchMedia("only screen and (max-width: 760px)").matches
@@ -1264,7 +1318,19 @@
             },
             propChange: function (key, value) {
                 this.$set(this.model, key, value);
-            }
+            },
+            generateColumns: function (fields) {
+                var columns = {};
+                for (var key in fields) {
+                    var el = this.fields[key];
+                    var column = el['x-ui-column'];
+                    if (column in columns == false) {
+                        columns[column] = {};
+                    }
+                    columns[column][key] = el;
+                };
+                return columns;
+            },
         }
     }
     Vue.component('oa-form', form);
@@ -1273,10 +1339,10 @@
     var filterform = {
         name: "oaFilterform",
         template: '<el-form ref="form" :model="model" :rules="rules" label-position="right" :label-width="labelwidth" :inline="!isMobile" :label-position="labelPosition"> \
-                <oa-field v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" :service="service" ></oa-field> \
-                <el-form-item> \
-                    <el-button v-for="action in actions" :key="action.name" size="small" :icon="action.icon" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
-                </el-form-item> \
+                    <oa-field v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" :service="service" @propChange="propChange" ></oa-field> \
+                    <el-form-item> \
+                        <el-button v-for="action in actions" :key="action.name" size="small" :icon="action.icon" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
+                    </el-form-item> \
                 </el-form>',
         props: {
             model: {},
@@ -1303,7 +1369,7 @@
                 else {
                     var fields = {};
                     for (var key in this.schema.properties) {
-                        if (key != 'id' && !this.schema.properties[key].readOnly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
+                        if (key != 'id' && !this.schema.properties[key].readonly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
                             fields[key] = this.schema.properties[key];
                         }
                     }
@@ -1354,6 +1420,9 @@
                     return this.messages[name];
                 else
                     return name;
+            },
+            propChange: function (key, value) {
+                this.$set(this.model, key, value);
             }
         },
         /*
@@ -1602,12 +1671,23 @@
 (function () {
     var grid = {
         name: "oa-grid",
-        template: '<el-table :data="model" @row-click="rowClick" style="width: 100%" :row-style="{cursor: \'pointer\'}"  > \
-                <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell" ></el-table-column> \
-                <el-table-column align="right" min-width="120px"> \
-                    <template slot-scope="scope"><el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" v-show="actionVisible(action, scope.row, scope.$index)" @click="action.execute(scope.row, scope.$index)"></el-button></template> \
-                </el-table-column> \
-                </el-table>',
+        template: '<div> \
+                    <el-table v-if="!isMobile" :data="model" @row-click="rowClick" style="width: 100%" :row-style="{cursor: \'pointer\'}"  > \
+                        <el-table-column v-for="(value, key) in columns" :key="key" :prop="key" :label="label(key)" :formatter="formatter" class-name="crudcell" ></el-table-column> \
+                        <el-table-column align="right" min-width="120px"> \
+                        <template slot-scope="scope"><el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" v-show="actionVisible(action, scope.row, scope.$index)" @click="action.execute(scope.row, scope.$index)"></el-button></template> \
+                        </el-table-column> \
+                    </el-table> \
+                    <el-card v-else style="margin-bottom:10px;" v-for="row in model" :key="row.id" > \
+                        <el-row :gutter="10" v-for="(value, key) in columns" :key="key" > \
+                            <el-col :span="12">{{label(key)}}</el-col> \
+                            <el-col :span="12">{{row[key]}}</el-col> \
+                        </el-row> \
+                        <div style="padding-top:10px;"> \
+                        <el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" v-show="actionVisible(action, row)" @click="action.execute(row)"></el-button> \
+                        </div> \
+                    </el-card> \
+                </div>',
         props: {
             model: {},
             schema: {},
@@ -1626,7 +1706,10 @@
                     }
                 }
                 return fields;
-            }
+            },
+            isMobile: function () {
+                return VueForms.isMobile();
+            },
         },
         methods: {
             label: function (prop) {
@@ -1637,7 +1720,7 @@
                     return name;
             },
             formatter: function (row, column, cellValue) {
-                var schema = this.schema.properties[column.property];
+                var schema = VueForms.jsonSchema.getNotNull(this.schema.properties[column.property]);
                 if (schema.type == 'boolean') {
                     return cellValue ? this.messages["Yes"] : this.messages["No"];
                 } else if (schema.format == 'date-time') {
@@ -1645,10 +1728,7 @@
                     return moment(cellValue).locale('fr').format('lll');
                 } else if (schema.enum) {
                     var i = schema.enum.indexOf(cellValue);
-                    return this.messages[schema['x-enumNames'][i]];
-                } else if (schema.oneOf && schema.oneOf.length > 0 && schema.oneOf[0].enum) {
-                    var i = schema.oneOf[0].enum.indexOf(cellValue);
-                    return this.messages[schema.oneOf[0]['x-enumNames'][i]];
+                    return this.messages[schema['x-enumNames'][i]] ? this.messages[schema['x-enumNames'][i]] : schema['x-enumNames'][i];
                 }
                 return cellValue;
             },
@@ -1681,7 +1761,7 @@
                         </el-col> \
                     </el-row> \
                     <oa-grid :model="model" :schema="schema" :messages="messages" :options="options" :actions="gridActions" :default-action="gridActions[0]"></oa-grid><br /> \
-                    <div style="float:right"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
+                    <div style="float:right;margin-bottom:10px;"><el-pagination @current-change="currentPageChange" :current-page.sync="currentPage" :page-size="pageSize"  layout="total, prev, pager, next" :total="totalCount"></el-pagination></div> \
                 </div>',
         data: function () {
             return {
@@ -1765,7 +1845,7 @@
             },
             filterSchema: function () {
                 var schema = { properties: {} };
-                var action = abp.schemas.app[this.resource].getAll.parameters;
+                var action = abp.schemas.app[this.resource].getAll.parameters.input.properties;
                 for (var key in action) {
                     if (key != 'skipCount' && key != 'maxResultCount') {
                         schema.properties[key] = action[key];
@@ -1862,6 +1942,8 @@
     }
     Vue.component('oa-crud-grid', CrudGrid);
 })();
+VueForms = {};
+
 (function () {
     String.prototype.capitalize = function () {
         return this.charAt(0).toUpperCase() + this.slice(1);
@@ -1916,5 +1998,21 @@
         document.body.appendChild(script);
     }
 
+    VueForms.jsonSchema = {};
+    VueForms.jsonSchema.getNotNull = function (schema) {
+        if (schema.oneOf) {
+            var lst = schema.oneOf.filter(function (s) { s.type != "null" });
+            if (lst.length > 0) {
+                return lst[0];
+            } else {
+                return schema;
+            }
+        } else {
+            return schema;
+        }
+    };
+    VueForms.isMobile = function () {
+        return window.matchMedia("only screen and (max-width: 760px)").matches;
+    };
     
 })();
