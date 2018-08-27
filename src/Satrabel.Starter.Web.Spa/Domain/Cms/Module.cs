@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 namespace Satrabel.Starter.Web.Domain.Cms
 {
     [Table("CmsModule")]
-    public class Module: FullAuditedEntity, IPassivable, IExtendableObject
+    public class Module: FullAuditedEntity, IExtendableObject, IMultiLingualEntity<ModuleTranslation>
     {
-        [ForeignKey(nameof(PageId))]
-        public Page Page { get; set; }
-        public int PageId { get; set; }
+        [InverseProperty("Module")]
+        public List<PageModule> PageModules { get; set; }
 
-        public bool IsActive { get; set; } = true;
         public string ExtensionData { get; set; }
+        public ICollection<ModuleTranslation> Translations { get ; set ; }
     }
 }
