@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Satrabel.Starter.Web.Application;
+using Satrabel.Starter.Web.Application.Cms;
 using Satrabel.Starter.Web.ViewComponents;
 using System;
 using System.Collections.Generic;

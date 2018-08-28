@@ -15,6 +15,7 @@ using Abp.AspNetCore.Configuration;
 using Satrabel.OpenApp.Startup;
 using Abp.AutoMapper;
 using Abp.Zero.Configuration;
+using Abp.Configuration;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -94,7 +95,12 @@ namespace Satrabel.Starter.Web.Startup
             {
                 //Scan the assembly for classes which inherit from AutoMapper.Profile
                 cfg.AddProfiles(thisAssembly);
+           
+                //CustomDtoMapper.CreateMappings(cfg, new MultiLingualMapContext(
+                //    IocManager.Resolve<ISettingManager>()
+                //));
             });
+
         }
         public override void PostInitialize()
         {
@@ -108,4 +114,6 @@ namespace Satrabel.Starter.Web.Startup
             }
         }
     }
+
+    
 }

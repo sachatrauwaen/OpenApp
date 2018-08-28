@@ -1,4 +1,4 @@
-﻿namespace Satrabel.Starter.Web.Application
+﻿namespace Satrabel.Starter.Web.Application.Cms
 {
     public class ModuleDto
     {

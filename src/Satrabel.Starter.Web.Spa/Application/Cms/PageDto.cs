@@ -1,7 +1,7 @@
 ﻿using Abp.Application.Services.Dto;
 using System.Collections.Generic;
 
-namespace Satrabel.Starter.Web.Application
+namespace Satrabel.Starter.Web.Application.Cms
 {
     public class PageDto: EntityDto
     {

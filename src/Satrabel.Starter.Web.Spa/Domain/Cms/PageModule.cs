@@ -12,7 +12,7 @@ namespace Satrabel.Starter.Web.Domain.Cms
     public class PageModule: AuditedEntity, IPassivable, IExtendableObject
     {
         [ForeignKey(nameof(PageId))]
-        public PageModule Page { get; set; }
+        public Page Page { get; set; }
         public int PageId { get; set; }
 
         [ForeignKey(nameof(ModuleId))]

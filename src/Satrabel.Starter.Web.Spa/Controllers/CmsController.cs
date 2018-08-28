@@ -7,6 +7,7 @@ using Abp.AspNetCore.Mvc.Authorization;
 using Abp.Authorization;
 using Satrabel.Starter.Web.Application;
 using Satrabel.Starter.Web.Controllers;
+using Satrabel.Starter.Web.Application.Cms;
 
 namespace Satrabel.Starter.Web.Spa.Controllers
 {

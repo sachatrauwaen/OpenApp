@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Satrabel.OpenApp.Web.Views;
 using Satrabel.Starter.Web.Application;
+using Satrabel.Starter.Web.Application.Cms;
 using System;
 using System.Collections.Generic;
 using System.Linq;

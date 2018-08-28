@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Satrabel.Starter.Web.Application
+namespace Satrabel.Starter.Web.Application.Cms
 {
     public class CmsAppService : MyApplicationServiceBase
     {

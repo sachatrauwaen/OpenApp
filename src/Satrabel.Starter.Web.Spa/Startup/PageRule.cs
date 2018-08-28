@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Rewrite;
 using Satrabel.Starter.Web.Application;
+using Satrabel.Starter.Web.Application.Cms;
 
 namespace Satrabel.Starter.Web.Startup
 {
