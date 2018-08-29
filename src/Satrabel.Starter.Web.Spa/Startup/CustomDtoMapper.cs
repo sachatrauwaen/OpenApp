@@ -13,7 +13,7 @@ namespace Satrabel.Starter.Web.Startup
             configuration.CreateMultiLingualMap<Page, PageTranslation, PageDto>(context);
 
             configuration.CreateMap<PageCreateDto, Page>();
-            configuration.CreateMap<PageUpdateDto, Page>();
+            
             configuration.CreateMap<PageTranslationDto, PageTranslation>();
         }
     }

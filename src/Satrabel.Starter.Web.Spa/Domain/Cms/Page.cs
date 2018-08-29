@@ -15,6 +15,13 @@ namespace Satrabel.Starter.Web.Domain.Cms
 
         public int TenantId { get; set; }
 
+        [ForeignKey(nameof(ParentId))]
+        public Page Parent { get; set; }
+        public int? ParentId { get; set; }
+
+        [InverseProperty("Parent")]
+        public List<Page> Children { get; set; }
+
         [InverseProperty("Page")]
         public List<PageModule> PageModules { get; set; }
 

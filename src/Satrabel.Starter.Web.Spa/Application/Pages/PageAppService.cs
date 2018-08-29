@@ -3,6 +3,7 @@ using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Satrabel.Starter.Web.Application.Pages.Dto;
 using Satrabel.Starter.Web.Domain.Cms;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Satrabel.Starter.Web.Application.Pages
@@ -27,11 +28,11 @@ namespace Satrabel.Starter.Web.Application.Pages
             //}
             return q;
         }
-        protected override Page MapToEntity(PageDto createInput)
+
+        public List<PageDto> GetPages()
         {
-            return ObjectMapper.Map<Page>(createInput);
+            var q = Repository.GetAllIncluding(p => p.Translations);
+            return q.Select(MapToEntityDto).ToList();
         }
-
-
     }
 }

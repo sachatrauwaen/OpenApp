@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Satrabel.Starter.Web.Domain.Cms;
+using Satrabel.Starter.Web.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,7 +13,7 @@ namespace Satrabel.Starter.Web.Application.Pages.Dto
     {
         public PageMapProfile()
         {
-            CreateMap<PageDto, Page>().AfterMap((source, destination, context) =>
+            CreateMap<PageCreateDto, Page>().AfterMap((source, destination, context) =>
             {
                 destination.TenantId = 1;
                 PageTranslation translation;
@@ -58,17 +59,25 @@ namespace Satrabel.Starter.Web.Application.Pages.Dto
             .ForMember(dest => dest.LastModificationTime, opt => opt.Ignore())
             .ForMember(dest => dest.LastModifierUserId, opt => opt.Ignore());
 
+           
+
             CreateMap<Page, PageDto>().BeforeMap((source, destination, context) =>
+            {
+                //if (source.Translations != null)
+                //{
+                //    var translation = source.Translations.FirstOrDefault(pt => pt.Language == CultureInfo.CurrentUICulture.Name);
+                //    if (translation != null)
+                //    {
+                //        context.Mapper.Map(translation, destination);
+                //    }
+                //}
+                var translation = source.CurrentTranslation();
+                if (translation != null)
                 {
-                    if (source.Translations != null)
-                    {
-                        var translation = source.Translations.FirstOrDefault(pt => pt.Language == CultureInfo.CurrentUICulture.Name);
-                        if (translation != null)
-                        {
-                            context.Mapper.Map(translation, destination);
-                        }
-                    }
-                })
+                    context.Mapper.Map(translation, destination);
+                }
+            })
+            .ForMember(dest => dest.ParentPageName, opt => opt.MapFrom(src => src.Parent != null && src.Parent.CurrentTranslation() != null ? src.Parent.CurrentTranslation().Name : ""))
             .ForMember(dest => dest.Name, opt => opt.Ignore())
             .ForMember(dest => dest.Slug, opt => opt.Ignore());
 
