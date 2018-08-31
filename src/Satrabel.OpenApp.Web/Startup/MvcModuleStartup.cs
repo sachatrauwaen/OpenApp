@@ -31,6 +31,7 @@ namespace Satrabel.OpenApp.Startup
     public class MvcModuleStartup<TModule> where TModule : AbpModule
     {
         private const string DefaultCorsPolicyName = "DefaultPolicy";
+        private const string AllowAllCorsPolicyName = "AllowAllPolicy";
         protected readonly IConfigurationRoot _appConfiguration;
         private readonly bool _corsEnabled = false;
         private readonly bool _swaggerEnabled = false;
@@ -90,6 +91,14 @@ namespace Satrabel.OpenApp.Startup
                     .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim().RemovePostFix("/")).ToArray())
                     .AllowAnyHeader()
                     .AllowAnyMethod();
+                });
+                options.AddPolicy(AllowAllCorsPolicyName, builder =>
+                {
+                    //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
 
