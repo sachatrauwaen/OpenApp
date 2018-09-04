@@ -9,7 +9,7 @@
     },
     "devDependencies": {
         "@types/webpack-env": "1.13.3",
-        "aspnet-webpack": "2.0.3",
+        "aspnet-webpack": "3.0.0",
         "babel-core": "6.26.3",
         "babel-loader": "7.1.4",
         "babel-preset-env": "1.6.1",
