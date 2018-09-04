@@ -9,6 +9,7 @@ const bundleOutputDir = './wwwroot/dist';
 module.exports = (env) => {
     const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'production');
     const isDevBuild = !isProdBuild;
+    const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
     return [{
         stats: { modules: false },
@@ -82,7 +83,7 @@ module.exports = (env) => {
             })
             ] : [
                 // Plugins that apply in production builds only
-                new webpack.optimize.UglifyJsPlugin(),
+                new UglifyJSPlugin(),
                 //new ExtractTextPlugin('site.css')
                 new ExtractTextPlugin({
                     filename: '[name].css'

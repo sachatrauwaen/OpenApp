@@ -6,6 +6,7 @@ module.exports = (env) => {
     const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() ==='production');
     const isDevBuild = !isProdBuild;
     const extractCSS = new ExtractTextPlugin('vendor.css');
+    const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
     return [{
         stats: { modules: false },
@@ -42,7 +43,7 @@ module.exports = (env) => {
                 name: '[name]_[hash]'
             })
         ].concat(isDevBuild ? [] : [
-            new webpack.optimize.UglifyJsPlugin()
+            new UglifyJSPlugin()
         ])
     }];
 };
