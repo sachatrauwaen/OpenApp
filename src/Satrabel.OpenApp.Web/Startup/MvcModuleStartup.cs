@@ -59,8 +59,18 @@ namespace Satrabel.OpenApp.Startup
 
         private string CreateTypeNameWithNameSpace(Type type)
         {
-            return type.Namespace + "." + type.Name.Replace("`1", "") + CreateGenericTypeName(type.GenericTypeArguments);
+            return type.Namespace + "." + RemoveGenericsBackticks(type.Name) + CreateGenericTypeName(type.GenericTypeArguments);
         }
+
+        private string RemoveGenericsBackticks(string name) => name
+            .Replace("`1", "")
+            .Replace("`2", "")
+            .Replace("`3", "")
+            .Replace("`4", "")
+            .Replace("`5", "")
+            .Replace("`6", "")
+            .Replace("`8", "")
+            .Replace("`9", "");
         #endregion
 
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
