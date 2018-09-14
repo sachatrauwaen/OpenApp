@@ -182,7 +182,16 @@ namespace Satrabel.OpenApp.ProxyScripting
                         schema.Default = parameter.DefaultValue;
                         //schema.re = parameter.IsOptional
                     }
-                    schema = CleanUpSchema(schema);
+                    try
+                    {
+                        schema = CleanUpSchema(schema);
+                    }
+                    catch (Exception ex)
+                    {
+
+                        throw new Exception($"{module.Name} {controller.Name} {action.Name} {parameter.Name} : {ex.Message}", ex);
+                    }
+                    
                     var schemaData = schema.ToJson();
                     script.Append($"    {parameter.Name.ToCamelCase()} :  ");
                     script.Append(schemaData);
@@ -213,6 +222,7 @@ namespace Satrabel.OpenApp.ProxyScripting
             var actualSchema = schema.ActualSchema;
             sch.IsRequired = schema.IsRequired;
             sch.IsReadOnly = schema.IsReadOnly;
+            sch.Default = schema.Default;
             CopyFields(actualSchema, sch);
             foreach (var item in actualSchema.ActualProperties)
             {
