@@ -2,7 +2,9 @@
 
     var daterangeComponent = {
         name: "daterangeComponent",
-        template: '<el-date-picker v-model="model"  type="daterange" :picker-options="pickerOptions" ></el-date-picker>',
+        template: '<div><el-date-picker v-if="!isMobile" v-model="model"  type="daterange" format="dd/MM/yyyy" ></el-date-picker>\
+                    <el-date-picker v-if="isMobile" v-model="model1"  type="date" format="dd/MM/yyyy" placeholder="Begin" ></el-date-picker>\
+                    <el-date-picker v-if="isMobile" v-model="model2"  type="date" format="dd/MM/yyyy" placeholder="End" ></el-date-picker></div>',
         data: function () {
             return {
                 pickerOptions: {
@@ -50,6 +52,31 @@
                 set: function (val) {
                     this.$emit('input', val)
                 }
+            },
+            model1: {
+                get: function () {
+                    return this.value && this.value.length > 0 ? this.value[0] : null;
+                },
+                set: function (val) {
+                    if (this.value && this.value[1].getTime() > val.getTime())
+                        this.model = [val, this.value[1]]
+                    else
+                        this.model = [val, val]
+                }
+            },
+            model2: {
+                get: function () {
+                    return this.value && this.value.length > 1 ? this.value[1] : null;
+                },
+                set: function (val) {
+                    if (this.value && this.value[0].getTime() < val.getTime()) 
+                        this.model = [this.value[0], val];
+                    else 
+                        this.model = [val, val]
+                }
+            },
+            isMobile: function () {
+                return VueForms.isMobile();
             }
         },
     }

@@ -385,7 +385,7 @@
 (function () {
     var datetimeComponent = {
         name: "datetimeComponent",
-        template: '<el-date-picker v-model="model" type="datetime" format="dd/MM/dd HH:mm" ></el-date-picker>',
+        template: '<el-date-picker v-model="model" type="datetime" format="dd/MM/yyyy HH:mm" ></el-date-picker>',
         props: {
             value: {},
             schema: {},
@@ -411,7 +411,9 @@
 
     var daterangeComponent = {
         name: "daterangeComponent",
-        template: '<el-date-picker v-model="model"  type="daterange" :picker-options="pickerOptions" ></el-date-picker>',
+        template: '<div><el-date-picker v-if="!isMobile" v-model="model"  type="daterange" format="dd/MM/yyyy" ></el-date-picker>\
+                    <el-date-picker v-if="isMobile" v-model="model1"  type="date" format="dd/MM/yyyy" placeholder="Begin" ></el-date-picker>\
+                    <el-date-picker v-if="isMobile" v-model="model2"  type="date" format="dd/MM/yyyy" placeholder="End" ></el-date-picker></div>',
         data: function () {
             return {
                 pickerOptions: {
@@ -459,6 +461,31 @@
                 set: function (val) {
                     this.$emit('input', val)
                 }
+            },
+            model1: {
+                get: function () {
+                    return this.value && this.value.length > 0 ? this.value[0] : null;
+                },
+                set: function (val) {
+                    if (this.value && this.value[1].getTime() > val.getTime())
+                        this.model = [val, this.value[1]]
+                    else
+                        this.model = [val, val]
+                }
+            },
+            model2: {
+                get: function () {
+                    return this.value && this.value.length > 1 ? this.value[1] : null;
+                },
+                set: function (val) {
+                    if (this.value && this.value[0].getTime() < val.getTime()) 
+                        this.model = [this.value[0], val];
+                    else 
+                        this.model = [val, val]
+                }
+            },
+            isMobile: function () {
+                return VueForms.isMobile();
             }
         },
     }
@@ -897,6 +924,9 @@
             }
             if (sch["x-enum-hideNone"]) {
                 this.hideNone = sch["x-enum-hideNone"];
+            }
+            if (sch["default"]) {
+                this.model = sch["default"];
             }
         }
     }
@@ -1681,7 +1711,7 @@
                     <el-card v-else style="margin-bottom:10px;" v-for="row in model" :key="row.id" > \
                         <el-row :gutter="10" v-for="(value, key) in columns" :key="key" > \
                             <el-col :span="12">{{label(key)}}</el-col> \
-                            <el-col :span="12">{{row[key]}}</el-col> \
+                            <el-col :span="12">{{format(key, row[key])}}</el-col> \
                         </el-row> \
                         <div style="padding-top:10px;"> \
                         <el-button v-for="action in actions" :key="action.name" :icon="action.icon" size="small" v-show="actionVisible(action, row)" @click="action.execute(row)"></el-button> \
@@ -1720,7 +1750,21 @@
                     return name;
             },
             formatter: function (row, column, cellValue) {
-                var schema = VueForms.jsonSchema.getNotNull(this.schema.properties[column.property]);
+                //var schema = VueForms.jsonSchema.getNotNull(this.schema.properties[column.property]);
+                //if (schema.type == 'boolean') {
+                //    return cellValue ? this.messages["Yes"] : this.messages["No"];
+                //} else if (schema.format == 'date-time') {
+                //    if (!cellValue) return "";
+                //    return moment(cellValue).locale('fr').format('lll');
+                //} else if (schema.enum) {
+                //    var i = schema.enum.indexOf(cellValue);
+                //    return this.messages[schema['x-enumNames'][i]] ? this.messages[schema['x-enumNames'][i]] : schema['x-enumNames'][i];
+                //}
+                //return cellValue;
+                return this.format(column.property, cellValue);
+            },
+            format: function (property, cellValue) {
+                var schema = VueForms.jsonSchema.getNotNull(this.schema.properties[property]);
                 if (schema.type == 'boolean') {
                     return cellValue ? this.messages["Yes"] : this.messages["No"];
                 } else if (schema.format == 'date-time') {
