@@ -5378,6 +5378,60 @@ var date_component = normalizeComponent(
 )
 
 /* harmony default export */ var date = (date_component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"C://sacha//vue//vuecrud//node_modules//.cache//vue-loader","cacheIdentifier":"2c4efe34-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/datetime.vue?vue&type=template&id=61f2142e&
+var datetimevue_type_template_id_61f2142e_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-date-picker',{attrs:{"type":"datetime","format":"dd/MM/yyyy HH:mm"},model:{value:(_vm.model),callback:function ($$v) {_vm.model=$$v},expression:"model"}})}
+var datetimevue_type_template_id_61f2142e_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/components/datetime.vue?vue&type=template&id=61f2142e&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./src/components/datetime.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+
+/* harmony default export */ var datetimevue_type_script_lang_js_ = ({
+  name: 'oa-datetime',
+  props: {
+    value: {},
+    schema: {},
+    prop: String,
+    options: {}
+  },
+  computed: {
+    model: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(val) {
+        this.$emit('input', val);
+      }
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/components/datetime.vue?vue&type=script&lang=js&
+ /* harmony default export */ var components_datetimevue_type_script_lang_js_ = (datetimevue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/components/datetime.vue
+
+
+
+
+
+/* normalize component */
+
+var datetime_component = normalizeComponent(
+  components_datetimevue_type_script_lang_js_,
+  datetimevue_type_template_id_61f2142e_render,
+  datetimevue_type_template_id_61f2142e_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var datetime = (datetime_component.exports);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"C://sacha//vue//vuecrud//node_modules//.cache//vue-loader","cacheIdentifier":"2c4efe34-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/daterange.vue?vue&type=template&id=5a825d29&
 var daterangevue_type_template_id_5a825d29_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(!_vm.isMobile)?_c('el-date-picker',{attrs:{"type":"daterange","format":"dd/MM/yyyy"},model:{value:(_vm.model),callback:function ($$v) {_vm.model=$$v},expression:"model"}}):_vm._e(),(_vm.isMobile)?_c('el-date-picker',{attrs:{"type":"date","format":"dd/MM/yyyy","placeholder":"Begin"},model:{value:(_vm.model1),callback:function ($$v) {_vm.model1=$$v},expression:"model1"}}):_vm._e(),(_vm.isMobile)?_c('el-date-picker',{attrs:{"type":"date","format":"dd/MM/yyyy","placeholder":"End"},model:{value:(_vm.model2),callback:function ($$v) {_vm.model2=$$v},expression:"model2"}}):_vm._e()],1)}
 var daterangevue_type_template_id_5a825d29_staticRenderFns = []
@@ -7390,7 +7444,8 @@ var time_component = normalizeComponent(
 
 
 
-var components = [address, checkboxGroup, crudform, crudgrid, date, daterange, dialogform, field, fields, filterform, components_form, formitem, grid, list, input, inputnumber, relationtomany, relation, components_select, components_switch, components_textarea, time];
+
+var components = [address, checkboxGroup, crudform, crudgrid, date, datetime, daterange, dialogform, field, fields, filterform, components_form, formitem, grid, list, input, inputnumber, relationtomany, relation, components_select, components_switch, components_textarea, time];
 
 var src_install = function install(Vue) {
   components.map(function (component) {
