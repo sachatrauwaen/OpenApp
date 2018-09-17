@@ -1,60 +1,32 @@
 {
-  "_from": "abp-web-resources",
-  "_id": "abp-web-resources@3.7.0",
-  "_inBundle": false,
-  "_integrity": "sha512-AvMd+RysXAurP4r1+h08ynhx9XcuMzeiXSaHNL1zveuWje3pmKyKYx5XnfJU4v3OD+5LaESumHToz7sbZmWbBQ==",
-  "_location": "/abp-web-resources",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "tag",
-    "registry": true,
-    "raw": "abp-web-resources",
-    "name": "abp-web-resources",
-    "escapedName": "abp-web-resources",
-    "rawSpec": "",
-    "saveSpec": null,
-    "fetchSpec": "latest"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/abp-web-resources/-/abp-web-resources-3.7.0.tgz",
-  "_shasum": "eaf35870765421c6fd989b008e2d0eb855d3d266",
-  "_spec": "abp-web-resources",
-  "_where": "C:\\sacha\\dotnet\\OpenApp\\src\\Satrabel.OpenApp.Web\\Views\\lib\\test",
-  "author": {
-    "name": "Halil İbrahim Kalkan"
-  },
-  "bugs": {
-    "url": "https://github.com/aspnetboilerplate/bower-abp-resources/issues"
-  },
-  "bundleDependencies": false,
-  "dependencies": {},
-  "deprecated": false,
+  "name": "abp-web-resources",
+  "version": "3.8.4",
   "description": "ASP.NET Boilerplate web resources",
+  "main": "Abp/Framework/scripts/abp.js",
+  "dependencies": {},
   "devDependencies": {
     "del": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-shell": "^0.5.2",
     "xml2js": "^0.4.16"
   },
-  "homepage": "http://www.aspnetboilerplate.com/",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aspnetboilerplate/bower-abp-resources.git"
+  },
   "keywords": [
     "asp.net",
     "boilerplate",
     "web",
     "resources"
   ],
+  "author": "Halil İbrahim Kalkan",
   "license": "MIT",
-  "main": "Abp/Framework/scripts/abp.js",
-  "name": "abp-web-resources",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aspnetboilerplate/bower-abp-resources.git"
+  "bugs": {
+    "url": "https://github.com/aspnetboilerplate/bower-abp-resources/issues"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "version": "3.7.0"
+  "homepage": "http://www.aspnetboilerplate.com/"
 }
