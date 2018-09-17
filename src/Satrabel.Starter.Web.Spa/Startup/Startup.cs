@@ -11,7 +11,7 @@ namespace Satrabel.Starter.Web.Startup
         {
             AppVersion = AppConsts.AppVersion;           
         }
-		
+
         protected override void AddAdditionalServices(IServiceCollection services)
         {
            

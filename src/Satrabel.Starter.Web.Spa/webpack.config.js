@@ -43,14 +43,6 @@ module.exports = (env) => {
                     loader: 'babel-loader',
                     exclude: /node_modules/
                 },
-                //{
-                //    test: /\.vue$/, include: /ClientApp/, exclude: /node_modules|vue\/src/, loader: 'vue-loader', options: {
-                //        loaders: {
-                //            ts: 'awesome-typescript-loader?silent=true'
-                //        }
-                //    }
-                //},
-                //{ test: /\.ts$/, include: /ClientApp/, use: 'awesome-typescript-loader?silent=true' },    
                 {
                     test: /\.css$/,
                     use: isDevBuild ? ['style-loader', 'css-loader'] : ExtractTextPlugin.extract({ use: 'css-loader?minimize' })
