@@ -15,14 +15,17 @@ module.exports = (env) => {
             vendor: [
                 'event-source-polyfill',
                 'element-ui',
-                'element-ui/lib/theme-chalk/index.css',
+                '!style-loader!css-loader!element-ui/lib/theme-chalk/index.css',
                 'vue',
                 'vue-router',
-                'vue-class-component'
+                'axios',
+                'vue-class-component',
+                'vue-property-decorator'
             ],
         },
         module: {
             rules: [
+                { test: /\.tsx?$/, use: [ 'babel-loader', 'ts-loader' ] }, 
                 { test: /\.css(\?|$)/, use: extractCSS.extract({ use: isDevBuild ? 'css-loader' : 'css-loader?minimize' }) },
                 { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' }
             ]
