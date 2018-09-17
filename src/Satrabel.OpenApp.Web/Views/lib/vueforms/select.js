@@ -63,6 +63,9 @@
             if (sch["x-enum-hideNone"]) {
                 this.hideNone = sch["x-enum-hideNone"];
             }
+            if (sch["default"]) {
+                this.model = sch["default"];
+            }
         }
     }
     Vue.component('oa-select', selectComponent);
