@@ -33,6 +33,6 @@
         "webpack-hot-middleware": "2.21.0"
     },
     "dependencies": {
-        "vuecrud": "github:sachatrauwaen/vuecrud"
+        "vuecrud": "git://github.com/HolonCom/vuecrud.git#feature/refactor-decoupling"
     }
 }
