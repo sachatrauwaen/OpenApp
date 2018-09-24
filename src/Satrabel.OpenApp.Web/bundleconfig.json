@@ -122,6 +122,7 @@
     "inputFiles": [
       "Views/lib/vueforms/address.js",
       "Views/lib/vueforms/checkboxGroup.js",
+      "Views/lib/vueforms/time.js",
       "Views/lib/vueforms/datetime.js",
       "Views/lib/vueforms/daterange.js",
       "Views/lib/vueforms/input.js",

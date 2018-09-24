@@ -41,10 +41,10 @@
     <link rel="shortcut icon" href="img/favicon.png">
     <title>@WebConfig.MetaTitle</title>
     <environment names="Development">
-        <link href="~/Views/_Bundles/shared-layout.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/Views/_Bundles/shared-layout.min.css?v=@(AppTimes.StartupTime.Ticks)" rel="stylesheet" />
     </environment>
     <environment names="Staging,Production">
-        <link href="~/Views/_Bundles/shared-layout.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/Views/_Bundles/shared-layout.min.css?v=@(AppTimes.StartupTime.Ticks)" rel="stylesheet" />
     </environment>
     <link href="~/default.css" rel="stylesheet" asp-append-version="true" />
     <!-- View specific styles -->
@@ -471,7 +471,7 @@
     </script>
     <!-- Dynamic scripts of ABP system (They are created on runtime and can not be bundled) -->
     <script src="~/AbpServiceProxies/GetAll?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
-    <script src="~/AbpServiceProxies/GetAll?type=json&v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
+    <script src="~/OpenAppServiceProxies/GetAll?type=json&v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     <script src="~/AbpScripts/GetScripts?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     @if (SignalRFeature.IsAvailable)
     {

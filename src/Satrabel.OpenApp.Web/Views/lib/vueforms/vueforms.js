@@ -1,4 +1,6 @@
-﻿(function () {
+﻿VueForms = {};
+
+(function () {
     String.prototype.capitalize = function () {
         return this.charAt(0).toUpperCase() + this.slice(1);
     }
@@ -52,5 +54,21 @@
         document.body.appendChild(script);
     }
 
+    VueForms.jsonSchema = {};
+    VueForms.jsonSchema.getNotNull = function (schema) {
+        if (schema.oneOf) {
+            var lst = schema.oneOf.filter(function (s) { s.type != "null" });
+            if (lst.length > 0) {
+                return lst[0];
+            } else {
+                return schema;
+            }
+        } else {
+            return schema;
+        }
+    };
+    VueForms.isMobile = function () {
+        return window.matchMedia("only screen and (max-width: 760px)").matches;
+    };
     
 })();

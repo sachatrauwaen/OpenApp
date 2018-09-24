@@ -43,6 +43,7 @@ namespace Satrabel.OpenApp.Languages
         {
             CheckUpdatePermission();
             var language = MapToEntity(input);
+            language.TenantId = AbpSession.TenantId;
             await _languageManager.UpdateAsync(AbpSession.TenantId, language);
             if (input.Default)
             {
