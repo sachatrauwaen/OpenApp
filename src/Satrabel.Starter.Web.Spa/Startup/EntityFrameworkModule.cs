@@ -17,7 +17,7 @@ namespace Satrabel.Starter.Web.Startup
         typeof(AbpZeroCoreEntityFrameworkCoreModule))]
     public class EntityFrameworkModule : AbpModule 
     {
-        /* Used it tests to skip dbcontext registration, in order to use in-memory database of EF Core */
+        /* Used in tests to skip dbcontext registration, in order to use in-memory database of EF Core */
         public bool SkipDbContextRegistration { get; set; }
 
         public bool SkipDbSeed { get; set; }

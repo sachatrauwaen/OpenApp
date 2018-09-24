@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Satrabel.OpenApp.Web.Views;
 using Abp.Application.Navigation;
+using Microsoft.AspNetCore.Mvc;
 using Satrabel.OpenApp.Users;
 using Satrabel.OpenApp.Users.Dto;
+using Satrabel.OpenApp.Web.Views;
 
 namespace Satrabel.Starter.Web.Views.Shared.Components.Users
 {

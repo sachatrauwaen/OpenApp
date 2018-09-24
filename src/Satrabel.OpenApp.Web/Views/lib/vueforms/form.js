@@ -4,10 +4,18 @@
         template: '<el-form ref="form" :model="model" :rules="rules" label-position="right" label-width="120px" :label-position="labelPosition" > \
                 <el-tabs v-if="Object.keys(tabs).length > 1" :value="Object.keys(tabs)[0]">\
                     <el-tab-pane v-for="(gvalue, gkey) in tabs" :key="gkey" :label="label(gkey)" :name="gkey"> \
-                        <oa-field v-for="(value, key) in gvalue" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
+                        <el-row :gutter="10">\
+                            <el-col v-for="(cvalue, ckey) in gvalue.columns" :key="ckey" :xs="24/Object.keys(gvalue.columns).length" :sm="24/Object.keys(gvalue.columns).length" :md="24/Object.keys(gvalue.columns).length" :lg="24/Object.keys(gvalue.columns).length" :xl="24/Object.keys(gvalue.columns).length">\
+                                <oa-field v-for="(value, key) in cvalue" :key="ckey" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
+                            </el-col>\
+                        </el-row>\
                     </el-tab-pane> \
                 </el-tabs> \
-                <oa-field v-else v-for="(value, key) in fields" :key="key" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
+                <el-row v-else :gutter="10">\
+                    <el-col v-for="(cvalue, ckey) in columns" :key="ckey" :xs="24/Object.keys(columns).length" :sm="24/Object.keys(columns).length" :md="24/Object.keys(columns).length" :lg="24/Object.keys(columns).length" :xl="24/Object.keys(columns).length">\
+                        <oa-field v-for="(value, key) in cvalue" :key="ckey" :prop="key" :schema="properties[key]" v-model="model[key]" :messages="messages" @propChange="propChange" :service="service" ></oa-field> \
+                    </el-col>\
+                </el-row>\
                 <el-form-item> \
                     <el-button v-for="action in actions" :key="action.name" size="small" :type="action.type" @click="action.execute()">{{action.name}}</el-button> \
                 </el-form-item> \
@@ -18,9 +26,6 @@
             options: {},
             messages: {},
             actions: {},
-            columns: {
-
-            },
             service: {}
         },
         data: function () {
@@ -37,14 +42,8 @@
                 else {
                     var fields = {};
                     for (var key in this.schema.properties) {
-                        if (this.columns) {
-                            if (this.columns.indexOf(key) > 0) {
-                                fields[key] = this.schema.properties[key];
-                            }
-                        } else {
-                            if (key != 'id' && !this.schema.properties[key].readonly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
-                                fields[key] = this.schema.properties[key];
-                            }
+                        if (key != 'id' && !this.schema.properties[key].readonly && !this.schema.properties[key]["x-rel-app"] && !this.schema.properties[key]["x-rel-to-many-app"]) {
+                            fields[key] = this.schema.properties[key];
                         }
                     }
                     return fields;
@@ -79,7 +78,6 @@
                 return rules;
             },
             tabs: function () {
-
                 var groups = {};
                 for (var key in this.fields) {
                     var el = this.fields[key];
@@ -89,6 +87,12 @@
                     }
                     groups[group][key] = el;
                 };
+
+                for (var key in groups) {
+                    var el = groups[key];
+                    el.columns = this.generateColumns(el)
+                };
+
                 return groups;
                 return Object.keys(groups).map(function (key) {
                     return {
@@ -104,6 +108,9 @@
                         if (tabs.indexOf(group))
                     }
                 }*/
+            },
+            columns: function () {
+                return this.generateColumns(this.fields);
             },
             isMobile: function () {
                 return window.matchMedia("only screen and (max-width: 760px)").matches
@@ -140,7 +147,19 @@
             },
             propChange: function (key, value) {
                 this.$set(this.model, key, value);
-            }
+            },
+            generateColumns: function (fields) {
+                var columns = {};
+                for (var key in fields) {
+                    var el = this.fields[key];
+                    var column = el['x-ui-column'];
+                    if (column in columns == false) {
+                        columns[column] = {};
+                    }
+                    columns[column][key] = el;
+                };
+                return columns;
+            },
         }
     }
     Vue.component('oa-form', form);

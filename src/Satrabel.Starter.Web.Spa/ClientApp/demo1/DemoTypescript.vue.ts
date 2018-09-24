@@ -11,7 +11,7 @@ import Component from 'vue-class-component'
 })
 export default class App extends Vue {
     // props have to be declared for typescript
-    propMessage: string;
+    propMessage: string = '';
 
     // inital data
     greeting: string = '';

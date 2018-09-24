@@ -6,6 +6,7 @@ module.exports = (env) => {
     const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() ==='production');
     const isDevBuild = !isProdBuild;
     const extractCSS = new ExtractTextPlugin('vendor.css');
+    const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
     return [{
         stats: { modules: false },
@@ -14,13 +15,17 @@ module.exports = (env) => {
             vendor: [
                 'event-source-polyfill',
                 'element-ui',
-                'element-ui/lib/theme-chalk/index.css',
+                '!style-loader!css-loader!element-ui/lib/theme-chalk/index.css',
                 'vue',
-                'vue-router'
+                'vue-router',
+                'axios',
+                'vue-class-component',
+                'vue-property-decorator'
             ],
         },
         module: {
             rules: [
+                { test: /\.tsx?$/, use: [ 'babel-loader', 'ts-loader' ] }, 
                 { test: /\.css(\?|$)/, use: extractCSS.extract({ use: isDevBuild ? 'css-loader' : 'css-loader?minimize' }) },
                 { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' }
             ]
@@ -42,7 +47,7 @@ module.exports = (env) => {
                 name: '[name]_[hash]'
             })
         ].concat(isDevBuild ? [] : [
-            new webpack.optimize.UglifyJsPlugin()
+            new UglifyJSPlugin()
         ])
     }];
 };

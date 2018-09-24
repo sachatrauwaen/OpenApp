@@ -1,47 +1,23 @@
 ﻿@using Satrabel.OpenApp.Web.Startup
 @inject Satrabel.OpenApp.Timing.AppTimes AppTimes
-@{
-    ViewBag.CurrentPageName = PageNames.Crud; //The menu item will be active for this page.
-}
 
+
+@{
+    //ViewBag.CurrentPageName = PageNames.Home; //The menu item will be active for this page.
+    //var appId = Model;
+}
 @section styles
-{
-    <link rel="stylesheet" href="~/Views/lib/vueforms/libs.css?v=@(AppTimes.StartupTime.Ticks)"  />
+    {
+    <link rel="stylesheet" href="~/Views/dist/vendor.css?v=@(AppTimes.StartupTime.Ticks)"  />
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/Views/dist/site.css?v=@(AppTimes.StartupTime.Ticks)"  />
+    </environment>
 }
 
 @section scripts
-{
-    <environment names="Development">
-        <script src="~/Views/lib/vueforms/libs.js?v=@(AppTimes.StartupTime.Ticks)"></script>
-        <script src="~/Views/lib/vueforms/bundle.js?v=@(AppTimes.StartupTime.Ticks)" ></script>
-        <script src="~/Views/Crud/Index.js?v=@(AppTimes.StartupTime.Ticks)" ></script>
-    </environment>
-
-    <environment names="Staging,Production">
-        <script src="~/Views/lib/vueforms/libs.js?v=@(AppTimes.StartupTime.Ticks)"></script>
-        <script src="~/Views/lib/vueforms/bundle.js?v=@(AppTimes.StartupTime.Ticks)"></script>
-        <script src="~/Views/Crud/Index.js?v=@(AppTimes.StartupTime.Ticks)"></script>
-    </environment>
+    {
+    <script src="~/Views/dist/vendor.js?v=@(AppTimes.StartupTime.Ticks)" ></script>
+    <script src="~/Views/dist/crud.js?v=@(AppTimes.StartupTime.Ticks)" ></script>
 }
 
-    <div id="app">Loading...</div>
-    <template id="appTemplate">
-        <div>
-            <!-- Breadcrumb -->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    Admin
-                </li>
-                <li class="breadcrumb-item active">{{pageTitle}}</li>
-                <!-- Breadcrumb Menu-->
-                <li class="breadcrumb-menu d-md-down-none">
-                    <div class="btn-group" role="group" aria-label="Button group">
-                        
-                    </div>
-                </li>
-            </ol>
-            <div class="container-fluid">
-                <router-view></router-view>
-            </div>
-        </div>
-    </template>
+<div id='app'>Loading...</div>

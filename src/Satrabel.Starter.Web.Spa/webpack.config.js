@@ -2,13 +2,13 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-//const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const bundleOutputDir = './wwwroot/dist';
 
 
 module.exports = (env) => {
-    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() ==='production');
+    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'production');
     const isDevBuild = !isProdBuild;
+    const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
     return [{
         stats: { modules: false },
@@ -43,14 +43,6 @@ module.exports = (env) => {
                     loader: 'babel-loader',
                     exclude: /node_modules/
                 },
-                //{
-                //    test: /\.vue$/, include: /ClientApp/, exclude: /node_modules|vue\/src/, loader: 'vue-loader', options: {
-                //        loaders: {
-                //            ts: 'awesome-typescript-loader?silent=true'
-                //        }
-                //    }
-                //},
-                //{ test: /\.ts$/, include: /ClientApp/, use: 'awesome-typescript-loader?silent=true' },    
                 {
                     test: /\.css$/,
                     use: isDevBuild ? ['style-loader', 'css-loader'] : ExtractTextPlugin.extract({ use: 'css-loader?minimize' })
@@ -64,7 +56,7 @@ module.exports = (env) => {
             publicPath: 'dist/'
         },
         plugins: [
-//            new CheckerPlugin(),
+            //new CheckerPlugin(),
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: JSON.stringify(isDevBuild ? 'development' : 'production')
@@ -80,13 +72,13 @@ module.exports = (env) => {
                 filename: '[file].map', // Remove this line if you prefer inline source maps
                 moduleFilenameTemplate: path.relative(bundleOutputDir, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
             })
-        ] : [
-            // Plugins that apply in production builds only
-            new webpack.optimize.UglifyJsPlugin(),
-            //new ExtractTextPlugin('site.css')
-            new ExtractTextPlugin({
-                filename: '[name].css'
-            })
-        ])
+            ] : [
+                // Plugins that apply in production builds only
+                new UglifyJSPlugin(),
+                //new ExtractTextPlugin('site.css')
+                new ExtractTextPlugin({
+                    filename: '[name].css'
+                })
+            ])
     }];
 };

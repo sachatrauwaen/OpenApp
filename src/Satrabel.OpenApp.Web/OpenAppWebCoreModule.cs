@@ -18,20 +18,15 @@ using Abp.Resources.Embedded;
 using Satrabel.OpenApp.Web.Startup;
 using Satrabel.OpenApp.Startup;
 using Abp.Dependency;
-
-#if FEATURE_SIGNALR
-using Abp.Web.SignalR;
-#endif
+using Abp.AspNetCore.SignalR;
 
 namespace Satrabel.OpenApp
 {
     [DependsOn(
          typeof(OpenAppApplicationModule),
          typeof(OpenAppEntityFrameworkModule),
-         typeof(AbpAspNetCoreModule)
-#if FEATURE_SIGNALR 
-        ,typeof(AbpWebSignalRModule)
-#endif
+         typeof(AbpAspNetCoreModule),
+         typeof(AbpAspNetCoreSignalRModule)
      )]
     public class OpenAppWebCoreModule : AbpModule
     {

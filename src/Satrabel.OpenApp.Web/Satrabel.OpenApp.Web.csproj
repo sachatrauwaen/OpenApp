@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <VersionPrefix>1.0.0.0</VersionPrefix>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <AssemblyName>Satrabel.OpenApp.Web</AssemblyName>
     <PackageId>Satrabel.OpenApp.Web</PackageId>
@@ -20,8 +20,11 @@
     <DefineConstants>FEATURE_SIGNALR</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="node_modules\**" />
     <Compile Remove="Views\lib\element-ui\lib\theme_chalk\**" />
+    <EmbeddedResource Remove="node_modules\**" />
     <EmbeddedResource Remove="Views\lib\element-ui\lib\theme_chalk\**" />
+    <None Remove="node_modules\**" />
     <None Remove="Views\lib\element-ui\lib\theme_chalk\**" />
   </ItemGroup>
   <ItemGroup>
@@ -31,14 +34,33 @@
     <None Remove="Views\Account\Login.min.js" />
     <None Remove="Views\Account\Register.js" />
     <None Remove="Views\Account\Register.min.js" />
+    <None Remove="Views\dist\crud.js" />
+    <None Remove="Views\dist\crud.js.map" />
+    <None Remove="Views\dist\vendor.css" />
+    <None Remove="Views\dist\vendor.js" />
     <None Remove="Views\fonts\fontawesome-webfont.eot" />
     <None Remove="Views\fonts\fontawesome-webfont.svg" />
     <None Remove="Views\fonts\fontawesome-webfont.ttf" />
     <None Remove="Views\fonts\fontawesome-webfont.woff" />
     <None Remove="Views\fonts\fontawesome-webfont.woff2" />
     <None Remove="Views\fonts\Simple-Line-Icons.woff" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.blockUI.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jquery.d.ts" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jquery.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jtable.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.moment.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr-client.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr.d.ts" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.spin.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.sweet-alert.js" />
+    <None Remove="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.toastr.js" />
+    <None Remove="Views\lib\coreui\pace\pace.min.js" />
     <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element-icons.ttf" />
     <None Remove="Views\lib\element-ui\lib\theme-default\fonts\element-icons.woff" />
+    <None Remove="Views\lib\signalr-client\signalr.min.js" />
+    <None Remove="Views\lib\signalr\jquery.signalR.js" />
+    <None Remove="Views\lib\signalr\jquery.signalR.min.js" />
     <None Remove="Views\lib\vueforms\libs.css" />
     <None Remove="Views\Localization\Index.cshtml" />
     <None Remove="Views\Localization\Index.js" />
@@ -73,14 +95,33 @@
     <EmbeddedResource Include="Views\Account\Register.js" />
     <EmbeddedResource Include="Views\Account\Register.min.js" />
     <EmbeddedResource Include="Views\Crud\Index.js" />
+    <EmbeddedResource Include="Views\dist\crud.js" />
+    <EmbeddedResource Include="Views\dist\crud.js.map" />
+    <EmbeddedResource Include="Views\dist\vendor.css" />
+    <EmbeddedResource Include="Views\dist\vendor.js" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.eot" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.svg" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.ttf" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.woff" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.woff2" />
     <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.woff" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.blockUI.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jquery.d.ts" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jquery.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.jtable.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.moment.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr-client.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr.d.ts" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.signalr.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.spin.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.sweet-alert.js" />
+    <EmbeddedResource Include="Views\lib\abp-web-resources\Abp\Framework\scripts\libs\abp.toastr.js" />
+    <EmbeddedResource Include="Views\lib\coreui\pace\pace.min.js" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element-icons.ttf" />
     <EmbeddedResource Include="Views\lib\element-ui\lib\theme-default\fonts\element-icons.woff" />
+    <EmbeddedResource Include="Views\lib\signalr-client\signalr.min.js" />
+    <EmbeddedResource Include="Views\lib\signalr\jquery.signalR.js" />
+    <EmbeddedResource Include="Views\lib\signalr\jquery.signalR.min.js" />
     <EmbeddedResource Include="Views\lib\vueforms\libs.css" />
     <EmbeddedResource Include="Views\Localization\Index.js" />
     <EmbeddedResource Include="Views\fonts\Simple-Line-Icons.eot" />
@@ -193,16 +234,17 @@
     <ProjectReference Include="..\Satrabel.OpenApp.EntityFramework\Satrabel.OpenApp.EntityFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Abp.Castle.Log4Net" Version="3.5.0" />
+    <PackageReference Include="Abp.AspNetCore.SignalR" Version="3.8.2" />
+    <PackageReference Include="Abp.Castle.Log4Net" Version="3.8.2" />
     <PackageReference Include="Castle.LoggingFacility.MsLogging" Version="3.1.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Owin" Version="2.0.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.4.0" />
-    <PackageReference Include="Abp.AspNetCore" Version="3.5.0" />
-    <PackageReference Include="Abp.ZeroCore" Version="3.5.0" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Owin" Version="2.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="Abp.AspNetCore" Version="3.8.2" />
+    <PackageReference Include="Abp.ZeroCore" Version="3.8.2" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.2" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Reference Include="System" />
@@ -210,4 +252,37 @@
     <PackageReference Include="Abp.Web.SignalR" Version="3.0.0" />
     <PackageReference Include="Abp.Owin" Version="3.0.0" />
   </ItemGroup>
+<Target Name="DebugFirstRunWebpack" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug' And !Exists('Views\dist')">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+
+    <!-- In development, the dist files won't exist on the first run or when cloning to
+         a different machine, so rebuild them if not already present. -->
+    <Message Importance="high" Text="Performing first-run Webpack build..." />
+    <Message Importance="high" Text="  a) update NPM packages..." />
+    <Exec Command="npm install" />
+    <Message Importance="high" Text="  b) do the actual webpack build..." />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec Command="npm install" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="Views\dist\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
 </Project>

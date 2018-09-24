@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Satrabel.OpenApp.Startup;
 
 namespace Satrabel.Starter.Web.Startup
@@ -9,6 +10,11 @@ namespace Satrabel.Starter.Web.Startup
         public Startup(IHostingEnvironment env) : base(env)
         {
             AppVersion = AppConsts.AppVersion;           
+        }
+
+        protected override void AddAdditionalServices(IServiceCollection services)
+        {
+           
         }
 
         protected override void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
