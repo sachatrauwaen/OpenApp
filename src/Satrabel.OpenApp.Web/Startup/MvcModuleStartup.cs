@@ -42,9 +42,9 @@ namespace Satrabel.OpenApp.Startup
         public MvcModuleStartup(IHostingEnvironment env)
         {
             _appConfiguration = env.GetAppConfiguration();
-            _corsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"]);
-            _swaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"]);
-            _signalREnabled = bool.Parse(_appConfiguration["SignalR:IsEnabled"]);
+            _corsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"] ?? "false");
+            _swaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"] ?? "false");
+            _signalREnabled = bool.Parse(_appConfiguration["SignalR:IsEnabled"] ?? "false");
 
             SignalRFeature.IsAvailable = _signalREnabled;
             Clock.Provider = ClockProviders.Local;
