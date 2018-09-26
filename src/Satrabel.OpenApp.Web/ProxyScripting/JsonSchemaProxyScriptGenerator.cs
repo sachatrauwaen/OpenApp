@@ -1,24 +1,20 @@
-﻿using System.Text;
-using Abp.Dependency;
+﻿using Abp.Dependency;
 using Abp.Extensions;
 using Abp.Web.Api.Modeling;
 using Abp.Web.Api.ProxyScripting.Generators;
-using NJsonSchema.Generation;
-using System.Threading.Tasks;
-using System.Linq;
-using Abp;
-using System;
-using NJsonSchema.Generation.TypeMappers;
-using NJsonSchema;
-using NJsonSchema.Infrastructure;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using Castle.Core.Logging;
+using NJsonSchema;
+using NJsonSchema.Generation;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Satrabel.OpenApp.ProxyScripting
 {
-
-    class JsonSchemaProxyScriptGenerator : IProxyScriptGenerator, ITransientDependency
+    internal class JsonSchemaProxyScriptGenerator : IProxyScriptGenerator, ITransientDependency
     {
 
         //private const SchemaType SerializationSchemaType = SchemaType.JsonSchema;
@@ -152,6 +148,7 @@ namespace Satrabel.OpenApp.ProxyScripting
                 {
                     type = type.GetGenericArguments()[0]; // use this...
                 }
+
                 var schema = generator.GenerateAsync(type).GetAwaiter().GetResult();
                 try
                 {
@@ -164,7 +161,7 @@ namespace Satrabel.OpenApp.ProxyScripting
                 catch (Exception ex)
                 {
                     var pathError = $"abp.schemas.{module.Name.ToCamelCase()}.{controller.Name.ToCamelCase()}.{action.Name.ToCamelCase()}.returnValue";
-                    Logger.Error("Error generating schema for "+ pathError);
+                    Logger.Error("Error generating schema for " + pathError);
                     script.AppendLine("// Error generating schema for " + pathError);
                 }
             }
