@@ -39,9 +39,7 @@ namespace Satrabel.OpenApp.ProxyScripting
             settings.AllowReferencesWithProperties = false;
             settings.SchemaType = NJsonSchema.SchemaType.JsonSchema;
             generator = new JsonSchemaGenerator(settings);
-
         }
-
 
         public string CreateScript(ApplicationApiDescriptionModel model)
         {
