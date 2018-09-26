@@ -182,8 +182,8 @@ namespace Satrabel.OpenApp.ProxyScripting
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error($"{module.Name} {controller.Name} {action.Name} {parameter.Name} : {ex.Message}", ex);
-                        //throw new Exception($"{module.Name} {controller.Name} {action.Name} {parameter.Name} : {ex.Message}", ex);
+
+                        throw new Exception($"{module.Name} {controller.Name} {action.Name} {parameter.Name} : {ex.Message}", ex);
                     }
 
                     var schemaData = schema.ToJson();
