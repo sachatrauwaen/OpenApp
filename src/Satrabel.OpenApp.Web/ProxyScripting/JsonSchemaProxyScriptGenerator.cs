@@ -7,7 +7,6 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -152,7 +151,7 @@ namespace Satrabel.OpenApp.ProxyScripting
                 var schema = generator.GenerateAsync(type).GetAwaiter().GetResult();
                 try
                 {
-                    schema = CleanUpSchema(schema);
+                    schema = CleanUpSchema(schema, 0);
                     var schemaData = schema.ToJson();
                     //schema.Title = action.ReturnValue.Type.Name;
                     script.Append($"abp.schemas.{module.Name.ToCamelCase()}.{controller.Name.ToCamelCase()}.{action.Name.ToCamelCase()}.returnValue =  ");
@@ -181,14 +180,14 @@ namespace Satrabel.OpenApp.ProxyScripting
                     }
                     try
                     {
-                        schema = CleanUpSchema(schema);
+                        schema = CleanUpSchema(schema, 0);
                     }
                     catch (Exception ex)
                     {
 
                         throw new Exception($"{module.Name} {controller.Name} {action.Name} {parameter.Name} : {ex.Message}", ex);
                     }
-                    
+
                     var schemaData = schema.ToJson();
                     script.Append($"    {parameter.Name.ToCamelCase()} :  ");
                     script.Append(schemaData);
@@ -198,13 +197,13 @@ namespace Satrabel.OpenApp.ProxyScripting
             }
         }
 
-        private JsonSchema4 CleanUpSchema(JsonSchema4 schema)
+        private JsonSchema4 CleanUpSchema(JsonSchema4 schema, int level)
         {
             var sch = new JsonSchema4();
-            CopyFields(schema.ActualSchema, sch);
+            CopyFields(schema.ActualSchema, sch, level);
             foreach (var item in schema.ActualSchema.ActualProperties)
             {
-                sch.Properties.Add(item.Key, CleanUpSchema(item.Value, 0));
+                sch.Properties.Add(item.Key, CleanUpSchema(item.Value, level + 1));
             }
             return sch;
         }
@@ -220,7 +219,7 @@ namespace Satrabel.OpenApp.ProxyScripting
             sch.IsRequired = schema.IsRequired;
             sch.IsReadOnly = schema.IsReadOnly;
             sch.Default = schema.Default;
-            CopyFields(actualSchema, sch);
+            CopyFields(actualSchema, sch, level);
             foreach (var item in actualSchema.ActualProperties)
             {
                 sch.Properties.Add(item.Key, CleanUpSchema(item.Value, level + 1));
@@ -229,12 +228,12 @@ namespace Satrabel.OpenApp.ProxyScripting
             if (oneOf.Count() == 1)
             {
                 //(new System.Collections.Generic.CollectionDebugView<NJsonSchema.JsonSchema4>(schema.ActualSchema.OneOf).Items)[1].ActualSchema
-                CopyFields(oneOf.First().ActualSchema, sch);
+                CopyFields(oneOf.First().ActualSchema, sch, level);
             }
             return sch;
         }
 
-        private void CopyFields(JsonSchema4 schema, JsonSchema4 sch)
+        private void CopyFields(JsonSchema4 schema, JsonSchema4 sch, int level)
         {
             if (!string.IsNullOrEmpty(schema.Title))
             {
@@ -278,8 +277,9 @@ namespace Satrabel.OpenApp.ProxyScripting
             //{
             //    sch.Items.Add(item);
             //}
-            if (schema.Item != null) {
-                sch.Item = CleanUpSchema(schema.Item);
+            if (schema.Item != null)
+            {
+                sch.Item = CleanUpSchema(schema.Item, level);
             }
             if (schema.ExtensionData != null)
             {
