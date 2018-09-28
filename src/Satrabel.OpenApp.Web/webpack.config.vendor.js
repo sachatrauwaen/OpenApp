@@ -16,8 +16,7 @@ module.exports = (env) => {
                 'element-ui',
                 'element-ui/lib/theme-chalk/index.css',
                 'vue',
-                'vue-router',
-                'vuecrud'
+                'vue-router'
             ],
         },
         module: {
