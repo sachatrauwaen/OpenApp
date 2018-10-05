@@ -14,12 +14,14 @@ namespace Satrabel.OpenApp.Roles.Dto
         [Display(Name="RoleName")]
         [Required]
         [StringLength(AbpRoleBase.MaxNameLength)]
+        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         [JsonSchemaExtensionData("x-ui-grid", true)]
         public string Name { get; set; }
 
         [Display(Name = "DisplayName")]
         [Required]
         [StringLength(AbpRoleBase.MaxDisplayNameLength)]
+        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         [JsonSchemaExtensionData("x-ui-grid", true)]
         public string DisplayName { get; set; }
 

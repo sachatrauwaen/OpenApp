@@ -19,6 +19,7 @@ namespace Satrabel.OpenApp.Localizations.Dto
         [Required]
         [StringLength(ApplicationLanguageText.MaxKeyLength)]
         [ReadOnly(true)]
+        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public string Key { get; set; }
 
         [ReadOnly(true)]
