@@ -12,22 +12,17 @@ namespace Satrabel.OpenApp.Languages.Dto
         [Required]
         [Display(Name = "Code")]
         [StringLength(ApplicationLanguage.MaxNameLength)]
-        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public string Name { get; set; }
 
         [Required]
         [StringLength(ApplicationLanguage.MaxDisplayNameLength)]
-        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public string DisplayName { get; set; }
 
         [StringLength(ApplicationLanguage.MaxIconLength)]
-        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public string Icon { get; set; }
 
-        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public bool Enabled { get; set; }
 
-        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public bool Default { get; set; }
     }
 }
