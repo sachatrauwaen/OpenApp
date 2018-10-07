@@ -1,16 +1,19 @@
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
-using Abp.Localization;
-using Satrabel.OpenApp.Authorization;
-using Satrabel.OpenApp.Localizations.Dto;
 using Abp.Domain.Uow;
+using Abp.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Satrabel.OpenApp.Authorization;
+using Satrabel.OpenApp.Authorization.Users;
+using Satrabel.OpenApp.Localizations.Dto;
+using Satrabel.OpenApp.Users;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Satrabel.OpenApp.Localizations
 {
@@ -73,11 +76,43 @@ namespace Satrabel.OpenApp.Localizations
             {
                 lst = lst.Where(t => string.IsNullOrEmpty(t.Value)).ToList();
             }
+
+            lst = ApplySorting(lst, input);
+
             return new PagedResultDto<LocalizationDto>()
             {
                 Items = lst.Skip(input.SkipCount).Take(input.MaxResultCount).ToList(),
                 TotalCount = lst.Count()
             };
+        }
+
+        private static List<LocalizationDto> ApplySorting(List<LocalizationDto> lst, LocalizationResultRequestDto input)
+        {
+            IOrderedEnumerable<LocalizationDto> retval;
+            Func<LocalizationDto, string> sortingExpr = r => r.Key;
+
+            var sortingInfo = AppServiceHelper.BuildSortinginfo(input.Sorting);
+            if (sortingInfo != null)
+            {
+                switch (sortingInfo.Item1)
+                {
+                    case "Default":
+                        sortingExpr = r => r.Default;
+                        break;
+                    case "Key":
+                    default:
+                        sortingExpr = r => r.Key;
+                        break;
+                }
+
+                retval = sortingInfo.Item2 == AppServiceHelper.SortOrder.DESC ? lst.OrderByDescending(sortingExpr) : lst.OrderBy(sortingExpr);
+            }
+            else
+            {
+                retval = lst.OrderBy(sortingExpr);
+            }
+
+            return retval.ToList();
         }
 
         [UnitOfWork(IsDisabled = true)]
@@ -100,6 +135,7 @@ namespace Satrabel.OpenApp.Localizations
             var languages = await _languageManager.GetLanguagesAsync(AbpSession.TenantId);
             return ObjectMapper.Map<List<LanguageDto>>(languages);
         }
+
 
     }
 }

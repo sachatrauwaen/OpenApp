@@ -3,7 +3,7 @@ using NJsonSchema.Annotations;
 
 namespace Satrabel.OpenApp.Localizations.Dto
 {
-    public class LocalizationResultRequestDto: PagedResultRequestDto
+    public class LocalizationResultRequestDto : PagedAndSortedResultRequestDto
     {
         [JsonSchemaExtensionData("x-enum-action", "getSources")]
         [JsonSchemaExtensionData("x-enum-valuefield", "name")]
