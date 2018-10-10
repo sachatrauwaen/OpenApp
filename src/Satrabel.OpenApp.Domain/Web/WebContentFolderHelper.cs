@@ -48,11 +48,11 @@ namespace Satrabel.OpenApp.Web
             }
 
             var directoryInfo = new DirectoryInfo(coreAssemblyDirectoryPath);
-            while (!DirectoryContains(directoryInfo.FullName, "web.config"))
+            while (!DirectoryContains(directoryInfo.FullName, "appsettings.json"))
             {
                 if (directoryInfo.Parent == null)
                 {
-                    throw new Exception("Could not find content root folder!");
+                    throw new Exception("Could not find content root folder! (folder with appsettings.json)");
                 }
 
                 directoryInfo = directoryInfo.Parent;
