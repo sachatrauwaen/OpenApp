@@ -27,6 +27,7 @@
     <text name="NameSurname" value="Nom ét nom de famille" />
     <text name="EmailAddress" value="Adresse email" />
 
+    
     <text name="Tenants" value="Sites" />
     <text name="SavedSuccessfully" value="Enregistrement réussi" />
     <text name="CreateNewTenant" value="Créer un nouveau site" />
@@ -47,7 +48,9 @@
     <text name="Users" value="Utilisateurs" />
     <text name="Yes" value="Oui" />
     <text name="No" value="Non" />
-
+    <text name="IsActive" value="Actif" />
+     <text name="FullName" value="Nom complet" />
+    
     <text name="Roles">Rôles</text>
     <text name="DisplayName">Nom visible</text>
         
