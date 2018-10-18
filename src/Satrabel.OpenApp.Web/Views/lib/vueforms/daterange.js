@@ -2,9 +2,9 @@
 
     var daterangeComponent = {
         name: "daterangeComponent",
-        template: '<div><el-date-picker v-if="!isMobile" v-model="model"  type="daterange" format="dd/MM/yyyy" ></el-date-picker>\
-                    <el-date-picker v-if="isMobile" v-model="model1"  type="date" format="dd/MM/yyyy" placeholder="Begin" ></el-date-picker>\
-                    <el-date-picker v-if="isMobile" v-model="model2"  type="date" format="dd/MM/yyyy" placeholder="End" ></el-date-picker></div>',
+        template: '<div><el-date-picker v-if="!isMobile" v-model="model"  type="daterange" format="dd/MM/yyyy" value-format="yyyy-MM-dd" ></el-date-picker>\
+                    <el-date-picker v-if="isMobile" v-model="model1"  type="date" format="dd/MM/yyyy" value-format="yyyy-MM-dd" placeholder="Begin" ></el-date-picker>\
+                    <el-date-picker v-if="isMobile" v-model="model2"  type="date" format="dd/MM/yyyy" value-format="yyyy-MM-dd" placeholder="End" ></el-date-picker></div>',
         data: function () {
             return {
                 pickerOptions: {
@@ -58,7 +58,7 @@
                     return this.value && this.value.length > 0 ? this.value[0] : null;
                 },
                 set: function (val) {
-                    if (this.value && this.value[1].getTime() > val.getTime())
+                    if (this.value && this.getTime(this.value[1]) > this.getTime(val))
                         this.model = [val, this.value[1]]
                     else
                         this.model = [val, val]
@@ -69,7 +69,7 @@
                     return this.value && this.value.length > 1 ? this.value[1] : null;
                 },
                 set: function (val) {
-                    if (this.value && this.value[0].getTime() < val.getTime()) 
+                    if (this.value && this.getTime(this.value[0]) < this.getTime(val)) 
                         this.model = [this.value[0], val];
                     else 
                         this.model = [val, val]
@@ -79,6 +79,12 @@
                 return VueForms.isMobile();
             }
         },
+        methods: {
+            getTime: function (str) {
+                return (new Date(str)).getTime();
+            }
+
+        }
     }
     Vue.component('oa-daterange', daterangeComponent);
 })();

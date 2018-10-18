@@ -23,11 +23,12 @@ namespace Satrabel.OpenApp.Users.Dto
         [StringLength(AbpUserBase.MaxNameLength)]
         //[JsonSchemaExtensionData("x-ui-grid", false)]
         [UIGrid(false)]
+        [Display(Name ="Firstname")]
         public string Name { get; set; }
 
         [Required]
         [StringLength(AbpUserBase.MaxSurnameLength)]
-        [JsonSchemaExtensionData("x-ui-grid", false)]
+        [JsonSchemaExtensionData("x-ui-grid", false)]        
         public string Surname { get; set; }
 
         [Required]

@@ -18,6 +18,7 @@ namespace Satrabel.OpenApp.Users.Dto
 
         [Required]
         [StringLength(AbpUserBase.MaxNameLength)]
+        [Display(Name = "Firstname")]
         public string Name { get; set; }
 
         [Required]

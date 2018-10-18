@@ -28,7 +28,7 @@
     <text name="Surname" value="Achternaam" />
     <text name="NameSurname" value="Naam achternaam" />
     <text name="EmailAddress" value="E-mailadres" />
-
+    
     <text name="Tenants" value="Klanten" />
     <text name="SavedSuccessfully" value="Correct opgeslagen" />
     <text name="CreateNewTenant" value="Klant aanmaken" />
