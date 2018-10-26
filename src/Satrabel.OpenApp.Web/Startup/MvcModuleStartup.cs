@@ -89,6 +89,11 @@ namespace Satrabel.OpenApp.Startup
             services.AddSingleton<IMigrationManager>(new MigrationManager());
             services.AddSingleton<IWebConfig>(new WebConfig());
 
+            if (_signalREnabled)
+            {
+                services.AddSignalR();
+            }
+
             // Configure CORS for angular2 UI or other clients. This does not activate Cors. It only configures it.
             services.AddCors(options =>
             {
@@ -171,11 +176,6 @@ namespace Satrabel.OpenApp.Startup
             }
 
             AddAdditionalServices(services);
-
-            if (_signalREnabled)
-            {
-                services.AddSignalR();
-            }
 
             // Configure Abp and Dependency Injection
             return services.AddAbp<TModule>(
