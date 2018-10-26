@@ -20,6 +20,7 @@ using Satrabel.OpenApp.Configuration;
 using Satrabel.OpenApp.Identity;
 using Abp.AspNetCore.SignalR.Hubs;
 using Satrabel.OpenApp.SignalR;
+using Satrabel.OpenApp.Authentication.JwtBearer;
 using Satrabel.OpenApp.Web.Migration;
 using Satrabel.OpenApp.Web.Resources;
 using Satrabel.OpenApp.Web.Startup;
@@ -47,7 +48,6 @@ namespace Satrabel.OpenApp.Startup
             SignalRFeature.IsAvailable = _signalREnabled;
             Clock.Provider = ClockProviders.Local;
         }
-
 
         #region Helpers for Swagger name generation
         private string CreateGenericTypeName(Type[] generics)
@@ -114,7 +114,7 @@ namespace Satrabel.OpenApp.Startup
 
                 options.AddPolicy(
                     _allowAllCorsPolicyName,
-                    builder => builder 
+                    builder => builder
                             .AllowAnyOrigin()
                             .AllowAnyHeader()
                             .AllowAnyMethod()
@@ -238,7 +238,6 @@ namespace Satrabel.OpenApp.Startup
             // end temp fix
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
-
             app.UseAbpRequestLocalization();
 
             if (_signalREnabled)
