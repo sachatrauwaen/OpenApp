@@ -193,8 +193,8 @@ namespace Satrabel.OpenApp.Startup
             migrationManager.ApplicationLifetime = applicationLifetime;
             migrationManager.HostingEnvironment = env;
             migrationManager.AppVersion = AppVersion;
-            app.UseAbp(); //Initializes ABP framework.
 
+            app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
 
             if (_corsEnabled)
             {
@@ -238,6 +238,9 @@ namespace Satrabel.OpenApp.Startup
             // end temp fix
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
+
+            app.UseAbpRequestLocalization();
+
             if (_signalREnabled)
             {
                 app.UseSignalR(routes =>
