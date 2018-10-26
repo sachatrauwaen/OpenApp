@@ -8,5 +8,9 @@ namespace Satrabel.OpenApp.Roles
     public interface IRoleAppService : IAsyncCrudAppService<RoleDto, int, PagedResultRequestDto, CreateRoleDto, UpdateRoleDto>
     {
         Task<ListResultDto<PermissionDto>> GetAllPermissions();
+
+        Task<GetRoleForEditOutput> GetRoleForEdit(EntityDto input);
+
+        Task<ListResultDto<RoleListDto>> GetRolesAsync(GetRolesInput input);
     }
 }

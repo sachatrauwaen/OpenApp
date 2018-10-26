@@ -17,7 +17,9 @@ namespace Satrabel.OpenApp.Roles.Dto
         [Required]
         [StringLength(AbpRoleBase.MaxDisplayNameLength)]
         public string DisplayName { get; set; }
-                
+
+        public string NormalizedName { get; set; }
+        
         [StringLength(Role.MaxDescriptionLength)]
         public string Description { get; set; }
 

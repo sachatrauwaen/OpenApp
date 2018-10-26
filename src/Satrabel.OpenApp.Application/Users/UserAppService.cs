@@ -14,6 +14,8 @@ using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.Roles.Dto;
 using Satrabel.OpenApp.Users.Dto;
 using System;
+using Abp.Localization;
+using Abp.Runtime.Session;
 
 namespace Satrabel.OpenApp.Users
 {
@@ -109,6 +111,15 @@ namespace Satrabel.OpenApp.Users
         {
             var roles = await _roleRepository.GetAllListAsync();
             return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
+        }
+
+        public async Task ChangeLanguage(ChangeUserLanguageDto input)
+        {
+            await SettingManager.ChangeSettingForUserAsync(
+                AbpSession.ToUserIdentifier(),
+                LocalizationSettingNames.DefaultLanguage,
+                input.LanguageName
+            );
         }
 
         protected override User MapToEntity(CreateUserDto createInput)
