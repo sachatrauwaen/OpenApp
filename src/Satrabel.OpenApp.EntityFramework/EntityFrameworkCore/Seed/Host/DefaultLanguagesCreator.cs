@@ -48,7 +48,6 @@ namespace Satrabel.OpenApp.EntityFramework.Seed.Host
             }
 
             _context.Languages.Add(language);
-
             _context.SaveChanges();
         }
     }

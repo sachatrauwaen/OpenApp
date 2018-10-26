@@ -2,9 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using Abp.Auditing;
 using Abp.Authorization.Users;
-using Satrabel.OpenApp.Authorization.Users;
-using Satrabel.OpenApp.Validation;
 using Abp.Extensions;
+using Satrabel.OpenApp.Validation;
 
 namespace Satrabel.OpenApp.Authorization.Accounts.Dto
 {
@@ -41,7 +40,7 @@ namespace Satrabel.OpenApp.Authorization.Accounts.Dto
             {
                 if (!UserName.Equals(EmailAddress) && ValidationHelper.IsEmail(UserName))
                 {
-                    yield return new ValidationResult("Username cannot be an email address unless it's same with your email address !");
+                    yield return new ValidationResult("Username cannot be an email address unless it's the same as your email address!");
                 }
             }
         }

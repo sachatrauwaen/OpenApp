@@ -1,5 +1,5 @@
-﻿using Satrabel.OpenApp.Authorization.Users;
-using AutoMapper;
+﻿using AutoMapper;
+using Satrabel.OpenApp.Authorization.Users;
 
 namespace Satrabel.OpenApp.Users.Dto
 {
@@ -8,7 +8,8 @@ namespace Satrabel.OpenApp.Users.Dto
         public UserMapProfile()
         {
             CreateMap<UserDto, User>();
-            CreateMap<UserDto, User>().ForMember(x => x.Roles, opt => opt.Ignore());
+            CreateMap<UserDto, User>()
+                .ForMember(x => x.Roles, opt => opt.Ignore());
 
             CreateMap<CreateUserDto, User>();
             CreateMap<CreateUserDto, User>().ForMember(x => x.Roles, opt => opt.Ignore());

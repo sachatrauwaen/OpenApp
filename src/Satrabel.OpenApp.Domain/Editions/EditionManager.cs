@@ -13,8 +13,7 @@ namespace Satrabel.OpenApp.Editions
             IAbpZeroFeatureValueStore featureValueStore)
             : base(
                 editionRepository,
-                featureValueStore
-            )
+                featureValueStore)
         {
         }
     }

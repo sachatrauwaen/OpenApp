@@ -1,7 +1,8 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Abp.MultiTenancy;
 using Satrabel.OpenApp.Editions;
 using Satrabel.OpenApp.MultiTenancy;
-using Microsoft.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.EntityFramework.Seed.Tenants
 {
@@ -22,12 +23,12 @@ namespace Satrabel.OpenApp.EntityFramework.Seed.Tenants
 
         private void CreateDefaultTenant()
         {
-            //Default tenant
+            // Default tenant
 
-            var defaultTenant = _context.Tenants.IgnoreQueryFilters().FirstOrDefault(t => t.TenancyName == Tenant.DefaultTenantName);
+            var defaultTenant = _context.Tenants.IgnoreQueryFilters().FirstOrDefault(t => t.TenancyName == AbpTenantBase.DefaultTenantName);
             if (defaultTenant == null)
             {
-                defaultTenant = new Tenant(Tenant.DefaultTenantName, Tenant.DefaultTenantName);
+                defaultTenant = new Tenant(AbpTenantBase.DefaultTenantName, AbpTenantBase.DefaultTenantName);
 
                 var defaultEdition = _context.Editions.IgnoreQueryFilters().FirstOrDefault(e => e.Name == EditionManager.DefaultEditionName);
                 if (defaultEdition != null)

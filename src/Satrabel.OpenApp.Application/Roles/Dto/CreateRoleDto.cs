@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Abp.Authorization.Roles;
 using Abp.AutoMapper;
 using Satrabel.OpenApp.Authorization.Roles;
-
-using Abp.Authorization.Roles;
 using NJsonSchema.Annotations;
 
 namespace Satrabel.OpenApp.Roles.Dto

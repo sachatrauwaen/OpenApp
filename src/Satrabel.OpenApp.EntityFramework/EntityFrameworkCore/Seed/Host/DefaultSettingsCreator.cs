@@ -18,11 +18,11 @@ namespace Satrabel.OpenApp.EntityFramework.Seed.Host
 
         public void Create()
         {
-            //Emailing
+            // Emailing
             AddSettingIfNotExists(EmailSettingNames.DefaultFromAddress, "admin@mydomain.com");
             AddSettingIfNotExists(EmailSettingNames.DefaultFromDisplayName, "mydomain.com mailer");
 
-            //Languages
+            // Languages
             AddSettingIfNotExists(LocalizationSettingNames.DefaultLanguage, "en");
         }
 

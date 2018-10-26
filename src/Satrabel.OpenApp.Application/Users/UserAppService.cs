@@ -1,19 +1,19 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.IdentityFramework;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Satrabel.OpenApp.Authorization;
 using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.Roles.Dto;
 using Satrabel.OpenApp.Users.Dto;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Satrabel.OpenApp.Users
 {
@@ -22,21 +22,21 @@ namespace Satrabel.OpenApp.Users
     {
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
-        private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IRepository<Role> _roleRepository;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
         public UserAppService(
             IRepository<User, long> repository,
             UserManager userManager,
-            IPasswordHasher<User> passwordHasher,
+            RoleManager roleManager,
             IRepository<Role> roleRepository,
-            RoleManager roleManager)
+            IPasswordHasher<User> passwordHasher)
             : base(repository)
         {
             _userManager = userManager;
-            _passwordHasher = passwordHasher;
-            _roleRepository = roleRepository;
             _roleManager = roleManager;
+            _roleRepository = roleRepository;
+            _passwordHasher = passwordHasher;
         }
 
         public override async Task<UserDto> Create(CreateUserDto input)

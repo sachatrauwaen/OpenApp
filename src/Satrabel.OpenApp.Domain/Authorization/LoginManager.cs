@@ -1,4 +1,5 @@
-﻿using Abp.Authorization;
+﻿using Microsoft.AspNetCore.Identity;
+using Abp.Authorization;
 using Abp.Authorization.Users;
 using Abp.Configuration;
 using Abp.Configuration.Startup;
@@ -9,7 +10,6 @@ using Abp.Zero.Configuration;
 using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.MultiTenancy;
-using Microsoft.AspNetCore.Identity;
 
 namespace Satrabel.OpenApp.Authorization
 {

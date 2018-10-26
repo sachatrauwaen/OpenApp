@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Abp.Authorization.Users;
 using Abp.Domain.Services;
 using Abp.IdentityFramework;
@@ -9,8 +11,6 @@ using Abp.Runtime.Session;
 using Abp.UI;
 using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.MultiTenancy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.Authorization.Users
 {
@@ -56,7 +56,6 @@ namespace Satrabel.OpenApp.Authorization.Users
             };
 
             user.SetNormalizedNames();
-
             user.Password = _passwordHasher.HashPassword(user, plainPassword);
 
             foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())

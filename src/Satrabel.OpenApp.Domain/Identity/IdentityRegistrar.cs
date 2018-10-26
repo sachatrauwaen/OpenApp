@@ -1,10 +1,10 @@
-﻿using Satrabel.OpenApp.Authorization;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Satrabel.OpenApp.Authorization;
 using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.Editions;
 using Satrabel.OpenApp.MultiTenancy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Satrabel.OpenApp.Identity
 {

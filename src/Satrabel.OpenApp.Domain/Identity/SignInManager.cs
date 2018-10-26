@@ -1,14 +1,14 @@
-﻿using Abp.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Abp.Authorization;
 using Abp.Configuration;
 using Abp.Domain.Uow;
 using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.MultiTenancy;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Satrabel.OpenApp.Identity
 {
@@ -22,8 +22,8 @@ namespace Satrabel.OpenApp.Identity
             ILogger<SignInManager<User>> logger,
             IUnitOfWorkManager unitOfWorkManager,
             ISettingManager settingManager,
-            IAuthenticationSchemeProvider schemes
-            ) : base(
+            IAuthenticationSchemeProvider schemes) 
+            : base(
                 userManager, 
                 contextAccessor, 
                 claimsFactory, 

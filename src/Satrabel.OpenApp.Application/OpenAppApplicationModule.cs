@@ -20,7 +20,8 @@ namespace Satrabel.OpenApp
 
         public override void Initialize()
         {
-            Assembly thisAssembly = typeof(OpenAppApplicationModule).GetAssembly();
+            var thisAssembly = typeof(OpenAppApplicationModule).GetAssembly();
+
             IocManager.RegisterAssemblyByConvention(thisAssembly);
 
             Configuration.Modules.AbpAutoMapper().Configurators.Add(cfg =>
@@ -28,8 +29,6 @@ namespace Satrabel.OpenApp
                 //Scan the assembly for classes which inherit from AutoMapper.Profile
                 cfg.AddProfiles(thisAssembly);
             });
-
-            
         }
     }
 }

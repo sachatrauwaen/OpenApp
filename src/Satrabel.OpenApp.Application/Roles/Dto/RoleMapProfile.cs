@@ -1,10 +1,10 @@
-﻿using Abp.Authorization;
+﻿using AutoMapper;
+using Abp.Authorization;
 using Abp.Authorization.Roles;
 using Abp.Authorization.Users;
 using Abp.Dependency;
 using Abp.Domain.Repositories;
 using Satrabel.OpenApp.Authorization.Roles;
-using AutoMapper;
 
 namespace Satrabel.OpenApp.Roles.Dto
 {

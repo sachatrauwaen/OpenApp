@@ -1,7 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Satrabel.OpenApp.Authorization.Users;
-using Satrabel.OpenApp.Users;
 
 namespace Satrabel.OpenApp.Sessions.Dto
 {

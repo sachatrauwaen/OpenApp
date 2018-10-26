@@ -10,4 +10,3 @@ namespace Satrabel.OpenApp.Authorization.Accounts.Dto
         public string TenancyName { get; set; }
     }
 }
-
