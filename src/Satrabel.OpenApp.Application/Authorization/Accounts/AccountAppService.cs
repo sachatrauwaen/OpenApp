@@ -6,7 +6,7 @@ using Satrabel.OpenApp.Authorization.Users;
 
 namespace Satrabel.OpenApp.Authorization.Accounts
 {
-    public class AccountAppService : OpenAppAppServiceBase, IAccountAppService
+    public class AccountAppService : AppServiceBase, IAccountAppService
     {
         private readonly UserRegistrationManager _userRegistrationManager;
 

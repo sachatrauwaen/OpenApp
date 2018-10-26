@@ -6,7 +6,7 @@ using Satrabel.OpenApp.Configuration.Dto;
 namespace Satrabel.OpenApp.Configuration
 {
     [AbpAuthorize]
-    public class ConfigurationAppService : OpenAppAppServiceBase, IConfigurationAppService
+    public class ConfigurationAppService : AppServiceBase, IConfigurationAppService
     {
         public async Task ChangeUiTheme(ChangeUiThemeInput input)
         {

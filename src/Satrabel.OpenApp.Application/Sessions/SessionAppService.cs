@@ -6,7 +6,7 @@ using Satrabel.OpenApp.SignalR;
 
 namespace Satrabel.OpenApp.Sessions
 {
-    public class SessionAppService : OpenAppAppServiceBase, ISessionAppService
+    public class SessionAppService : AppServiceBase, ISessionAppService
     {
         [DisableAuditing]
         public async Task<GetCurrentLoginInformationsOutput> GetCurrentLoginInformations()
