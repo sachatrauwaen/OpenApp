@@ -271,7 +271,9 @@ namespace Satrabel.OpenApp.Startup
                 // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenApp API V1");
+                    options.SwaggerEndpoint(_appConfiguration["App:ServerRootAddress"] + "/swagger/v1/swagger.json", "OpenApp API V1");
+                    options.IndexStream = () => Assembly.GetExecutingAssembly()
+                        .GetManifestResourceStream("Satrabel.OpenApp.Web.Host.wwwroot.swagger.ui.index.html");
                 }); //URL: /swagger
             }
         }
