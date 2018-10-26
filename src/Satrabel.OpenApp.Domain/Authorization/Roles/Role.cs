@@ -22,7 +22,7 @@ namespace Satrabel.OpenApp.Authorization.Roles
         {
         }
 
-        [MaxLength(MaxDescriptionLength)]
+        [StringLength(MaxDescriptionLength)]
         public string Description {get; set;}
     }
 }

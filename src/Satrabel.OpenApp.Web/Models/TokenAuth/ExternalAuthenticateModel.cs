@@ -6,11 +6,11 @@ namespace Satrabel.OpenApp.Models.TokenAuth
     public class ExternalAuthenticateModel
     {
         [Required]
-        [MaxLength(UserLogin.MaxLoginProviderLength)]
+        [StringLength(UserLogin.MaxLoginProviderLength)]
         public string AuthProvider { get; set; }
 
         [Required]
-        [MaxLength(UserLogin.MaxProviderKeyLength)]
+        [StringLength(UserLogin.MaxProviderKeyLength)]
         public string ProviderKey { get; set; }
 
         [Required]
