@@ -8,9 +8,9 @@ using Satrabel.OpenApp.Authorization.Roles;
 
 namespace Satrabel.OpenApp.Roles.Dto
 {
-    public class JobMapProfile : Profile
+    public class RoleMapProfile : Profile
     {
-        public JobMapProfile()
+        public RoleMapProfile()
         {
             // Role and permission
             CreateMap<Permission, string>().ConvertUsing(r => r.Name);
