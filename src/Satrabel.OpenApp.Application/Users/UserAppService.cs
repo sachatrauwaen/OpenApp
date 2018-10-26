@@ -8,14 +8,14 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.IdentityFramework;
+using Abp.Localization;
+using Abp.Runtime.Session;
 using Satrabel.OpenApp.Authorization;
 using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.Roles.Dto;
 using Satrabel.OpenApp.Users.Dto;
 using System;
-using Abp.Localization;
-using Abp.Runtime.Session;
 
 namespace Satrabel.OpenApp.Users
 {
