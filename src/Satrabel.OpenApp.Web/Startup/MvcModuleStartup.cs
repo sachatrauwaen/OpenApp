@@ -275,6 +275,9 @@ namespace Satrabel.OpenApp.Startup
                         .GetManifestResourceStream("Satrabel.OpenApp.Web.Host.wwwroot.swagger.ui.index.html");
                 }); //URL: /swagger
             }
+
+            // Should be called last
+            ConfigureAfterStaticFiles(app, env);
         }
 
         /// <summary>
@@ -287,6 +290,11 @@ namespace Satrabel.OpenApp.Startup
         }
 
         protected virtual void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
+        {
+
+        }
+
+        protected virtual void ConfigureAfterStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
         {
 
         }
