@@ -24,6 +24,7 @@ using Satrabel.OpenApp.Authentication.JwtBearer;
 using Satrabel.OpenApp.Web.Migration;
 using Satrabel.OpenApp.Web.Resources;
 using Satrabel.OpenApp.Web.Startup;
+using Satrabel.OpenApp.Startup.Swashbuckle;
 
 namespace Satrabel.OpenApp.Startup
 {
@@ -131,7 +132,7 @@ namespace Satrabel.OpenApp.Startup
                     options.DocInclusionPredicate((docName, description) => true);
 
                     /*
-                     * Explanation of code bellow concerning CustomSchemaId
+                     * Explanation of code below concerning CustomSchemaId
                      * 
                      * Swashbuckle for .Net Core generates simple DTO names by default. This is good and readable, but can become a problem when there are multiple DTO's with the same name in different Namespaces.
                      * 
@@ -172,6 +173,9 @@ namespace Satrabel.OpenApp.Startup
                     // By default ABP wraps API Responses with AjaxResponse. These don't get picked up automatically, so add them by enabling this OperationFilter.
                     // IMPORTANT: Should run after SecurityRequirementsOperationFilter. Otherwise the response type for alternative error codes will be incorrect.
                     options.OperationFilter<WrapAjaxResponseOperationFilter>();
+
+                    // Make sure enums don't get inlined in the generated swagger definition, but are separately referenced (thus no duplicates)
+                    options.SchemaFilter<NoDuplicatedEnumsOperationFilter>();
                 });
             }
 
