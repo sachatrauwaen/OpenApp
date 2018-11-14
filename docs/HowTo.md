@@ -108,6 +108,16 @@ coming soon
 * in the Controller folder, clone the About Controller and modify it to use your new pagename.
 * in NavigationProvider.cs, add a new MenuItemDefinition
 
+### How do I generate a TypeScript client based on my swagger definition?
+* Make sure swagger is enabled
+* Go to /src/Satrabel.Starter.Web.Spa/nswag
+* Edit service.config.nswag
+	* Change the url (under 'fromSwagger') to your swagger.json endpoint (if running on localhost, just change the port)
+	* Optional: Change the output (under 'swaggerToTypeScriptClient') to the desired output location/filename
+* Run the Spa application
+* In the nswag folder, run refresh.bat
+* A typescript client will be generated in the specified output location
+
 ## Other tips
 
 ### Tips while developing
