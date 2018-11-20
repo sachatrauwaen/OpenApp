@@ -180,17 +180,17 @@ namespace Satrabel.OpenApp.Web.Controllers
                     }
                 }
 
+                //Getting tenant-specific settings
+                var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
+
                 var user = await _userRegistrationManager.RegisterAsync(
                     model.Name,
                     model.Surname,
                     model.EmailAddress,
                     model.UserName,
                     model.Password,
-                    true //Assumed email address is always confirmed. Change this if you want to implement email confirmation.
+                    isEmailConfirmationRequiredForLogin ? false : true // We assume that when email confirmation is required before logging in, we create users under the assumption they still need to confirm
                 );
-
-                //Getting tenant-specific settings
-                var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
 
                 if (model.IsExternalLogin)
                 {
