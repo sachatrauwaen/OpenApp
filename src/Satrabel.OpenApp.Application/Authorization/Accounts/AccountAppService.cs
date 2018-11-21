@@ -40,7 +40,7 @@ namespace Satrabel.OpenApp.Authorization.Accounts
                 input.EmailAddress,
                 input.UserName,
                 input.Password,
-                false
+                true // Assumed email address is always confirmed. Change this if you want to implement email confirmation.
             );
 
             var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
