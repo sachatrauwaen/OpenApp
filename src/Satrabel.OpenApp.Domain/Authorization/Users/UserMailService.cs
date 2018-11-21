@@ -12,6 +12,8 @@ using Abp.UI;
 using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.MultiTenancy;
 using Abp.Net.Mail;
+using Microsoft.AspNetCore.Http.Extensions;
+using Abp.Configuration;
 
 namespace Satrabel.OpenApp.Authorization.Users
 {
@@ -24,19 +26,22 @@ namespace Satrabel.OpenApp.Authorization.Users
         private readonly RoleManager _roleManager;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IEmailSender _emailSender;
+        private readonly ISettingDefinitionManager _settingDefinitionManager;
 
         public UserMailService(
             TenantManager tenantManager,
             UserManager userManager,
             RoleManager roleManager,
             IPasswordHasher<User> passwordHasher,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ISettingDefinitionManager settingDefinitionManager)
         {
             _tenantManager = tenantManager;
             _userManager = userManager;
             _roleManager = roleManager;
             _passwordHasher = passwordHasher;
             _emailSender = emailSender;
+            _settingDefinitionManager = settingDefinitionManager;
 
             AbpSession = NullAbpSession.Instance;
         }
@@ -49,10 +54,13 @@ namespace Satrabel.OpenApp.Authorization.Users
             if (string.IsNullOrEmpty(user.EmailConfirmationCode))
                 throw new ApplicationException("User has no email confirmation code.");
 
+            var baseUrl = _settingDefinitionManager.GetSettingDefinition("ClientRootAddress");
+            var confirmationLink = $"{baseUrl}/Account/Confirm?userId={user.Id}&tenantId={user.TenantId}&code={user.EmailConfirmationCode}";
+
             return _emailSender.SendAsync(
                 to: user.EmailAddress,
                 subject: "Registration",
-                body: $"You have been successfully registered. Your confirmation code is: {user.EmailConfirmationCode}",
+                body: $"Hello, {user.FullName}, You have been successfully registered. Follow this link: {confirmationLink}",
                 isBodyHtml: true
             );
         }

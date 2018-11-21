@@ -218,27 +218,31 @@ namespace Satrabel.OpenApp.Web.Controllers
 
                 var tenant = await _tenantManager.GetByIdAsync(user.TenantId.Value);
 
-                //Directly login if possible
-                if (user.IsActive && (user.IsEmailConfirmed || !isEmailConfirmationRequiredForLogin))
-                {
-                    AbpLoginResult<Tenant, User> loginResult;
-                    if (externalLoginInfo != null)
-                    {
-                        loginResult = await _logInManager.LoginAsync(externalLoginInfo, tenant.TenancyName);
-                    }
-                    else
-                    {
-                        loginResult = await GetLoginResultAsync(user.UserName, model.Password, tenant.TenancyName);
-                    }
+                ////Directly login if possible
+                //if (user.IsActive && (user.IsEmailConfirmed || !isEmailConfirmationRequiredForLogin))
+                //{
+                //    AbpLoginResult<Tenant, User> loginResult;
+                //    if (externalLoginInfo != null)
+                //    {
+                //        loginResult = await _logInManager.LoginAsync(externalLoginInfo, tenant.TenancyName);
+                //    }
+                //    else
+                //    {
+                //        loginResult = await GetLoginResultAsync(user.UserName, model.Password, tenant.TenancyName);
+                //    }
 
-                    if (loginResult.Result == AbpLoginResultType.Success)
-                    {
-                        await _signInManager.SignInAsync(loginResult.Identity, false);
-                        return Redirect(GetAppHomeUrl());
-                    }
+                //    if (loginResult.Result == AbpLoginResultType.Success)
+                //    {
+                //        await _signInManager.SignInAsync(loginResult.Identity, false);
+                //        return Redirect(GetAppHomeUrl());
+                //    }
 
-                    Logger.Warn("New registered user could not be login. This should not be normally. login result: " + loginResult.Result);
-                }
+                //    Logger.Warn("New registered user could not be login. This should not be normally. login result: " + loginResult.Result);
+                //}
+
+                var loginSuccessfull = await AttemptLogin(user, tenant, model.Password, isEmailConfirmationRequiredForLogin, externalLoginInfo);
+                if (loginSuccessfull)
+                    return Redirect(GetAppHomeUrl());
 
                 return View("RegisterResult", new RegisterResultViewModel
                 {
@@ -257,6 +261,65 @@ namespace Satrabel.OpenApp.Web.Controllers
 
                 return View("Register", model);
             }
+        }
+
+        private async Task<bool> AttemptLogin(User user, Tenant tenant, string password, bool isEmailConfirmationRequiredForLogin, ExternalLoginInfo externalLoginInfo)
+        {
+            if (user.IsActive && (user.IsEmailConfirmed || !isEmailConfirmationRequiredForLogin))
+            {
+                AbpLoginResult<Tenant, User> loginResult;
+                if (externalLoginInfo != null)
+                {
+                    loginResult = await _logInManager.LoginAsync(externalLoginInfo, tenant.TenancyName);
+                }
+                else
+                {
+                    loginResult = await GetLoginResultAsync(user.UserName, password, tenant.TenancyName);
+                }
+
+                if (loginResult.Result == AbpLoginResultType.Success)
+                {
+                    await _signInManager.SignInAsync(loginResult.Identity, false);
+                    return true;
+                }
+
+                Logger.Warn("New registered user could not be login. This should not be normally. login result: " + loginResult.Result);
+            }
+
+            return false;
+        }
+
+        public async Task<ActionResult> Confirm(int userId, int? tenantId, string code)
+        {
+            // TODO decrypt values
+
+            if (tenantId != null)
+                CurrentUnitOfWork.SetTenantId(tenantId);
+
+            var user = await _userManager.GetUserByIdAsync(userId);
+
+            var correctCode = user.EmailConfirmationCode == code;
+
+            // 1. Incorrect code?
+
+            if(correctCode == false)
+                return RedirectToAction("Login", "Account");
+
+            // 2. Correct code?
+
+            // Update user
+            user.IsEmailConfirmed = true;
+            await _userManager.UpdateAsync(user);
+
+            // Login user
+            var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
+            var tenant = await _tenantManager.GetByIdAsync(user.TenantId.Value);
+            var loginSuccessfull = await AttemptLogin(user, tenant, user.Password, isEmailConfirmationRequiredForLogin, null);
+
+            // Redirect
+            return loginSuccessfull
+                ? (ActionResult) Redirect(GetAppHomeUrl())
+                : (ActionResult) RedirectToAction("Login", "Account");
         }
 
         #endregion

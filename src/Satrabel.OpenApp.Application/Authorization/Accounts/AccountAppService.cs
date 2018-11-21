@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Abp.Configuration;
 using Abp.Zero.Configuration;
@@ -36,7 +37,7 @@ namespace Satrabel.OpenApp.Authorization.Accounts
         {
 
             var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
-
+            
             var user = await _userRegistrationManager.RegisterAsync(
                 input.Name,
                 input.Surname,
