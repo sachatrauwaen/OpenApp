@@ -34,16 +34,18 @@ namespace Satrabel.OpenApp.Authorization.Accounts
 
         public async Task<RegisterOutput> Register(RegisterInput input)
         {
+
+            var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
+
             var user = await _userRegistrationManager.RegisterAsync(
                 input.Name,
                 input.Surname,
                 input.EmailAddress,
                 input.UserName,
                 input.Password,
-                true // Assumed email address is always confirmed. Change this if you want to implement email confirmation.
+                // true // Assumed email address is always confirmed. Change this if you want to implement email confirmation.
+                isEmailConfirmationRequiredForLogin ? false : true // We assume that when email confirmation is required before logging in, we create users under the assumption they still need to confirm
             );
-
-            var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
 
             return new RegisterOutput
             {

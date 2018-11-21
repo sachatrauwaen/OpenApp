@@ -11,6 +11,8 @@ using Abp.Runtime.Session;
 using Abp.UI;
 using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.MultiTenancy;
+using Abp.Configuration;
+using Abp.Zero.Configuration;
 
 namespace Satrabel.OpenApp.Authorization.Users
 {
@@ -22,17 +24,20 @@ namespace Satrabel.OpenApp.Authorization.Users
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly UserMailService _userMailService;
 
         public UserRegistrationManager(
             TenantManager tenantManager,
             UserManager userManager,
             RoleManager roleManager,
-            IPasswordHasher<User> passwordHasher)
+            IPasswordHasher<User> passwordHasher,
+            UserMailService userMailService)
         {
             _tenantManager = tenantManager;
             _userManager = userManager;
             _roleManager = roleManager;
             _passwordHasher = passwordHasher;
+            _userMailService = userMailService;
 
             AbpSession = NullAbpSession.Instance;
         }
@@ -40,6 +45,9 @@ namespace Satrabel.OpenApp.Authorization.Users
         public async Task<User> RegisterAsync(string name, string surname, string emailAddress, string userName, string plainPassword, bool isEmailConfirmed)
         {
             CheckForTenant();
+
+            var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
+            var sendConfirmationMail = isEmailConfirmationRequiredForLogin && isEmailConfirmed == false;
 
             var tenant = await GetActiveTenantAsync();
 
@@ -64,8 +72,14 @@ namespace Satrabel.OpenApp.Authorization.Users
 
             await _userManager.InitializeOptionsAsync(tenant.Id);
 
+            if (sendConfirmationMail)
+                user.SetNewEmailConfirmationCode();
+
             CheckErrors(await _userManager.CreateAsync(user, plainPassword));
             await CurrentUnitOfWork.SaveChangesAsync();
+
+            if(sendConfirmationMail)
+                await _userMailService.SendRegistrationMail(user); // TODO what if this fails?
 
             return user;
         }
