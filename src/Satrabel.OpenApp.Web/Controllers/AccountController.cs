@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Abp;
 using Abp.Authorization;
 using Abp.Authorization.Users;
@@ -18,7 +20,6 @@ using Abp.Timing;
 using Abp.UI;
 using Abp.Web.Models;
 using Abp.Zero.Configuration;
-using Microsoft.AspNetCore.Mvc;
 using Satrabel.OpenApp.Authorization;
 using Satrabel.OpenApp.MultiTenancy;
 using Satrabel.OpenApp.Web.Models.Account;
@@ -26,9 +27,7 @@ using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.Controllers;
 using Satrabel.OpenApp.Identity;
 using Satrabel.OpenApp.Sessions;
-//using Satrabel.OpenApp.Web.Views.Shared.Components.TenantChange;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
 
 namespace Satrabel.OpenApp.Web.Controllers
 {
@@ -148,7 +147,7 @@ namespace Satrabel.OpenApp.Web.Controllers
         {
             if (!AbpSession.TenantId.HasValue)
             {
-                return false; //No registration enabled for host users!
+                return false; // No registration enabled for host users!
             }
 
             return true;
@@ -189,6 +188,7 @@ namespace Satrabel.OpenApp.Web.Controllers
                     model.EmailAddress,
                     model.UserName,
                     model.Password,
+                    // true // Assumed email address is always confirmed. Change this if you want to implement email confirmation.
                     isEmailConfirmationRequiredForLogin ? false : true // We assume that when email confirmation is required before logging in, we create users under the assumption they still need to confirm
                 );
 
@@ -217,28 +217,6 @@ namespace Satrabel.OpenApp.Web.Controllers
                 Debug.Assert(user.TenantId != null);
 
                 var tenant = await _tenantManager.GetByIdAsync(user.TenantId.Value);
-
-                ////Directly login if possible
-                //if (user.IsActive && (user.IsEmailConfirmed || !isEmailConfirmationRequiredForLogin))
-                //{
-                //    AbpLoginResult<Tenant, User> loginResult;
-                //    if (externalLoginInfo != null)
-                //    {
-                //        loginResult = await _logInManager.LoginAsync(externalLoginInfo, tenant.TenancyName);
-                //    }
-                //    else
-                //    {
-                //        loginResult = await GetLoginResultAsync(user.UserName, model.Password, tenant.TenancyName);
-                //    }
-
-                //    if (loginResult.Result == AbpLoginResultType.Success)
-                //    {
-                //        await _signInManager.SignInAsync(loginResult.Identity, false);
-                //        return Redirect(GetAppHomeUrl());
-                //    }
-
-                //    Logger.Warn("New registered user could not be login. This should not be normally. login result: " + loginResult.Result);
-                //}
 
                 var loginSuccessfull = await AttemptLogin(user, tenant, model.Password, isEmailConfirmationRequiredForLogin, externalLoginInfo);
                 if (loginSuccessfull)
@@ -340,12 +318,12 @@ namespace Satrabel.OpenApp.Web.Controllers
                 });
 
             return Challenge(
-                //TODO: ...?
-                //new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties
-                //{
-                //    Items = { { "LoginProvider", provider } },
-                //    RedirectUri = redirectUrl
-                //},
+                // TODO: ...?
+                // new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties
+                // {
+                //     Items = { { "LoginProvider", provider } },
+                //     RedirectUri = redirectUrl
+                // },
                 provider
             );
         }

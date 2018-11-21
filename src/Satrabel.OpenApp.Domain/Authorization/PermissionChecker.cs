@@ -9,7 +9,6 @@ namespace Satrabel.OpenApp.Authorization
         public PermissionChecker(UserManager userManager)
             : base(userManager)
         {
-
         }
     }
 }

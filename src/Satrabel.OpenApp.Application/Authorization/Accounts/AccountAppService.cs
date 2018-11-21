@@ -44,6 +44,7 @@ namespace Satrabel.OpenApp.Authorization.Accounts
                 input.EmailAddress,
                 input.UserName,
                 input.Password,
+                // true // Assumed email address is always confirmed. Change this if you want to implement email confirmation.
                 isEmailConfirmationRequiredForLogin ? false : true // We assume that when email confirmation is required before logging in, we create users under the assumption they still need to confirm
             );
 

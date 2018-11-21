@@ -1,5 +1,5 @@
-using Satrabel.OpenApp.Controllers;
 using Microsoft.AspNetCore.Antiforgery;
+using Satrabel.OpenApp.Controllers;
 
 namespace Satrabel.OpenApp.Web.Controllers
 {
