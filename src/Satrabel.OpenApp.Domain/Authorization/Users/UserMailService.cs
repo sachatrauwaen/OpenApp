@@ -57,6 +57,9 @@ namespace Satrabel.OpenApp.Authorization.Users
             var baseUrl = _settingDefinitionManager.GetSettingDefinition("ClientRootAddress");
             var confirmationLink = $"{baseUrl}/Account/Confirm?userId={user.Id}&tenantId={user.TenantId}&code={user.EmailConfirmationCode}";
 
+            // TODO Translate title
+            // TODO Allow template to be provided by client app (through setting or configuration) as lambda, providing confirmationLink and user and expecting string as a result
+
             return _emailSender.SendAsync(
                 to: user.EmailAddress,
                 subject: "Registration",
