@@ -62,14 +62,14 @@ namespace Satrabel.OpenApp.Configuration
             }
 
             var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
-            builder = builder.AddJsonFile(Path.Combine("Configuration", $"appsettings.{computerName}.json"), optional: true);
+            builder = builder.AddJsonFile(Path.Combine("LocalConfig", $"appsettings.{computerName}.json"), optional: true);
 
             builder = builder.AddEnvironmentVariables();
 
             // https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?tabs=visual-studio
             if (addUserSecrets)
             {
-                builder.AddUserSecrets(typeof(AppConfigurations).GetAssembly());
+                builder.AddUserSecrets(typeof(AppConfigurations).GetAssembly()); // watch out. not compatible with core2 https://github.com/aspnet/Announcements/issues/223
             }
 
             return builder.Build();
@@ -85,8 +85,8 @@ namespace Satrabel.OpenApp.Configuration
         /// <remarks>
         /// Searches for 
         ///  - appsettings.json
-        ///  - appsettings.{environmentName}.json (Staging,Development, ...) //http://docs.asp.net/en/latest/fundamentals/environments.html
-        ///  - /Configuration/appsettings.{computerName}.json // in subfolder that can be excluded from .git
+        ///  - appsettings.{environmentName}.json (Staging,Development, ...) // http://docs.asp.net/en/latest/fundamentals/environments.html
+        ///  - /LocalConfig/appsettings.{computerName}.json // in subfolder that can be excluded from .git
         ///  - EnvironmentVariables()
         /// </remarks>
         private static IConfigurationRoot BuildConfiguration(Assembly assembly, string environmentName = null, bool addUserSecrets = false)
@@ -101,7 +101,7 @@ namespace Satrabel.OpenApp.Configuration
             }
 
             var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
-            builder = builder.AddJsonFile(Path.Combine("Configuration", $"appsettings.{computerName}.json"), optional: true);
+            builder = builder.AddJsonFile(Path.Combine("LocalConfig", $"appsettings.{computerName}.json"), optional: true);
 
             builder = builder.AddEnvironmentVariables();
 
