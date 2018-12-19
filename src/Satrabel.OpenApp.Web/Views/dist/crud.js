@@ -119,20 +119,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_element_ui_lib_theme_chalk_index_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_element_ui_lib_theme_chalk_index_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_en__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_en___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_en__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuecrud__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuecrud___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vuecrud__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__layout_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_element_ui_lib_locale_lang_fr__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_element_ui_lib_locale_lang_fr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_element_ui_lib_locale_lang_fr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_element_ui_lib_locale_lang_nl__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_element_ui_lib_locale_lang_nl___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_element_ui_lib_locale_lang_nl__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vuecrud__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vuecrud___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_vuecrud__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__layout_vue__ = __webpack_require__(10);
 
 
 
 
 
-__WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_1_element_ui___default.a, { locale: __WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_en___default.a });
+
+
+
+var locale = __WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_en___default.a;
+var loc = abp.localization.currentCulture.name;
+if (loc == 'fr') {
+    locale = __WEBPACK_IMPORTED_MODULE_4_element_ui_lib_locale_lang_fr___default.a;
+} else if (loc == 'nl') {
+    locale = __WEBPACK_IMPORTED_MODULE_5_element_ui_lib_locale_lang_nl___default.a;
+}
+
+__WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_1_element_ui___default.a, { locale: locale });
 
 
 
 
-__WEBPACK_IMPORTED_MODULE_4_vuecrud___default.a.createApp('#app', __WEBPACK_IMPORTED_MODULE_5__layout_vue__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_6_vuecrud___default.a.createApp('#app', __WEBPACK_IMPORTED_MODULE_7__layout_vue__["a" /* default */]);
 
 /***/ }),
 /* 4 */
@@ -266,6 +281,241 @@ exports.default = {
 
 /***/ }),
 /* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.default = {
+  el: {
+    colorpicker: {
+      confirm: 'OK',
+      clear: 'Effacer'
+    },
+    datepicker: {
+      now: 'Maintenant',
+      today: 'Auj.',
+      cancel: 'Annuler',
+      clear: 'Effacer',
+      confirm: 'OK',
+      selectDate: 'Choisir date',
+      selectTime: 'Choisir horaire',
+      startDate: 'Date début',
+      startTime: 'Horaire début',
+      endDate: 'Date fin',
+      endTime: 'Horaire fin',
+      prevYear: 'Année précédente',
+      nextYear: 'Année suivante',
+      prevMonth: 'Mois précédent',
+      nextMonth: 'Mois suivant',
+      year: '', // In french, like in english, we don't say "Année" after the year number.
+      month1: 'Janvier',
+      month2: 'Février',
+      month3: 'Mars',
+      month4: 'Avril',
+      month5: 'Mai',
+      month6: 'Juin',
+      month7: 'Juillet',
+      month8: 'Août',
+      month9: 'Septembre',
+      month10: 'Octobre',
+      month11: 'Novembre',
+      month12: 'Décembre',
+      // week: 'Semaine',
+      weeks: {
+        sun: 'Dim',
+        mon: 'Lun',
+        tue: 'Mar',
+        wed: 'Mer',
+        thu: 'Jeu',
+        fri: 'Ven',
+        sat: 'Sam'
+      },
+      months: {
+        jan: 'Jan',
+        feb: 'Fév',
+        mar: 'Mar',
+        apr: 'Avr',
+        may: 'Mai',
+        jun: 'Jun',
+        jul: 'Jul',
+        aug: 'Aoû',
+        sep: 'Sep',
+        oct: 'Oct',
+        nov: 'Nov',
+        dec: 'Déc'
+      }
+    },
+    select: {
+      loading: 'Chargement',
+      noMatch: 'Aucune correspondance',
+      noData: 'Aucune donnée',
+      placeholder: 'Choisir'
+    },
+    cascader: {
+      noMatch: 'Aucune correspondance',
+      loading: 'Chargement',
+      placeholder: 'Choisir'
+    },
+    pagination: {
+      goto: 'Aller à',
+      pagesize: '/page',
+      total: 'Total {total}',
+      pageClassifier: ''
+    },
+    messagebox: {
+      confirm: 'Confirmer',
+      cancel: 'Annuler',
+      error: 'Erreur'
+    },
+    upload: {
+      deleteTip: 'Cliquer sur supprimer pour retirer le fichier',
+      delete: 'Supprimer',
+      preview: 'Aperçu',
+      continue: 'Continuer'
+    },
+    table: {
+      emptyText: 'Aucune donnée',
+      confirmFilter: 'Confirmer',
+      resetFilter: 'Réinitialiser',
+      clearFilter: 'Tous',
+      sumText: 'Somme'
+    },
+    tree: {
+      emptyText: 'Aucune donnée'
+    },
+    transfer: {
+      noMatch: 'Aucune correspondance',
+      noData: 'Aucune donnée',
+      titles: ['Liste 1', 'Liste 2'],
+      filterPlaceholder: 'Entrer un mot clef',
+      noCheckedFormat: '{total} elements',
+      hasCheckedFormat: '{checked}/{total} coché(s)'
+    }
+  }
+};
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.default = {
+  el: {
+    colorpicker: {
+      confirm: 'Bevestig',
+      clear: 'Wissen'
+    },
+    datepicker: {
+      now: 'Nu',
+      today: 'Vandaag',
+      cancel: 'Annuleren',
+      clear: 'Legen',
+      confirm: 'Bevestig',
+      selectDate: 'Selecteer datum',
+      selectTime: 'Selecteer tijd',
+      startDate: 'Startdatum',
+      startTime: 'Starttijd',
+      endDate: 'Einddatum',
+      endTime: 'Eindtijd',
+      prevYear: 'Vorig jaar',
+      nextYear: 'Volgend jaar',
+      prevMonth: 'Vorige maand',
+      nextMonth: 'Volgende maand',
+      year: '',
+      month1: 'januari',
+      month2: 'februari',
+      month3: 'maart',
+      month4: 'april',
+      month5: 'mei',
+      month6: 'juni',
+      month7: 'juli',
+      month8: 'augustus',
+      month9: 'september',
+      month10: 'oktober',
+      month11: 'november',
+      month12: 'december',
+      // week: 'week',
+      weeks: {
+        sun: 'Zo',
+        mon: 'Ma',
+        tue: 'Di',
+        wed: 'Wo',
+        thu: 'Do',
+        fri: 'Vr',
+        sat: 'Za'
+      },
+      months: {
+        jan: 'jan',
+        feb: 'feb',
+        mar: 'maa',
+        apr: 'apr',
+        may: 'mei',
+        jun: 'jun',
+        jul: 'jul',
+        aug: 'aug',
+        sep: 'sep',
+        oct: 'okt',
+        nov: 'nov',
+        dec: 'dec'
+      }
+    },
+    select: {
+      loading: 'Laden',
+      noMatch: 'Geen overeenkomende resultaten',
+      noData: 'Geen data',
+      placeholder: 'Selecteer'
+    },
+    cascader: {
+      noMatch: 'Geen overeenkomende resultaten',
+      loading: 'Laden',
+      placeholder: 'Selecteer'
+    },
+    pagination: {
+      goto: 'Ga naar',
+      pagesize: '/pagina',
+      total: 'Totaal {total}',
+      pageClassifier: ''
+    },
+    messagebox: {
+      title: 'Bericht',
+      confirm: 'Bevestig',
+      cancel: 'Annuleren',
+      error: 'Ongeldige invoer'
+    },
+    upload: {
+      deleteTip: 'Kies verwijder om te wissen',
+      delete: 'Verwijder',
+      preview: 'Voorbeeld',
+      continue: 'Doorgaan'
+    },
+    table: {
+      emptyText: 'Geen data',
+      confirmFilter: 'Bevestigen',
+      resetFilter: 'Reset',
+      clearFilter: 'Alles',
+      sumText: 'Som'
+    },
+    tree: {
+      emptyText: 'Geen data'
+    },
+    transfer: {
+      noMatch: 'Geen overeenkomende resultaten',
+      noData: 'Geen data',
+      titles: ['Lijst 1', 'Lijst 2'],
+      filterPlaceholder: 'Geef zoekwoerd',
+      noCheckedFormat: '{total} items',
+      hasCheckedFormat: '{checked}/{total} geselecteerd'
+    }
+  }
+};
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // [AIV_SHORT]  Build version: 0.1.9 - Monday, October 15th, 2018, 6:48:51 PM  
@@ -7756,14 +8006,14 @@ module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u20
 //# sourceMappingURL=vuecrud.umd.js.map 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_layout_vue__ = __webpack_require__(2);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c68ad978_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_layout_vue__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c68ad978_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_layout_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(12);
 var disposed = false
 /* script */
 
@@ -7810,7 +8060,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7865,7 +8115,7 @@ if (false) {
 }
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

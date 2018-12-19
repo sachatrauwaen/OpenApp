@@ -2,7 +2,18 @@
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import locale from 'element-ui/lib/locale/lang/en'
+import localeEN from 'element-ui/lib/locale/lang/en'
+import localeFR from 'element-ui/lib/locale/lang/fr'
+import localeNL from 'element-ui/lib/locale/lang/nl'
+
+let locale = localeEN;
+const loc = abp.localization.currentCulture.name;
+if (loc == 'fr') {
+    locale = localeFR;
+} else if (loc == 'nl') {
+    locale = localeNL;
+}
+
 Vue.use(ElementUI, { locale });
 
 import VueCrud from 'vuecrud'
