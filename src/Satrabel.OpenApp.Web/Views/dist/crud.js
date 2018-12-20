@@ -67,7 +67,7 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = vendor_0e98fe12f6ccbfa6d995;
+module.exports = vendor_5f728db20b218b900b9c;
 
 /***/ }),
 /* 1 */
@@ -153,13 +153,13 @@ __WEBPACK_IMPORTED_MODULE_6_vuecrud___default.a.createApp('#app', __WEBPACK_IMPO
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(0))(67);
+module.exports = (__webpack_require__(0))(68);
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(0))(151);
+module.exports = (__webpack_require__(0))(152);
 
 /***/ }),
 /* 6 */
