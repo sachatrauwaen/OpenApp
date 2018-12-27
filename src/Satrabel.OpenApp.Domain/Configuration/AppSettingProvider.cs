@@ -4,6 +4,10 @@ using Abp.Zero.Configuration;
 
 namespace Satrabel.OpenApp.Configuration
 {
+    /// <summary>
+    /// Defines settings for the application.
+    /// See <see cref="AppSettings"/> for setting names.
+    /// </summary>
     public class AppSettingProvider : SettingProvider
     {
         public override IEnumerable<SettingDefinition> GetSettingDefinitions(SettingDefinitionProviderContext context)
