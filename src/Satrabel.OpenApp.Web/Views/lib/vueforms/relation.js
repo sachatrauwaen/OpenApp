@@ -2,7 +2,9 @@
     var RelationComponent = {
         name: "RelationComponent",
         template: '<div> \
-                    <el-select v-model="model" :value-key="relationValueField" filterable clearable v-on:clear="clear" remote :remote-method="remoteMethod" :loading="loading" > \
+                    <el-input v-if="isMobile" slot="reference" v-model="searchInput" v-on:blur="search" placeholder="search" clearable >\
+                    </el-input>\
+                    <el-select ref="select" v-model="model" :value-key="relationValueField" :filterable="!isMobile" :automatic-dropdown="isMobile" :clearable="!isMobile" v-on:clear="clear" remote :remote-method="remoteMethod" :loading="loading" > \
                         <el-option v-for="item in options" :key="item.value.id" :label="item.label" :value="item.value"></el-option> \
                     </el-select> \
                     <el-button  v-if="relationResource" :icon="buttonIcon" v-on:click="edit"></el-button> \
@@ -26,6 +28,8 @@
                 loading: false,
                 dialogVisible: false,
                 options: [],
+                popoverVisible: false,
+                searchInput:''
             };
         },
         computed: {
@@ -49,6 +53,9 @@
             },
             isnew: function () {
                 return !this.value;
+            },
+            isMobile: function () {
+                return VueForms.isMobile();
             },
             //schema: function() {
             //    if (this.isnew)
@@ -87,6 +94,7 @@
             remoteMethod: function (query) {
                 var self = this;
                 if (!query && self.value) {
+                    this.options = [];
                     this.options.push({ label: self.value[self.relationTextField], value: this.value });
                 } else if (query && query !== '' && (!self.value || query != self.value[self.relationTextField])) {
                     self.loading = true;
@@ -133,6 +141,10 @@
                     //document.body.style.position = ''; // for ios cursor bug
                     document.body.classList.remove("dialog-open");
                 }
+            },
+            search: function () {
+                this.remoteMethod(this.searchInput);
+                this.$refs.select.focus();
             }
         },
         created: function () {

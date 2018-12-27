@@ -5,7 +5,7 @@
 
 @media (max-width: 575.98px) {
     .el-message-box {
-        width: 320px !important;
+        width: 100% !important;
     } 
 }
 
