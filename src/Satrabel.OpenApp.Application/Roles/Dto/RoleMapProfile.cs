@@ -1,16 +1,16 @@
-﻿using Abp.Authorization;
+﻿using AutoMapper;
+using Abp.Authorization;
 using Abp.Authorization.Roles;
 using Abp.Authorization.Users;
 using Abp.Dependency;
 using Abp.Domain.Repositories;
 using Satrabel.OpenApp.Authorization.Roles;
-using AutoMapper;
 
 namespace Satrabel.OpenApp.Roles.Dto
 {
-    public class JobMapProfile : Profile
+    public class RoleMapProfile : Profile
     {
-        public JobMapProfile()
+        public RoleMapProfile()
         {
             // Role and permission
             CreateMap<Permission, string>().ConvertUsing(r => r.Name);

@@ -1,19 +1,21 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
-using Abp.Domain.Repositories;
-using Satrabel.OpenApp.Authorization;
-using Satrabel.OpenApp.Authorization.Users;
-using Satrabel.OpenApp.Users.Dto;
-using Microsoft.AspNetCore.Identity;
-using System.Linq;
 using Abp.Authorization;
-using Abp.Authorization.Users;
-using Microsoft.EntityFrameworkCore;
+using Abp.Domain.Repositories;
 using Abp.IdentityFramework;
+using Abp.Localization;
+using Abp.Runtime.Session;
+using Satrabel.OpenApp.Authorization;
 using Satrabel.OpenApp.Authorization.Roles;
+using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.Roles.Dto;
+using Satrabel.OpenApp.Users.Dto;
+using System;
 
 namespace Satrabel.OpenApp.Users
 {
@@ -22,21 +24,21 @@ namespace Satrabel.OpenApp.Users
     {
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
-        private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IRepository<Role> _roleRepository;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
         public UserAppService(
             IRepository<User, long> repository,
             UserManager userManager,
-            IPasswordHasher<User> passwordHasher,
+            RoleManager roleManager,
             IRepository<Role> roleRepository,
-            RoleManager roleManager)
+            IPasswordHasher<User> passwordHasher)
             : base(repository)
         {
             _userManager = userManager;
-            _passwordHasher = passwordHasher;
-            _roleRepository = roleRepository;
             _roleManager = roleManager;
+            _roleRepository = roleRepository;
+            _passwordHasher = passwordHasher;
         }
 
         public override async Task<UserDto> Create(CreateUserDto input)
@@ -49,10 +51,11 @@ namespace Satrabel.OpenApp.Users
             var editor = await _userManager.GetUserByIdAsync((long)AbpSession.UserId);
 
             user.TenantId = AbpSession.TenantId;
-            user.Password = _passwordHasher.HashPassword(user, input.Password);
             user.IsEmailConfirmed = true;
 
-            CheckErrors(await _userManager.CreateAsync(user));
+            await _userManager.InitializeOptionsAsync(AbpSession.TenantId);
+
+            CheckErrors(await _userManager.CreateAsync(user, input.Password));
 
             if (input.RoleNames != null)
             {
@@ -76,7 +79,7 @@ namespace Satrabel.OpenApp.Users
             var user = await _userManager.GetUserByIdAsync(input.Id);
 
             if (AbpSession.UserId == null) throw new Abp.UI.UserFriendlyException("You are not logged in.");
-            var editor = await _userManager.GetUserByIdAsync((long) AbpSession.UserId);
+            var editor = await _userManager.GetUserByIdAsync((long)AbpSession.UserId);
 
             MapToEntity(input, user);
             if (!string.IsNullOrEmpty(input.Password))
@@ -111,6 +114,15 @@ namespace Satrabel.OpenApp.Users
             return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
         }
 
+        public async Task ChangeLanguage(ChangeUserLanguageDto input)
+        {
+            await SettingManager.ChangeSettingForUserAsync(
+                AbpSession.ToUserIdentifier(),
+                LocalizationSettingNames.DefaultLanguage,
+                input.LanguageName
+            );
+        }
+
         protected override User MapToEntity(CreateUserDto createInput)
         {
             var user = ObjectMapper.Map<User>(createInput);
@@ -137,7 +149,7 @@ namespace Satrabel.OpenApp.Users
             var users = Repository.GetAllIncluding(x => x.Roles);
             if (!string.IsNullOrEmpty(input.UserName))
             {
-                users = users.Where(u=> u.UserName.StartsWith(input.UserName));
+                users = users.Where(u => u.UserName.StartsWith(input.UserName));
             }
             if (!string.IsNullOrEmpty(input.Email))
             {
@@ -153,7 +165,37 @@ namespace Satrabel.OpenApp.Users
 
         protected override IQueryable<User> ApplySorting(IQueryable<User> query, UsersResultRequestDto input)
         {
-            return query.OrderBy(r => r.UserName);
+            IOrderedQueryable<User> retval;
+            System.Linq.Expressions.Expression<Func<User, string>> sortingExpr = r => r.UserName;
+
+            var sortingInfo = AppServiceHelper.BuildSortinginfo(input.Sorting);
+            if (sortingInfo != null)
+            {
+                switch (sortingInfo.Item1)
+                {
+                    case "EmailAddress":
+                        sortingExpr = r => r.EmailAddress;
+                        break;
+                    case "IsActive":
+                        sortingExpr = r => r.IsActive.ToString();
+                        break;
+                    case "FullName":
+                        sortingExpr = r => r.FullName;
+                        break;
+                    case "UserName":
+                    default:
+                        sortingExpr = r => r.UserName;
+                        break;
+                }
+
+                retval = sortingInfo.Item2 == AppServiceHelper.SortOrder.DESC ? query.OrderByDescending(sortingExpr) : query.OrderBy(sortingExpr);
+            }
+            else
+            {
+                retval = query.OrderBy(sortingExpr);
+            }
+
+            return retval;
         }
 
         protected virtual void CheckErrors(IdentityResult identityResult)

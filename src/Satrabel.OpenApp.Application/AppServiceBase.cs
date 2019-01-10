@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Abp.Application.Services;
-using Satrabel.OpenApp.MultiTenancy;
-using Abp.Runtime.Session;
-using Abp.IdentityFramework;
-using Satrabel.OpenApp.Authorization.Users;
 using Microsoft.AspNetCore.Identity;
+using Abp.Application.Services;
+using Abp.IdentityFramework;
+using Abp.Runtime.Session;
+using Satrabel.OpenApp.Authorization.Users;
+using Satrabel.OpenApp.MultiTenancy;
 
 namespace Satrabel.OpenApp
 {

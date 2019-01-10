@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Transactions;
+using Microsoft.EntityFrameworkCore;
 using Abp.Dependency;
 using Abp.Domain.Uow;
 using Abp.EntityFrameworkCore.Uow;
 using Abp.MultiTenancy;
 using Satrabel.OpenApp.EntityFramework.Seed.Host;
 using Satrabel.OpenApp.EntityFramework.Seed.Tenants;
-using Microsoft.EntityFrameworkCore;
 
 namespace Satrabel.OpenApp.EntityFramework.Seed
 {
@@ -23,21 +23,10 @@ namespace Satrabel.OpenApp.EntityFramework.Seed
         {
             context.SuppressAutoSetTenantId = true;
 
-            //try
-            //{
-            //    context.Users.CountAsync().Wait();
-            //}
-            //catch (Exception)
-            //{
-            //    context.Database.Migrate();
-            //}
-
-            
-
-            //Host seed
+            // Host seed
             new InitialHostDbBuilder<TSelf>(context).Create();
 
-            //Default tenant seed (in host database).
+            // Default tenant seed (in host database).
             new DefaultTenantBuilder<TSelf>(context).Create();
             new TenantRoleAndUserBuilder<TSelf>(context, 1).Create();
         }

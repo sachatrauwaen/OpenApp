@@ -54,6 +54,7 @@ for:
     only:
       - develop
       - /abp-update-v.*/
+      - /beta-.*/
 
   build:      
     publish_nuget: true

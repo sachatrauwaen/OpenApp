@@ -15,7 +15,9 @@ namespace Satrabel.OpenApp.Users.Dto
     {
         [Required]
         [StringLength(AbpUserBase.MaxUserNameLength)]
+        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public string UserName { get; set; }
+
 
         [Required]
         [StringLength(AbpUserBase.MaxNameLength)]
@@ -33,11 +35,14 @@ namespace Satrabel.OpenApp.Users.Dto
         [EmailAddress]
         [StringLength(AbpUserBase.MaxEmailAddressLength)]
         [DataType(DataType.EmailAddress)]
+        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public string EmailAddress { get; set; }
 
+        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public bool IsActive { get; set; }
 
         [ReadOnly(true)]
+        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public string FullName { get; set; }
 
         [ReadOnly(true)]
@@ -49,7 +54,6 @@ namespace Satrabel.OpenApp.Users.Dto
         public DateTime CreationTime { get; set; }
 
         [JsonSchemaExtensionData("x-ui-grid", false)]
-
         public string[] RoleNames { get; set; }
 
         [JsonSchemaExtensionData("x-ui-grid", false)]

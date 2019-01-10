@@ -7,12 +7,8 @@ using Abp.Domain.Uow;
 using Abp.Extensions;
 using Abp.MultiTenancy;
 using Abp.Runtime.Security;
-using Abp.Zero.EntityFrameworkCore;
-using Satrabel.OpenApp.EntityFramework;
 using Satrabel.OpenApp.EntityFramework.Seed;
 using Satrabel.OpenApp.MultiTenancy;
-using Abp.Configuration;
-using Satrabel.Starter.EntityFramework;
 using Satrabel.OpenApp.Web.Migration;
 using Castle.Core.Logging;
 

@@ -7,7 +7,8 @@ namespace Satrabel.OpenApp.Configuration
     {
         public static IConfigurationRoot GetAppConfiguration(this IHostingEnvironment env)
         {
-            return AppConfigurations.Get(env.ContentRootPath, env.EnvironmentName, env.IsDevelopment());
+            string settingpath = Satrabel.OpenApp.Web.WebContentDirectoryFinder.CalculateContentRootFolder(env.ContentRootPath);
+            return AppConfigurations.Get(settingpath, env.EnvironmentName, env.IsDevelopment());
         }
     }
 }

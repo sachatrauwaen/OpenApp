@@ -1,6 +1,7 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Abp.Localization;
+using NJsonSchema.Annotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace Satrabel.OpenApp.Languages.Dto

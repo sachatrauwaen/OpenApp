@@ -1,7 +1,7 @@
-﻿using Abp.Authorization;
-using Satrabel.OpenApp.Authorization.Roles;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Abp.Authorization;
+using Satrabel.OpenApp.Authorization.Roles;
 
 namespace Satrabel.OpenApp.Authorization.Users
 {

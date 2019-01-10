@@ -18,7 +18,7 @@ module.exports = (env) => {
                 '!style-loader!css-loader!element-ui/lib/theme-chalk/index.css',
                 'vue',
                 'vue-router',
-                'axios',
+                //'axios',
                 'vue-class-component',
                 'vue-property-decorator'
             ],

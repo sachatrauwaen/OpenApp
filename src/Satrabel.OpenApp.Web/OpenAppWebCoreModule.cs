@@ -1,32 +1,32 @@
 ﻿using System;
 using System.Reflection;
 using System.Text;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Abp.AspNetCore;
 using Abp.AspNetCore.Configuration;
+using Abp.AspNetCore.SignalR;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Zero.Configuration;
 using Satrabel.OpenApp.Authentication.JwtBearer;
 using Satrabel.OpenApp.Configuration;
 using Satrabel.OpenApp.EntityFramework;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Satrabel.OpenApp.ProxyScripting;
 using Abp.Configuration.Startup;
 using Abp.Resources.Embedded;
 using Satrabel.OpenApp.Web.Startup;
 using Satrabel.OpenApp.Startup;
 using Abp.Dependency;
-using Abp.AspNetCore.SignalR;
 
 namespace Satrabel.OpenApp
 {
     [DependsOn(
          typeof(OpenAppApplicationModule),
          typeof(OpenAppEntityFrameworkModule),
-         typeof(AbpAspNetCoreModule),
-         typeof(AbpAspNetCoreSignalRModule)
+         typeof(AbpAspNetCoreModule)
+        ,typeof(AbpAspNetCoreSignalRModule)
      )]
     public class OpenAppWebCoreModule : AbpModule
     {
@@ -45,8 +45,9 @@ namespace Satrabel.OpenApp
                 OpenAppConsts.ConnectionStringName
             );
 
-            //Use database for language management
+            // Use database for language management
             //Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization(); // to be done in top level module
+
             Configuration.Modules.AbpAspNetCore()
                  .CreateControllersForAppServices(
                      typeof(OpenAppApplicationModule).GetAssembly()

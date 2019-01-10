@@ -253,5 +253,5 @@ paket-files/
 
 # Custom
 */*/App_Data/
-*/*/Configuration/
+*/*/LocalConfig/
 .vscode/

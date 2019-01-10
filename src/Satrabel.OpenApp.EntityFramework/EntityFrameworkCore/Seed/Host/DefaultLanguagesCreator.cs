@@ -17,6 +17,7 @@ namespace Satrabel.OpenApp.EntityFramework.Seed.Host
             return new List<ApplicationLanguage>
             {
                 new ApplicationLanguage(null, "en", "English", "famfamfam-flags gb"),
+                new ApplicationLanguage(null, "de", "German", "famfamfam-flags de"),
                 new ApplicationLanguage(null, "fr", "Français", "famfamfam-flags fr"),
                 new ApplicationLanguage(null, "nl", "Nederlands", "famfamfam-flags nl")
             };
@@ -48,7 +49,6 @@ namespace Satrabel.OpenApp.EntityFramework.Seed.Host
             }
 
             _context.Languages.Add(language);
-
             _context.SaveChanges();
         }
     }

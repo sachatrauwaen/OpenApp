@@ -27,7 +27,7 @@ namespace Satrabel.OpenApp.EntityFramework.Seed.Host
 
         private void CreateHostRoleAndUsers()
         {
-            //Admin role for host
+            // Admin role for host
 
             var adminRoleForHost = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == StaticRoleNames.Host.Admin);
             if (adminRoleForHost == null)
@@ -58,7 +58,7 @@ namespace Satrabel.OpenApp.EntityFramework.Seed.Host
                 adminUserForHost = _context.Users.Add(user).Entity;
                 _context.SaveChanges();
 
-                //Assign Admin role to admin user
+                // Assign Admin role to admin user
                 _context.UserRoles.Add(new UserRole(null, adminUserForHost.Id, adminRoleForHost.Id));
                 _context.SaveChanges();
 

@@ -10,6 +10,7 @@ var abp = abp || {};
         if (!authToken) {
             return false;
         }
+
         var cookieAuth = new SwaggerClient.ApiKeyAuthorization(abp.auth.tokenHeaderName, 'Bearer ' + authToken, 'header');
         swaggerUi.api.clientAuthorizations.add('bearerAuth', cookieAuth);
         return true;

@@ -4,9 +4,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Abp.Authorization;
 using Abp.Authorization.Users;
-using Abp.AutoMapper;
 using Abp.MultiTenancy;
 using Abp.Runtime.Security;
 using Abp.UI;
@@ -16,8 +17,6 @@ using Satrabel.OpenApp.Authorization;
 using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.Models.TokenAuth;
 using Satrabel.OpenApp.MultiTenancy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Satrabel.OpenApp.Controllers
 {
@@ -106,7 +105,7 @@ namespace Satrabel.OpenApp.Controllers
                             };
                         }
 
-                        //Try to login again with newly registered user!
+                        // Try to login again with newly registered user!
                         loginResult = await _logInManager.LoginAsync(new UserLoginInfo(model.AuthProvider, model.ProviderKey, model.AuthProvider), GetTenancyNameOrNull());
                         if (loginResult.Result != AbpLoginResultType.Success)
                         {

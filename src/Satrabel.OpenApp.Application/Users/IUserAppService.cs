@@ -9,5 +9,7 @@ namespace Satrabel.OpenApp.Users
     public interface IUserAppService : IAsyncCrudAppService<UserDto, long, UsersResultRequestDto, CreateUserDto, UpdateUserDto>
     {
         Task<ListResultDto<RoleDto>> GetRoles();
+
+        Task ChangeLanguage(ChangeUserLanguageDto input);
     }
 }

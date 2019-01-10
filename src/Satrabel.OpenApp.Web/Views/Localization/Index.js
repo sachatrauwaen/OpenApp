@@ -96,7 +96,7 @@
                     parameters = parameters[keys[0]].properties;
                 }
                 for (var key in parameters) {
-                    if (key != 'skipCount' && key != 'maxResultCount') {
+                    if (key != 'skipCount' && key != 'maxResultCount' && key != "sorting") {
                         schema.properties[key] = parameters[key];
                     }
                 }

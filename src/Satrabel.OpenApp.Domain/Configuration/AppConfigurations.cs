@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.IO;
-using System.Reflection;
+﻿using System.Collections.Concurrent;
+using Microsoft.Extensions.Configuration;
 using Abp.Extensions;
 using Abp.Reflection.Extensions;
-using Microsoft.Extensions.Configuration;
 using Satrabel.OpenApp.Web;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace Satrabel.OpenApp.Configuration
 {
     public static class AppConfigurations
     {
-        private static readonly ConcurrentDictionary<string, IConfigurationRoot> ConfigurationCache;
+        private static readonly ConcurrentDictionary<string, IConfigurationRoot> _configurationCache;
 
         static AppConfigurations()
         {
-            ConfigurationCache = new ConcurrentDictionary<string, IConfigurationRoot>();
+            _configurationCache = new ConcurrentDictionary<string, IConfigurationRoot>();
         }
 
         public static IConfigurationRoot Get(string path, string environmentName = null, bool addUserSecrets = false)
         {
             var cacheKey = path + "#" + environmentName + "#" + addUserSecrets;
-            return ConfigurationCache.GetOrAdd(
+            return _configurationCache.GetOrAdd(
                 cacheKey,
                 _ => BuildConfiguration(path, environmentName, addUserSecrets)
             );
@@ -30,7 +30,7 @@ namespace Satrabel.OpenApp.Configuration
         public static IConfigurationRoot Get(Assembly assembly, string environmentName = null, bool addUserSecrets = false)
         {
             var cacheKey = assembly.FullName + "#" + environmentName + "#" + addUserSecrets;
-            return ConfigurationCache.GetOrAdd(
+            return _configurationCache.GetOrAdd(
                 cacheKey,
                 _ => BuildConfiguration(assembly, environmentName, addUserSecrets)
             );
@@ -62,14 +62,14 @@ namespace Satrabel.OpenApp.Configuration
             }
 
             var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
-            builder = builder.AddJsonFile(Path.Combine("Configuration", $"appsettings.{computerName}.json"), optional: true);
+            builder = builder.AddJsonFile(Path.Combine("LocalConfig", $"appsettings.{computerName}.json"), optional: true);
 
             builder = builder.AddEnvironmentVariables();
 
             // https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?tabs=visual-studio
             if (addUserSecrets)
             {
-                builder.AddUserSecrets(typeof(AppConfigurations).GetAssembly());
+                builder.AddUserSecrets(typeof(AppConfigurations).GetAssembly()); // watch out. not compatible with core2 https://github.com/aspnet/Announcements/issues/223
             }
 
             return builder.Build();
@@ -85,8 +85,8 @@ namespace Satrabel.OpenApp.Configuration
         /// <remarks>
         /// Searches for 
         ///  - appsettings.json
-        ///  - appsettings.{environmentName}.json (Staging,Development, ...) //http://docs.asp.net/en/latest/fundamentals/environments.html
-        ///  - /Configuration/appsettings.{computerName}.json // in subfolder that can be excluded from .git
+        ///  - appsettings.{environmentName}.json (Staging,Development, ...) // http://docs.asp.net/en/latest/fundamentals/environments.html
+        ///  - /LocalConfig/appsettings.{computerName}.json // in subfolder that can be excluded from .git
         ///  - EnvironmentVariables()
         /// </remarks>
         private static IConfigurationRoot BuildConfiguration(Assembly assembly, string environmentName = null, bool addUserSecrets = false)
@@ -101,7 +101,7 @@ namespace Satrabel.OpenApp.Configuration
             }
 
             var computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
-            builder = builder.AddJsonFile(Path.Combine("Configuration", $"appsettings.{computerName}.json"), optional: true);
+            builder = builder.AddJsonFile(Path.Combine("LocalConfig", $"appsettings.{computerName}.json"), optional: true);
 
             builder = builder.AddEnvironmentVariables();
 

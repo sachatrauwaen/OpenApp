@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Abp.Authorization.Roles;
 using Abp.AutoMapper;
 using Satrabel.OpenApp.Authorization.Roles;
-
-using Abp.Authorization.Roles;
 using NJsonSchema.Annotations;
 
 namespace Satrabel.OpenApp.Roles.Dto
@@ -18,7 +17,9 @@ namespace Satrabel.OpenApp.Roles.Dto
         [Required]
         [StringLength(AbpRoleBase.MaxDisplayNameLength)]
         public string DisplayName { get; set; }
-                
+
+        public string NormalizedName { get; set; }
+        
         [StringLength(Role.MaxDescriptionLength)]
         public string Description { get; set; }
 

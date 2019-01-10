@@ -22,6 +22,5 @@ namespace Satrabel.OpenApp.EntityFramework
             IocManager.RegisterAssemblyByConvention(typeof(OpenAppEntityFrameworkModule).GetAssembly());
         }
 
-        
     }
 }
