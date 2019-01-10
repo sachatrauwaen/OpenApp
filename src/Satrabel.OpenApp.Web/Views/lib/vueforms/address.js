@@ -58,7 +58,7 @@
             var self = this;
             ensureGoogleMaps({
                 libraries: ['places'],
-                key: 'AIzaSyCe1exctmeJjIb4guyT6newSpyJ7kA3aLc',
+                key: self.$root.googleKey,
                 client: '',
                 version: '3',
                 loadGoogleApi: true
