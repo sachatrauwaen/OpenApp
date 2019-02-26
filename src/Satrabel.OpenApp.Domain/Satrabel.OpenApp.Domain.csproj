@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <VersionPrefix>1.0.0.0</VersionPrefix>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <AssemblyName>Satrabel.OpenApp.Domain</AssemblyName>
     <PackageId>Satrabel.OpenApp.Domain</PackageId>
@@ -19,9 +19,9 @@
     <EmbeddedResource Include="Localization\SourceFiles\OpenApp.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Abp" Version="4.1.0" />
-    <PackageReference Include="Abp.AutoMapper" Version="4.1.0" />
-    <PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="4.1.0" />
+    <PackageReference Include="Abp" Version="4.3.0" />
+    <PackageReference Include="Abp.AutoMapper" Version="4.3.0" />
+    <PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="4.3.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />

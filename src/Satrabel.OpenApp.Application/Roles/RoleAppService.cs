@@ -15,6 +15,7 @@ using Satrabel.OpenApp.Authorization;
 using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.Roles.Dto;
+using Abp.Threading;
 
 namespace Satrabel.OpenApp.Roles
 {
@@ -145,6 +146,14 @@ namespace Satrabel.OpenApp.Roles
                 Permissions = ObjectMapper.Map<List<FlatPermissionDto>>(permissions).OrderBy(p => p.DisplayName).ToList(),
                 GrantedPermissionNames = grantedPermissions.Select(p => p.Name).ToList()
             };
+        }
+
+        protected override RoleDto MapToEntityDto(Role entity)
+        {
+            var dto = base.MapToEntityDto(entity);
+            var grantedPermissions = AsyncHelper.RunSync(() => _roleManager.GetGrantedPermissionsAsync(entity)).ToArray();
+            dto.Permissions = grantedPermissions.Select(p => p.Name).ToList();
+            return dto;
         }
     }
 }

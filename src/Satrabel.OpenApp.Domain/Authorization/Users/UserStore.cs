@@ -2,6 +2,7 @@ using Abp.Authorization.Users;
 using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.Linq;
+using Abp.Organizations;
 using Satrabel.OpenApp.Authorization.Roles;
 
 namespace Satrabel.OpenApp.Authorization.Users
@@ -16,7 +17,9 @@ namespace Satrabel.OpenApp.Authorization.Users
             IRepository<UserRole, long> userRoleRepository, 
             IRepository<UserLogin, long> userLoginRepository, 
             IRepository<UserClaim, long> userClaimRepository, 
-            IRepository<UserPermissionSetting, long> userPermissionSettingRepository) 
+            IRepository<UserPermissionSetting, long> userPermissionSettingRepository,
+            IRepository<UserOrganizationUnit, long> userOrganizationUnitRepository,
+            IRepository<OrganizationUnitRole, long> organizationUnitRoleRepository) 
             : base(
                   unitOfWorkManager, 
                   userRepository, 
@@ -25,7 +28,10 @@ namespace Satrabel.OpenApp.Authorization.Users
                   userRoleRepository, 
                   userLoginRepository, 
                   userClaimRepository,
-                  userPermissionSettingRepository)
+                  userPermissionSettingRepository,
+                  userOrganizationUnitRepository,
+                  organizationUnitRoleRepository
+                  )
         {
         }
     }
