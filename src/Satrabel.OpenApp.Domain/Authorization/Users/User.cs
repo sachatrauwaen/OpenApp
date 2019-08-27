@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Abp.Authorization.Users;
 using Abp.Extensions;
 
@@ -7,6 +8,9 @@ namespace Satrabel.OpenApp.Authorization.Users
     public class User : AbpUser<User>
     {
         public const string DefaultPassword = "123qwe";
+
+        [StringLength(AbpUserBase.MaxUserNameLength)]
+        public string Title { get; set; }
 
         public static string CreateRandomPassword()
         {

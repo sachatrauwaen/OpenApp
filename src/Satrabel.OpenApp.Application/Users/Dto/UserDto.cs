@@ -31,12 +31,20 @@ namespace Satrabel.OpenApp.Users.Dto
         [JsonSchemaExtensionData("x-ui-grid", false)]        
         public string Surname { get; set; }
 
+        [StringLength(AbpUserBase.MaxUserNameLength)]
+        [JsonSchemaExtensionData("x-ui-grid", false)]
+        public string Title { get; set; }
+
         [Required]
         [EmailAddress]
         [StringLength(AbpUserBase.MaxEmailAddressLength)]
         [DataType(DataType.EmailAddress)]
         [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public string EmailAddress { get; set; }
+
+        [StringLength(AbpUserBase.MaxPhoneNumberLength)]
+        [JsonSchemaExtensionData("x-ui-grid", false)]
+        public virtual string PhoneNumber { get; set; }
 
         [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public bool IsActive { get; set; }
