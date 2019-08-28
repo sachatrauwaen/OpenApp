@@ -24,10 +24,18 @@ namespace Satrabel.OpenApp.Users.Dto
         [StringLength(AbpUserBase.MaxSurnameLength)]
         public string Surname { get; set; }
 
+        [StringLength(AbpUserBase.MaxUserNameLength)]
+        [JsonSchemaExtensionData("x-ui-grid", false)]
+        public string Title { get; set; }
+
         [Required]
         [EmailAddress]
         [StringLength(AbpUserBase.MaxEmailAddressLength)]
         public string EmailAddress { get; set; }
+
+        [StringLength(AbpUserBase.MaxPhoneNumberLength)]
+        [JsonSchemaExtensionData("x-ui-grid", false)]
+        public virtual string PhoneNumber { get; set; }
 
         public bool IsActive { get; set; }
 
