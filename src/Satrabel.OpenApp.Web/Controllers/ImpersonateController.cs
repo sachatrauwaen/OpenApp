@@ -23,10 +23,12 @@ using Satrabel.OpenApp.Controllers;
 using Satrabel.OpenApp.Web.Models.Impersonate;
 using Satrabel.OpenApp.Identity;
 using Abp.Runtime.Caching;
+using Abp.Application.Services;
 
 namespace Satrabel.OpenApp.Web.Controllers
 {
     [Route("api/[controller]/[action]")]
+    [RemoteService(isEnabled:true)]
     public class ImpersonateController : OpenAppControllerBase
     {
         private readonly LogInManager _logInManager;

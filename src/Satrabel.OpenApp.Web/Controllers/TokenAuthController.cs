@@ -17,10 +17,12 @@ using Satrabel.OpenApp.Authorization;
 using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.Models.TokenAuth;
 using Satrabel.OpenApp.MultiTenancy;
+using Abp.Application.Services;
 
 namespace Satrabel.OpenApp.Controllers
 {
     [Route("api/[controller]/[action]")]
+    [RemoteService(isEnabled: true)]
     public class TokenAuthController : OpenAppControllerBase
     {
         private readonly LogInManager _logInManager;
