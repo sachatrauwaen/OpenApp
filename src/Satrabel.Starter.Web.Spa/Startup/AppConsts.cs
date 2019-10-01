@@ -4,7 +4,7 @@ namespace Satrabel.Starter.Web
 {
     public class AppConsts
     {
-        public static readonly Version AppVersion = new Version(1,1);
+        public static readonly Version AppVersion = new Version(1,2);
 
         public const string LocalizationSourceName = "App";
         public const string ConnectionStringName = "Default";

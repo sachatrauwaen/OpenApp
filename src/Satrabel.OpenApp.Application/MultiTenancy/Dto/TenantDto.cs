@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Abp.MultiTenancy;
+using NJsonSchema.Annotations;
 
 namespace Satrabel.OpenApp.MultiTenancy.Dto
 {
@@ -18,5 +19,14 @@ namespace Satrabel.OpenApp.MultiTenancy.Dto
         public string Name { get; set; }        
         
         public bool IsActive {get; set;}
+
+        [JsonSchemaExtensionData("x-ui-grid", false)]
+        public string[] CustomActions
+        {
+            get
+            {
+                return new[] { "tenantimpersonation" };
+            }
+        }
     }
 }

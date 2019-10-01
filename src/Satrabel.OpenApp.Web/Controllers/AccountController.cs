@@ -28,6 +28,11 @@ using Satrabel.OpenApp.Controllers;
 using Satrabel.OpenApp.Identity;
 using Satrabel.OpenApp.Sessions;
 using Microsoft.AspNetCore.Authentication;
+using Satrabel.OpenApp.Web.Views.Shared.Components.TenantChange;
+using Abp.AspNetCore.Mvc.Authorization;
+using Abp.Runtime.Security;
+using System.Globalization;
+using Abp.Runtime.Caching;
 
 namespace Satrabel.OpenApp.Web.Controllers
 {
@@ -44,6 +49,7 @@ namespace Satrabel.OpenApp.Web.Controllers
         private readonly ISessionAppService _sessionAppService;
         private readonly ITenantCache _tenantCache;
         private readonly INotificationPublisher _notificationPublisher;
+        private readonly ICacheManager _cacheManager;
 
         public AccountController(
             UserManager userManager,
@@ -55,8 +61,10 @@ namespace Satrabel.OpenApp.Web.Controllers
             SignInManager signInManager,
             UserRegistrationManager userRegistrationManager,
             ISessionAppService sessionAppService,
+             ICacheManager cacheManager,
             ITenantCache tenantCache,
-            INotificationPublisher notificationPublisher)
+            
+        INotificationPublisher notificationPublisher)
         {
             _userManager = userManager;
             _multiTenancyConfig = multiTenancyConfig;
@@ -69,6 +77,7 @@ namespace Satrabel.OpenApp.Web.Controllers
             _sessionAppService = sessionAppService;
             _tenantCache = tenantCache;
             _notificationPublisher = notificationPublisher;
+            _cacheManager = cacheManager;
         }
 
         #region Login / Logout
@@ -99,7 +108,7 @@ namespace Satrabel.OpenApp.Web.Controllers
                 returnUrl = returnUrl + returnUrlHash;
             }
 
-            var loginResult = await GetLoginResultAsync(loginModel.UsernameOrEmailAddress, loginModel.Password, GetTenancyNameOrNull());
+            var loginResult = await GetLoginResultAsync(loginModel.UsernameOrEmailAddress, loginModel.Password, GetTenancyNameOrNull(loginModel.TenancyName));
 
             await _signInManager.SignInAsync(loginResult.Identity, loginModel.RememberMe);
             await UnitOfWorkManager.Current.SaveChangesAsync();
@@ -195,7 +204,7 @@ namespace Satrabel.OpenApp.Web.Controllers
                 if (model.IsExternalLogin)
                 {
                     Debug.Assert(externalLoginInfo != null);
-                    
+
                     if (string.Equals(externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email), model.EmailAddress, StringComparison.OrdinalIgnoreCase))
                     {
                         user.IsEmailConfirmed = true;
@@ -280,7 +289,7 @@ namespace Satrabel.OpenApp.Web.Controllers
 
             // 1. Incorrect code?
 
-            if(correctCode == false)
+            if (correctCode == false)
                 return RedirectToAction("Login", "Account");
 
             // 2. Correct code?
@@ -296,8 +305,8 @@ namespace Satrabel.OpenApp.Web.Controllers
 
             // Redirect
             return loginSuccessfull
-                ? (ActionResult) Redirect(GetAppHomeUrl())
-                : (ActionResult) RedirectToAction("Login", "Account");
+                ? (ActionResult)Redirect(GetAppHomeUrl())
+                : (ActionResult)RedirectToAction("Login", "Account");
         }
 
         #endregion
@@ -332,7 +341,7 @@ namespace Satrabel.OpenApp.Web.Controllers
         public virtual async Task<ActionResult> ExternalLoginCallback(string returnUrl, string authSchema, string remoteError = null)
         {
             returnUrl = NormalizeReturnUrl(returnUrl);
-            
+
             if (remoteError != null)
             {
                 Logger.Error("Remote Error in ExternalLoginCallback: " + remoteError);
@@ -425,26 +434,84 @@ namespace Satrabel.OpenApp.Web.Controllers
 
         #region Change Tenant
 
-        //public async Task<ActionResult> TenantChangeModal()
-        //{
-        //    var loginInfo = await _sessionAppService.GetCurrentLoginInformations();
-        //    return View("/Views/Shared/Components/TenantChange/_ChangeModal.cshtml", new ChangeModalViewModel
-        //    {
-        //        TenancyName = loginInfo.Tenant?.TenancyName
-        //    });
-        //}
+        public async Task<ActionResult> TenantChangeModal()
+        {
+            var loginInfo = await _sessionAppService.GetCurrentLoginInformations();
+            return View("/Views/Shared/Components/TenantChange/_ChangeModal.cshtml", new ChangeModalViewModel
+            {
+                TenancyName = loginInfo.Tenant?.TenancyName
+            });
+        }
 
         #endregion
 
+        #region Impersonate
+        [UnitOfWork]
+        public virtual async Task<ActionResult> ImpersonateSignIn(string tokenId)
+        {
+            var cacheItem = await _cacheManager.GetImpersonationCache().GetOrDefaultAsync(tokenId);
+            if (cacheItem == null)
+            {
+                throw new UserFriendlyException(L("ImpersonationTokenErrorMessage"));
+            }
+
+            //Switch to requested tenant
+            //using (_unitOfWorkManager.Current.SetFilterParameter(AbpDataFilters.MayHaveTenant, AbpDataFilters.Parameters.TenantId, cacheItem.TargetTenantId))
+            using (_unitOfWorkManager.Current.SetTenantId( cacheItem.TargetTenantId))
+            {
+                //Get the user from tenant
+                var user = await _userManager.FindByIdAsync(cacheItem.TargetUserId.ToString());
+
+                //var tenant = await _tenantManager.FindByIdAsync(user.TenantId.Value);
+
+                //Create identity
+                //var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                var principal = await _signInManager.ClaimsFactory.CreateAsync(user);
+                var identity = principal.Identity as ClaimsIdentity;
+
+                //    var loginResult =  new AbpLoginResult<Tenant,User>(
+                //    tenant,
+                //    user,
+                //    principal.Identity as ClaimsIdentity
+                //);
+
+                if (!cacheItem.IsBackToImpersonator)
+                {
+                    //Add claims for audit logging
+                    if (cacheItem.ImpersonatorTenantId.HasValue)
+                    {
+                        identity.AddClaim(new Claim(AbpClaimTypes.ImpersonatorTenantId, cacheItem.ImpersonatorTenantId.Value.ToString(CultureInfo.InvariantCulture)));
+                    }
+
+                    identity.AddClaim(new Claim(AbpClaimTypes.ImpersonatorUserId, cacheItem.ImpersonatorUserId.ToString(CultureInfo.InvariantCulture)));
+                }
+
+                //Sign in with the target user
+                //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                //AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, identity);
+                await _signInManager.SignOutAndSignInAsync(identity, false);
+
+                //Remove the cache item to prevent re-use
+                await _cacheManager.GetImpersonationCache().RemoveAsync(tokenId);
+
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+#endregion
+
         #region Common
 
-        private string GetTenancyNameOrNull()
+        private string GetTenancyNameOrNull(string tenantName="")
         {
+            if (!string.IsNullOrEmpty(tenantName))
+            {
+                return tenantName;
+            }
             if (!AbpSession.TenantId.HasValue)
             {
                 return null;
             }
-
             return _tenantCache.GetOrNull(AbpSession.TenantId.Value)?.TenancyName;
         }
 

@@ -12,4 +12,9 @@
                 error: function (e) { }
             });
         });
+
+
+    $('#TenantChangeModal').appendTo("body");
+
+
 })();

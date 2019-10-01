@@ -15,7 +15,8 @@ module.exports = (env) => {
         context: __dirname,
         resolve: { extensions: [ '.js', '.ts' ] },
         entry: {
-            'crud': './ClientApp/crud/boot.js'
+            'crud': './ClientApp/crud/boot.js',
+            'impersonation': './ClientApp/shared/impersonation.js'
         },
         module: {
             rules: [

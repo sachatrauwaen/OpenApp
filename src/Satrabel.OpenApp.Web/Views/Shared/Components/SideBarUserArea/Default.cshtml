@@ -1,5 +1,12 @@
 ﻿@using Satrabel.OpenApp.Web.Views.Shared.Components.SideBarUserArea
 @model SideBarUserAreaViewModel
+
+@using Satrabel.OpenApp.Web.Resources
+@inject IWebResourceManager WebResourceManager
+@{
+    WebResourceManager.AddScript(ApplicationPath + "Views/Shared/Components/SideBarUserArea/Default.js");
+}
+
 @*
     <div class="user-info">
         <div class="image">
@@ -22,14 +29,22 @@
 </li>
 @if (Model.LoginInformations.User != null)
 {
-<li class="nav-item d-md-down-none">
-    <i class="icon-user"></i> @Html.Raw(Model.GetShownLoginName()) ( @Model.LoginInformations.User.EmailAddress )
-</li>
-
-<li class="nav-item d-md-down-none">
-
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="@Url.Action("Logout", "Account")"><i class="icon-logout"></i><span class="d-md-down-none"> Logoff</span></a>
-</li>
+    <li class="nav-item d-md-down-none" >
+        <i class="icon-user"></i>  @Html.Raw(Model.GetShownLoginName()) ( @Model.LoginInformations.User.EmailAddress )
+    </li>
+    <li class="nav-item d-md-down-none ">
+        
+    </li>
+    @if (AbpSession.ImpersonatorUserId.HasValue)
+    {
+        <li class="nav-item d-md-down-none inpersonate-component">
+            <a class="nav-link" href="#"><i class="icon-logout"></i><span class="d-md-down-none"> @L("BackToMyAccount")</span></a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Logout", "Account")"><i class="icon-logout"></i><span class="d-md-down-none"> Logoff</span></a>
+        </li>
+    }
 }

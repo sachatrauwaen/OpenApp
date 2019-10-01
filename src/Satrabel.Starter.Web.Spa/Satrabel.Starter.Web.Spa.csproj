@@ -70,7 +70,15 @@
     <None Remove="ClientApp\components\**" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="wwwroot\favicon.png" />
+    <Content Remove="wwwroot\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="ClientApp\boot.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\favicon.png" />
+    <EmbeddedResource Include="wwwroot\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Logs\" />

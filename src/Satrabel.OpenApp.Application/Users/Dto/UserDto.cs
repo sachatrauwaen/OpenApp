@@ -64,12 +64,25 @@ namespace Satrabel.OpenApp.Users.Dto
         [JsonSchemaExtensionData("x-ui-grid", false)]
         public string[] RoleNames { get; set; }
 
+        [ReadOnly(true)]
+        [JsonSchemaExtensionData("x-ui-grid", false)]
+        public virtual int? TenantId { get; set; }
+
         [JsonSchemaExtensionData("x-ui-grid", false)]
         public bool CanDelete
         {
             get
             {
                 return UserName != "admin";
+            }
+        }
+
+        [JsonSchemaExtensionData("x-ui-grid", false)]
+        public string[] CustomActions
+        {
+            get
+            {
+                return new []{ "userimpersonation" } ;
             }
         }
     }

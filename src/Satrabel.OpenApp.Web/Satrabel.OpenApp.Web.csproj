@@ -36,6 +36,8 @@
     <None Remove="Views\Account\Register.min.js" />
     <None Remove="Views\dist\crud.js" />
     <None Remove="Views\dist\crud.js.map" />
+    <None Remove="Views\dist\impersonation.js" />
+    <None Remove="Views\dist\impersonation.js.map" />
     <None Remove="Views\dist\vendor.css" />
     <None Remove="Views\dist\vendor.js" />
     <None Remove="Views\fonts\fontawesome-webfont.eot" />
@@ -93,6 +95,11 @@
     <None Remove="Views\lib\vueforms\libs.min.js" />
     <None Remove="Views\lib\vue\vue.js" />
     <None Remove="Views\lib\vue\vue.min.js" />
+    <None Remove="Views\Shared\Components\SideBarUserArea\Default.js" />
+    <None Remove="Views\Shared\Components\TenantChange\Default.js" />
+    <None Remove="Views\Shared\Components\TenantChange\Default.min.js" />
+    <None Remove="Views\Shared\Components\TenantChange\_ChangeModal.js" />
+    <None Remove="Views\Shared\Components\TenantChange\_ChangeModal.min.js" />
     <None Remove="Views\Shared\Components\TopBarArea\Default.cshtml" />
     <None Remove="Views\swagger\ui\abp.js" />
     <None Remove="Views\swagger\ui\abp.swagger.js" />
@@ -114,6 +121,8 @@
     <EmbeddedResource Include="Views\Crud\Index.js" />
     <EmbeddedResource Include="Views\dist\crud.js" />
     <EmbeddedResource Include="Views\dist\crud.js.map" />
+    <EmbeddedResource Include="Views\dist\impersonation.js" />
+    <EmbeddedResource Include="Views\dist\impersonation.js.map" />
     <EmbeddedResource Include="Views\dist\vendor.css" />
     <EmbeddedResource Include="Views\dist\vendor.js" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.eot" />
@@ -190,6 +199,11 @@
     <EmbeddedResource Include="Views\lib\vue\vue_router.min.js" />
     <EmbeddedResource Include="Views\lib\vue\vue.js" />
     <EmbeddedResource Include="Views\lib\vue\vue.min.js" />
+    <EmbeddedResource Include="Views\Shared\Components\SideBarUserArea\Default.js" />
+    <EmbeddedResource Include="Views\Shared\Components\TenantChange\Default.js" />
+    <EmbeddedResource Include="Views\Shared\Components\TenantChange\Default.min.js" />
+    <EmbeddedResource Include="Views\Shared\Components\TenantChange\_ChangeModal.js" />
+    <EmbeddedResource Include="Views\Shared\Components\TenantChange\_ChangeModal.min.js" />
     <EmbeddedResource Include="Views\Shared\Components\TopBarArea\Default.cshtml" />
     <EmbeddedResource Include="Views\swagger\ui\abp.js" />
     <EmbeddedResource Include="Views\swagger\ui\abp.swagger.js" />
