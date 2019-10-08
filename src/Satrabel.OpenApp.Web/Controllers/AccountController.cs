@@ -317,28 +317,36 @@ namespace Satrabel.OpenApp.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            var redirectUrl = Url.Action(
-                "ExternalLoginCallback",
-                "Account",
-                new
-                {
-                    ReturnUrl = returnUrl,
-                    authSchema = provider
-                });
+            //var redirectUrl = Url.Action(
+            //    "ExternalLoginCallback",
+            //    "Account",
+            //    new
+            //    {
+            //        ReturnUrl = returnUrl,
+            //        authSchema = provider
+            //    });
 
-            return Challenge(
-                // TODO: ...?
-                // new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties
-                // {
-                //     Items = { { "LoginProvider", provider } },
-                //     RedirectUri = redirectUrl
-                // },
-                provider
-            );
+            //return Challenge(
+            //     new AuthenticationProperties()
+            //     {
+            //         Items = { { "LoginProvider", provider } },
+            //         RedirectUri = redirectUrl
+            //     },
+            //    provider
+            //);
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
+            return Challenge(properties, provider);
+
         }
 
         [UnitOfWork]
-        public virtual async Task<ActionResult> ExternalLoginCallback(string returnUrl, string authSchema, string remoteError = null)
+        //[HttpGet]
+        //[AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+
+        //public virtual async Task<ActionResult> ExternalLoginCallback(string returnUrl, string authSchema, string remoteError = null)
         {
             returnUrl = NormalizeReturnUrl(returnUrl);
 
@@ -348,7 +356,8 @@ namespace Satrabel.OpenApp.Web.Controllers
                 throw new UserFriendlyException(L("CouldNotCompleteLoginOperation"));
             }
 
-            var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync(authSchema);
+            //var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync(authSchema);
+            var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
             if (externalLoginInfo == null)
             {
                 Logger.Warn("Could not get information from external login.");

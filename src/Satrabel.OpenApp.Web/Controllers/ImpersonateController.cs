@@ -83,7 +83,7 @@ namespace Satrabel.OpenApp.Web.Controllers
                 })
             });
          */
-
+        [HttpPost]
         [AbpMvcAuthorize(PermissionNames.Pages_Users)]
         public virtual async Task<string> Impersonate(ImpersonateModel model)
         {
@@ -111,7 +111,7 @@ namespace Satrabel.OpenApp.Web.Controllers
             return await SaveImpersonationTokenAndGetTargetUrl(model.TenantId, model.UserId, false);
         }
 
-
+        [HttpPost]
         [AbpMvcAuthorize(PermissionNames.Pages_Tenants)]
         public virtual async Task<string> ImpersonateTenant(int tenantId)
         {
@@ -145,6 +145,7 @@ namespace Satrabel.OpenApp.Web.Controllers
                 url: abp.appPath + 'Account/BackToImpersonator'                
             });
             */
+        [HttpPost]
         public virtual async Task<string> BackToImpersonator()
         {
             if (!AbpSession.ImpersonatorUserId.HasValue)
@@ -184,7 +185,7 @@ namespace Satrabel.OpenApp.Web.Controllers
             }
 
             //Create target URL
-            var targetUrl = /*_webUrlService.GetSiteRootAddress(tenancyName) */ "Account/ImpersonateSignIn?tokenId=" + tokenId;
+            var targetUrl = /*_webUrlService.GetSiteRootAddress(tenancyName) */ "/Account/ImpersonateSignIn?tokenId=" + tokenId;
             return targetUrl;
         }
 

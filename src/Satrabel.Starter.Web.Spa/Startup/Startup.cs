@@ -14,7 +14,17 @@ namespace Satrabel.Starter.Web.Startup
 
         protected override void AddAdditionalServices(IServiceCollection services)
         {
-           
+            //if (bool.Parse(_appConfiguration["Authentication:Google:IsEnabled"]))
+            //{
+            //    services.AddAuthentication().AddGoogle(googleOptions =>
+            //    {
+            //        googleOptions.ClientId = _appConfiguration["Authentication:Google:ClientId"];
+            //        googleOptions.ClientSecret = _appConfiguration["Authentication:Google:ClientSecret"];
+            //        googleOptions.Scope.Add(Google.Apis.Drive.v3.DriveService.Scope.Drive);
+            //        googleOptions.AccessType = "offline";                    
+
+            //    });
+            //}
         }
 
         protected override void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
@@ -32,5 +42,7 @@ namespace Satrabel.Starter.Web.Startup
             //    });
             //}
         }
+
+       
     }
 }
