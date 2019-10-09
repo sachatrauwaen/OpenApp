@@ -78,6 +78,7 @@ namespace Satrabel.OpenApp.Users.Dto
         }
 
         [JsonSchemaExtensionData("x-ui-grid", false)]
+        [ReadOnly(true)]
         public string[] CustomActions
         {
             get

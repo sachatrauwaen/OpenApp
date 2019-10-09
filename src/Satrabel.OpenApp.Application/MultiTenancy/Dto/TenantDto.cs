@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
@@ -21,6 +22,7 @@ namespace Satrabel.OpenApp.MultiTenancy.Dto
         public bool IsActive {get; set;}
 
         [JsonSchemaExtensionData("x-ui-grid", false)]
+        [ReadOnly(true)]
         public string[] CustomActions
         {
             get
