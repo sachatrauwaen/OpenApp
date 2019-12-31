@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\_ViewImports.cshtml" />
+    <Content Remove="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Views\Account\Login.css" />
+    <None Remove="Views\Account\Login.js" />
+    <None Remove="Views\Account\Login.min.css" />
+    <None Remove="Views\Account\Login.min.js" />
+    <None Remove="Views\Account\Register.js" />
+    <None Remove="Views\Account\Register.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Account\Login.css" />
+    <Content Include="Views\Account\Login.js" />
+    <EmbeddedResource Include="Views\Account\Login.min.css" />
+    <EmbeddedResource Include="Views\Account\Login.min.js" />
+    <Content Include="Views\Account\Register.js" />
+    <EmbeddedResource Include="Views\Account\Register.min.js" />
+    <EmbeddedResource Include="Views\_ViewImports.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\_ViewStart.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.0" />
+  </ItemGroup>
+
+</Project>

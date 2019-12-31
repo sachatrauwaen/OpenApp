@@ -32,7 +32,7 @@ namespace Satrabel.OpenApp.Roles
             _userManager = userManager;
         }
 
-        public override async Task<RoleDto> Create(CreateRoleDto input)
+        public override async Task<RoleDto> CreateAsync(CreateRoleDto input)
         {
             CheckCreatePermission();
 
@@ -64,7 +64,7 @@ namespace Satrabel.OpenApp.Roles
             return new ListResultDto<RoleListDto>(ObjectMapper.Map<List<RoleListDto>>(roles));
         }
 
-        public override async Task<RoleDto> Update(UpdateRoleDto input)
+        public override async Task<RoleDto> UpdateAsync(UpdateRoleDto input)
         {
             CheckUpdatePermission();
 
@@ -84,7 +84,7 @@ namespace Satrabel.OpenApp.Roles
             return MapToEntityDto(role);
         }
 
-        public override async Task Delete(EntityDto<int> input)
+        public override async Task DeleteAsync(EntityDto<int> input)
         {
             CheckDeletePermission();
 

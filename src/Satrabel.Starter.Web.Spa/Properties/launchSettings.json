@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/Satrabel.Starter.Web.Spa",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:62114/",
       "sslPort": 0
@@ -22,6 +26,9 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "IIS": {
+      "commandName": "IIS"
     }
   }
 }

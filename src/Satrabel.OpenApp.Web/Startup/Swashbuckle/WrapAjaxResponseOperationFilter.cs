@@ -6,23 +6,23 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
-
+/*
 namespace Satrabel.OpenApp.Web.Startup
 {
     public class WrapAjaxResponseOperationFilter : IOperationFilter
     {
         public void Apply(Operation operation, OperationFilterContext context)
         {
-            /*
-             * By default ABP wraps API responses with an AjaxResponse class, which contains extra properties about the call like error messages, etc.
-             * 
-             * Since this wrapping is not defined on the API but performed by ABP at runtime, Swagger is unable to pick them up.
-             * Because of this code generation (targeting, for example, a TypeScript SDK) fails since it expects the a different JSON format but receives the wrapped format.
-             * 
-             * This piece of code fixes that by wrapping everything in an AjaxResponse while generating the Swagger API.
-             * 
-             * Implementation inspired by: https://stackoverflow.com/questions/46817207/how-to-return-generic-types-on-producesresponsetype-swagger
-             */
+            
+             //By default ABP wraps API responses with an AjaxResponse class, which contains extra properties about the call like error messages, etc.
+              
+             // Since this wrapping is not defined on the API but performed by ABP at runtime, Swagger is unable to pick them up.
+             // Because of this code generation (targeting, for example, a TypeScript SDK) fails since it expects the a different JSON format but receives the wrapped format.
+              
+             // This piece of code fixes that by wrapping everything in an AjaxResponse while generating the Swagger API.
+              
+             // Implementation inspired by: https://stackoverflow.com/questions/46817207/how-to-return-generic-types-on-producesresponsetype-swagger
+             
 
             // TODO
                 // 1. check that AjaxResponse wrapping is not disabled application-wide
@@ -54,3 +54,4 @@ namespace Satrabel.OpenApp.Web.Startup
         }
     }
 }
+*/

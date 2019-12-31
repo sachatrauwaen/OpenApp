@@ -30,7 +30,7 @@ namespace Satrabel.OpenApp.Tests.Users
         public async Task CreateUser_Test()
         {
             //Act
-            await _userAppService.Create(
+            await _userAppService.CreateAsync(
                 new CreateUserDto
                 {
                     EmailAddress = "john@volosoft.com",

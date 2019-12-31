@@ -7,7 +7,7 @@ namespace Satrabel.Starter.Web.Startup
 {
     public class Startup : MvcModuleStartup<WebMvcModule>
     {
-        public Startup(IHostingEnvironment env) : base(env)
+        public Startup(IWebHostEnvironment env) : base(env)
         {
             AppVersion = AppConsts.AppVersion;
         }
@@ -27,7 +27,7 @@ namespace Satrabel.Starter.Web.Startup
             //}
         }
 
-        protected override void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
+        protected override void ConfigureBeforeStaticFiles(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //if (env.IsDevelopment())
             //{

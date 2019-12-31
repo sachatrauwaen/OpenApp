@@ -17,7 +17,7 @@ namespace Satrabel.Starter.Web.Views.Shared.Components.Users
 
         public async Task<IViewComponentResult> InvokeAsync(UserMenuItem menuItem)
         {
-            var res = await _repository.GetAll(new UsersResultRequestDto()
+            var res = await _repository.GetAllAsync(new UsersResultRequestDto()
             {
                 MaxResultCount =1,
                 SkipCount = 0

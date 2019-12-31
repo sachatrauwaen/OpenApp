@@ -5,7 +5,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
-
+/*
 namespace Satrabel.OpenApp.Web.Startup
 {
     public class SecurityRequirementsOperationFilter : IOperationFilter
@@ -48,3 +48,4 @@ namespace Satrabel.OpenApp.Web.Startup
         }
     }
 }
+*/

@@ -1,0 +1,122 @@
+﻿@using Abp.Extensions
+@using Abp.Authorization.Users
+@using Abp.MultiTenancy
+@using Abp.Configuration.Startup
+@using Satrabel.OpenApp.Identity
+@inject IMultiTenancyConfig MultiTenancyConfig
+
+@inject SignInManager SignInManager
+
+@model Satrabel.OpenApp.Web.Models.Account.LoginFormViewModel
+@section Styles
+    {
+    <environment names="Development">
+        <link rel="stylesheet" href="~/Views/Account/Login.css" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/Views/Account/Login.min.css" asp-append-version="true" />
+    </environment>
+}
+@section Scripts
+    {
+    <environment names="Development">
+        <script src="~/Views/Account/Login.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/Views/Account/Login.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card-group mb-0">
+            <div class="card p-4">
+                <div class="card-body">
+                    <form id="LoginForm" asp-action="Login" method="post">
+                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                        <input type="hidden" name="returnUrlHash" />
+                        <h1>Login</h1>
+                        <p class="text-muted">@L("LogIn")</p>
+
+                        @if (MultiTenancyConfig.IsEnabled)
+                        {
+                            <div class="input-group mb-3">
+                                <span class="input-group-addon">
+                                    <i class="icon-folder"></i>
+                                </span>
+                                <input type="text" class="form-control" name="TenancyName" placeholder="@L("TenancyName")" autofocus maxlength="@AbpUserBase.MaxUserNameLength">
+                            </div>
+                        }
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">
+                                <i class="icon-user"></i>
+                            </span>
+                            <input type="text" class="form-control" name="usernameOrEmailAddress" placeholder="@L("UserNameOrEmail")" required autofocus maxlength="@AbpUserBase.MaxEmailAddressLength">
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-addon">
+                                <i class="icon-lock"></i>
+                            </span>
+                            <input type="password" class="form-control" name="Password" placeholder="@L("Password")" required maxlength="@AbpUserBase.MaxPlainPasswordLength">
+                        </div>
+
+                        <div class="input-group mb-4">
+                            <input type="checkbox" name="RememberMe" id="rememberme" class="filled-in chk-col-pink" value="true">
+                            <label for="rememberme">@L("RememberMe")</label>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+
+                                <button id="LoginButton" class="btn btn-primary px-4" type="submit">@L("LogIn")</button>
+                            </div>
+                            @*
+                <div class="col-6 text-right">
+                    <button type="button" class="btn btn-link px-0">Forgot password?</button>
+                </div>
+                            *@
+                        </div>
+                    </form>
+
+
+                    @{
+                        var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                        if (loginProviders.Count > 0)
+                        {
+                            <h4>Use another service to log in.</h4>
+                            <hr />
+                            <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                                <div>
+                                    <p>
+                                        @foreach (var provider in loginProviders)
+                                        {
+                                            <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+                                        }
+                                    </p>
+                                </div>
+                            </form>
+                        }
+                    }
+
+
+                </div>
+            </div>
+            @if (Model.IsSelfRegistrationAllowed)
+            {
+                <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
+                    <div class="card-body text-center">
+                        <div>
+                            <h2>@L("Register")</h2>
+                            <p>@L("RegisterText")</p>
+
+                            <a class="btn btn-primary active mt-3" asp-action="Register">@L("Register")</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+

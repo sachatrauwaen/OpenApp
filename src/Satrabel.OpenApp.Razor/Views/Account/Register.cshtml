@@ -1,0 +1,98 @@
+﻿@using Abp.Authorization.Users
+@model Satrabel.OpenApp.Web.Models.Account.RegisterViewModel
+@{
+    ViewBag.DisableTopBar = true;
+}
+@section Styles
+    {
+    <environment names="Development">
+        <link rel="stylesheet" href="~/Views/Account/Login.css" asp-append-version="true" />
+    </environment>
+
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/Views/Account/Login.min.css" asp-append-version="true" />
+    </environment>
+}
+@section Scripts{
+    <environment names="Development">
+        <script src="~/Views/Account/Register.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/Views/Account/Register.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card mx-4">
+            <div class="card-body p-4">
+
+                <form id="RegisterForm" asp-action="Register" method="post">
+                    <h1>@L("Register")</h1>
+                    <p class="text-muted">Create your account</p>
+                    @if (@ViewBag.ErrorMessage != null)
+                    {
+                        <div class="alert alert-danger">
+                            <i class="fa fa-warning"></i> @ViewBag.ErrorMessage
+                        </div>
+                    }
+
+                    <input type="hidden" name="IsExternalLogin" value="@Model.IsExternalLogin.ToString()" />
+                    <input type="hidden" name="ExternalLoginAuthSchema" value="@Model.ExternalLoginAuthSchema" />
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="icon-user"></i>
+                        </span>
+                        <input type="text" class="form-control" name="Name" value="@Model.Name" required maxlength="@AbpUserBase.MaxNameLength" placeholder="@L("Firstname")">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="icon-user"></i>
+                        </span>
+                        <input type="text" class="form-control" name="Surname" value="@Model.Surname" required maxlength="@AbpUserBase.MaxSurnameLength" placeholder="@L("Surname")">
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="icon-user"></i>
+                        </span>
+                        <input type="text" class="form-control" name="UserName" value="@Model.UserName" required maxlength="@AbpUserBase.MaxUserNameLength" placeholder="@L("UserName")">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">@@</span>
+                        <input type="email" class="form-control" name="EmailAddress" value="@Model.EmailAddress" required maxlength="@AbpUserBase.MaxEmailAddressLength" placeholder="@L("EmailAddress")">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="icon-lock"></i>
+                        </span>
+                        <input type="password" class="form-control" name="Password" required maxlength="@AbpUserBase.MaxPlainPasswordLength" placeholder="@L("Password")">
+                    </div>
+                    <button id="RegisterButton" class="btn btn-block btn-success" type="submit">@L("Register")</button>
+                    <a asp-action="Login" class="btn btn-block ">@L("Back")</a>
+                </form>
+            </div>
+            @*
+    <div class="card-footer p-4">
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-block btn-facebook" type="button">
+                    <span>facebook</span>
+                </button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-block btn-twitter" type="button">
+                    <span>twitter</span>
+                </button>
+            </div>
+        </div>
+    </div>
+            *@
+        </div>
+    </div>
+</div>
+
+
