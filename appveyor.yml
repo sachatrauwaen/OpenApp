@@ -55,7 +55,6 @@ for:
       - develop
       - /abp-update-v.*/
       - /beta-.*/
-	  - feature/dotnet31
   build:      
     publish_nuget: true
 
