@@ -77,7 +77,7 @@ namespace Satrabel.OpenApp.MultiTenancy
 
                 // Grant all permissions to admin role
                 var adminRole = _roleManager.Roles.Single(r => r.Name == StaticRoleNames.Tenants.Admin);
-                await _roleManager.GrantAllPermissionsAsync(adminRole);
+                //await _roleManager.GrantAllPermissionsAsync(adminRole);
 
                 // Create admin user for the tenant
                 var adminUser = User.CreateTenantAdminUser(tenant.Id, input.AdminEmailAddress);
