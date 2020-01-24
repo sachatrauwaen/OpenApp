@@ -26,19 +26,22 @@ namespace Satrabel.OpenApp.Users
         private readonly RoleManager _roleManager;
         private readonly IRepository<Role> _roleRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly UserMailService _userMailService;
 
         public UserAppService(
             IRepository<User, long> repository,
             UserManager userManager,
             RoleManager roleManager,
             IRepository<Role> roleRepository,
-            IPasswordHasher<User> passwordHasher)
+            IPasswordHasher<User> passwordHasher,
+            UserMailService userMailService)
             : base(repository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _roleRepository = roleRepository;
             _passwordHasher = passwordHasher;
+            _userMailService = userMailService;
         }
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
@@ -68,6 +71,8 @@ namespace Satrabel.OpenApp.Users
             }
 
             CurrentUnitOfWork.SaveChanges();
+
+            await _userMailService.SendRegistrationMailAsync(user, input.Password);
 
             return MapToEntityDto(user);
         }
