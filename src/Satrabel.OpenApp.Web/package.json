@@ -33,6 +33,6 @@
         "webpack-hot-middleware": "2.21.0"
     },
     "dependencies": {
-        "vuecrud": "git://github.com/sachatrauwaen/vuecrud.git#develop"
+        "vuecrud": "github:sachatrauwaen/vuecrud#develop"
     }
 }
