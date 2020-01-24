@@ -95,10 +95,10 @@
     <text name="Localizations">Localizations</text>
 
     <text name="TenantRegistrationSubject">[{0}] Tenant Registration</text>
-    <text name="TenantRegistrationBody">Hello {0},&lt;br&gt; You have been successfully registered to {1}.&lt;br&gt; Usename: {3}&lt;br&gt;Password: {4}&lt;br&gt; Follow this link: {2}</text>
+    <text name="TenantRegistrationBody">Hello {0},&lt;br&gt; You have been successfully registered to {1}.&lt;br&gt;Tenant Id: {5}&lt;br&gt;Usename: {3}&lt;br&gt;Password: {4}&lt;br&gt; Follow this link: {2}</text>
 
     <text name="UserRegistrationSubject">[{0}] User Registration</text>
-    <text name="UserRegistrationBody">Hello {0},&lt;br&gt; You have been successfully registered to {1}.&lt;br&gt; Usename: {3}&lt;br&gt;Password: {4}&lt;br&gt; Follow this link: {2}</text>
+    <text name="UserRegistrationBody">Hello {0},&lt;br&gt; You have been successfully registered to {1}.&lt;br&gt;Tenant Id: {5}&lt;br&gt;Usename: {3}&lt;br&gt;Password: {4}&lt;br&gt; Follow this link: {2}</text>
 
   </texts>
 </localizationDictionary>
