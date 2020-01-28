@@ -75,7 +75,11 @@
                                     {
                                         <li class="nav-item @(Model.ActiveMenuItemName == subSubMenuItem.Name ? "active" : "")">
                                             <a class="nav-link" href="@calculateMenuUrl(subSubMenuItem.Url)">
-                                                @subSubMenuItem.DisplayName
+                                                @if (!string.IsNullOrWhiteSpace(subSubMenuItem.Icon))
+                                                {
+                                                    <i class="icon-@(subSubMenuItem.Icon)"></i>
+                                                }
+                                                <span>@subSubMenuItem.DisplayName</span>
                                             </a>
                                         </li>
                                     }
