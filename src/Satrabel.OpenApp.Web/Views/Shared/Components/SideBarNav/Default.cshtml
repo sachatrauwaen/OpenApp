@@ -29,11 +29,64 @@
                         <a class="nav-link" href="@calculateMenuUrl(menuItem.Url)">
                             @if (!string.IsNullOrWhiteSpace(menuItem.Icon))
                             {
-                                <i class="icon-@(menuItem.Icon)"></i>                                
+                                <i class="icon-@(menuItem.Icon)"></i>
                             }
                             <span>@menuItem.DisplayName</span>
                         </a>
                     </li>
+                }
+                else if (menuItem.Url == "-")
+                {
+                    <li class="nav-title">
+                        
+                            @if (!string.IsNullOrWhiteSpace(menuItem.Icon))
+                            {
+                                <i class="icon-@(menuItem.Icon)"></i>
+                            }
+                            <span>@menuItem.DisplayName</span>
+                        
+                    </li>
+                    @foreach (var subMenuItem in menuItem.Items)
+                    {
+                        if (subMenuItem.Items.IsNullOrEmpty())
+                        {
+                            <li class="nav-item @(Model.ActiveMenuItemName == subMenuItem.Name ? "active" : "")">
+                                <a class="nav-link" href="@calculateMenuUrl(subMenuItem.Url)">
+                                    @if (!string.IsNullOrWhiteSpace(subMenuItem.Icon))
+                                    {
+                                        <i class="icon-@(subMenuItem.Icon)"></i>
+                                    }
+                                    <span>@subMenuItem.DisplayName</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item nav-dropdown @(Model.ActiveMenuItemName == subMenuItem.Name ? "active" : "")">
+                                <a class="nav-link nav-dropdown-toggle" href="javascript:void(0);" class="menu-toggle">
+                                    @if (!string.IsNullOrWhiteSpace(subMenuItem.Icon))
+                                    {
+                                        <i class="icon-@(subMenuItem.Icon)"></i>
+                                    }
+                                    <span>@subMenuItem.DisplayName</span>
+                                </a>
+                                <ul class="nav-dropdown-items">
+                                    @foreach (var subSubMenuItem in subMenuItem.Items)
+                                    {
+                                        <li class="nav-item @(Model.ActiveMenuItemName == subSubMenuItem.Name ? "active" : "")">
+                                            <a class="nav-link" href="@calculateMenuUrl(subSubMenuItem.Url)">
+                                                @if (!string.IsNullOrWhiteSpace(subSubMenuItem.Icon))
+                                                {
+                                                    <i class="icon-@(subSubMenuItem.Icon)"></i>
+                                                }
+                                                <span>@subSubMenuItem.DisplayName</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    }
                 }
                 else
                 {
@@ -45,6 +98,7 @@
                             }
                             <span>@menuItem.DisplayName</span>
                         </a>
+
                         <ul class="nav-dropdown-items">
                             @foreach (var subMenuItem in menuItem.Items)
                             {

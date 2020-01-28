@@ -2,8 +2,8 @@
 <localizationDictionary culture="nl-NL">
   <texts>
     <text name="Home" value="Startpagina" />
+    <text name="Demos" value="Demos" />
     <text name="About" value="Over" />
     <text name="WelcomeMessage" value="Welkom bij Openapp!" />
-
   </texts>
 </localizationDictionary>

@@ -2,6 +2,7 @@
 <localizationDictionary culture="fr">
   <texts>
     <text name="Home" value="Accueil" />
+    <text name="Demos" value="Demos" />
     <text name="About" value="A propos" />
     <text name="WelcomeMessage" value="Bienvenue sur OpenApp!" />
 
