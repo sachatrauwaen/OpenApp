@@ -18,6 +18,9 @@ namespace Satrabel.OpenApp.Users.Dto
         [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public string UserName { get; set; }
 
+        [StringLength(AbpUserBase.MaxUserNameLength)]
+        [JsonSchemaExtensionData("x-ui-grid", false)]
+        public string Title { get; set; }
 
         [Required]
         [StringLength(AbpUserBase.MaxNameLength)]
@@ -31,9 +34,7 @@ namespace Satrabel.OpenApp.Users.Dto
         [JsonSchemaExtensionData("x-ui-grid", false)]        
         public string Surname { get; set; }
 
-        [StringLength(AbpUserBase.MaxUserNameLength)]
-        [JsonSchemaExtensionData("x-ui-grid", false)]
-        public string Title { get; set; }
+       
 
         [Required]
         [EmailAddress]
