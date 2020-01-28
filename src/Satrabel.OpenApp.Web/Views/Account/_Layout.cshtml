@@ -27,13 +27,14 @@
     <title>Login</title>
 
     <environment names="Development">
-        
+
         <link href="~/Views/_Bundles/account-layout.min.css" rel="stylesheet" asp-append-version="true" />
 
     </environment>
     <environment names="Staging,Production">
         <link href="~/Views/_Bundles/account-layout.min.css" rel="stylesheet" asp-append-version="true" />
     </environment>
+    <link href="~/default.css" rel="stylesheet" asp-append-version="true" />
     <!-- View specific styles -->
     @RenderSection("styles", required: false)
     <script type="text/javascript">
