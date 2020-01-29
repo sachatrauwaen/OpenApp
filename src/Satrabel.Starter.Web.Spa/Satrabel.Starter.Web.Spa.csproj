@@ -66,6 +66,7 @@
     <None Remove="ClientApp\components\**" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Views\Override\Email\UserRegistration.cshtml" />
     <Content Remove="wwwroot\favicon.png" />
     <Content Remove="wwwroot\logo.png" />
   </ItemGroup>
@@ -73,6 +74,7 @@
     <None Remove="ClientApp\boot.ts" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Views\Override\Email\UserRegistration.cshtml" />
     <EmbeddedResource Include="wwwroot\favicon.png" />
     <EmbeddedResource Include="wwwroot\logo.png" />
   </ItemGroup>
