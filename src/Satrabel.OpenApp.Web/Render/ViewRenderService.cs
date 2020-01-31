@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Satrabel.OpenApp.Render
 {
-    public class ViewRenderService : IViewRenderService, ISingletonDependency
+    public class ViewRenderService : IViewRenderService
     {
         private readonly IRazorViewEngine _razorViewEngine;
         private readonly ITempDataProvider _tempDataProvider;
