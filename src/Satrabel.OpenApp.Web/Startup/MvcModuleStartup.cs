@@ -31,6 +31,7 @@ using Abp.Json;
 using Newtonsoft.Json.Serialization;
 using Abp.Dependency;
 using Microsoft.OpenApi.Models;
+using Satrabel.OpenApp.Render;
 
 namespace Satrabel.OpenApp.Startup
 {
@@ -118,6 +119,7 @@ namespace Satrabel.OpenApp.Startup
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
             services.AddScoped<IWebResourceManager, WebResourceManager>();
+            services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IMigrationManager>(new MigrationManager());
             services.AddSingleton<IWebConfig>(new WebConfig());
 
