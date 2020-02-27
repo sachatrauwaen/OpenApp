@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Abp.AutoMapper;
 using Abp.MultiTenancy;
+using NJsonSchema.Annotations;
 
 namespace Satrabel.OpenApp.MultiTenancy.Dto
 {
@@ -17,5 +19,12 @@ namespace Satrabel.OpenApp.MultiTenancy.Dto
         public string Name { get; set; }
 
         public bool IsActive { get; set; }
+
+        [JsonSchemaExtensionData("x-type", "object")]
+        public Dictionary<string, string> Features { get; set; }
+
+        [JsonSchemaExtensionData("x-type", "settings")]
+        public List<SettingDto> Settings { get; set; }
+
     }
 }

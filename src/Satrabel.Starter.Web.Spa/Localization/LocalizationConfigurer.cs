@@ -18,7 +18,7 @@ namespace Satrabel.Starter.Web.Localization
                 new DictionaryBasedLocalizationSource(sourcename,
                     new XmlEmbeddedFileLocalizationDictionaryProvider(
                         typeof(LocalizationConfigurer).GetAssembly(),
-                        "Satrabel.Starter.Web.Localization." + sourcename
+                        "Satrabel.Starter.Web.Localization.SourceFiles"
                     )
                 )
             );

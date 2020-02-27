@@ -5,5 +5,6 @@
     <text name="Demos" value="Demos" />
     <text name="About" value="Over" />
     <text name="WelcomeMessage" value="Welkom bij Openapp!" />
+    <text name="MonthPageLimit" value="Month Page Limit" />
   </texts>
 </localizationDictionary>

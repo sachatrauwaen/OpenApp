@@ -79,6 +79,7 @@ namespace Satrabel.Starter.Web.Startup
             // Permissions
             Configuration.Authorization.Providers.Add<AuthorizationProvider>();
             Configuration.Navigation.Providers.Add<NavigationProvider>();
+            Configuration.Features.Providers.Add<AppFeatureProvider>();
 
             if (_migrationManager.NeedMigration && !SkipDbContextRegistration)
             {
