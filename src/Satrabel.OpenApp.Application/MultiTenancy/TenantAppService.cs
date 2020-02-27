@@ -14,6 +14,9 @@ using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.Editions;
 using Satrabel.OpenApp.MultiTenancy.Dto;
+using System.Collections.Generic;
+using Abp.Localization;
+using Abp.Configuration;
 
 namespace Satrabel.OpenApp.MultiTenancy
 {
@@ -27,25 +30,29 @@ namespace Satrabel.OpenApp.MultiTenancy
         private readonly IAbpZeroDbMigrator _abpZeroDbMigrator;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly UserMailService _userMailService;
+        private readonly ISettingDefinitionManager _settingDefinitionManager;
 
         public TenantAppService(
-            IRepository<Tenant, int> repository, 
-            TenantManager tenantManager, 
+            IRepository<Tenant, int> repository,
+            TenantManager tenantManager,
             EditionManager editionManager,
-            UserManager userManager,            
-            RoleManager roleManager, 
-            IAbpZeroDbMigrator abpZeroDbMigrator, 
+            UserManager userManager,
+            RoleManager roleManager,
+            IAbpZeroDbMigrator abpZeroDbMigrator,
             IPasswordHasher<User> passwordHasher,
-            UserMailService userMailService) 
+            UserMailService userMailService,
+            ISettingDefinitionManager settingDefinitionManager)
+
             : base(repository)
         {
-            _tenantManager = tenantManager; 
+            _tenantManager = tenantManager;
             _editionManager = editionManager;
             _userManager = userManager;
             _roleManager = roleManager;
             _abpZeroDbMigrator = abpZeroDbMigrator;
             _passwordHasher = passwordHasher;
             _userMailService = userMailService;
+            _settingDefinitionManager = settingDefinitionManager;
         }
         
         public override async Task<TenantDto> CreateAsync(CreateTenantDto input)
@@ -97,13 +104,71 @@ namespace Satrabel.OpenApp.MultiTenancy
 
             return MapToEntityDto(tenant);
         }
+        protected override TenantDto MapToEntityDto(Tenant entity)
+        {
+            //var dto = base.MapToEntityDto(entity);
+            var dto = new TenantDto()
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                TenancyName = entity.TenancyName,
+                IsActive = entity.IsActive
+            };
+            var featureDefs = _tenantManager.FeatureManager.GetAll().Where(f => f.Scope.HasFlag(Abp.Application.Features.FeatureScopes.Tenant));
+            //var features = _tenantManager.GetFeatureValues(entity.Id);
+            foreach (var featureDef in featureDefs)
+            {
+                var value = featureDef.DefaultValue;
+                var featureValue = _tenantManager.GetFeatureValueOrNull(entity.Id, featureDef.Name);
+                if (featureValue != null)
+                {
+                    value = featureValue;
+                }
+                dto.Features.Add(new FeatureDto()
+                {
+                    Name = featureDef.Name,
+                    DisplayName = featureDef.DisplayName?.Localize(LocalizationManager),
+                    Value = value,
+                    InputType = featureDef.InputType?.Name,
+                    Validator = featureDef.InputType?.Validator?.Name
+                });
 
+            }
+            var settingDefs = _settingDefinitionManager.GetAllSettingDefinitions().Where(s => s.Scopes.HasFlag(SettingScopes.Tenant));
+            foreach (var settingDef in settingDefs)
+            {
+                var value = settingDef.DefaultValue;
+                var settingValue = SettingManager.GetSettingValueForTenant(settingDef.Name, entity.Id);
+                if (settingValue != null)
+                {
+                    value = settingValue;
+                }
+                dto.Settings.Add(new SettingDto()
+                {
+                    Name = settingDef.Name,
+                    DisplayName = settingDef.DisplayName?.Localize(LocalizationManager),
+                    Value = value
+                });
+
+            }
+            return dto;
+        }
         protected override void MapToEntity(TenantDto updateInput, Tenant entity)
         {
             // Manually mapped since TenantDto contains non-editable properties too.
             entity.Name = updateInput.Name;
             entity.TenancyName = updateInput.TenancyName;
             entity.IsActive = updateInput.IsActive;
+
+            foreach (var feature in updateInput.Features)
+            {
+                _tenantManager.SetFeatureValue(entity.Id, feature.Name, feature.Value);
+            }
+
+            foreach (var setting in updateInput.Settings)
+            {
+                SettingManager.ChangeSettingForTenant(entity.Id, setting.Name, setting.Value);
+            }
         }
 
         public override async Task DeleteAsync(EntityDto<int> input)
@@ -118,5 +183,7 @@ namespace Satrabel.OpenApp.MultiTenancy
         {
             identityResult.CheckErrors(LocalizationManager);
         }
+
+
     }
 }

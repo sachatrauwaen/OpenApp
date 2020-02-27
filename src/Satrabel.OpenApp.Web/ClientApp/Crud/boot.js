@@ -9,6 +9,10 @@ import localeDE from 'element-ui/lib/locale/lang/de';
 import localePT from 'element-ui/lib/locale/lang/pt';
 import localeES from 'element-ui/lib/locale/lang/es';
 import localeIT from 'element-ui/lib/locale/lang/it';
+import features from '../shared/features.vue';
+import settings from '../shared/settings.vue';
+Vue.component('oa-features', features);
+Vue.component('oa-settings', settings);
 
 let locale = localeEN;
 const loc = abp.localization.currentCulture.name;
