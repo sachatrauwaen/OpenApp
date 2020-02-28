@@ -1,12 +1,19 @@
 <template>
     <el-card>
-        <el-row v-for="f in value" :key="f.name">
+        <el-row v-for="f in value" :key="f.name" style="margin-bottom:10px;">
             <el-col :span="9">
                 {{f.displayName ? f.displayName : f.name}}
             </el-col>
             <el-col :span="15">
                 <el-input-number v-if="f.validator=='NUMERIC'" v-model="f.value"></el-input-number>
-                <el-input v-else  v-model="f.value"></el-input>
+                
+                <el-switch v-else-if="f.inputType=='CHECKBOX'" v-model="f.value"
+                           
+                           active-value="true"
+                           inactive-value="false"
+                           >
+                </el-switch>
+                <el-input v-else v-model="f.value"></el-input>
             </el-col>
         </el-row>        
     </el-card>

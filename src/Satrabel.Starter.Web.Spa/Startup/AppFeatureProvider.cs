@@ -16,6 +16,10 @@ namespace Satrabel.Starter.Web.Startup
             context.Create("MonthPageLimit", "100", L("MonthPageLimit"), null, FeatureScopes.Tenant,
                     new SingleLineStringInputType(new NumericValueValidator(1, 1000000))
                 );
+
+            context.Create("OCR", "false", L("Ocr"), null, FeatureScopes.Tenant,
+                   new CheckboxInputType()
+               );
         }
         private static ILocalizableString L(string name)
         {
