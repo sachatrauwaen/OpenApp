@@ -90,6 +90,8 @@ namespace Satrabel.OpenApp.Users
             if (!string.IsNullOrEmpty(input.Password))
             {
                 user.Password = _passwordHasher.HashPassword(user, input.Password);
+
+                await _userMailService.SendRegistrationMailAsync(user, input.Password);
             }
 
             CheckErrors(await _userManager.UpdateAsync(user));
