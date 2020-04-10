@@ -143,7 +143,6 @@ namespace Satrabel.OpenApp.Startup
                         )
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowCredentials()
                     );
 
                 options.AddPolicy(
@@ -152,7 +151,6 @@ namespace Satrabel.OpenApp.Startup
                             .AllowAnyOrigin()
                             .AllowAnyHeader()
                             .AllowAnyMethod()
-                            .AllowCredentials()
                     );
             });
 
