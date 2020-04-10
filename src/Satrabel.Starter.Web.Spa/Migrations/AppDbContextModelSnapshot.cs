@@ -15,7 +15,7 @@ namespace Satrabel.OpenApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.0")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -611,6 +611,112 @@ namespace Satrabel.OpenApp.Migrations
                     b.ToTable("AbpSettings");
                 });
 
+            modelBuilder.Entity("Abp.DynamicEntityParameters.DynamicParameter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("InputType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ParameterName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Permission")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParameterName", "TenantId")
+                        .IsUnique()
+                        .HasFilter("[ParameterName] IS NOT NULL AND [TenantId] IS NOT NULL");
+
+                    b.ToTable("AbpDynamicParameters");
+                });
+
+            modelBuilder.Entity("Abp.DynamicEntityParameters.DynamicParameterValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DynamicParameterId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DynamicParameterId");
+
+                    b.ToTable("AbpDynamicParameterValues");
+                });
+
+            modelBuilder.Entity("Abp.DynamicEntityParameters.EntityDynamicParameter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DynamicParameterId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EntityFullName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DynamicParameterId");
+
+                    b.HasIndex("EntityFullName", "DynamicParameterId", "TenantId")
+                        .IsUnique()
+                        .HasFilter("[EntityFullName] IS NOT NULL AND [TenantId] IS NOT NULL");
+
+                    b.ToTable("AbpEntityDynamicParameters");
+                });
+
+            modelBuilder.Entity("Abp.DynamicEntityParameters.EntityDynamicParameterValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EntityDynamicParameterId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EntityId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityDynamicParameterId");
+
+                    b.ToTable("AbpEntityDynamicParameterValues");
+                });
+
             modelBuilder.Entity("Abp.EntityHistory.EntityChange", b =>
                 {
                     b.Property<long>("Id")
@@ -1065,7 +1171,9 @@ namespace Satrabel.OpenApp.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.HasIndex("TenantId", "Code");
+                    b.HasIndex("TenantId", "Code")
+                        .IsUnique()
+                        .HasFilter("[TenantId] IS NOT NULL");
 
                     b.ToTable("AbpOrganizationUnits");
                 });
@@ -1102,6 +1210,107 @@ namespace Satrabel.OpenApp.Migrations
                     b.HasIndex("TenantId", "RoleId");
 
                     b.ToTable("AbpOrganizationUnitRoles");
+                });
+
+            modelBuilder.Entity("Abp.Webhooks.WebhookEvent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WebhookName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AbpWebhookEvents");
+                });
+
+            modelBuilder.Entity("Abp.Webhooks.WebhookSendAttempt", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Response")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ResponseStatusCode")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("WebhookEventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WebhookSubscriptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WebhookEventId");
+
+                    b.ToTable("AbpWebhookSendAttempts");
+                });
+
+            modelBuilder.Entity("Abp.Webhooks.WebhookSubscriptionInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Headers")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Secret")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WebhookUri")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Webhooks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AbpWebhookSubscriptions");
                 });
 
             modelBuilder.Entity("Satrabel.OpenApp.Authorization.Roles.Role", b =>
@@ -1477,6 +1686,33 @@ namespace Satrabel.OpenApp.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("Abp.DynamicEntityParameters.DynamicParameterValue", b =>
+                {
+                    b.HasOne("Abp.DynamicEntityParameters.DynamicParameter", "DynamicParameter")
+                        .WithMany("DynamicParameterValues")
+                        .HasForeignKey("DynamicParameterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Abp.DynamicEntityParameters.EntityDynamicParameter", b =>
+                {
+                    b.HasOne("Abp.DynamicEntityParameters.DynamicParameter", "DynamicParameter")
+                        .WithMany()
+                        .HasForeignKey("DynamicParameterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Abp.DynamicEntityParameters.EntityDynamicParameterValue", b =>
+                {
+                    b.HasOne("Abp.DynamicEntityParameters.EntityDynamicParameter", "EntityDynamicParameter")
+                        .WithMany()
+                        .HasForeignKey("EntityDynamicParameterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Abp.EntityHistory.EntityChange", b =>
                 {
                     b.HasOne("Abp.EntityHistory.EntityChangeSet", null)
@@ -1500,6 +1736,15 @@ namespace Satrabel.OpenApp.Migrations
                     b.HasOne("Abp.Organizations.OrganizationUnit", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("Abp.Webhooks.WebhookSendAttempt", b =>
+                {
+                    b.HasOne("Abp.Webhooks.WebhookEvent", "WebhookEvent")
+                        .WithMany()
+                        .HasForeignKey("WebhookEventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Satrabel.OpenApp.Authorization.Roles.Role", b =>
