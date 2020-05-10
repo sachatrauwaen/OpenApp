@@ -5,6 +5,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.JsonPatch.Operations;
+using Microsoft.OpenApi.Models;
 
 namespace Satrabel.OpenApp.Web.Startup
 {
@@ -17,7 +19,7 @@ namespace Satrabel.OpenApp.Web.Startup
             this.authorizationOptions = authorizationOptions;
         }
 
-        public void Apply(Operation operation, OperationFilterContext context)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             var controllerPermissions = context.ApiDescription.ControllerAttributes()
                 .OfType<AbpAuthorizeAttribute>()
@@ -32,8 +34,8 @@ namespace Satrabel.OpenApp.Web.Startup
 
             if (permissions.Any())
             {
-                operation.Responses.Add("401", new Response { Description = "Unauthorized" });
-                operation.Responses.Add("403", new Response { Description = "Forbidden" });
+                operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
+                operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
 
                 operation.Security = new List<IDictionary<string, IEnumerable<string>>>
                 {
@@ -44,7 +46,7 @@ namespace Satrabel.OpenApp.Web.Startup
                 };
             }
 
-            operation.Responses.Add("500", new Response { Description = "Server Error" });
+            operation.Responses.Add("500", new OpenApiResponse { Description = "Server Error" });
         }
     }
 }

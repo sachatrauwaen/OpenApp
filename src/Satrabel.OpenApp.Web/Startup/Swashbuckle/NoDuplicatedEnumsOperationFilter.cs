@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace Satrabel.OpenApp.Startup.Swashbuckle
 {
@@ -16,14 +17,14 @@ namespace Satrabel.OpenApp.Startup.Swashbuckle
     /// </summary>
     public class NoDuplicatedEnumsOperationFilter : ISchemaFilter
     {
-        public void Apply(Schema model, SchemaFilterContext context)
+        public void Apply(OpenApiSchema model, SchemaFilterContext context)
         {
             if (model.Properties == null)
                 return;
 
             var enumProperties = model.Properties.Where(p => p.Value.Enum != null)
                 .Union(model.Properties.Where(p => p.Value.Items?.Enum != null)).ToList();
-            var enums = context.SystemType.GetProperties()
+            var enums = context.Type.GetProperties()
                 .Select(p => Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType.GetElementType() ??
                                 p.PropertyType.GetGenericArguments().FirstOrDefault() ?? p.PropertyType)
                 .Where(p => p.GetTypeInfo().IsEnum)
@@ -45,14 +46,16 @@ namespace Satrabel.OpenApp.Startup.Swashbuckle
                 });
 
                 if (enumType == null)
-                    throw new Exception($"Property {enumProperty} not found in {context.SystemType.Name} Type.");
+                    throw new Exception($"Property {enumProperty} not found in {context.Type.Name} Type.");
 
-                if (context.SchemaRegistry.Definitions.ContainsKey(enumType.Name) == false)
-                    context.SchemaRegistry.Definitions.Add(enumType.Name, enumPropertyValue);
+                if (context.SchemaRepository.Schemas.ContainsKey(enumType.Name) == false)
+                    context.SchemaRepository.Schemas.Add(enumType.Name, enumPropertyValue);
 
-                var schema = new Schema
+                // var schema = new OpenApiSchema { Ref = $"#/definitions/{enumType.Name}" };
+                var schema = new OpenApiSchema
                 {
-                    Ref = $"#/definitions/{enumType.Name}"
+                    Type = "String",
+                    Reference = new OpenApiReference { ExternalResource = $"#/definitions/{enumType.Name}" }
                 };
                 if (enumProperty.Value.Enum != null)
                 {
@@ -65,7 +68,7 @@ namespace Satrabel.OpenApp.Startup.Swashbuckle
             }
         }
 
-        private void CheckType(Response response, ISchemaRegistry schemaRegistry, Type enumType)
+        private void CheckType(OpenApiResponse response, ISchemaRegistry schemaRegistry, Type enumType)
         {
             // Recurse
             enumType
@@ -84,9 +87,11 @@ namespace Satrabel.OpenApp.Startup.Swashbuckle
             if (schemaRegistry.Definitions.ContainsKey(enumType.Name) == false)
                 schemaRegistry.Definitions.Add(enumType.Name, schemaRegistry.GetOrRegister(enumType));
 
-            var schema = new Schema
+            // var schema = new OpenApiSchema { Ref = $"#/definitions/{enumType.Name}" };
+            var schema = new OpenApiSchema
             {
-                Ref = $"#/definitions/{enumType.Name}"
+                Type = "String",
+                Reference = new OpenApiReference { ExternalResource = $"#/definitions/{enumType.Name}" }
             };
             response.Extensions.Add("x-schema", schema);
         }
@@ -110,11 +115,15 @@ namespace Satrabel.OpenApp.Startup.Swashbuckle
             if (schemaRegistry.Definitions.ContainsKey(enumType.Name) == false)
                 schemaRegistry.Definitions.Add(enumType.Name, schemaRegistry.GetOrRegister(enumType));
 
-            var schema = new Schema
+            // var schema = new OpenApiSchema { Ref = $"#/definitions/{enumType.Name}" };
+            var schema = new OpenApiSchema
             {
-                Ref = $"#/definitions/{enumType.Name}"
+                Type = "String",
+                Reference = new OpenApiReference { ExternalResource = $"#/definitions/{enumType.Name}" }
             };
             parameter.Extensions.Add("x-schema", schema);
         }
+
+
     }
 }

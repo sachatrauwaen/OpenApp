@@ -29,6 +29,7 @@ using Satrabel.OpenApp.Web.Startup;
 using Satrabel.OpenApp.Startup.Swashbuckle;
 using Microsoft.Extensions.Hosting;
 using Abp.AspNetCore.Mvc.Antiforgery;
+using Microsoft.OpenApi.Models;
 using Satrabel.OpenApp.Render;
 
 namespace Satrabel.OpenApp.Startup
@@ -156,7 +157,7 @@ namespace Satrabel.OpenApp.Startup
             {
                 services.AddSwaggerGen(options =>
                 {
-                    options.SwaggerDoc("v1", new Info { Title = "OpenApp API", Version = "v1" });
+                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "OpenApp API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
 
                     /*
@@ -187,12 +188,12 @@ namespace Satrabel.OpenApp.Startup
                     options.CustomSchemaIds(type => CreateTypeNameWithNameSpace(type)); /* Custom naming implementation to support generics and multiple DTO's with the same name in different namespaces */
 
                     // Define the BearerAuth scheme that's in use
-                    options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
+                    options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme()
                     {
                         Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                         Name = "Authorization",
-                        In = "header",
-                        Type = "apiKey"
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey
                     });
 
                     // Assign scope requirements to operations based on AuthorizeAttribute

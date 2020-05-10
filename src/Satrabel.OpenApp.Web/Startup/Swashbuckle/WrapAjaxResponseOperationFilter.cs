@@ -6,12 +6,14 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.JsonPatch.Operations;
+using Microsoft.OpenApi.Models;
 
 namespace Satrabel.OpenApp.Web.Startup
 {
     public class WrapAjaxResponseOperationFilter : IOperationFilter
     {
-        public void Apply(Operation operation, OperationFilterContext context)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             /*
              * By default ABP wraps API responses with an AjaxResponse class, which contains extra properties about the call like error messages, etc.
@@ -39,9 +41,9 @@ namespace Satrabel.OpenApp.Web.Startup
                     var wrappedTypeFriendlyId = wrappedType.FriendlyId();
 
                     // Add AjaxResponse<SpecificType> schema manually (since it will not be picked up by ApiDefinition/Swashbuckle)
-                    if (!context.SchemaRegistry.Definitions.TryGetValue(wrappedTypeFriendlyId, out Schema schema))
+                    if (!context.SchemaRepository.Schemas.TryGetValue(wrappedTypeFriendlyId, out OpenApiSchema schema))
                     {
-                        schema = context.SchemaRegistry.GetOrRegister(wrappedType);
+                        schema = context.SchemaRepository.GetOrAdd(wrappedType);
                     }
 
                     // Replace the schema of the original response with the created schema of the wrapped response
@@ -52,5 +54,7 @@ namespace Satrabel.OpenApp.Web.Startup
                         .ForEach(x => x.Schema = schema);
                 });
         }
+
+       
     }
 }
