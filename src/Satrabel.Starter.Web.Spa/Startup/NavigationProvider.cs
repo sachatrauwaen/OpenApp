@@ -21,35 +21,34 @@ namespace Satrabel.Starter.Web.Startup
                         icon: "home",
                         requiredPermissionName: PermissionNames.Pages_Home
                     )
-                )
+                 )
                  .AddItem(
                     new MenuItemDefinition(
                         PageNames.Home,
                         L("Demos"),
-                        url: "-",                        
+                        url: "-",
                         requiredPermissionName: PermissionNames.Pages_Home
                     )
+                    .AddItem(
+                        new MenuItemDefinition(
+                            PageNames.Home,
+                            L("ClientApp"),
+                            url: "/App/Demo1",
+                            icon: "question",
+                            requiredPermissionName: PermissionNames.Pages_Home
+                        )
+                    )
+                    .AddItem(
+                        new MenuItemDefinition(
+                            PageNames.Home,
+                            L("About"),
+                            url: "/About",
+                            icon: "question",
+                            requiredPermissionName: PermissionNames.Pages_About
+                        )
+                    )
+                );
 
-                .AddItem(
-                    new MenuItemDefinition(
-                        PageNames.Home,
-                        L("ClientApp"),
-                        url: "/App/Demo1",
-                        icon: "question",
-                        requiredPermissionName: PermissionNames.Pages_Home
-                    )
-                )
-                .AddItem(
-                    new MenuItemDefinition(
-                        PageNames.Home,
-                        L("About"),
-                        url: "/About",
-                        icon: "question",
-                        requiredPermissionName: PermissionNames.Pages_About
-                    )
-                )
-                )
-                ;
             context.Manager.MainMenu.Items.MoveMenuItemToBottom("Admin");
 
             context.Manager.Menus["TopMenu"]

@@ -19,6 +19,9 @@ using Abp.Extensions;
 using Satrabel.OpenApp.Configuration;
 using Satrabel.OpenApp.Identity;
 using Abp.AspNetCore.SignalR.Hubs;
+using Abp.Dependency;
+using Abp.Json;
+using Newtonsoft.Json.Serialization;
 using Satrabel.OpenApp.SignalR;
 using Satrabel.OpenApp.Authentication.JwtBearer;
 using Satrabel.OpenApp.Web.Migration;
@@ -27,9 +30,6 @@ using Satrabel.OpenApp.Web.Startup;
 //using Satrabel.OpenApp.Startup.Swashbuckle;
 using Microsoft.Extensions.Hosting;
 using Abp.AspNetCore.Mvc.Antiforgery;
-using Abp.Json;
-using Newtonsoft.Json.Serialization;
-using Abp.Dependency;
 using Microsoft.OpenApi.Models;
 using Satrabel.OpenApp.Render;
 
@@ -48,7 +48,6 @@ namespace Satrabel.OpenApp.Startup
 
         public MvcModuleStartup(IWebHostEnvironment env)
         {
-            
             _appConfiguration = env.GetAppConfiguration();
             _corsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"] ?? "false");
             _swaggerEnabled = bool.Parse(_appConfiguration["Swagger:IsEnabled"] ?? "false");
@@ -88,15 +87,16 @@ namespace Satrabel.OpenApp.Startup
             //    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             //    if (_corsEnabled)
             //    {
-            //        //dont exist anymore in dotnet3 :  options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName));
+            //        //does not exist anymore in dotnet3 :  options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName));
             //    }
             //});
 
-            services.Configure<Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.MvcRazorRuntimeCompilationOptions>(options => {
-                    //options.FileProviders.Clear();
-                    options.FileProviders.Add(new Web.EmbeddedResources.EmbeddedResourceFileProvider(
-                        IocManager.Instance
-                    ));
+            services.Configure<Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.MvcRazorRuntimeCompilationOptions>(options =>
+            {
+                //options.FileProviders.Clear();
+                options.FileProviders.Add(new Web.EmbeddedResources.EmbeddedResourceFileProvider(
+                    IocManager.Instance
+                ));
             });
 
             // MVC
@@ -143,7 +143,6 @@ namespace Satrabel.OpenApp.Startup
                         )
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowCredentials()
                     );
 
                 options.AddPolicy(
@@ -152,7 +151,6 @@ namespace Satrabel.OpenApp.Startup
                             .AllowAnyOrigin()
                             .AllowAnyHeader()
                             .AllowAnyMethod()
-                            .AllowCredentials()
                     );
             });
 
@@ -254,6 +252,7 @@ namespace Satrabel.OpenApp.Startup
                 app.UseCors(_defaultCorsPolicyName); // Enable CORS!
             }
 
+            // DISABLED? was it a test?
             //if (env.IsDevelopment())
             //{
             //    app.UseDeveloperExceptionPage();
@@ -293,7 +292,7 @@ namespace Satrabel.OpenApp.Startup
             app.UseRouting();
             app.UseAuthentication();
 
-            app.UseAuthorization(); // ???
+            app.UseAuthorization(); // ??? is this necessary? yes, without it, the site just doesn't work
 
             app.UseJwtTokenMiddleware();
             app.UseAbpRequestLocalization();
@@ -305,6 +304,19 @@ namespace Satrabel.OpenApp.Startup
             //        routes.MapHub<AbpCommonHub>("/signalr");
             //    });
             //}
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "defaultWithArea",
+            //        template: "{area}/{controller=Home}/{action=Index}/{id?}");
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //    routes.MapRoute(
+            //        name: "clientApp",
+            //        template: "App/{id}",
+            //        defaults: new { controller = "ClientApp", action = "Run" });
+            //});
             app.UseEndpoints(endpoints =>
             {
                 if (_signalREnabled)
@@ -315,22 +327,7 @@ namespace Satrabel.OpenApp.Startup
                 endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("clientApp", "App/{id}", defaults: new { controller = "ClientApp", action = "Run" });
             });
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "defaultWithArea",
-            //        template: "{area}/{controller=Home}/{action=Index}/{id?}");
 
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-
-            //    routes.MapRoute(
-            //        name: "clientApp",
-            //        template: "App/{id}",
-            //        defaults: new { controller = "ClientApp", action = "Run" });
-
-            //});
             if (_swaggerEnabled)
             {
                 // Enable middleware to serve generated Swagger as a JSON endpoint

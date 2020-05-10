@@ -89,7 +89,7 @@ namespace Satrabel.OpenApp.Web.Controllers
                 returnUrl = GetAppHomeUrl();
             }
 
-            return View( new LoginFormViewModel
+            return View(new LoginFormViewModel
             {
                 ReturnUrl = returnUrl,
                 IsMultiTenancyEnabled = _multiTenancyConfig.IsEnabled,

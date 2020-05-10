@@ -12,13 +12,13 @@ namespace Satrabel.OpenApp.Identity
     public class SecurityStampValidator : AbpSecurityStampValidator<Tenant, Role, User>
     {
         public SecurityStampValidator(
-            IOptions<SecurityStampValidatorOptions> options, 
+            IOptions<SecurityStampValidatorOptions> options,
             SignInManager signInManager,
             ISystemClock systemClock,
-             ILoggerFactory loggerFactory) 
+            ILoggerFactory loggerFactory)
             : base(
-                  options, 
-                  signInManager, 
+                  options,
+                  signInManager,
                   systemClock,
                   loggerFactory
                   )

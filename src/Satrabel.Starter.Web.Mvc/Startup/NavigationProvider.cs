@@ -30,10 +30,8 @@ namespace Satrabel.Starter.Web.Startup
                         icon: "question",
                         requiredPermissionName: PermissionNames.Pages_About
                     )
-
-
-
                 );
+
             context.Manager.MainMenu.Items.MoveMenuItemToBottom("Admin");
         }
 
