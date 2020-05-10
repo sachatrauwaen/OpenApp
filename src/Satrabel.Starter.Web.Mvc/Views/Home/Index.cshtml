@@ -2,16 +2,18 @@
 @{
     ViewBag.CurrentPageName = PageNames.Home; //The menu item will be active for this page.
 }
+@* ReSharper disable once Razor.SectionNotResolved *@
 @section styles
 {
     <link rel="stylesheet" href="~/Views/lib/element-ui/lib/theme-default/index.css" asp-append-version="true" />
 }
 
+@* ReSharper disable once Razor.SectionNotResolved *@
 @section scripts
 {
     <environment names="Development">
-        <script src="~/Views/lib/vueforms/libs.js"></script>        
-        <script src="~/Views/lib/vueforms/bundle.js"></script>        
+        <script src="~/Views/lib/vueforms/libs.js"></script>
+        <script src="~/Views/lib/vueforms/bundle.js"></script>
         <script src="~/view-resources/Views/home/Index.js"></script>
     </environment>
 
@@ -22,9 +24,9 @@
     </environment>
 }
 
- <!-- Breadcrumb -->
+<!-- Breadcrumb -->
 <ol class="breadcrumb">
-    
+
     <li class="breadcrumb-item active">Home</li>
     <!-- Breadcrumb Menu-->
     <li class="breadcrumb-menu d-md-down-none">
