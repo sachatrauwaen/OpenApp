@@ -21,7 +21,7 @@
 
     <text name="LoginFailed" value="Echec d'authentification !" />
 
-    <text name="UserName" value="Nom d'utilisateur" />
+    <text name="UserName" value="Utilisateur" />
     <text name="Name" value="Nom" />
     <text name="Firstname" value="Prénom" />
     <text name="Surname" value="Nom de famille" />

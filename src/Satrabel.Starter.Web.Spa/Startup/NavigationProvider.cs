@@ -30,27 +30,26 @@ namespace Satrabel.Starter.Web.Startup
                         url: "-",
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
                     )
-
-                .AddItem(
-                    new MenuItemDefinition(
-                        PageNames.Home,
-                        L("ClientApp"),
-                        url: "/App/Demo1",
-                        icon: "question",
-                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
-                    )
-                )
-                .AddItem(
-                    new MenuItemDefinition(
-                        PageNames.Home,
-                        L("About"),
-                        url: "/About",
-                        icon: "question",
-                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_About)
+                    .AddItem(
+                        new MenuItemDefinition(
+                            PageNames.Home,
+                            L("ClientApp"),
+                            url: "/App/Demo1",
+                            icon: "question",
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
                         )
                     )
-                )
-                ;
+                    .AddItem(
+                        new MenuItemDefinition(
+                            PageNames.Home,
+                            L("About"),
+                            url: "/About",
+                            icon: "question",
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_About)
+                        )
+                    )
+                );
+
             context.Manager.MainMenu.Items.MoveMenuItemToBottom("Admin");
 
             context.Manager.Menus["TopMenu"]

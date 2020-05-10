@@ -1,6 +1,6 @@
 # OpenApp  - Alpha
 
-The Goal is to Create a base framework for creating web applcations. 
+The Goal is to Create a base framework for creating web applcations.
 
 It will be composed of a number of other open source prjects :
 
