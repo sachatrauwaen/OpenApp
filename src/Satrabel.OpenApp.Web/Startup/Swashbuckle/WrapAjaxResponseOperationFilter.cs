@@ -54,7 +54,5 @@ namespace Satrabel.OpenApp.Web.Startup
                         .ForEach(x => x.Schema = schema);
                 });
         }
-
-       
     }
 }
