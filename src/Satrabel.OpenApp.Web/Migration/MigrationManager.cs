@@ -3,6 +3,7 @@ using Abp.Dependency;
 using Abp.Events.Bus;
 using Castle.MicroKernel.Registration;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,9 +41,9 @@ namespace Satrabel.OpenApp.Web.Migration
             }
         }
 
-        public IApplicationLifetime ApplicationLifetime { get; set; }
+        public IHostApplicationLifetime ApplicationLifetime { get; set; }
 
-        public IHostingEnvironment HostingEnvironment { get; set; }
+        public IWebHostEnvironment HostingEnvironment { get; set; }
         public Version AppVersion { get; set; }
 
         public void Configure(IAbpStartupConfiguration Configuration, IIocManager IocManager)

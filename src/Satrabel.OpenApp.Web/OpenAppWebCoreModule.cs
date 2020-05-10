@@ -30,10 +30,10 @@ namespace Satrabel.OpenApp
      )]
     public class OpenAppWebCoreModule : AbpModule
     {
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
 
-        public OpenAppWebCoreModule(IHostingEnvironment env)
+        public OpenAppWebCoreModule(IWebHostEnvironment env)
         {
             _env = env;
             _appConfiguration = env.GetAppConfiguration();

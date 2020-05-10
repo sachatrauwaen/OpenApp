@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -19,12 +18,18 @@ using Abp.Extensions;
 using Satrabel.OpenApp.Configuration;
 using Satrabel.OpenApp.Identity;
 using Abp.AspNetCore.SignalR.Hubs;
+using Abp.Dependency;
+using Abp.Json;
+using Newtonsoft.Json.Serialization;
 using Satrabel.OpenApp.SignalR;
 using Satrabel.OpenApp.Authentication.JwtBearer;
 using Satrabel.OpenApp.Web.Migration;
 using Satrabel.OpenApp.Web.Resources;
 using Satrabel.OpenApp.Web.Startup;
 using Satrabel.OpenApp.Startup.Swashbuckle;
+using Microsoft.Extensions.Hosting;
+using Abp.AspNetCore.Mvc.Antiforgery;
+using Satrabel.OpenApp.Render;
 
 namespace Satrabel.OpenApp.Startup
 {
@@ -39,7 +44,7 @@ namespace Satrabel.OpenApp.Startup
 
         protected Version AppVersion;
 
-        public MvcModuleStartup(IHostingEnvironment env)
+        public MvcModuleStartup(IWebHostEnvironment env)
         {
             _appConfiguration = env.GetAppConfiguration();
             _corsEnabled = bool.Parse(_appConfiguration["Cors:IsEnabled"] ?? "false");
@@ -75,18 +80,43 @@ namespace Satrabel.OpenApp.Startup
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
         {
             // MVC
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                if (_corsEnabled)
-                {
-                    options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName));
-                }
+            //services.AddMvc(options =>
+            //{
+            //    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            //    if (_corsEnabled)
+            //    {
+            //        //does not exist anymore in dotnet3 :  options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName));
+            //    }
+            //});
+
+            services.Configure<Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.MvcRazorRuntimeCompilationOptions>(options => {
+                    //options.FileProviders.Clear();
+                    options.FileProviders.Add(new Web.EmbeddedResources.EmbeddedResourceFileProvider(
+                        IocManager.Instance
+                    ));
             });
+
+            // MVC
+            services.AddControllersWithViews(
+                options =>
+                {
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute());
+
+                }
+            ).AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new AbpMvcContractResolver(IocManager.Instance)
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                };
+            });
+            services.AddRazorPages().AddRazorRuntimeCompilation();
 
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
             services.AddScoped<IWebResourceManager, WebResourceManager>();
+            services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IMigrationManager>(new MigrationManager());
             services.AddSingleton<IWebConfig>(new WebConfig());
 
@@ -110,7 +140,6 @@ namespace Satrabel.OpenApp.Startup
                         )
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowCredentials()
                     );
 
                 options.AddPolicy(
@@ -119,7 +148,6 @@ namespace Satrabel.OpenApp.Startup
                             .AllowAnyOrigin()
                             .AllowAnyHeader()
                             .AllowAnyMethod()
-                            .AllowCredentials()
                     );
             });
 
@@ -190,9 +218,9 @@ namespace Satrabel.OpenApp.Startup
             );
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            var applicationLifetime = app.ApplicationServices.GetRequiredService<IApplicationLifetime>();
+            var applicationLifetime = app.ApplicationServices.GetRequiredService<IHostApplicationLifetime>();
             var migrationManager = app.ApplicationServices.GetRequiredService<IMigrationManager>();
             migrationManager.ApplicationLifetime = applicationLifetime;
             migrationManager.HostingEnvironment = env;
@@ -230,7 +258,7 @@ namespace Satrabel.OpenApp.Startup
 
             app.UseStaticFiles();
             // start temp fix
-            //app.UseEmbeddedFiles(); 
+            //app.UseEmbeddedFiles();
             app.UseStaticFiles(
                 new StaticFileOptions
                 {
@@ -293,12 +321,12 @@ namespace Satrabel.OpenApp.Startup
 
         }
 
-        protected virtual void ConfigureBeforeStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
+        protected virtual void ConfigureBeforeStaticFiles(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
         }
 
-        protected virtual void ConfigureAfterStaticFiles(IApplicationBuilder app, IHostingEnvironment env)
+        protected virtual void ConfigureAfterStaticFiles(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
         }

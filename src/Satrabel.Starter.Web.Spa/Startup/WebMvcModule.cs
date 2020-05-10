@@ -21,7 +21,7 @@ namespace Satrabel.Starter.Web.Startup
     [DependsOn(typeof(OpenAppWebCoreModule))]
     public class WebMvcModule : AbpModule
     {
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IMigrationManager _migrationManager;
         private readonly IWebConfig _webConfig;
@@ -30,7 +30,7 @@ namespace Satrabel.Starter.Web.Startup
         public bool SkipDbContextRegistration { get; set; }
         public bool SkipDbSeed { get; set; }
 
-        public WebMvcModule(IHostingEnvironment env, IMigrationManager migrationManager, IWebConfig webConfig)
+        public WebMvcModule(IWebHostEnvironment env, IMigrationManager migrationManager, IWebConfig webConfig)
         {
             _env = env;
             _migrationManager = migrationManager;

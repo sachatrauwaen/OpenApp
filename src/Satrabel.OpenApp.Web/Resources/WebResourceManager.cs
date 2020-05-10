@@ -4,15 +4,16 @@ using Abp.Collections.Extensions;
 using Abp.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.Hosting;
 
 namespace Satrabel.OpenApp.Web.Resources
 {
     public class WebResourceManager : IWebResourceManager
     {
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly List<string> _scriptUrls;
 
-        public WebResourceManager(IHostingEnvironment environment)
+        public WebResourceManager(IWebHostEnvironment environment)
         {
             _environment = environment;
             _scriptUrls = new List<string>();
