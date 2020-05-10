@@ -7,6 +7,8 @@ using Abp.Domain.Uow;
 using Abp.Runtime.Caching;
 using Abp.Zero.Configuration;
 using Satrabel.OpenApp.Authorization.Users;
+using Abp.Organizations;
+using Abp.Domain.Repositories;
 
 namespace Satrabel.OpenApp.Authorization.Roles
 {
@@ -21,7 +23,9 @@ namespace Satrabel.OpenApp.Authorization.Roles
             IPermissionManager permissionManager, 
             ICacheManager cacheManager, 
             IUnitOfWorkManager unitOfWorkManager,
-            IRoleManagementConfig roleManagementConfig)
+            IRoleManagementConfig roleManagementConfig,
+            IRepository<OrganizationUnit, long> organizationUnitRepository,
+            IRepository<OrganizationUnitRole, long> organizationUnitRoleRepository)
             : base(
                   store,
                   roleValidators, 
@@ -30,7 +34,9 @@ namespace Satrabel.OpenApp.Authorization.Roles
                   permissionManager,
                   cacheManager, 
                   unitOfWorkManager,
-                  roleManagementConfig)
+                  roleManagementConfig,
+                  organizationUnitRepository,
+                  organizationUnitRoleRepository)
         {
         }
     }

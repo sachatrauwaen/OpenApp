@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Navigation;
+using Abp.Authorization;
 using Abp.Localization;
 using Satrabel.OpenApp;
 using Satrabel.Starter.Web.Authorization;
@@ -19,15 +20,15 @@ namespace Satrabel.Starter.Web.Startup
                         L("Home"),
                         url: "",
                         icon: "home",
-                        requiredPermissionName: PermissionNames.Pages_Home
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
                     )
-                )
+                 )
                  .AddItem(
                     new MenuItemDefinition(
                         PageNames.Home,
                         L("Demos"),
-                        url: "-",                        
-                        requiredPermissionName: PermissionNames.Pages_Home
+                        url: "-",
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
                     )
 
                 .AddItem(
@@ -36,7 +37,7 @@ namespace Satrabel.Starter.Web.Startup
                         L("ClientApp"),
                         url: "/App/Demo1",
                         icon: "question",
-                        requiredPermissionName: PermissionNames.Pages_Home
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
                     )
                 )
                 .AddItem(
@@ -45,9 +46,9 @@ namespace Satrabel.Starter.Web.Startup
                         L("About"),
                         url: "/About",
                         icon: "question",
-                        requiredPermissionName: PermissionNames.Pages_About
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_About)
+                        )
                     )
-                )
                 )
                 ;
             context.Manager.MainMenu.Items.MoveMenuItemToBottom("Admin");
@@ -59,7 +60,7 @@ namespace Satrabel.Starter.Web.Startup
                        L("Users"),
                        url: "/Crud#/OpenApp/user",
                        icon: "people",
-                       requiredPermissionName: Satrabel.OpenApp.Authorization.PermissionNames.Pages_Users,
+                       permissionDependency: new SimplePermissionDependency(Satrabel.OpenApp.Authorization.PermissionNames.Pages_Users),
                        customData: "Users"
                    )
                 );

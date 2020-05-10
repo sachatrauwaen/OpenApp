@@ -41,7 +41,7 @@ namespace Satrabel.OpenApp.Users
             _passwordHasher = passwordHasher;
         }
 
-        public override async Task<UserDto> Create(CreateUserDto input)
+        public override async Task<UserDto> CreateAsync(CreateUserDto input)
         {
             CheckCreatePermission();
 
@@ -64,7 +64,7 @@ namespace Satrabel.OpenApp.Users
 
                 if (roleNamesContainsAdmin && !editorIsAdmin) throw new Abp.UI.UserFriendlyException("You are not allowed to assign the admin role.");
 
-                CheckErrors(await _userManager.SetRoles(user, input.RoleNames));
+                CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
             }
 
             CurrentUnitOfWork.SaveChanges();
@@ -72,7 +72,7 @@ namespace Satrabel.OpenApp.Users
             return MapToEntityDto(user);
         }
 
-        public override async Task<UserDto> Update(UpdateUserDto input)
+        public override async Task<UserDto> UpdateAsync(UpdateUserDto input)
         {
             CheckUpdatePermission();
 
@@ -96,13 +96,13 @@ namespace Satrabel.OpenApp.Users
 
                 if (roleNamesContainsAdmin && !editorIsAdmin) throw new Abp.UI.UserFriendlyException("You are not allowed to assign the admin role.");
 
-                CheckErrors(await _userManager.SetRoles(user, input.RoleNames));
+                CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
             }
 
-            return await Get(input);
+            return await GetAsync(input);
         }
 
-        public override async Task Delete(EntityDto<long> input)
+        public override async Task DeleteAsync(EntityDto<long> input)
         {
             var user = await _userManager.GetUserByIdAsync(input.Id);
             await _userManager.DeleteAsync(user);

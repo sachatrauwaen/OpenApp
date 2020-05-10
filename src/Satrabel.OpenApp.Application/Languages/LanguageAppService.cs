@@ -27,7 +27,7 @@ namespace Satrabel.OpenApp.Languages
             _languageManager = languageManager;
             
         }
-        public override async Task<LanguageDto> Create(LanguageDto input)
+        public override async Task<LanguageDto> CreateAsync(LanguageDto input)
         {
             CheckCreatePermission();
             var language = ObjectMapper.Map<ApplicationLanguage>(input);
@@ -39,7 +39,7 @@ namespace Satrabel.OpenApp.Languages
             }
             return MapToEntityDto(language);
         }
-        public override async Task<LanguageDto> Update(LanguageDto input)
+        public override async Task<LanguageDto> UpdateAsync(LanguageDto input)
         {
             CheckUpdatePermission();
             var language = MapToEntity(input);
@@ -49,10 +49,10 @@ namespace Satrabel.OpenApp.Languages
             {
                 await _languageManager.SetDefaultLanguageAsync(AbpSession.TenantId, input.Name);
             }
-            return await Get(input);
+            return await GetAsync(input);
         }
 
-        public override async Task Delete(EntityDto<int> input)
+        public override async Task DeleteAsync(EntityDto<int> input)
         {
             var language = (await _languageManager.GetLanguagesAsync(AbpSession.TenantId)).FirstOrDefault(l => l.Id == input.Id);
             if (language == null)
@@ -71,13 +71,13 @@ namespace Satrabel.OpenApp.Languages
             await _languageManager.RemoveAsync(AbpSession.TenantId, language.Name);
         }
 
-        public override async Task<LanguageDto> Get(EntityDto<int> input)
+        public override async Task<LanguageDto> GetAsync(EntityDto<int> input)
         {
             _defaultLanguage = await _languageManager.GetDefaultLanguageOrNullAsync(AbpSession.TenantId);
-            return await base.Get(input);
+            return await base.GetAsync(input);
         }
 
-        public override async Task<PagedResultDto<LanguageDto>> GetAll(PagedResultRequestDto input)
+        public override async Task<PagedResultDto<LanguageDto>> GetAllAsync(PagedResultRequestDto input)
         {
             _defaultLanguage = await _languageManager.GetDefaultLanguageOrNullAsync(AbpSession.TenantId);
             var lst = await _languageManager.GetLanguagesAsync(AbpSession.TenantId);

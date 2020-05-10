@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Navigation;
+using Abp.Authorization;
 using Abp.Localization;
 using Satrabel.OpenApp.Authorization;
 
@@ -23,7 +24,7 @@ namespace Satrabel.OpenApp.Web.Startup
                             L("Tenants"),
                             url: "/Crud#/OpenApp/tenant",
                             icon: "layers",
-                            requiredPermissionName: PermissionNames.Pages_Tenants
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Tenants)
                         )
                     )
                     .AddItem(
@@ -32,7 +33,7 @@ namespace Satrabel.OpenApp.Web.Startup
                             L("Users"),
                             url: "/Crud#/OpenApp/user",
                             icon: "people",
-                            requiredPermissionName: PermissionNames.Pages_Users
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Users)
                         )
                     )
                     .AddItem(
@@ -41,7 +42,7 @@ namespace Satrabel.OpenApp.Web.Startup
                             L("Roles"),
                             url: "/Crud#/OpenApp/role",
                             icon: "shield",
-                            requiredPermissionName: PermissionNames.Pages_Roles
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Roles)
                         )
                     )
                     .AddItem(
@@ -50,7 +51,7 @@ namespace Satrabel.OpenApp.Web.Startup
                             L("Languages"),
                             url: "/Crud#/OpenApp/language",
                             icon: "globe",
-                            requiredPermissionName: PermissionNames.Pages_Languages
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Languages)
                         )
                     )
                     .AddItem(
@@ -59,7 +60,7 @@ namespace Satrabel.OpenApp.Web.Startup
                             L("Localizations"),
                             url: "/Localization#/",
                             icon: "grid",
-                            requiredPermissionName: PermissionNames.Pages_Localizations
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Localizations)
                         )
                     )
                 );

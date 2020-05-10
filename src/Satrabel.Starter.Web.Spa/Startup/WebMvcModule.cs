@@ -94,7 +94,8 @@ namespace Satrabel.Starter.Web.Startup
             Configuration.Modules.AbpAutoMapper().Configurators.Add(cfg =>
             {
                 //Scan the assembly for classes which inherit from AutoMapper.Profile
-                cfg.AddProfiles(thisAssembly);
+                //cfg.AddProfiles(thisAssembly);
+                cfg.AddMaps(thisAssembly);
             });
         }
         public override void PostInitialize()

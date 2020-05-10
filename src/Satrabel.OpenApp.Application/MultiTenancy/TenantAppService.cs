@@ -51,7 +51,7 @@ namespace Satrabel.OpenApp.MultiTenancy
             _settingDefinitionManager = settingDefinitionManager;
         }
 
-        public override async Task<TenantDto> Create(CreateTenantDto input)
+        public override async Task<TenantDto> CreateAsync(CreateTenantDto input)
         {
             CheckCreatePermission();
 
@@ -165,7 +165,7 @@ namespace Satrabel.OpenApp.MultiTenancy
             }
         }
 
-        public override async Task Delete(EntityDto<int> input)
+        public override async Task DeleteAsync(EntityDto<int> input)
         {
             CheckDeletePermission();
 
