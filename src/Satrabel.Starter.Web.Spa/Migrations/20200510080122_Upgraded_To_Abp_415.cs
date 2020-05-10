@@ -2,7 +2,7 @@
 
 namespace Satrabel.OpenApp.Migrations
 {
-    public partial class Upgraded_To_Abp_v570 : Migration
+    public partial class Upgraded_To_Abp_v415 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
