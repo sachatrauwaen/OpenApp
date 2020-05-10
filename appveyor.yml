@@ -53,7 +53,9 @@ for:
   branches:
     only:
       - develop
-      - /abp-update-.*/
+      - /abp-update-v.*/
+      - /abp-netcore2.2-v.*/
+      - /abp-netcore3.1-v.*/
       - /beta-.*/
 
   build:      
