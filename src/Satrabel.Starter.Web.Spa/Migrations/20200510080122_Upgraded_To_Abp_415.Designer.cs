@@ -10,8 +10,8 @@ using Satrabel.Starter.EntityFramework;
 namespace Satrabel.OpenApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200510080122_Upgraded_To_Abp_v570")]
-    partial class Upgraded_To_Abp_v570
+    [Migration("20200510080122_Upgraded_To_Abp_v415")]
+    partial class Upgraded_To_Abp_v415
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
