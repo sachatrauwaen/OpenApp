@@ -9,6 +9,7 @@ namespace Satrabel.Starter.Web.Authorization
         {
             context.CreatePermission(PermissionNames.Pages_Home, L("Home"));
             context.CreatePermission(PermissionNames.Pages_About, L("About"));
+            context.CreatePermission(PermissionNames.Pages_Admin, L("Admin"));
         }
 
         private static ILocalizableString L(string name)
