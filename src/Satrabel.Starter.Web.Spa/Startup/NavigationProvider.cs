@@ -1,7 +1,10 @@
-﻿using Abp.Application.Navigation;
+﻿using System;
+using Abp.Application.Navigation;
 using Abp.Authorization;
 using Abp.Localization;
+using Microsoft.AspNetCore.Hosting;
 using Satrabel.OpenApp;
+using Satrabel.OpenApp.Configuration;
 using Satrabel.Starter.Web.Authorization;
 
 namespace Satrabel.Starter.Web.Startup
@@ -11,6 +14,13 @@ namespace Satrabel.Starter.Web.Startup
     /// </summary>
     public class NavigationProvider : Abp.Application.Navigation.NavigationProvider
     {
+        private bool _hangfireEnabled;
+
+        public NavigationProvider(IConfiguration configuration)
+        {
+            Boolean.TryParse(configuration["Hangfire:IsEnabled"] ?? "", out _hangfireEnabled);
+        }
+
         public override void SetNavigation(INavigationProviderContext context)
         {
             context.Manager.MainMenu
@@ -50,17 +60,20 @@ namespace Satrabel.Starter.Web.Startup
                     )
                 );
 
-            var adminMenu = context.Manager.MainMenu.GetItemByName("Admin");
-            adminMenu
-                .AddItem(
-                    new MenuItemDefinition(
-                        PageNames.Admin,
-                        L("BackgroundJobs"),
-                        url: "/backgroundjobs",
-                        icon: "question",
-                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Admin)
-                    )
-                );
+            if (_hangfireEnabled)
+            {
+                var adminMenu = context.Manager.MainMenu.GetItemByName("Admin");
+                adminMenu
+                    .AddItem(
+                        new MenuItemDefinition(
+                            PageNames.Admin,
+                            L("BackgroundJobs"),
+                            url: "/backgroundjobs",
+                            icon: "question",
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Admin)
+                        )
+                    );
+            }
 
             context.Manager.MainMenu.Items.MoveMenuItemToBottom("Admin");
 
