@@ -22,8 +22,8 @@ namespace Satrabel.Starter.Web.Startup
                         icon: "home",
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
                     )
-                 )
-                 .AddItem(
+                )
+                .AddItem(
                     new MenuItemDefinition(
                         PageNames.Home,
                         L("Demos"),
@@ -32,21 +32,33 @@ namespace Satrabel.Starter.Web.Startup
                     )
                     .AddItem(
                         new MenuItemDefinition(
-                            PageNames.Home,
-                            L("ClientApp"),
-                            url: "/App/Demo1",
-                            icon: "question",
-                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
+                                PageNames.Home,
+                                L("ClientApp"),
+                                url: "/App/Demo1",
+                                icon: "question",
+                                permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
+                            )
                         )
-                    )
-                    .AddItem(
-                        new MenuItemDefinition(
+                        .AddItem(
+                            new MenuItemDefinition(
                             PageNames.Home,
                             L("About"),
                             url: "/About",
                             icon: "question",
                             permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_About)
                         )
+                    )
+                );
+
+            var adminMenu = context.Manager.MainMenu.GetItemByName("Admin");
+            adminMenu
+                .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.Admin,
+                        L("BackgroundJobs"),
+                        url: "/backgroundjobs",
+                        icon: "question",
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Admin)
                     )
                 );
 

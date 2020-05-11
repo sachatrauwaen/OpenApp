@@ -66,7 +66,7 @@ namespace Satrabel.Starter.Web.Startup
                 //Example Configuration
                 app.UseHangfireServer(new BackgroundJobServerOptions { WorkerCount = 5 });
 
-                app.UseHangfireDashboard("/hangfire", new DashboardOptions
+                app.UseHangfireDashboard("/backgroundjobs", new DashboardOptions
                 {
                     DashboardTitle = $"OpenApp Background jobs",
                     Authorization = new[] { new OpenAppHangfireAuthorizationFilter(PermissionNames.Pages_Admin) }
