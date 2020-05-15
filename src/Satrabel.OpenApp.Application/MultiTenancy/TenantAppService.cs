@@ -21,7 +21,7 @@ using Abp.Configuration;
 namespace Satrabel.OpenApp.MultiTenancy
 {
     [AbpAuthorize(PermissionNames.Pages_Tenants)]
-    public class TenantAppService : AsyncCrudAppService<Tenant, TenantDto, int, PagedResultRequestDto, CreateTenantDto, TenantDto>, ITenantAppService
+    public class TenantAppService : AsyncCrudAppService<Tenant, TenantDto, int, TenantFilterDto, CreateTenantDto, TenantDto>, ITenantAppService
     {
         private readonly TenantManager _tenantManager;
         private readonly EditionManager _editionManager;
@@ -178,6 +178,14 @@ namespace Satrabel.OpenApp.MultiTenancy
             identityResult.CheckErrors(LocalizationManager);
         }
 
-
+        protected override IQueryable<Tenant> CreateFilteredQuery(TenantFilterDto input)
+        {
+            var users = Repository.GetAll();
+            if (!string.IsNullOrEmpty(input.Name))
+            {
+                users = users.Where(u => u.Name.StartsWith(input.Name));
+            }
+            return users;
+        }
     }
 }
