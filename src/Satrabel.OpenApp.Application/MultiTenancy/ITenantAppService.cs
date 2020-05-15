@@ -4,7 +4,7 @@ using Satrabel.OpenApp.MultiTenancy.Dto;
 
 namespace Satrabel.OpenApp.MultiTenancy
 {
-    public interface ITenantAppService : IAsyncCrudAppService<TenantDto, int, PagedResultRequestDto, CreateTenantDto, TenantDto>
+    public interface ITenantAppService : IAsyncCrudAppService<TenantDto, int, TenantFilterDto, CreateTenantDto, TenantDto>
     {
     }
 }
