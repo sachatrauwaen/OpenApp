@@ -1,6 +1,7 @@
-﻿using Abp.Application.Navigation;
+﻿using System;
+using Abp.Application.Navigation;
 using Abp.Localization;
-using Satrabel.OpenApp;
+using Microsoft.Extensions.Configuration;
 using Satrabel.Starter.Web.Authorization;
 
 namespace Satrabel.Starter.Web.Startup
@@ -10,6 +11,13 @@ namespace Satrabel.Starter.Web.Startup
     /// </summary>
     public class NavigationProvider : Abp.Application.Navigation.NavigationProvider
     {
+        private readonly bool _hangfireEnabled;
+
+        public NavigationProvider(IConfiguration configuration)
+        {
+            bool.TryParse(configuration["Hangfire:IsEnabled"] ?? "", out _hangfireEnabled);
+        }
+
         public override void SetNavigation(INavigationProviderContext context)
         {
             context.Manager.MainMenu
