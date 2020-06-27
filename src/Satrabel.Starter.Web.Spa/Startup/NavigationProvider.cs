@@ -2,9 +2,7 @@
 using Abp.Application.Navigation;
 using Abp.Authorization;
 using Abp.Localization;
-using Microsoft.AspNetCore.Hosting;
-using Satrabel.OpenApp;
-using Satrabel.OpenApp.Configuration;
+using Microsoft.Extensions.Configuration;
 using Satrabel.Starter.Web.Authorization;
 
 namespace Satrabel.Starter.Web.Startup
@@ -14,7 +12,7 @@ namespace Satrabel.Starter.Web.Startup
     /// </summary>
     public class NavigationProvider : Abp.Application.Navigation.NavigationProvider
     {
-        private bool _hangfireEnabled;
+        private readonly bool _hangfireEnabled;
 
         public NavigationProvider(IConfiguration configuration)
         {
