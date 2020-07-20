@@ -18,7 +18,7 @@
         return this;
     }
 
-    private getCookie(name) {
+    private getCookie(name): string | null {
         if (!document.cookie) return null;
 
         const cookiesWithName = document.cookie.split(';')
