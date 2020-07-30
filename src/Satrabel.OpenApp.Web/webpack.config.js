@@ -1,7 +1,7 @@
 /// <binding />
 const path = require("path");
 const webpack = require("webpack");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 const bundleOutputDir = "./Views/dist";
 
 
@@ -9,6 +9,8 @@ module.exports = (env) => {
     const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production");
     const isDevBuild = !isProdBuild;
     const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+    const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+    const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
     // https://webpack.js.org/api/logging/
     //const logging = require('webpack/lib/logging/runtime');
@@ -33,7 +35,7 @@ module.exports = (env) => {
                     options: {
                         appendTsSuffixTo: [/\.vue$/]
                     }
-                },               
+                },
                 {
                     test: /\.vue$/,
                     include: /ClientApp/,
@@ -58,7 +60,9 @@ module.exports = (env) => {
                 //{ test: /\.ts$/, include: /ClientApp/, use: 'awesome-typescript-loader?silent=true' },    
                 {
                     test: /\.css$/,
-                    use: isDevBuild ? ["style-loader", "css-loader"] : ExtractTextPlugin.extract({ use: "css-loader?minimize" })
+                    use: isDevBuild
+                        ? ["style-loader", "css-loader"]
+                        : [MiniCssExtractPlugin.loader,  "css-loader?minimize"]
                 },
                 { test: /\.(png|jpg|jpeg|gif|svg|ttf|eot|woff|woff2|gif)$/, use: "url-loader?limit=25000" }
             ]
@@ -69,7 +73,7 @@ module.exports = (env) => {
             publicPath: "dist/"
         },
         plugins: [
-            //new CheckerPlugin(),
+            new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: JSON.stringify(isDevBuild ? "development" : "production")
@@ -89,8 +93,7 @@ module.exports = (env) => {
             ]
             : [
                 // Plugins that apply in production builds only
-                //new ExtractTextPlugin('site.css')
-                new ExtractTextPlugin({
+                new MiniCssExtractPlugin({
                     filename: "[name].css"
                 })
             ]),

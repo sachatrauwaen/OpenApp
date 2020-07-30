@@ -1,12 +1,14 @@
 const path = require("path");
 const webpack = require("webpack");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = (env) => {
-    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() ==="production");
+    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production");
     const isDevBuild = !isProdBuild;
-    const extractCSS = new ExtractTextPlugin("vendor.css");
     const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+    const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+    //const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
+    const extractCSS = new MiniCssExtractPlugin("vendor.css");
 
     return [{
         stats: { modules: false },
@@ -22,11 +24,14 @@ module.exports = (env) => {
         },
         module: {
             rules: [
-                { test: /\.css(\?|$)/, use: extractCSS.extract({ use: isDevBuild ? "css-loader" : "css-loader?minimize" }) },
+                {
+                    test: /\.css(\?|$)/,
+                    use: [MiniCssExtractPlugin.loader, isDevBuild ? "css-loader" : "css-loader?minimize"]
+                },
                 { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: "url-loader?limit=100000" }
             ]
         },
-        output: { 
+        output: {
             path: path.join(__dirname, "Views", "dist"),
             publicPath: "dist/",
             filename: "[name].js",
@@ -34,7 +39,7 @@ module.exports = (env) => {
         },
         plugins: [
             extractCSS,
-            //new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery' }), // Maps these identifiers to the jQuery package (because Bootstrap expects it to be a global variable)
+            //new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': isDevBuild ? '"development"' : '"production"'
             }),

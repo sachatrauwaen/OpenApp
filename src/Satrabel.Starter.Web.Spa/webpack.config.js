@@ -1,7 +1,7 @@
 /// <binding />
 const path = require("path");
 const webpack = require("webpack");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 const bundleOutputDir = "./wwwroot/dist";
 
 
@@ -9,11 +9,13 @@ module.exports = (env) => {
     const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production");
     const isDevBuild = !isProdBuild;
     const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+    const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+    const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
     // https://webpack.js.org/api/logging/
     //const logging = require('webpack/lib/logging/runtime');
     //const logger = logging.getLogger();
-    //logger.warn('isDevBuild', isDevBuild);
+    //logger.warn('isDevBuild:', isDevBuild);
 
     return [{
         stats: { modules: false },
@@ -55,7 +57,7 @@ module.exports = (env) => {
                     test: /\.css$/,
                     use: isDevBuild
                         ? ["style-loader", "css-loader"]
-                        : ExtractTextPlugin.extract({ use: "css-loader?minimize" })
+                        : [MiniCssExtractPlugin.loader,  "css-loader?minimize"]
                 },
                 { test: /\.(png|jpg|jpeg|gif|svg|ttf|eot|woff|woff2|gif)$/, use: "url-loader?limit=25000" }
             ]
@@ -69,6 +71,7 @@ module.exports = (env) => {
             new webpack.WatchIgnorePlugin([
                 /css\.d\.ts$/
             ]),
+            new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: JSON.stringify(isDevBuild ? "development" : "production")
@@ -88,7 +91,7 @@ module.exports = (env) => {
             ]
             : [
                 // Plugins that apply in production builds only
-                new ExtractTextPlugin({
+                new MiniCssExtractPlugin({
                     filename: "[name].css"
                 })
             ]),
@@ -100,10 +103,7 @@ module.exports = (env) => {
                     new UglifyJsPlugin({
                         cache: true,
                         parallel: true,
-                        uglifyOptions: {
-                            compress: false,
-                            mangle: true
-                        },
+                        uglifyOptions: { compress: false, mangle: true },
                         sourceMap: true
                     })
                 ]
