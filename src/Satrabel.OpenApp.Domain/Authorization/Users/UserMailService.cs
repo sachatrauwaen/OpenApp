@@ -52,7 +52,7 @@ namespace Satrabel.OpenApp.Authorization.Users
             ViewRenderService = NullViewRenderService.Instance;
         }
 
-        public Task SendRegistrationMail(User user)
+        public Task SendConfirmationMail(User user)
         {
             if (user.IsEmailConfirmed)
                 throw new ApplicationException("User email is already confirmed.");
@@ -60,7 +60,7 @@ namespace Satrabel.OpenApp.Authorization.Users
             if (string.IsNullOrEmpty(user.EmailConfirmationCode))
                 throw new ApplicationException("User has no email confirmation code.");
 
-            var baseUrl = _settingDefinitionManager.GetSettingDefinition("ClientRootAddress");
+            var baseUrl = SettingManager.GetSettingValue(AppSettingNames.ClientRootAddress);
             var confirmationLink = $"{baseUrl}/Account/Confirm?userId={user.Id}&tenantId={user.TenantId}&code={user.EmailConfirmationCode}";
 
             // TODO Translate title
@@ -73,6 +73,7 @@ namespace Satrabel.OpenApp.Authorization.Users
                 isBodyHtml: true
             );
         }
+
         public async Task SendRegistrationMailAsync(User user, string password)
         {
             if (user.TenantId.HasValue)

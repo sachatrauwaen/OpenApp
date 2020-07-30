@@ -235,7 +235,7 @@ namespace Satrabel.OpenApp.Startup
             app.UseRouting();
             app.UseAuthentication();
 
-            app.UseAuthorization(); // ???
+            app.UseAuthorization(); // ??? is this necessary? yes, without it, the site just doesn't work
 
             app.UseJwtTokenMiddleware();
             app.UseAbpRequestLocalization();

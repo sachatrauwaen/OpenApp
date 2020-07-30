@@ -8,7 +8,6 @@ namespace Satrabel.OpenApp.Authorization.Roles
         public static void Configure(IRoleManagementConfig roleManagementConfig)
         {
             // Static host roles
-
             roleManagementConfig.StaticRoles.Add(
                 new StaticRoleDefinition(
                     StaticRoleNames.Host.Admin,
@@ -17,11 +16,11 @@ namespace Satrabel.OpenApp.Authorization.Roles
             );
 
             // Static tenant roles
-
             roleManagementConfig.StaticRoles.Add(
                 new StaticRoleDefinition(
                     StaticRoleNames.Tenants.Admin,
-                    MultiTenancySides.Tenant
+                    MultiTenancySides.Tenant,
+                    true
                 )
             );
         }
