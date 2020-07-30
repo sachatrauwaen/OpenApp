@@ -22,6 +22,7 @@
         "style-loader": "0.23.1",
         "ts-loader": "8.0.0",
         "typescript": "3.9.7",
+        "uglifyjs-webpack-plugin": "2.2.0",
         "url-loader": "0.6.2",
         "vue": "2.6.11",
         "vue-class-component": "7.1.0",
@@ -30,7 +31,8 @@
         "vue-router": "3.3.4",
         "vue-template-compiler": "2.6.11",
         "webpack": "4.44.0",
-        "webpack-dev-middleware": "^3.0.0",
+        "webpack-cli": "3.3.12",
+        "webpack-dev-middleware": "3.0.0",
         "webpack-hot-middleware": "2.25.0"
     },
     "dependencies": {

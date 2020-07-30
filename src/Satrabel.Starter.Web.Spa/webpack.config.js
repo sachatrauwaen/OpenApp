@@ -10,6 +10,11 @@ module.exports = (env) => {
     const isDevBuild = !isProdBuild;
     const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
+    // https://webpack.js.org/api/logging/
+    //const logging = require('webpack/lib/logging/runtime');
+    //const logger = logging.getLogger();
+    //logger.warn('isDevBuild', isDevBuild);
+
     return [{
         stats: { modules: false },
         context: __dirname,
@@ -73,18 +78,35 @@ module.exports = (env) => {
                 context: __dirname,
                 manifest: require("./wwwroot/dist/vendor-manifest.json")
             })
-        ].concat(isDevBuild ? [
-            // Plugins that apply in development builds only
-            new webpack.SourceMapDevToolPlugin({
-                filename: "[file].map", // Remove this line if you prefer inline source maps
-                moduleFilenameTemplate: path.relative(bundleOutputDir, "[resourcePath]") // Point sourcemap entries to the original file locations on disk
-            })
-        ] : [
+        ].concat(isDevBuild
+            ? [
+                // Plugins that apply in development builds only
+                new webpack.SourceMapDevToolPlugin({
+                    filename: "[file].map", // Remove this line if you prefer inline source maps
+                    moduleFilenameTemplate: path.relative(bundleOutputDir, "[resourcePath]") // Point sourcemap entries to the original file locations on disk
+                })
+            ]
+            : [
                 // Plugins that apply in production builds only
-                new UglifyJsPlugin(),
                 new ExtractTextPlugin({
                     filename: "[name].css"
                 })
-            ])
+            ]),
+        optimization: {
+            minimizer: isDevBuild
+                ? []
+                : [
+                    // we specify a custom UglifyJsPlugin here to get source maps in production
+                    new UglifyJsPlugin({
+                        cache: true,
+                        parallel: true,
+                        uglifyOptions: {
+                            compress: false,
+                            mangle: true
+                        },
+                        sourceMap: true
+                    })
+                ]
+        }
     }];
 };

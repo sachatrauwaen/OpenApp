@@ -6,7 +6,7 @@ module.exports = (env) => {
     const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() ==='production');
     const isDevBuild = !isProdBuild;
     const extractCSS = new ExtractTextPlugin('vendor.css');
-    const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+    const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
     return [{
         stats: { modules: false },
@@ -46,8 +46,22 @@ module.exports = (env) => {
                 path: path.join(__dirname, 'wwwroot', 'dist', '[name]-manifest.json'),
                 name: '[name]_[hash]'
             })
-        ].concat(isDevBuild ? [] : [
-            new UglifyJSPlugin()
-        ])
+        ],
+        optimization: {
+            minimizer: isDevBuild
+                ? []
+                : [
+                    // we specify a custom UglifyJsPlugin here to get source maps in production
+                    new UglifyJsPlugin({
+                        cache: true,
+                        parallel: true,
+                        uglifyOptions: {
+                            compress: false,
+                            mangle: true
+                        },
+                        sourceMap: true
+                    })
+                ]
+        }
     }];
 };
