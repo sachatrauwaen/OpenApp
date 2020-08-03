@@ -2,9 +2,11 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
 namespace Satrabel.OpenApp.Startup.Swashbuckle
@@ -22,8 +24,8 @@ namespace Satrabel.OpenApp.Startup.Swashbuckle
             if (model.Properties == null)
                 return;
 
-            var enumProperties = model.Properties.Where(p => p.Value.Enum != null)
-                .Union(model.Properties.Where(p => p.Value.Items?.Enum != null)).ToList();
+            var enumProperties = model.Properties.Where(p => p.Value.Enum != null && p.Value.Enum.Any())
+                .Union(model.Properties.Where(p => p.Value.Items?.Enum != null && p.Value.Enum.Any())).ToList();
             var enums = context.Type.GetProperties()
                 .Select(p => Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType.GetElementType() ??
                                 p.PropertyType.GetGenericArguments().FirstOrDefault() ?? p.PropertyType)
@@ -45,14 +47,24 @@ namespace Satrabel.OpenApp.Startup.Swashbuckle
                     return true;
                 });
 
+                OpenApiSchema schema;
                 if (enumType == null)
-                    throw new Exception($"Property {enumProperty} not found in {context.Type.Name} Type.");
+                {
+                    if (Debugger.IsAttached) Debugger.Break();
+                    schema = new OpenApiSchema
+                    {
+                        Type = "String",
+                        Reference = new OpenApiReference { ExternalResource = $"#/definitions/an-error-occured-at-generation-time-please-debug-NoDuplicatedEnumsOperationFilter" }
+                    };
+                    //throw new Exception($"Property {enumProperty} not found in {context.Type.Name} Type.");
+                    return;
+                }
 
                 if (context.SchemaRepository.Schemas.ContainsKey(enumType.Name) == false)
                     context.SchemaRepository.Schemas.Add(enumType.Name, enumPropertyValue);
 
                 // var schema = new OpenApiSchema { Ref = $"#/definitions/{enumType.Name}" };
-                var schema = new OpenApiSchema
+                schema = new OpenApiSchema
                 {
                     Type = "String",
                     Reference = new OpenApiReference { ExternalResource = $"#/definitions/{enumType.Name}" }
@@ -68,61 +80,61 @@ namespace Satrabel.OpenApp.Startup.Swashbuckle
             }
         }
 
-        private void CheckType(OpenApiResponse response, ISchemaRegistry schemaRegistry, Type enumType)
-        {
-            // Recurse
-            enumType
-                .GenericTypeArguments
-                .ToList()
-                .ForEach(type => CheckType(response, schemaRegistry, type));
+        //private void CheckType(OpenApiResponse response, ISchemaRegistry schemaRegistry, Type enumType)
+        //{
+        //    // Recurse
+        //    enumType
+        //        .GenericTypeArguments
+        //        .ToList()
+        //        .ForEach(type => CheckType(response, schemaRegistry, type));
 
-            enumType
-                .GetProperties()
-                .ToList()
-                .ForEach(prop => CheckType(response, schemaRegistry, prop.PropertyType));
+        //    enumType
+        //        .GetProperties()
+        //        .ToList()
+        //        .ForEach(prop => CheckType(response, schemaRegistry, prop.PropertyType));
 
-            if (enumType.IsEnum == false)
-                return;
+        //    if (enumType.IsEnum == false)
+        //        return;
 
-            if (schemaRegistry.Definitions.ContainsKey(enumType.Name) == false)
-                schemaRegistry.Definitions.Add(enumType.Name, schemaRegistry.GetOrRegister(enumType));
+        //    if (schemaRegistry.Definitions.ContainsKey(enumType.Name) == false)
+        //        schemaRegistry.Definitions.Add(enumType.Name, schemaRegistry.GetOrRegister(enumType));
 
-            // var schema = new OpenApiSchema { Ref = $"#/definitions/{enumType.Name}" };
-            var schema = new OpenApiSchema
-            {
-                Type = "String",
-                Reference = new OpenApiReference { ExternalResource = $"#/definitions/{enumType.Name}" }
-            };
-            response.Extensions.Add("x-schema", schema);
-        }
+        //    // var schema = new OpenApiSchema { Ref = $"#/definitions/{enumType.Name}" };
+        //    var schema = new OpenApiSchema
+        //    {
+        //        Type = "String",
+        //        Reference = new OpenApiReference { ExternalResource = $"#/definitions/{enumType.Name}" }
+        //    };
+        //    response.Extensions.Add("x-schema", schema);
+        //}
 
-        private void CheckType(IParameter parameter, ISchemaRegistry schemaRegistry, Type enumType)
-        {
-            // Recurse
-            enumType
-                .GenericTypeArguments
-                .ToList()
-                .ForEach(type => CheckType(parameter, schemaRegistry, type));
+        //private void CheckType(IParameter parameter, ISchemaRegistry schemaRegistry, Type enumType)
+        //{
+        //    // Recurse
+        //    enumType
+        //        .GenericTypeArguments
+        //        .ToList()
+        //        .ForEach(type => CheckType(parameter, schemaRegistry, type));
 
-            enumType
-                .GetProperties()
-                .ToList()
-                .ForEach(prop => CheckType(parameter, schemaRegistry, prop.PropertyType));
+        //    enumType
+        //        .GetProperties()
+        //        .ToList()
+        //        .ForEach(prop => CheckType(parameter, schemaRegistry, prop.PropertyType));
 
-            if (enumType.IsEnum == false)
-                return;
+        //    if (enumType.IsEnum == false)
+        //        return;
 
-            if (schemaRegistry.Definitions.ContainsKey(enumType.Name) == false)
-                schemaRegistry.Definitions.Add(enumType.Name, schemaRegistry.GetOrRegister(enumType));
+        //    if (schemaRegistry.Definitions.ContainsKey(enumType.Name) == false)
+        //        schemaRegistry.Definitions.Add(enumType.Name, schemaRegistry.GetOrRegister(enumType));
 
-            // var schema = new OpenApiSchema { Ref = $"#/definitions/{enumType.Name}" };
-            var schema = new OpenApiSchema
-            {
-                Type = "String",
-                Reference = new OpenApiReference { ExternalResource = $"#/definitions/{enumType.Name}" }
-            };
-            parameter.Extensions.Add("x-schema", schema);
-        }
+        //    // var schema = new OpenApiSchema { Ref = $"#/definitions/{enumType.Name}" };
+        //    var schema = new OpenApiSchema
+        //    {
+        //        Type = "String",
+        //        Reference = new OpenApiReference { ExternalResource = $"#/definitions/{enumType.Name}" }
+        //    };
+        //    parameter.Extensions.Add("x-schema", schema);
+        //}
 
 
     }

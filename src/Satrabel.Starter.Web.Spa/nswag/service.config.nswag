@@ -2,7 +2,7 @@
   "runtime": "Default",
   "swaggerGenerator": {
     "fromSwagger": {
-      "url": "http://localhost:55110/swagger/v1/swagger.json",
+      "url": "http://localhost:62114/swagger/v1/swagger.json",
       "output": null
     }
   },
@@ -13,6 +13,7 @@
       "moduleName": "",
       "namespace": "",
       "typeScriptVersion": 2.9,
+      "output": "../ClientApp/Api/service-proxies.ts",
       "template": "Fetch",
       "promiseType": "Promise",
       "injectionTokenType": "InjectionToken",
@@ -41,7 +42,6 @@
       "importRequiredTypes": true,
       "useGetBaseUrlMethod": false,
       "queryNullValue": "",
-      "output": "../ClientApps/Api/service-proxies.ts",
       "supportStrictNullChecks": false
     },
     "swaggerToCSharpClient": {

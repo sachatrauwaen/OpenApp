@@ -1,14 +1,14 @@
-﻿using Abp.Authorization;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using Abp.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Satrabel.OpenApp.Web.Startup
+namespace Satrabel.OpenApp.Startup.Swashbuckle
 {
     public class SecurityRequirementsOperationFilter : IOperationFilter
     {
@@ -21,27 +21,41 @@ namespace Satrabel.OpenApp.Web.Startup
 
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            var controllerPermissions = context.ApiDescription.ControllerAttributes()
+            //var controllerPermissions = context.ApiDescription.ControllerAttributes() //https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/826#issuecomment-416014018
+            var controllerPermissions = context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes(true)
                 .OfType<AbpAuthorizeAttribute>()
                 .Select(attr => attr.Permissions);
 
-            var actionPermissions = context.ApiDescription.ActionAttributes()
-                .OfType<AbpAuthorizeAttribute>()
-                .Select(attr => attr.Permissions);
+            //var actionPermissions = context.ApiDescription.ActionAttributes() //https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/759#issuecomment-396739121
+            //var actionPermissions = context.ApiDescription.ActionAttributes()
+            //    .OfType<AbpAuthorizeAttribute>()
+            //    .Select(attr => attr.Permissions);
 
-            var permissions = controllerPermissions.Union(actionPermissions).Distinct()
-                .SelectMany(p => p);
+            //Debugger.Break(); // try to figure out what we need here?! //https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/759#issuecomment-396739121
+            //var actionPermissions = context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes(true)
+            //    .OfType<AbpAuthorizeAttribute>()
+            //    .Select(attr => attr.Permissions);
+
+            //var permissions = controllerPermissions.Union(actionPermissions).Distinct().SelectMany(p => p);
+            var permissions = controllerPermissions.Distinct().SelectMany(p => p);
 
             if (permissions.Any())
             {
                 operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
                 operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
 
-                operation.Security = new List<IDictionary<string, IEnumerable<string>>>
+                //upgrade inspired by see https://github.com/domaindrivendev/Swashbuckle.AspNetCore/blob/master/test/WebSites/OAuth2Integration/ResourceServer/Swagger/SecurityRequirementsOperationFilter.cs
+                var oAuthScheme = new OpenApiSecurityScheme
                 {
-                    new Dictionary<string, IEnumerable<string>>
+                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "bearerAuth" }
+                };
+
+                operation.Security = new List<OpenApiSecurityRequirement>
+                {
+                    new OpenApiSecurityRequirement
                     {
-                        { "bearerAuth", permissions }
+                        [ oAuthScheme ] = permissions.ToList()
+                        
                     }
                 };
             }

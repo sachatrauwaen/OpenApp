@@ -1,15 +1,10 @@
-﻿using Abp.Authorization;
-using Abp.Web.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Collections.Generic;
+﻿using System.Diagnostics;
 using System.Linq;
-using Microsoft.AspNetCore.JsonPatch.Operations;
+using Abp.Web.Models;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Satrabel.OpenApp.Web.Startup
+namespace Satrabel.OpenApp.Startup.Swashbuckle
 {
     public class WrapAjaxResponseOperationFilter : IOperationFilter
     {
@@ -27,15 +22,14 @@ namespace Satrabel.OpenApp.Web.Startup
              */
 
             // TODO
-                // 1. check that AjaxResponse wrapping is not disabled application-wide
-                // 2. Check that the DontWrap attribute is not on this method/class
+            // 1. check that AjaxResponse wrapping is not disabled application-wide
+            // 2. Check that the DontWrap attribute is not on this method/class
 
             context.ApiDescription.SupportedResponseTypes
                 .Where(x => x.StatusCode == 200 || x.StatusCode == 500)
-                .Where(x => x != null)
-                //.Where(x => x.Type.Equals(typeof(void)) == false)
                 .ToList()
-                .ForEach(response => {
+                .ForEach(response =>
+                {
                     // Wrap the type with AjaxResponse<GenericType> so we get AjaxResponse<SpecificType>
                     var wrappedType = response.Type.Equals(typeof(void)) ? typeof(AjaxResponse) : typeof(AjaxResponse<>).MakeGenericType(response.Type);
                     var wrappedTypeFriendlyId = wrappedType.FriendlyId();
@@ -43,7 +37,7 @@ namespace Satrabel.OpenApp.Web.Startup
                     // Add AjaxResponse<SpecificType> schema manually (since it will not be picked up by ApiDefinition/Swashbuckle)
                     if (!context.SchemaRepository.Schemas.TryGetValue(wrappedTypeFriendlyId, out OpenApiSchema schema))
                     {
-                        schema = context.SchemaRepository.GetOrAdd(wrappedType);
+                        schema = context.SchemaGenerator.GenerateSchema(wrappedType, context.SchemaRepository);
                     }
 
                     // Replace the schema of the original response with the created schema of the wrapped response
@@ -51,7 +45,14 @@ namespace Satrabel.OpenApp.Web.Startup
                         .Where(x => x.Key == "200" || x.Key == "500")
                         .Select(x => x.Value)
                         .ToList()
-                        .ForEach(x => x.Schema = schema);
+                        .ForEach(x =>
+                        {
+                            foreach (var apiMediaType in x.Content)
+                            {
+                                apiMediaType.Value.Schema = schema;
+                            }
+                        });
+                        //.ForEach(x => x.Schema = schema);
                 });
         }
     }

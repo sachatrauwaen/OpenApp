@@ -184,7 +184,6 @@ namespace Satrabel.OpenApp.Startup
 
                     //options.CustomSchemaIds(x => x.FullName); /* Using FullName */
                     //options.CustomSchemaIds(t => t.FullName.Replace("`1", "")); /* Using FullName with fix for Generics (only 1) */
-
                     options.CustomSchemaIds(type => CreateTypeNameWithNameSpace(type)); /* Custom naming implementation to support generics and multiple DTO's with the same name in different namespaces */
 
                     // Define the BearerAuth scheme that's in use
@@ -196,6 +195,9 @@ namespace Satrabel.OpenApp.Startup
                         Type = SecuritySchemeType.ApiKey
                     });
 
+                    // Make sure enums don't get inlined in the generated swagger definition, but are separately referenced (thus no duplicates)
+                    options.SchemaFilter<NoDuplicatedEnumsOperationFilter>();
+
                     // Assign scope requirements to operations based on AuthorizeAttribute
                     options.OperationFilter<SecurityRequirementsOperationFilter>();
 
@@ -203,8 +205,6 @@ namespace Satrabel.OpenApp.Startup
                     // IMPORTANT: Should run after SecurityRequirementsOperationFilter. Otherwise the response type for alternative error codes will be incorrect.
                     options.OperationFilter<WrapAjaxResponseOperationFilter>();
 
-                    // Make sure enums don't get inlined in the generated swagger definition, but are separately referenced (thus no duplicates)
-                    options.SchemaFilter<NoDuplicatedEnumsOperationFilter>();
                 });
             }
 
