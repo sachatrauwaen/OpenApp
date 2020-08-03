@@ -21,11 +21,13 @@ namespace Satrabel.OpenApp.MultiTenancy.Dto
         [StringLength(AbpTenantBase.MaxTenancyNameLength)]
         [RegularExpression(AbpTenantBase.TenancyNameRegex)]
         [JsonSchemaExtensionData("x-ui-group", "Details")]
+        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public string TenancyName { get; set; }
 
         [Required]
         [StringLength(AbpTenantBase.MaxNameLength)]
         [JsonSchemaExtensionData("x-ui-group", "Details")]
+        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         public string Name { get; set; }
 
         [JsonSchemaExtensionData("x-ui-group", "Details")]

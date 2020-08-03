@@ -21,7 +21,7 @@ using Abp.Configuration;
 namespace Satrabel.OpenApp.MultiTenancy
 {
     [AbpAuthorize(PermissionNames.Pages_Tenants)]
-    public class TenantAppService : AsyncCrudAppService<Tenant, TenantDto, int, PagedResultRequestDto, CreateTenantDto, TenantDto>, ITenantAppService
+    public class TenantAppService : AsyncCrudAppService<Tenant, TenantDto, int, TenantFilterDto, CreateTenantDto, TenantDto>, ITenantAppService
     {
         private readonly TenantManager _tenantManager;
         private readonly EditionManager _editionManager;
@@ -29,6 +29,7 @@ namespace Satrabel.OpenApp.MultiTenancy
         private readonly RoleManager _roleManager;
         private readonly IAbpZeroDbMigrator _abpZeroDbMigrator;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly UserMailService _userMailService;
         private readonly ISettingDefinitionManager _settingDefinitionManager;
 
         public TenantAppService(
@@ -39,7 +40,9 @@ namespace Satrabel.OpenApp.MultiTenancy
             RoleManager roleManager,
             IAbpZeroDbMigrator abpZeroDbMigrator,
             IPasswordHasher<User> passwordHasher,
+            UserMailService userMailService,
             ISettingDefinitionManager settingDefinitionManager)
+
             : base(repository)
         {
             _tenantManager = tenantManager;
@@ -48,6 +51,7 @@ namespace Satrabel.OpenApp.MultiTenancy
             _roleManager = roleManager;
             _abpZeroDbMigrator = abpZeroDbMigrator;
             _passwordHasher = passwordHasher;
+            _userMailService = userMailService;
             _settingDefinitionManager = settingDefinitionManager;
         }
 
@@ -83,7 +87,7 @@ namespace Satrabel.OpenApp.MultiTenancy
 
                 // Grant all permissions to admin role
                 var adminRole = _roleManager.Roles.Single(r => r.Name == StaticRoleNames.Tenants.Admin);
-                await _roleManager.GrantAllPermissionsAsync(adminRole);
+                //await _roleManager.GrantAllPermissionsAsync(adminRole);
 
                 // Create admin user for the tenant
                 var adminUser = User.CreateTenantAdminUser(tenant.Id, input.AdminEmailAddress);
@@ -94,6 +98,8 @@ namespace Satrabel.OpenApp.MultiTenancy
                 // Assign admin user to role!
                 CheckErrors(await _userManager.AddToRoleAsync(adminUser, adminRole.Name));
                 await CurrentUnitOfWork.SaveChangesAsync();
+
+                await _userMailService.SendAdminRegistrationMailAsync(adminUser, User.DefaultPassword); // TODO what if this fails?
             }
 
             return MapToEntityDto(tenant);
@@ -178,6 +184,14 @@ namespace Satrabel.OpenApp.MultiTenancy
             identityResult.CheckErrors(LocalizationManager);
         }
 
-
+        protected override IQueryable<Tenant> CreateFilteredQuery(TenantFilterDto input)
+        {
+            var users = Repository.GetAll();
+            if (!string.IsNullOrEmpty(input.Name))
+            {
+                users = users.Where(u => u.Name.StartsWith(input.Name));
+            }
+            return users;
+        }
     }
 }

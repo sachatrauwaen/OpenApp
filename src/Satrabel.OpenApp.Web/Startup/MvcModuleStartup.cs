@@ -231,17 +231,17 @@ namespace Satrabel.OpenApp.Startup
 
             if (_corsEnabled)
             {
-                app.UseCors(_defaultCorsPolicyName); // Enable CORS!
+                app.UseCors(_defaultCorsPolicyName); // Enable a defaultCorsPolicy on every controller !
             }
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Error");
+            //}
 
             if (migrationManager.NeedMigration)
             {
@@ -269,33 +269,46 @@ namespace Satrabel.OpenApp.Startup
                 }
             );
             // end temp fix
+
+            app.UseRouting();
             app.UseAuthentication();
+
+            app.UseAuthorization(); // ??? is this necessary? yes, without it, the site just doesn't work
+
             app.UseJwtTokenMiddleware();
             app.UseAbpRequestLocalization();
 
-            if (_signalREnabled)
+            //if (_signalREnabled)
+            //{
+            //    app.UseSignalR(routes =>
+            //    {
+            //        routes.MapHub<AbpCommonHub>("/signalr");
+            //    });
+            //}
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "defaultWithArea",
+            //        template: "{area}/{controller=Home}/{action=Index}/{id?}");
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //    routes.MapRoute(
+            //        name: "clientApp",
+            //        template: "App/{id}",
+            //        defaults: new { controller = "ClientApp", action = "Run" });
+            //});
+            app.UseEndpoints(endpoints =>
             {
-                app.UseSignalR(routes =>
+                if (_signalREnabled)
                 {
-                    routes.MapHub<AbpCommonHub>("/signalr");
-                });
-            }
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "defaultWithArea",
-                    template: "{area}/{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapRoute(
-                    name: "clientApp",
-                    template: "App/{id}",
-                    defaults: new { controller = "ClientApp", action = "Run" });
-
+                    endpoints.MapHub<AbpCommonHub>("/signalr");
+                }
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("clientApp", "App/{id}", defaults: new { controller = "ClientApp", action = "Run" });
             });
+
             if (_swaggerEnabled)
             {
                 // Enable middleware to serve generated Swagger as a JSON endpoint

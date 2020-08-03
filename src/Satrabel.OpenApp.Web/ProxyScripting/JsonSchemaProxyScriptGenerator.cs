@@ -27,7 +27,7 @@ namespace Satrabel.OpenApp.ProxyScripting
         /// </summary>
         public const string Name = "json";
 
-        private JsonSchemaGenerator generator;
+        private readonly JsonSchemaGenerator generator;
 
         public JsonSchemaProxyScriptGenerator()
         {

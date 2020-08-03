@@ -8,7 +8,7 @@
     <UserSecretsId>Satrabel-Test-56C2EF2F-ABD6-4EFC-AAF2-2E81C34E8FB1</UserSecretsId>
     <RootNamespace>Satrabel.Starter.Web</RootNamespace>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
-    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
@@ -30,12 +30,18 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Abp.AspNetCore.SignalR" Version="5.7.0" />
+    <PackageReference Include="Abp.HangFire.AspNetCore" Version="5.7.0" />
+    <PackageReference Include="HangFire.SqlServer" Version="1.7.11" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.3" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.9.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
@@ -46,7 +52,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.3" />
-    <PackageReference Include="Abp.HangFire" Version="5.7.0" />
     <PackageReference Include="Abp.Castle.Log4Net" Version="5.7.0" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +68,7 @@
     <None Remove="ClientApp\components\**" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Views\Override\Email\UserRegistration.cshtml" />
     <Content Remove="wwwroot\favicon.png" />
     <Content Remove="wwwroot\logo.png" />
   </ItemGroup>
@@ -70,6 +76,7 @@
     <None Remove="ClientApp\boot.ts" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Views\Override\Email\UserRegistration.cshtml" />
     <EmbeddedResource Include="wwwroot\favicon.png" />
     <EmbeddedResource Include="wwwroot\logo.png" />
   </ItemGroup>

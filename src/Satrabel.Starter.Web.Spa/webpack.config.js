@@ -1,22 +1,32 @@
 /// <binding />
-const path = require('path');
-const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const bundleOutputDir = './wwwroot/dist';
+const path = require("path");
+const webpack = require("webpack");
+
+const bundleOutputDir = "./wwwroot/dist";
 
 
 module.exports = (env) => {
-    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'production');
+    const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production");
     const isDevBuild = !isProdBuild;
-    const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+    const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+    const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+    const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
+    // https://webpack.js.org/api/logging/
+    //const logging = require('webpack/lib/logging/runtime');
+    //const logger = logging.getLogger();
+    //logger.warn('isDevBuild:', isDevBuild);
 
     return [{
         stats: { modules: false },
         context: __dirname,
-        resolve: { extensions: [ '.js', '.ts' ] },
+        resolve: {
+            extensions: [".js", ".ts", ".tsx"],
+            symlinks: false
+        },
         entry: {
-            'home': './ClientApp/home/boot.ts',
-            'demo1': './ClientApp/demo1/boot.ts'
+            'home': "./ClientApp/home/boot.ts",
+            'demo1': "./ClientApp/demo1/boot.ts"
         },
         module: {
             rules: [
@@ -24,15 +34,15 @@ module.exports = (env) => {
                     test: /\.ts$/,
                     include: /ClientApp/,
                     exclude: /node_modules|vue\/src/,
-                    loader: 'ts-loader',
+                    loader: "ts-loader",
                     options: {
                         appendTsSuffixTo: [/\.vue$/]
                     }
-                },               
+                },
                 {
                     test: /\.vue$/,
                     include: /ClientApp/,
-                    loader: 'vue-loader',
+                    loader: "vue-loader",
                     options: {
                         esModule: true,
                         extractCSS: !isDevBuild
@@ -40,45 +50,63 @@ module.exports = (env) => {
                 },
                 {
                     test: /\.js$/,
-                    loader: 'babel-loader',
+                    loader: "babel-loader",
                     exclude: /node_modules/
                 },
                 {
                     test: /\.css$/,
-                    use: isDevBuild ? ['style-loader', 'css-loader'] : ExtractTextPlugin.extract({ use: 'css-loader?minimize' })
+                    use: isDevBuild
+                        ? ["style-loader", "css-loader"]
+                        : [MiniCssExtractPlugin.loader,  "css-loader?minimize"]
                 },
-                { test: /\.(png|jpg|jpeg|gif|svg|ttf|eot|woff|woff2|gif)$/, use: 'url-loader?limit=25000' }
+                { test: /\.(png|jpg|jpeg|gif|svg|ttf|eot|woff|woff2|gif)$/, use: "url-loader?limit=25000" }
             ]
         },
         output: {
             path: path.join(__dirname, bundleOutputDir),
-            filename: '[name].js',
-            publicPath: 'dist/'
+            filename: "[name].js",
+            publicPath: "dist/"
         },
         plugins: [
-            //new CheckerPlugin(),
+            new webpack.WatchIgnorePlugin([
+                /css\.d\.ts$/
+            ]),
+            new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 'process.env': {
-                    NODE_ENV: JSON.stringify(isDevBuild ? 'development' : 'production')
+                    NODE_ENV: JSON.stringify(isDevBuild ? "development" : "production")
                 }
             }),
             new webpack.DllReferencePlugin({
                 context: __dirname,
-                manifest: require('./wwwroot/dist/vendor-manifest.json')
+                manifest: require("./wwwroot/dist/vendor-manifest.json")
             })
-        ].concat(isDevBuild ? [
-            // Plugins that apply in development builds only
-            new webpack.SourceMapDevToolPlugin({
-                filename: '[file].map', // Remove this line if you prefer inline source maps
-                moduleFilenameTemplate: path.relative(bundleOutputDir, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
-            })
-            ] : [
-                // Plugins that apply in production builds only
-                new UglifyJSPlugin(),
-                //new ExtractTextPlugin('site.css')
-                new ExtractTextPlugin({
-                    filename: '[name].css'
+        ].concat(isDevBuild
+            ? [
+                // Plugins that apply in development builds only
+                new webpack.SourceMapDevToolPlugin({
+                    filename: "[file].map", // Remove this line if you prefer inline source maps
+                    moduleFilenameTemplate: path.relative(bundleOutputDir, "[resourcePath]") // Point sourcemap entries to the original file locations on disk
                 })
-            ])
+            ]
+            : [
+                // Plugins that apply in production builds only
+                new MiniCssExtractPlugin({
+                    filename: "[name].css"
+                })
+            ]),
+        optimization: {
+            minimizer: isDevBuild
+                ? []
+                : [
+                    // we specify a custom UglifyJsPlugin here to get source maps in production
+                    new UglifyJsPlugin({
+                        cache: true,
+                        parallel: true,
+                        uglifyOptions: { compress: false, mangle: true },
+                        sourceMap: true
+                    })
+                ]
+        }
     }];
 };

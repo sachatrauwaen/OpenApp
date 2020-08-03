@@ -40,6 +40,8 @@
     <None Remove="Views\dist\impersonation.js.map" />
     <None Remove="Views\dist\vendor.css" />
     <None Remove="Views\dist\vendor.js" />
+    <None Remove="Views\Email\TenantRegistration.cshtml" />
+    <None Remove="Views\Email\UserRegistration.cshtml" />
     <None Remove="Views\fonts\fontawesome-webfont.eot" />
     <None Remove="Views\fonts\fontawesome-webfont.svg" />
     <None Remove="Views\fonts\fontawesome-webfont.ttf" />
@@ -126,6 +128,8 @@
     <EmbeddedResource Include="Views\dist\impersonation.js.map" />
     <EmbeddedResource Include="Views\dist\vendor.css" />
     <EmbeddedResource Include="Views\dist\vendor.js" />
+    <EmbeddedResource Include="Views\Email\TenantRegistration.cshtml" />
+    <EmbeddedResource Include="Views\Email\UserRegistration.cshtml" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.eot" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.svg" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.ttf" />

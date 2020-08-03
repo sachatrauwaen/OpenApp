@@ -1,7 +1,8 @@
-﻿using Abp.Application.Navigation;
+﻿using System;
+using Abp.Application.Navigation;
 using Abp.Authorization;
 using Abp.Localization;
-using Satrabel.OpenApp;
+using Microsoft.Extensions.Configuration;
 using Satrabel.Starter.Web.Authorization;
 
 namespace Satrabel.Starter.Web.Startup
@@ -11,6 +12,13 @@ namespace Satrabel.Starter.Web.Startup
     /// </summary>
     public class NavigationProvider : Abp.Application.Navigation.NavigationProvider
     {
+        private readonly bool _hangfireEnabled;
+
+        public NavigationProvider(IConfiguration configuration)
+        {
+            Boolean.TryParse(configuration["Hangfire:IsEnabled"] ?? "", out _hangfireEnabled);
+        }
+
         public override void SetNavigation(INavigationProviderContext context)
         {
             context.Manager.MainMenu
@@ -22,8 +30,8 @@ namespace Satrabel.Starter.Web.Startup
                         icon: "home",
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
                     )
-                 )
-                 .AddItem(
+                )
+                .AddItem(
                     new MenuItemDefinition(
                         PageNames.Home,
                         L("Demos"),
@@ -32,15 +40,15 @@ namespace Satrabel.Starter.Web.Startup
                     )
                     .AddItem(
                         new MenuItemDefinition(
-                            PageNames.Home,
-                            L("ClientApp"),
-                            url: "/App/Demo1",
-                            icon: "question",
-                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
+                                PageNames.Home,
+                                L("ClientApp"),
+                                url: "/App/Demo1",
+                                icon: "question",
+                                permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
+                            )
                         )
-                    )
-                    .AddItem(
-                        new MenuItemDefinition(
+                        .AddItem(
+                            new MenuItemDefinition(
                             PageNames.Home,
                             L("About"),
                             url: "/About",
@@ -49,6 +57,21 @@ namespace Satrabel.Starter.Web.Startup
                         )
                     )
                 );
+
+            if (_hangfireEnabled)
+            {
+                var adminMenu = context.Manager.MainMenu.GetItemByName("Admin");
+                adminMenu
+                    .AddItem(
+                        new MenuItemDefinition(
+                            PageNames.Admin,
+                            L("BackgroundJobs"),
+                            url: "/backgroundjobs",
+                            icon: "question",
+                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Admin)
+                        )
+                    );
+            }
 
             context.Manager.MainMenu.Items.MoveMenuItemToBottom("Admin");
 
