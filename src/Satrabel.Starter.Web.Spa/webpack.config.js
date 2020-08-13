@@ -8,7 +8,7 @@ const bundleOutputDir = "./wwwroot/dist";
 module.exports = (env) => {
     const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production");
     const isDevBuild = !isProdBuild;
-    const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+    const TerserPlugin = require("terser-webpack-plugin");
     const MiniCssExtractPlugin = require("mini-css-extract-plugin");
     const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -99,13 +99,8 @@ module.exports = (env) => {
             minimizer: isDevBuild
                 ? []
                 : [
-                    // we specify a custom UglifyJsPlugin here to get source maps in production
-                    new UglifyJsPlugin({
-                        cache: true,
-                        parallel: true,
-                        uglifyOptions: { compress: false, mangle: true },
-                        sourceMap: true
-                    })
+                    // we specify a custom TerserPlugin here to get source maps in production
+                    new TerserPlugin({ sourceMap: true }) // https://github.com/webpack-contrib/terser-webpack-plugin
                 ]
         }
     }];

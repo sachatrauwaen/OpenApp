@@ -4,7 +4,7 @@ const webpack = require("webpack");
 module.exports = (env) => {
     const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production");
     const isDevBuild = !isProdBuild;
-    const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+    const TerserPlugin = require("terser-webpack-plugin");
     const MiniCssExtractPlugin = require("mini-css-extract-plugin");
     //const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -12,7 +12,7 @@ module.exports = (env) => {
 
     return [{
         stats: { modules: false },
-        resolve: { extensions: [ ".js" ] },
+        resolve: { extensions: [".js"] },
         entry: {
             vendor: [
                 "event-source-polyfill",
@@ -27,7 +27,7 @@ module.exports = (env) => {
         },
         module: {
             rules: [
-                { test: /\.tsx?$/, use: [ "babel-loader", "ts-loader" ] }, 
+                { test: /\.tsx?$/, use: ["babel-loader", "ts-loader"] },
                 {
                     test: /\.css(\?|$)/,
                     use: [MiniCssExtractPlugin.loader, isDevBuild ? "css-loader" : "css-loader?minimize"]
@@ -55,18 +55,7 @@ module.exports = (env) => {
         optimization: {
             minimizer: isDevBuild
                 ? []
-                : [
-                    // we specify a custom UglifyJsPlugin here to get source maps in production
-                    new UglifyJsPlugin({
-                        cache: true,
-                        parallel: true,
-                        uglifyOptions: {
-                            compress: false,
-                            mangle: true
-                        },
-                        sourceMap: true
-                    })
-                ]
+                : [new TerserPlugin({ sourceMap: true })] // https://github.com/webpack-contrib/terser-webpack-plugin
         }
     }];
 };
