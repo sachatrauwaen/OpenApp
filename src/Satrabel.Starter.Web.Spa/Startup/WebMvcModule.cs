@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Microsoft.AspNetCore.Hosting;
@@ -14,12 +15,16 @@ using Satrabel.OpenApp.Web.Migration;
 using Abp.AspNetCore.Configuration;
 using Satrabel.OpenApp.Startup;
 using Abp.AutoMapper;
+using Abp.Dependency;
+using Abp.Hangfire.Configuration;
 using Abp.Zero.Configuration;
+using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.Resolvers;
 
 namespace Satrabel.Starter.Web.Startup
 {
     [DependsOn(typeof(OpenAppWebCoreModule))]
-    public class WebMvcModule : AbpModule
+    public sealed class WebMvcModule : AbpModule
     {
         private readonly IWebHostEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
@@ -92,10 +97,15 @@ namespace Satrabel.Starter.Web.Startup
             {
                 _migrationManager.Configure(Configuration, IocManager);
             }
+
+            //facilitate the usage of Lazy<T> in constructors. Make sure Castle recognizes them
+            IocManager.IocContainer
+                .Register(Component.For<ILazyComponentLoader>().ImplementedBy<LazyOfTComponentLoader>());
         }
 
         public override void Initialize()
         {
+            // Initialize Castle. Register all components found by traversing the Assemblies. See Castle doc's for more info.
             Assembly thisAssembly = typeof(WebMvcModule).GetAssembly();
             IocManager.RegisterAssemblyByConvention(thisAssembly);
             Configuration.Modules.AbpAutoMapper().Configurators.Add(cfg =>
@@ -104,7 +114,10 @@ namespace Satrabel.Starter.Web.Startup
                 //cfg.AddProfiles(thisAssembly);
                 cfg.AddMaps(thisAssembly);
             });
+
+            CustomIocRegistration(IocManager);
         }
+
         public override void PostInitialize()
         {
             if (_migrationManager.NeedMigration && !SkipDbContextRegistration)
@@ -115,6 +128,14 @@ namespace Satrabel.Starter.Web.Startup
             {
                 SeedHelper.SeedHostDb<AppDbContext>(IocManager);
             }
+        }
+
+        /// <summary>
+        /// Register classes/components that were not yet automaticly registered, like Generics
+        /// </summary>
+        public static void CustomIocRegistration(IIocManager iocManager)
+        {
+            // put your custom registrations here
         }
     }
 }
