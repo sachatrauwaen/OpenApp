@@ -59,6 +59,13 @@ namespace Satrabel.Starter.Web.Startup
             // Load localization keys
             LocalizationConfigurer.Configure(Configuration.Localization);
 
+            Boolean.TryParse(_env.GetAppConfiguration()["Hangfire:IsEnabled"] ?? "", out var hangfireEnabled);
+            if (hangfireEnabled)
+            {
+                // use Hangfire instead of ABP's default background job manager
+                Configuration.BackgroundJobs.UseHangfire();
+            }
+
             // Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
 
