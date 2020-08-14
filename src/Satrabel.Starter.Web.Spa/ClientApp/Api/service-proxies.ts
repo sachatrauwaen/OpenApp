@@ -165,7 +165,7 @@ export class ConfigurationServiceProxy extends ClientBase {
      * @param body (optional) 
      * @return Success
      */
-    changeUiTheme(body: ChangeUiThemeInput | undefined): Promise<void> {
+    changeUiTheme(body: ChangeUiThemeInput | undefined): Promise<AjaxResponse> {
         let url_ = this.baseUrl + "/api/services/app/Configuration/ChangeUiTheme";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -176,6 +176,7 @@ export class ConfigurationServiceProxy extends ClientBase {
             method: "POST",
             headers: {
                 "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
             }
         };
 
@@ -186,23 +187,29 @@ export class ConfigurationServiceProxy extends ClientBase {
         });
     }
 
-    protected processChangeUiTheme(response: Response): Promise<void> {
+    protected processChangeUiTheme(response: Response): Promise<AjaxResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AjaxResponse.fromJS(resultData200);
+            return result200;
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
-            return throwException("Server Error", status, _responseText, _headers);
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = AjaxResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(<any>null);
+        return Promise.resolve<AjaxResponse>(<any>null);
     }
 }
 
@@ -264,7 +271,7 @@ export class Demo1ServiceServiceProxy extends ClientBase {
      * @param message (optional) 
      * @return Success
      */
-    sendNotification(message: string | null | undefined): Promise<void> {
+    sendNotification(message: string | null | undefined): Promise<AjaxResponse> {
         let url_ = this.baseUrl + "/api/services/app/Demo1Service/SendNotification?";
         if (message !== undefined && message !== null)
             url_ += "message=" + encodeURIComponent("" + message) + "&";
@@ -273,6 +280,7 @@ export class Demo1ServiceServiceProxy extends ClientBase {
         let options_ = <RequestInit>{
             method: "POST",
             headers: {
+                "Accept": "text/plain"
             }
         };
 
@@ -283,23 +291,79 @@ export class Demo1ServiceServiceProxy extends ClientBase {
         });
     }
 
-    protected processSendNotification(response: Response): Promise<void> {
+    protected processSendNotification(response: Response): Promise<AjaxResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AjaxResponse.fromJS(resultData200);
+            return result200;
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
-            return throwException("Server Error", status, _responseText, _headers);
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = AjaxResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(<any>null);
+        return Promise.resolve<AjaxResponse>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    sendErrorReport(body: SendErrorReportDto): Promise<AjaxResponse> {
+        let url_ = this.baseUrl + "/api/services/app/Demo1Service/SendErrorReport";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processSendErrorReport(_response);
+        });
+    }
+
+    protected processSendErrorReport(response: Response): Promise<AjaxResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AjaxResponse.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = AjaxResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AjaxResponse>(<any>null);
     }
 }
 
@@ -581,7 +645,7 @@ export class LanguageServiceProxy extends ClientBase {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined): Promise<void> {
+    delete(id: number | undefined): Promise<AjaxResponse> {
         let url_ = this.baseUrl + "/api/services/app/Language/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -592,6 +656,7 @@ export class LanguageServiceProxy extends ClientBase {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
+                "Accept": "text/plain"
             }
         };
 
@@ -602,12 +667,15 @@ export class LanguageServiceProxy extends ClientBase {
         });
     }
 
-    protected processDelete(response: Response): Promise<void> {
+    protected processDelete(response: Response): Promise<AjaxResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AjaxResponse.fromJS(resultData200);
+            return result200;
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -619,14 +687,17 @@ export class LanguageServiceProxy extends ClientBase {
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
-            return throwException("Server Error", status, _responseText, _headers);
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = AjaxResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(<any>null);
+        return Promise.resolve<AjaxResponse>(<any>null);
     }
 
     /**
@@ -818,7 +889,7 @@ export class LocalizationServiceProxy extends ClientBase {
      * @param body (optional) 
      * @return Success
      */
-    save(body: LocalizationDto | undefined): Promise<void> {
+    save(body: LocalizationDto | undefined): Promise<AjaxResponse> {
         let url_ = this.baseUrl + "/api/services/app/Localization/Save";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -829,6 +900,7 @@ export class LocalizationServiceProxy extends ClientBase {
             method: "POST",
             headers: {
                 "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
             }
         };
 
@@ -839,12 +911,15 @@ export class LocalizationServiceProxy extends ClientBase {
         });
     }
 
-    protected processSave(response: Response): Promise<void> {
+    protected processSave(response: Response): Promise<AjaxResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AjaxResponse.fromJS(resultData200);
+            return result200;
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -856,14 +931,17 @@ export class LocalizationServiceProxy extends ClientBase {
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
-            return throwException("Server Error", status, _responseText, _headers);
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = AjaxResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(<any>null);
+        return Promise.resolve<AjaxResponse>(<any>null);
     }
 
     /**
@@ -1204,7 +1282,7 @@ export class RoleServiceProxy extends ClientBase {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined): Promise<void> {
+    delete(id: number | undefined): Promise<AjaxResponse> {
         let url_ = this.baseUrl + "/api/services/app/Role/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -1215,6 +1293,7 @@ export class RoleServiceProxy extends ClientBase {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
+                "Accept": "text/plain"
             }
         };
 
@@ -1225,12 +1304,15 @@ export class RoleServiceProxy extends ClientBase {
         });
     }
 
-    protected processDelete(response: Response): Promise<void> {
+    protected processDelete(response: Response): Promise<AjaxResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AjaxResponse.fromJS(resultData200);
+            return result200;
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -1242,14 +1324,17 @@ export class RoleServiceProxy extends ClientBase {
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
-            return throwException("Server Error", status, _responseText, _headers);
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = AjaxResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(<any>null);
+        return Promise.resolve<AjaxResponse>(<any>null);
     }
 
     /**
@@ -1587,7 +1672,7 @@ export class TenantServiceProxy extends ClientBase {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined): Promise<void> {
+    delete(id: number | undefined): Promise<AjaxResponse> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -1598,6 +1683,7 @@ export class TenantServiceProxy extends ClientBase {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
+                "Accept": "text/plain"
             }
         };
 
@@ -1608,12 +1694,15 @@ export class TenantServiceProxy extends ClientBase {
         });
     }
 
-    protected processDelete(response: Response): Promise<void> {
+    protected processDelete(response: Response): Promise<AjaxResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AjaxResponse.fromJS(resultData200);
+            return result200;
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -1625,14 +1714,17 @@ export class TenantServiceProxy extends ClientBase {
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
-            return throwException("Server Error", status, _responseText, _headers);
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = AjaxResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(<any>null);
+        return Promise.resolve<AjaxResponse>(<any>null);
     }
 
     /**
@@ -2069,7 +2161,7 @@ export class UserServiceProxy extends ClientBase {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined): Promise<void> {
+    delete(id: number | undefined): Promise<AjaxResponse> {
         let url_ = this.baseUrl + "/api/services/app/User/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -2080,6 +2172,7 @@ export class UserServiceProxy extends ClientBase {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
+                "Accept": "text/plain"
             }
         };
 
@@ -2090,12 +2183,15 @@ export class UserServiceProxy extends ClientBase {
         });
     }
 
-    protected processDelete(response: Response): Promise<void> {
+    protected processDelete(response: Response): Promise<AjaxResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AjaxResponse.fromJS(resultData200);
+            return result200;
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -2107,14 +2203,17 @@ export class UserServiceProxy extends ClientBase {
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
-            return throwException("Server Error", status, _responseText, _headers);
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = AjaxResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(<any>null);
+        return Promise.resolve<AjaxResponse>(<any>null);
     }
 
     /**
@@ -2172,7 +2271,7 @@ export class UserServiceProxy extends ClientBase {
      * @param body (optional) 
      * @return Success
      */
-    changeLanguage(body: ChangeUserLanguageDto | undefined): Promise<void> {
+    changeLanguage(body: ChangeUserLanguageDto | undefined): Promise<AjaxResponse> {
         let url_ = this.baseUrl + "/api/services/app/User/ChangeLanguage";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2183,6 +2282,7 @@ export class UserServiceProxy extends ClientBase {
             method: "POST",
             headers: {
                 "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
             }
         };
 
@@ -2193,12 +2293,15 @@ export class UserServiceProxy extends ClientBase {
         });
     }
 
-    protected processChangeLanguage(response: Response): Promise<void> {
+    protected processChangeLanguage(response: Response): Promise<AjaxResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AjaxResponse.fromJS(resultData200);
+            return result200;
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -2210,14 +2313,17 @@ export class UserServiceProxy extends ClientBase {
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
-            return throwException("Server Error", status, _responseText, _headers);
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = AjaxResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(<any>null);
+        return Promise.resolve<AjaxResponse>(<any>null);
     }
 
     /**
@@ -2867,6 +2973,62 @@ export interface IAjaxResponseOfString {
     error?: ErrorInfo;
     unAuthorizedRequest?: boolean;
     __abp?: boolean;
+}
+
+export class SendErrorReportDto implements ISendErrorReportDto {
+    deviceId?: string | undefined;
+    source?: string | undefined;
+    vuexStateJson?: any | undefined;
+    errorLog?: any[] | undefined;
+
+    constructor(data?: ISendErrorReportDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.deviceId = _data["deviceId"];
+            this.source = _data["source"];
+            this.vuexStateJson = _data["vuexStateJson"];
+            if (Array.isArray(_data["errorLog"])) {
+                this.errorLog = [] as any;
+                for (let item of _data["errorLog"])
+                    this.errorLog!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): SendErrorReportDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SendErrorReportDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["deviceId"] = this.deviceId;
+        data["source"] = this.source;
+        data["vuexStateJson"] = this.vuexStateJson;
+        if (Array.isArray(this.errorLog)) {
+            data["errorLog"] = [];
+            for (let item of this.errorLog)
+                data["errorLog"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface ISendErrorReportDto {
+    deviceId?: string | undefined;
+    source?: string | undefined;
+    vuexStateJson?: any | undefined;
+    errorLog?: any[] | undefined;
 }
 
 export class ImpersonateModel implements IImpersonateModel {

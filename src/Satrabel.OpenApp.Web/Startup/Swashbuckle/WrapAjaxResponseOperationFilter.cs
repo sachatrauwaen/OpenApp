@@ -31,7 +31,7 @@ namespace Satrabel.OpenApp.Startup.Swashbuckle
                 .ForEach(response =>
                 {
                     // Wrap the type with AjaxResponse<GenericType> so we get AjaxResponse<SpecificType>
-                    var wrappedType = response.Type.Equals(typeof(void)) ? typeof(AjaxResponse) : typeof(AjaxResponse<>).MakeGenericType(response.Type);
+                    var wrappedType = response.Type == typeof(void) ? typeof(AjaxResponse) : typeof(AjaxResponse<>).MakeGenericType(response.Type);
                     var wrappedTypeFriendlyId = wrappedType.FriendlyId();
 
                     // Add AjaxResponse<SpecificType> schema manually (since it will not be picked up by ApiDefinition/Swashbuckle)
@@ -47,12 +47,18 @@ namespace Satrabel.OpenApp.Startup.Swashbuckle
                         .ToList()
                         .ForEach(x =>
                         {
+                            if (wrappedType == typeof(AjaxResponse))
+                            {
+                                // for void return types, scafold the content first
+                                x.Content.Add("text/plain", new OpenApiMediaType());
+                                x.Content.Add("application/json", new OpenApiMediaType());
+                                x.Content.Add("text/json", new OpenApiMediaType());
+                            }
                             foreach (var apiMediaType in x.Content)
                             {
                                 apiMediaType.Value.Schema = schema;
                             }
                         });
-                        //.ForEach(x => x.Schema = schema);
                 });
         }
     }
