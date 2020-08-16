@@ -18,6 +18,7 @@ module.exports = (env) => {
     //logger.warn('isDevBuild:', isDevBuild);
 
     return [{
+        mode: JSON.stringify(isDevBuild ? "development" : "production"),
         stats: { modules: false },
         context: __dirname,
         resolve: {
@@ -72,11 +73,6 @@ module.exports = (env) => {
                 /css\.d\.ts$/
             ]),
             new VueLoaderPlugin(),
-            new webpack.DefinePlugin({
-                'process.env': {
-                    NODE_ENV: JSON.stringify(isDevBuild ? "development" : "production")
-                }
-            }),
             new webpack.DllReferencePlugin({
                 context: __dirname,
                 manifest: require("./wwwroot/dist/vendor-manifest.json")

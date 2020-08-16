@@ -10,6 +10,7 @@ module.exports = (env) => {
     const extractCSS = new MiniCssExtractPlugin("vendor.css");
 
     return [{
+        mode: JSON.stringify(isDevBuild ? "development" : "production"),
         stats: { modules: false },
         resolve: { extensions: [".js"] },
         entry: {
@@ -43,9 +44,6 @@ module.exports = (env) => {
         plugins: [
             extractCSS,
             //new VueLoaderPlugin(),
-            new webpack.DefinePlugin({
-                'process.env.NODE_ENV': isDevBuild ? '"development"' : '"production"'
-            }),
             new webpack.DllPlugin({
                 path: path.join(__dirname, "wwwroot", "dist", "[name]-manifest.json"),
                 name: "[name]_[hash]"
