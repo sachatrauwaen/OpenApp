@@ -44,6 +44,7 @@ namespace Satrabel.OpenApp.Web.Migration
         public IHostApplicationLifetime ApplicationLifetime { get; set; }
 
         public IWebHostEnvironment HostingEnvironment { get; set; }
+
         public Version AppVersion { get; set; }
 
         public void Configure(IAbpStartupConfiguration Configuration, IIocManager IocManager)

@@ -115,6 +115,8 @@ namespace Satrabel.Starter.Web.Startup
                 cfg.AddMaps(thisAssembly);
             });
 
+            // Register some components that were not yet automaticly registered.
+
             CustomIocRegistration(IocManager);
         }
 

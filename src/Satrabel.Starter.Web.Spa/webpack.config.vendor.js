@@ -7,7 +7,6 @@ module.exports = (env) => {
     const TerserPlugin = require("terser-webpack-plugin");
     const MiniCssExtractPlugin = require("mini-css-extract-plugin");
     //const VueLoaderPlugin = require('vue-loader/lib/plugin');
-
     const extractCSS = new MiniCssExtractPlugin("vendor.css");
 
     return [{
@@ -27,7 +26,7 @@ module.exports = (env) => {
         },
         module: {
             rules: [
-                { test: /\.tsx?$/, use: ["babel-loader", "ts-loader"] },
+                { test: /\.tsx?$/, use: [ "babel-loader", "ts-loader" ] },
                 {
                     test: /\.css(\?|$)/,
                     use: [MiniCssExtractPlugin.loader, isDevBuild ? "css-loader" : "css-loader?minimize"]
