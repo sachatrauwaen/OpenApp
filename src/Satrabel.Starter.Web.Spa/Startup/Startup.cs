@@ -12,14 +12,12 @@ namespace Satrabel.Starter.Web.Startup
 {
     public class Startup : MvcModuleStartup<WebMvcModule>
     {
-        private readonly bool _signalREnabled = false;
         private readonly bool _hangfireEnabled = false;
 
         public Startup(IWebHostEnvironment env) : base(env)
         {
             AppVersion = AppConsts.AppVersion;
             var configuration = env.GetAppConfiguration();
-            Boolean.TryParse(configuration["SignalR:IsEnabled"] ?? "", out _signalREnabled);
             Boolean.TryParse(configuration["Hangfire:IsEnabled"] ?? "", out _hangfireEnabled);
         }
 
@@ -63,13 +61,6 @@ namespace Satrabel.Starter.Web.Startup
 
         protected override void ConfigureAfterStaticFiles(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (_signalREnabled)
-            {
-                app.UseSignalR(routes =>
-                {
-                    routes.MapHub<QueryStreamsHub>("/signalr-queryStreamsHub");
-                });
-            }
             if (_hangfireEnabled)
             {
                 //Example Configuration
