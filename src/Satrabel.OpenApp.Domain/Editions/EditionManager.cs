@@ -9,7 +9,7 @@ namespace Satrabel.OpenApp.Editions
         public const string DefaultEditionName = "Standard";
 
         public EditionManager(
-            IRepository<Edition> editionRepository, 
+            IRepository<Edition> editionRepository,
             IAbpZeroFeatureValueStore featureValueStore)
             : base(
                 editionRepository,

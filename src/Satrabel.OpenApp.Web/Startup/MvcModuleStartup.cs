@@ -103,9 +103,9 @@ namespace Satrabel.OpenApp.Startup
                 {
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute());
-
                 }
-            ).AddNewtonsoftJson(options =>
+            )
+            .AddNewtonsoftJson(options => // Keep using NewtonsoftJson instead of netcore build-in System.Text.Json
             {
                 options.SerializerSettings.ContractResolver = new AbpMvcContractResolver(IocManager.Instance)
                 {

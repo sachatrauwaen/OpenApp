@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace Satrabel.OpenApp.Render
 {
-    class NullViewRenderService : IViewRenderService
+    public class NullViewRenderService : IViewRenderService
     {
-        static public IViewRenderService Instance = new NullViewRenderService();
+        public static readonly IViewRenderService Instance = new NullViewRenderService();
 
-        public async Task<string> RenderToStringAsync(string viewName, object model)
+        public Task<string> RenderToStringAsync(string viewName, object model)
         {
-            return viewName;
+            return Task.FromResult(viewName);
         }
     }
 }
