@@ -8,7 +8,7 @@ const bundleOutputDir = "./Views/dist";
 module.exports = (env) => {
     const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production");
     const isDevBuild = !isProdBuild;
-    const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+    const TerserPlugin = require("terser-webpack-plugin");
     const MiniCssExtractPlugin = require("mini-css-extract-plugin");
     const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -18,6 +18,7 @@ module.exports = (env) => {
     //logger.warn('isDevBuild:', isDevBuild);
 
     return [{
+        mode: JSON.stringify(isDevBuild ? "development" : "production"),
         stats: { modules: false },
         context: __dirname,
         resolve: { extensions: [ ".js", ".ts" ] },
@@ -50,21 +51,25 @@ module.exports = (env) => {
                     loader: "babel-loader",
                     exclude: /node_modules/
                 },
-                //{
-                //    test: /\.vue$/, include: /ClientApp/, exclude: /node_modules|vue\/src/, loader: 'vue-loader', options: {
-                //        loaders: {
-                //            ts: 'awesome-typescript-loader?silent=true'
-                //        }
-                //    }
-                //},
-                //{ test: /\.ts$/, include: /ClientApp/, use: 'awesome-typescript-loader?silent=true' },    
                 {
                     test: /\.css$/,
                     use: isDevBuild
                         ? ["style-loader", "css-loader"]
-                        : [MiniCssExtractPlugin.loader,  "css-loader?minimize"]
+                        //: [MiniCssExtractPlugin.loader, "css-loader?minimize"]
+                        : [
+                            {
+                                loader: MiniCssExtractPlugin.loader,
+                                options: {
+                                    publicPath: '/public/path/to/'
+                                }
+                            },
+                            "css-loader?minimize"
+                        ]
                 },
-                { test: /\.(png|jpg|jpeg|gif|svg|ttf|eot|woff|woff2|gif)$/, use: "url-loader?limit=25000" }
+                {
+                    test: /\.(png|jpg|jpeg|gif|svg|ttf|eot|woff|woff2|gif)$/,
+                    use: "url-loader?limit=60000"
+                }
             ]
         },
         output: {
@@ -74,11 +79,6 @@ module.exports = (env) => {
         },
         plugins: [
             new VueLoaderPlugin(),
-            new webpack.DefinePlugin({
-                'process.env': {
-                    NODE_ENV: JSON.stringify(isDevBuild ? "development" : "production")
-                }
-            }),
             new webpack.DllReferencePlugin({
                 context: __dirname,
                 manifest: require("./Views/dist/vendor-manifest.json")
@@ -101,13 +101,8 @@ module.exports = (env) => {
             minimizer: isDevBuild
                 ? []
                 : [
-                    // we specify a custom UglifyJsPlugin here to get source maps in production
-                    new UglifyJsPlugin({
-                        cache: true,
-                        parallel: true,
-                        uglifyOptions: { compress: false, mangle: true },
-                        sourceMap: true
-                    })
+                    // we specify a custom TerserPlugin here to get source maps in production
+                    new TerserPlugin({ sourceMap: true }) // https://github.com/webpack-contrib/terser-webpack-plugin
                 ]
         }
     }];

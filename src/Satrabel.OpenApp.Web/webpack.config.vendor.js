@@ -4,20 +4,20 @@ const webpack = require("webpack");
 module.exports = (env) => {
     const isProdBuild = (env && env.prod) || (process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production");
     const isDevBuild = !isProdBuild;
-    const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+    const TerserPlugin = require("terser-webpack-plugin");
     const MiniCssExtractPlugin = require("mini-css-extract-plugin");
     //const VueLoaderPlugin = require('vue-loader/lib/plugin');
-
     const extractCSS = new MiniCssExtractPlugin("vendor.css");
 
     return [{
+        mode: JSON.stringify(isDevBuild ? "development" : "production"),
         stats: { modules: false },
-        resolve: { extensions: [ ".js" ] },
+        resolve: { extensions: [".js"] },
         entry: {
             vendor: [
                 "event-source-polyfill",
                 "element-ui",
-                "element-ui/lib/theme-chalk/index.css",
+                "!style-loader!css-loader!element-ui/lib/theme-chalk/index.css",
                 "vue",
                 "vue-router"
             ],
@@ -40,9 +40,6 @@ module.exports = (env) => {
         plugins: [
             extractCSS,
             //new VueLoaderPlugin(),
-            new webpack.DefinePlugin({
-                'process.env.NODE_ENV': isDevBuild ? '"development"' : '"production"'
-            }),
             new webpack.DllPlugin({
                 path: path.join(__dirname, "Views", "dist", "[name]-manifest.json"),
                 name: "[name]_[hash]"
@@ -51,18 +48,13 @@ module.exports = (env) => {
         optimization: {
             minimizer: isDevBuild
                 ? []
-                : [
-                    // we specify a custom UglifyJsPlugin here to get source maps in production
-                    new UglifyJsPlugin({
-                        cache: true,
-                        parallel: true,
-                        uglifyOptions: {
-                            compress: false,
-                            mangle: true
-                        },
-                        sourceMap: true
-                    })
-                ]
+                : [new TerserPlugin( // https://github.com/webpack-contrib/terser-webpack-plugin
+                    {
+                        sourceMap: true,
+                        terserOptions: {
+                            mangle: true // Note `mangle.properties` is `false` by default.
+                        }
+                    })]
         }
     }];
 };
