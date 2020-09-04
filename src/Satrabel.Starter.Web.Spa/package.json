@@ -3,11 +3,11 @@
     "private": true,
     "version": "1.0.0",
     "scripts": {
-        "build-dev": "webpack --mode development --color",
         "watch-dev": "webpack --watch --mode development --color",
+        "build-dev": "webpack --mode development --color",
+        "build-dev-vendor": "webpack --config webpack.config.vendor.js --env.dev --mode development --color",
         "build-prod": "webpack --env.prod --mode production --color",
-        "build-vendor": "webpack --config webpack.config.vendor.js --env.prod --mode production --color",
-        "build-vendor-dev": "webpack --config webpack.config.vendor.js --env.dev --mode development --color"
+        "build-prod-vendor": "webpack --config webpack.config.vendor.js --env.prod --mode production --color"
     },
     "devDependencies": {
         "@types/webpack-env": "1.15.2",
