@@ -1,7 +1,6 @@
 ﻿@using System.Globalization
 @using Abp.Web.Security.AntiForgery
 @using Abp.Configuration.Startup
-@using Satrabel.OpenApp
 @using Satrabel.OpenApp.Web.Resources
 @inject Satrabel.OpenApp.Timing.AppTimes AppTimes
 @inject IAbpAntiForgeryManager AbpAntiForgeryManager
@@ -27,15 +26,13 @@
     <title>Login</title>
 
     <environment names="Development">
-
         <link href="~/Views/_Bundles/account-layout.min.css" rel="stylesheet" asp-append-version="true" />
-
     </environment>
     <environment names="Staging,Production">
         <link href="~/Views/_Bundles/account-layout.min.css" rel="stylesheet" asp-append-version="true" />
     </environment>
     <!-- View specific styles -->
-    @RenderSection("styles", required: false)
+    @RenderSectionAsync("styles", required: false)
     <script type="text/javascript">
         //This is used to get the application's root path from javascript. It's useful if you're running application in a virtual directory under IIS.
         var abp = abp || {};
@@ -64,12 +61,10 @@
     <!-- Dynamic scripts of ABP system (They are created on runtime and can not be bundled) -->
     <script src="~/AbpServiceProxies/GetAll?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     <script src="~/AbpScripts/GetScripts?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
-    
+
     @WebResourceManager.RenderScripts();
 
     <!-- View specific scripts -->
     @RenderSection("scripts", required: false)
-
-
 </body>
 </html>
