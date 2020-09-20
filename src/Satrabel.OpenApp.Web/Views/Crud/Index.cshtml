@@ -8,6 +8,7 @@
 }
 @section styles
 {
+    <link rel="stylesheet" href="~/Views/dist/vendor.css?v=@(AppTimes.StartupTime.Ticks)" />
     <environment exclude="Development">
         <link rel="stylesheet" href="~/Views/lib/vueforms/vueforms.css?v=@(AppTimes.StartupTime.Ticks)" />
     </environment>
