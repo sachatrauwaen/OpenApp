@@ -64,7 +64,7 @@ namespace Satrabel.OpenApp.Authorization.Users
             };
 
             user.SetNormalizedNames();
-           
+
             foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
             {
                 user.Roles.Add(new UserRole(tenant.Id, user.Id, defaultRole.Id));
@@ -78,10 +78,17 @@ namespace Satrabel.OpenApp.Authorization.Users
             CheckErrors(await _userManager.CreateAsync(user, plainPassword));
             await CurrentUnitOfWork.SaveChangesAsync();
 
-            if(sendConfirmationMail)
-                await _userMailService.SendConfirmationMail(user); // TODO what if this fails?
-            else
-                await _userMailService.SendRegistrationMailAsync(user, plainPassword); // TODO what if this fails?
+            try
+            {
+                if (sendConfirmationMail)
+                    await _userMailService.SendConfirmationMail(user);
+                else
+                    await _userMailService.SendRegistrationMailAsync(user, plainPassword);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to send confirmation mail", e);
+            }
 
             return user;
         }
