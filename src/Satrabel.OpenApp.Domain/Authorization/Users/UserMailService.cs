@@ -65,13 +65,21 @@ namespace Satrabel.OpenApp.Authorization.Users
 
             // TODO Translate title
             // TODO Allow template to be provided by client app (through setting or configuration) as lambda, providing confirmationLink and user and expecting string as a result
+            try
+            {
+                return _emailSender.SendAsync(
+                    to: user.EmailAddress,
+                    subject: "Registration",
+                    body: $"Hello, {user.FullName}, You have been successfully registered. Follow this link: {confirmationLink}",
+                    isBodyHtml: true
+                );
+            }
+            catch (Exception e)
+            {
+                Logger.Error($"Failed to send registration mail to {user.EmailAddress}", e);
+            }
 
-            return _emailSender.SendAsync(
-                to: user.EmailAddress,
-                subject: "Registration",
-                body: $"Hello, {user.FullName}, You have been successfully registered. Follow this link: {confirmationLink}",
-                isBodyHtml: true
-            );
+            return Task.CompletedTask;
         }
 
         public async Task SendRegistrationMailAsync(User user, string password)
@@ -96,14 +104,21 @@ namespace Satrabel.OpenApp.Authorization.Users
                 };
                 var res = await ViewRenderService.RenderToStringAsync("Email/UserRegistration", model);
 
-                await _emailSender.SendAsync(
-                    to: user.EmailAddress,
-                     //subject: string.Format(L("UserRegistrationSubject"), tenant.Name),
-                     subject: model.Subject,
-                    //body: string.Format(L("UserRegistrationBody"), user.FullName, tenant.Name, baseUrl, user.Name,password, tenant.TenancyName),
-                    body: res,
-                    isBodyHtml: true
-                );
+                try
+                {
+                    await _emailSender.SendAsync(
+                        to: user.EmailAddress,
+                        //subject: string.Format(L("UserRegistrationSubject"), tenant.Name),
+                        subject: model.Subject,
+                        //body: string.Format(L("UserRegistrationBody"), user.FullName, tenant.Name, baseUrl, user.Name,password, tenant.TenancyName),
+                        body: res,
+                        isBodyHtml: true
+                    );
+                }
+                catch (Exception e)
+                {
+                    Logger.Error($"Failed to send registration mail to {user.EmailAddress}", e);
+                }
             }
         }
 

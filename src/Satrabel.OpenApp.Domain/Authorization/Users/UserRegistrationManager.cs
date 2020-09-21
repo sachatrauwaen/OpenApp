@@ -78,17 +78,10 @@ namespace Satrabel.OpenApp.Authorization.Users
             CheckErrors(await _userManager.CreateAsync(user, plainPassword));
             await CurrentUnitOfWork.SaveChangesAsync();
 
-            try
-            {
-                if (sendConfirmationMail)
-                    await _userMailService.SendConfirmationMail(user);
-                else
-                    await _userMailService.SendRegistrationMailAsync(user, plainPassword);
-            }
-            catch (Exception e)
-            {
-                Logger.Error("Failed to send confirmation mail", e);
-            }
+            if (sendConfirmationMail)
+                await _userMailService.SendConfirmationMail(user);
+            else
+                await _userMailService.SendRegistrationMailAsync(user, plainPassword);
 
             return user;
         }
