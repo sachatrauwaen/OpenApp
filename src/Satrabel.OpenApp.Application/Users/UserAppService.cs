@@ -158,11 +158,11 @@ namespace Satrabel.OpenApp.Users
             var users = Repository.GetAllIncluding(x => x.Roles);
             if (!string.IsNullOrEmpty(input.UserName))
             {
-                users = users.Where(u => u.UserName.StartsWith(input.UserName));
+                users = users.Where(u => u.UserName.Contains(input.UserName, StringComparison.InvariantCultureIgnoreCase));
             }
             if (!string.IsNullOrEmpty(input.Email))
             {
-                users = users.Where(u => u.EmailAddress.StartsWith(input.Email));
+                users = users.Where(u => u.EmailAddress.Contains(input.Email, StringComparison.InvariantCultureIgnoreCase));
             }
             return users;
         }
