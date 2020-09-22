@@ -34,11 +34,11 @@
     <!-- View specific styles -->
     @RenderSection("styles", required: false)
     <script type="text/javascript">
-        //This is used to get the application's root path from javascript. It's useful if you're running application in a virtual directory under IIS.
+        @* This is used to get the application's root path from javascript.
+        It's useful if you're running application in a virtual directory under IIS. *@
         var abp = abp || {};
         abp.appPath = '@ApplicationPath';
     </script>
-
 
 </head>
 <body class="app flex-row align-items-center">
@@ -62,7 +62,7 @@
     <script src="~/AbpServiceProxies/GetAll?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     <script src="~/AbpScripts/GetScripts?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
 
-    @WebResourceManager.RenderScripts();
+    @WebResourceManager.RenderScripts()
 
     <!-- View specific scripts -->
     @RenderSection("scripts", required: false)

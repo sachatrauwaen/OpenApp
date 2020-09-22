@@ -106,6 +106,7 @@ namespace Satrabel.OpenApp.Authorization.Users
 
                 try
                 {
+                    // todo: this should better be executed as a background task. 
                     await _emailSender.SendAsync(
                         to: user.EmailAddress,
                         //subject: string.Format(L("UserRegistrationSubject"), tenant.Name),

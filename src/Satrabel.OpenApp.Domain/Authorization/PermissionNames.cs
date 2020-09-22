@@ -1,5 +1,9 @@
 ﻿namespace Satrabel.OpenApp.Authorization
 {
+    /// <summary>
+    /// List of Permission names.
+    /// To create Permissions, goto <seealso cref="OpenAppAuthorizationProvider"/> 
+    /// </summary>
     public static class PermissionNames
     {
         public const string Pages_Tenants = "Pages.Tenants";
