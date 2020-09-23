@@ -84,7 +84,6 @@ namespace Satrabel.OpenApp.Users
             var user = await _userManager.GetUserByIdAsync(input.Id);
 
             if (AbpSession.UserId == null) throw new Abp.UI.UserFriendlyException("You are not logged in.");
-            var editor = await _userManager.GetUserByIdAsync((long)AbpSession.UserId);
 
             MapToEntity(input, user);
             if (!string.IsNullOrEmpty(input.Password))
@@ -98,7 +97,7 @@ namespace Satrabel.OpenApp.Users
 
             if (input.RoleNames != null)
             {
-                var editorIsAdmin = await _userManager.IsInRoleAsync(editor, StaticRoleNames.Host.Admin);
+                var editorIsAdmin = await EditorIsAdmin((long)AbpSession.UserId);
                 var roleNamesContainsAdmin = input.RoleNames.Select(name => name.ToUpper()).Contains(StaticRoleNames.Host.Admin.ToUpper());
 
                 if (roleNamesContainsAdmin && !editorIsAdmin) throw new Abp.UI.UserFriendlyException("You are not allowed to assign the admin role.");
@@ -210,6 +209,17 @@ namespace Satrabel.OpenApp.Users
         protected virtual void CheckErrors(IdentityResult identityResult)
         {
             identityResult.CheckErrors(LocalizationManager);
+        }
+
+        private async Task<bool> EditorIsAdmin(long userId)
+        {
+            var editor = await _userManager.GetUserByIdAsync(userId);
+            return await _userManager.IsInRoleAsync(editor, StaticRoleNames.Host.Admin);
+        }
+
+        private bool IsNotAdminRole(Role i)
+        {
+            return i.Name.ToUpperInvariant() != StaticRoleNames.Host.Admin.ToUpper();
         }
     }
 }
