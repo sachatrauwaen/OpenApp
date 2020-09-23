@@ -117,6 +117,11 @@ namespace Satrabel.OpenApp.Users
         public async Task<ListResultDto<RoleDto>> GetRoles()
         {
             var roles = await _roleRepository.GetAllListAsync();
+            //if (AbpSession.UserId != null && await EditorIsAdmin((long)AbpSession.UserId))
+            //{
+            //    return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles.Where(i => IsNotAdminRole(i))));
+            //}
+            //else
             return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
         }
 
