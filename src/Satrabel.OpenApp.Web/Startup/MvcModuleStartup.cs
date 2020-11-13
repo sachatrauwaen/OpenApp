@@ -25,6 +25,7 @@ using Satrabel.OpenApp.Web.Migration;
 using Satrabel.OpenApp.Web.Resources;
 using Satrabel.OpenApp.Web.Startup;
 using Satrabel.OpenApp.Startup.Swashbuckle;
+using Satrabel.OpenApp.Render;
 
 namespace Satrabel.OpenApp.Startup
 {
@@ -87,6 +88,7 @@ namespace Satrabel.OpenApp.Startup
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
             services.AddScoped<IWebResourceManager, WebResourceManager>();
+            services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IMigrationManager>(new MigrationManager());
             services.AddSingleton<IWebConfig>(new WebConfig());
 
