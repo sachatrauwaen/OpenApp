@@ -29,6 +29,7 @@ namespace Satrabel.OpenApp.MultiTenancy
         private readonly RoleManager _roleManager;
         private readonly IAbpZeroDbMigrator _abpZeroDbMigrator;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly UserMailService _userMailService;
         private readonly ISettingDefinitionManager _settingDefinitionManager;
 
         public TenantAppService(
@@ -39,7 +40,9 @@ namespace Satrabel.OpenApp.MultiTenancy
             RoleManager roleManager,
             IAbpZeroDbMigrator abpZeroDbMigrator,
             IPasswordHasher<User> passwordHasher,
+            UserMailService userMailService,
             ISettingDefinitionManager settingDefinitionManager)
+
             : base(repository)
         {
             _tenantManager = tenantManager;
@@ -48,9 +51,10 @@ namespace Satrabel.OpenApp.MultiTenancy
             _roleManager = roleManager;
             _abpZeroDbMigrator = abpZeroDbMigrator;
             _passwordHasher = passwordHasher;
+            _userMailService = userMailService;
             _settingDefinitionManager = settingDefinitionManager;
         }
-
+        
         public override async Task<TenantDto> Create(CreateTenantDto input)
         {
             CheckCreatePermission();
@@ -94,6 +98,8 @@ namespace Satrabel.OpenApp.MultiTenancy
                 // Assign admin user to role!
                 CheckErrors(await _userManager.AddToRoleAsync(adminUser, adminRole.Name));
                 await CurrentUnitOfWork.SaveChangesAsync();
+
+                await _userMailService.SendAdminRegistrationMailAsync(adminUser, User.DefaultPassword); // TODO what if this fails?
             }
 
             return MapToEntityDto(tenant);

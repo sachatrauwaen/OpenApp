@@ -79,7 +79,9 @@ namespace Satrabel.OpenApp.Authorization.Users
             await CurrentUnitOfWork.SaveChangesAsync();
 
             if(sendConfirmationMail)
-                await _userMailService.SendRegistrationMail(user); // TODO what if this fails?
+                await _userMailService.SendConfirmationMail(user); // TODO what if this fails?
+            else
+                await _userMailService.SendRegistrationMailAsync(user, plainPassword); // TODO what if this fails?
 
             return user;
         }
