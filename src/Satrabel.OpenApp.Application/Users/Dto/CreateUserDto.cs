@@ -59,5 +59,7 @@ namespace Satrabel.OpenApp.Users.Dto
                 RoleNames = new string[0];
             }
         }
+
+       
     }
 }
