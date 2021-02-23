@@ -14,6 +14,12 @@ namespace Satrabel.OpenApp.Users.Dto
     [AutoMapFrom(typeof(User))]
     public class UserDto : EntityDto<long>
     {
+
+        public UserDto()
+        {
+            Settings = new List<SettingDto>();
+        }
+
         [Required]
         [StringLength(AbpUserBase.MaxUserNameLength)]
         [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
