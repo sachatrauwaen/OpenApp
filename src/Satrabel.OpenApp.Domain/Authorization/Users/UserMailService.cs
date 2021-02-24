@@ -99,7 +99,7 @@ namespace Satrabel.OpenApp.Authorization.Users
                 await _emailSender.SendAsync(
                     to: user.EmailAddress,
                      //subject: string.Format(L("UserRegistrationSubject"), tenant.Name),
-                     subject: model.Subject,
+                    subject: model.Subject,
                     //body: string.Format(L("UserRegistrationBody"), user.FullName, tenant.Name, baseUrl, user.Name,password, tenant.TenancyName),
                     body: res,
                     isBodyHtml: true
