@@ -168,5 +168,11 @@
     "inputFiles": [
       "Views/shared/Components/SideBarUserArea/Default.js"
     ]
+  },
+  {
+    "outputFileName": "Views/shared/Components/AccountLanguages/Default.min.js",
+    "inputFiles": [
+      "Views/shared/Components/AccountLanguages/Default.js"
+    ]
   }
 ]
