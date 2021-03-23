@@ -40,7 +40,7 @@ namespace Satrabel.OpenApp.Users.Dto
         public virtual string PhoneNumber { get; set; }
 
         public bool IsActive { get; set; }
-
+                
         [Display(Name = "Roles", Description = "Role names")]
         [JsonSchemaExtensionData("x-enum-action", "getRoles")]
         [JsonSchemaExtensionData("x-enum-valuefield", "normalizedName")]

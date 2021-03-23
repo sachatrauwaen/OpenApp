@@ -20,6 +20,11 @@
     <text name="RememberMe" value="Onthoud mij" />
     <text name="LogIn" value="Log in" />
 
+    <text name="VerifyTwoFactorCode" value="Verify Security Code" />
+    <text name="VerifyTwoFactorCodeText" value="The Security Code is send to your email adress" />
+    <text name="TwoFactorCode" value="Security Code" />
+    <text name="InvalidTwoFactorCode" value="Invalid Security Code " />
+    
     <text name="LoginFailed" value="Inloggen mislukt!" />
 
     <text name="UserName" value="Gebruikersnaam" />

@@ -64,6 +64,14 @@ namespace Satrabel.OpenApp.Users.Dto
         [JsonSchemaExtensionData("x-ui-group", "Details")]
         public bool IsActive { get; set; }
 
+        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
+        [JsonSchemaExtensionData("x-ui-group", "Details")]
+        public bool IsEmailConfirmed { get; set; }
+
+        [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
+        [JsonSchemaExtensionData("x-ui-group", "Details")]
+        public bool IsTwoFactorEnabled { get; set; }
+
         [ReadOnly(true)]
         [JsonSchemaExtensionData("x-ui-grid-sortable", true)]
         

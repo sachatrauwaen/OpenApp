@@ -23,7 +23,6 @@
     var ajaxSubmit = function () {
         abp.ui.setBusy(
             $('#LoginArea'),
-
             abp.ajax({
                 contentType: 'application/x-www-form-urlencoded',
                 url: $loginForm.attr('action'),
@@ -73,6 +72,13 @@
     });
 
     $('a.social-login-link').click(function () {
+        var $a = $(this);
+        var $form = $a.closest('form');
+        $form.find('input[name=provider]').val($a.attr('data-provider'));
+        $form.submit();
+    });
+
+    $('#resend-email-button').click(function () {
         var $a = $(this);
         var $form = $a.closest('form');
         $form.find('input[name=provider]').val($a.attr('data-provider'));

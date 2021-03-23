@@ -19,6 +19,11 @@
     <text name="LogIn" value="Se connecter" />
     <text name="BackToMyAccount" value="Retour à mon compte" />
 
+    <text name="VerifyTwoFactorCode" value="Verification Code Securité" />
+    <text name="VerifyTwoFactorCodeText" value="Le code de sécurité a été envoyé à votre adresse email" />
+    <text name="TwoFactorCode" value="Code de sécurité" />
+    <text name="InvalidTwoFactorCode" value="Code de sécurité invalide" />
+
     <text name="LoginFailed" value="Echec d'authentification !" />
 
     <text name="UserName" value="Nom d'utilisateur" />

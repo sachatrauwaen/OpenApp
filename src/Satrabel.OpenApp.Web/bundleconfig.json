@@ -111,6 +111,12 @@
     ]
   },
   {
+    "outputFileName": "Views/Account/VerifyTwoFactor.min.js",
+    "inputFiles": [
+      "Views/Account/VerifyTwoFactor.js"
+    ]
+  },
+  {
     "outputFileName": "Views/Account/Register.min.js",
     "inputFiles": [
       "Views/Account/Register.js"

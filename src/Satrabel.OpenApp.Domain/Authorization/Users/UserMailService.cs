@@ -140,5 +140,41 @@ namespace Satrabel.OpenApp.Authorization.Users
             }
         }
 
+        public async Task SendTwoFactorMailAsync(User user, string code)
+        {
+            //if (user.TenantId.HasValue)
+            {
+                var baseUrl = SettingManager.GetSettingValue(AppSettingNames.ClientRootAddress);
+                Tenant tenant = null;
+                if (user.TenantId.HasValue)
+                {
+                    tenant = await _tenantManager.GetByIdAsync(user.TenantId.Value);
+                }
+                // TODO Translate title
+                // TODO Allow template to be provided by client app (through setting or configuration) as lambda, providing confirmationLink and user and expecting string as a result
+
+                var model = new UserModel()
+                {
+                    SenderName = tenant == null ? "Host" : tenant.Name,
+                    DestinationName = user.FullName,
+                    TenantName = tenant == null ? "Host" : tenant.Name,
+                    TenancyName = tenant == null ? "Host" : tenant.TenancyName,
+                    UserFullName = user.FullName,
+                    UserName = user.UserName,
+                    Url = baseUrl,
+                    UserPassword = code
+                };
+                var res = await ViewRenderService.RenderToStringAsync("Email/UserTwoFactor", model);
+
+                await _emailSender.SendAsync(
+                    to: user.EmailAddress,
+                    subject: model.Subject,
+                    //subject: string.Format(L("TenantRegistrationSubject"),tenant.Name),
+                    body: res,
+                    //body: string.Format(L("TenantRegistrationBody"), user.FullName, tenant.Name, baseUrl, user.Name, password, tenant.TenancyName),
+                    isBodyHtml: true
+                );
+            }
+        }
     }
 }
