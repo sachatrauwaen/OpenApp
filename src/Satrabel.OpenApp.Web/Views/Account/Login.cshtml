@@ -70,11 +70,9 @@
                             <div class="col-6">
                                 <button id="LoginButton" class="btn btn-primary px-4" type="submit">@L("LogIn")</button>
                             </div>
-                            @*
-                                <div class="col-6 text-right">
-                                    <button type="button" class="btn btn-link px-0">Forgot password?</button>
-                                </div>
-                            *@
+                            <div class="col-6 text-right">
+                                <a class="btn btn-link px-0" asp-action="ForgotPassword">Forgot password?</a>
+                            </div>
                             @*
                                 @if (Model.IsEmailConfirmationRequiredForLogin)
                                 {

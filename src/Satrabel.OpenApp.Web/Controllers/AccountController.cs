@@ -119,7 +119,7 @@ namespace Satrabel.OpenApp.Web.Controllers
 
             if (signInResult.RequiresTwoFactor)
             {
-                returnUrl = "/Account/VerifyTwoFactor?returnUrl=" + returnUrl+ "&rememberMe="+ loginModel.RememberMe;
+                returnUrl = "/Account/VerifyTwoFactor?returnUrl=" + returnUrl + "&rememberMe=" + loginModel.RememberMe;
             }
 
             //await _signInManager.SignInAsync(loginResult.Identity, loginModel.RememberMe);
@@ -520,6 +520,86 @@ namespace Satrabel.OpenApp.Web.Controllers
         }
 
         #endregion
+
+        #region ForgotPassword
+
+        public ActionResult ForgotPassword()
+        {
+            return View(new ForgotPasswordViewModel());
+        }
+
+        [HttpPost]
+        [UnitOfWork]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameOrEmailAsync(model.EmailAddress);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action(
+                    "ResetPassword", "Account",
+                    values: new { code },
+                    protocol: Request.Scheme);
+
+                await _userMailService.SendForgotPasswordMailAsync(user, callbackUrl);
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+            }
+            return View("ForgotPasswordConfirmation");
+        }
+
+        public ActionResult ForgotPasswordConfirmation()
+        {
+            return View(new ForgotPasswordViewModel());
+        }
+
+        public ActionResult ResetPassword(string code = null)
+        {
+            return View(new ResetPasswordViewModel()
+            {
+                Code = code
+            });
+        }
+        [HttpPost]
+        [UnitOfWork]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameOrEmailAsync(model.EmailAddress);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return View("ResetPasswordConfirmation");
+                }
+
+                var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+                if (result.Succeeded)
+                {
+
+                    return RedirectToAction("ResetPasswordConfirmation", "Account");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+            }
+            return View(model);
+        }
+
+        public ActionResult ResetPasswordConfirmation()
+        {
+            return View(new ResetPasswordViewModel());
+        }
+        #endregion
+
 
         #region Helpers
 

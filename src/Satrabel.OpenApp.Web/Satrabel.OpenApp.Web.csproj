@@ -28,12 +28,16 @@
     <None Remove="Views\lib\element-ui\lib\theme_chalk\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Views\Account\ForgotPassword.cshtml" />
+    <None Remove="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <None Remove="Views\Account\Login.css" />
     <None Remove="Views\Account\Login.js" />
     <None Remove="Views\Account\Login.min.css" />
     <None Remove="Views\Account\Login.min.js" />
     <None Remove="Views\Account\Register.js" />
     <None Remove="Views\Account\Register.min.js" />
+    <None Remove="Views\Account\ResetPassword.cshtml" />
+    <None Remove="Views\Account\ResetPasswordConfirmation.cshtml" />
     <None Remove="Views\Account\VerifyTwoFactor.cshtml" />
     <None Remove="Views\Account\VerifyTwoFactor.css" />
     <None Remove="Views\Account\VerifyTwoFactor.js" />
@@ -46,6 +50,7 @@
     <None Remove="Views\dist\vendor.css" />
     <None Remove="Views\dist\vendor.js" />
     <None Remove="Views\Email\TenantRegistration.cshtml" />
+    <None Remove="Views\Email\UserForgotPassword.cshtml" />
     <None Remove="Views\Email\UserRegistration.cshtml" />
     <None Remove="Views\Email\UserTwoFactor.cshtml" />
     <None Remove="Views\fonts\fontawesome-webfont.eot" />
@@ -123,6 +128,18 @@
     <None Remove="Views\_Bundles\shared-layout.min.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Views\Account\ResetPasswordConfirmation.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Account\ResetPassword.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Account\ForgotPasswordConfirmation.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Account\ForgotPassword.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Account\VerifyTwoFactor.min.css" />
     <EmbeddedResource Include="Views\Account\VerifyTwoFactor.css" />
     <EmbeddedResource Include="Views\Account\VerifyTwoFactor.js" />
@@ -144,6 +161,7 @@
     <EmbeddedResource Include="Views\dist\vendor.css" />
     <EmbeddedResource Include="Views\dist\vendor.js" />
     <EmbeddedResource Include="Views\Email\TenantRegistration.cshtml" />
+    <EmbeddedResource Include="Views\Email\UserForgotPassword.cshtml" />
     <EmbeddedResource Include="Views\Email\UserTwoFactor.cshtml" />
     <EmbeddedResource Include="Views\Email\UserRegistration.cshtml" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.eot" />

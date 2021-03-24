@@ -23,6 +23,15 @@
     <text name="VerifyTwoFactorCodeText" value="Le code de sécurité a été envoyé à votre adresse email" />
     <text name="TwoFactorCode" value="Code de sécurité" />
     <text name="InvalidTwoFactorCode" value="Code de sécurité invalide" />
+    <text name="IsEmailConfirmed" value="Email Confirmé" />
+    <text name="IsTwoFactorEnabled" value="Deux Facteur" />
+
+    <text name="ForgotPassword" value="Mot de passe oublié" />
+    <text name="Send" value="Envoyer" />
+    <text name="Back" value="Retour" />
+    <text name="ForgotPasswordConfirmation" value="Vérifiez vos email pour réinitialiser votre mot de passe." />
+    <text name="ResetPassword" value="Réinitialiser mot de passe" />
+    <text name="ResetPasswordConfirmation" value="Votre mot de passe a été réinitialisé." />
 
     <text name="LoginFailed" value="Echec d'authentification !" />
 

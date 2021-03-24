@@ -176,5 +176,37 @@ namespace Satrabel.OpenApp.Authorization.Users
                 );
             }
         }
+
+        public async Task SendForgotPasswordMailAsync(User user, string callbackUrl)
+        {
+            //if (user.TenantId.HasValue)
+            {
+                var baseUrl = SettingManager.GetSettingValue(AppSettingNames.ClientRootAddress);
+                Tenant tenant = null;
+                if (user.TenantId.HasValue)
+                {
+                    tenant = await _tenantManager.GetByIdAsync(user.TenantId.Value);
+                }
+
+                var model = new UserModel()
+                {
+                    SenderName = tenant == null ? "Host" : tenant.Name,
+                    DestinationName = user.FullName,
+                    TenantName = tenant == null ? "Host" : tenant.Name,
+                    TenancyName = tenant == null ? "Host" : tenant.TenancyName,
+                    UserFullName = user.FullName,
+                    UserName = user.UserName,
+                    Url = System.Text.Encodings.Web.HtmlEncoder.Default.Encode(callbackUrl)
+                };
+                var res = await ViewRenderService.RenderToStringAsync("Email/UserForgotPassword", model);
+
+                await _emailSender.SendAsync(
+                    to: user.EmailAddress,
+                    subject: model.Subject,
+                    body: res,
+                    isBodyHtml: true
+                );
+            }
+        }
     }
 }
