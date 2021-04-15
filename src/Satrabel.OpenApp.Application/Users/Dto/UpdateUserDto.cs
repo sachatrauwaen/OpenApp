@@ -48,6 +48,12 @@ namespace Satrabel.OpenApp.Users.Dto
         [JsonSchemaExtensionData("x-ui-group", "Details")]
         public bool IsActive { get; set; }
 
+        [JsonSchemaExtensionData("x-ui-group", "Details")]
+        public bool IsEmailConfirmed { get; set; }
+
+        [JsonSchemaExtensionData("x-ui-group", "Details")]
+        public bool IsTwoFactorEnabled { get; set; }
+
         [Display(Name = "Roles", Description = "Role names")]
         [JsonSchemaExtensionData("x-enum-action", "getRoles")]
         [JsonSchemaExtensionData("x-enum-valuefield", "normalizedName")]

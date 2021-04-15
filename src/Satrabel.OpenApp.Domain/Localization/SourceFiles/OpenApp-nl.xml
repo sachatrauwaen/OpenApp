@@ -20,6 +20,20 @@
     <text name="RememberMe" value="Onthoud mij" />
     <text name="LogIn" value="Log in" />
 
+    <text name="VerifyTwoFactorCode" value="Verify Security Code" />
+    <text name="VerifyTwoFactorCodeText" value="The Security Code is send to your email adress" />
+    <text name="TwoFactorCode" value="Security Code" />
+    <text name="InvalidTwoFactorCode" value="Invalid Security Code " />
+    <text name="IsEmailConfirmed" value="Email Confirmed" />
+    <text name="IsTwoFactorEnabled" value="Two Factor" />
+
+    <text name="ForgotPassword" value="Forgot Password" />
+    <text name="Send" value="Send" />
+    <text name="Back" value="Back" />
+    <text name="ForgotPasswordConfirmation" value="Please check your email to reset your password." />
+    <text name="ResetPassword" value="Reset Password" />
+    <text name="ResetPasswordConfirmation" value="Your password has been reset." />
+
     <text name="LoginFailed" value="Inloggen mislukt!" />
 
     <text name="UserName" value="Gebruikersnaam" />
@@ -64,7 +78,7 @@
     <text name="ChangeTenant">Wijzig tenant</text>
 
     <text name="MultiLevelMenu">Multi Level Menu</text>
-    <text name="Back">Terug</text>
+    
     <text name="SuccessfullyRegistered">Succesvol geregistered</text>
     <text name="WaitingForEmailActivation">Wacht op email activatie</text>
     <text name="Roles">Roles</text>
