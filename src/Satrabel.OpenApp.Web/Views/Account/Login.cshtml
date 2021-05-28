@@ -27,6 +27,31 @@
     </environment>
 }
 
+@if (!string.IsNullOrEmpty(Model.TenantLogo) || !string.IsNullOrEmpty(Model.TenantDescription))
+{ 
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @if (!string.IsNullOrEmpty(Model.TenantLogo))
+                            {
+                                <img src="@Model.TenantLogo" alt="" class="img-fluid" />
+                            }
+                        </div>
+                        <div class="col-md-10">
+                            @if (!string.IsNullOrEmpty(Model.TenantDescription))
+                            {
+                                <p>@Model.TenantDescription</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card-group mb-0">
@@ -38,7 +63,7 @@
                         <h1>Login</h1>
                         <p class="text-muted">@L("LogIn")</p>
 
-                        @if (MultiTenancyConfig.IsEnabled)
+                        @if (MultiTenancyConfig.IsEnabled && Model.IsTenancySelectionAllowed)
                         {
                             <div class="input-group mb-3">
                                 <span class="input-group-addon">

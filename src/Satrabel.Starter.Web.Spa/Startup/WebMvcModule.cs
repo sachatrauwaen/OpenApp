@@ -15,6 +15,7 @@ using Abp.AspNetCore.Configuration;
 using Satrabel.OpenApp.Startup;
 using Abp.AutoMapper;
 using Abp.Zero.Configuration;
+using Abp.Configuration.Startup;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -61,6 +62,7 @@ namespace Satrabel.Starter.Web.Startup
 
             // Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
+            Configuration.Modules.AbpWebCommon().MultiTenancy.DomainFormat = "app.{0}.be"; 
 
             _webConfig.MetaTitle = AppConsts.MetaTitle;
             _webConfig.FooterLinkText = AppConsts.FooterLinkText;

@@ -33,6 +33,7 @@ using Abp.AspNetCore.Mvc.Authorization;
 using Abp.Runtime.Security;
 using System.Globalization;
 using Abp.Runtime.Caching;
+using Satrabel.OpenApp.Startup;
 
 namespace Satrabel.OpenApp.Web.Controllers
 {
@@ -93,13 +94,19 @@ namespace Satrabel.OpenApp.Web.Controllers
                 returnUrl = GetAppHomeUrl();
             }
             var isEmailConfirmationRequiredForLogin = SettingManager.GetSettingValue<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
+            var isTenancySelectionAllowed = SettingManager.GetSettingValue<bool>(OpenAppSettingNames.IsTenancySelectionAllowed);
+            var tenantLogo = SettingManager.GetSettingValue(OpenAppSettingNames.TenantLogo);
+            var tenantDescription = SettingManager.GetSettingValue(OpenAppSettingNames.TenantDescription);
             return View(new LoginFormViewModel
             {
                 ReturnUrl = returnUrl,
                 IsMultiTenancyEnabled = _multiTenancyConfig.IsEnabled,
                 IsSelfRegistrationAllowed = IsSelfRegistrationEnabled(),
+                IsTenancySelectionAllowed = isTenancySelectionAllowed,
                 MultiTenancySide = AbpSession.MultiTenancySide,
-                IsEmailConfirmationRequiredForLogin = isEmailConfirmationRequiredForLogin
+                IsEmailConfirmationRequiredForLogin = isEmailConfirmationRequiredForLogin,
+                TenantLogo= tenantLogo,
+                TenantDescription= tenantDescription
             });
         }
 
