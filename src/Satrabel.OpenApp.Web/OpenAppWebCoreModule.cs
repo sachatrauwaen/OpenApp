@@ -61,6 +61,7 @@ namespace Satrabel.OpenApp
                     "Satrabel.OpenApp.Views"
                 )
             );
+            Configuration.Settings.Providers.Add<OpenAppSettingsPrivider>();
             Configuration.Navigation.Providers.Add<OpenAppNavigationProvider>();
         }
 

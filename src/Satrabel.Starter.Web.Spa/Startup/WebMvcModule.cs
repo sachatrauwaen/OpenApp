@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Microsoft.AspNetCore.Hosting;
@@ -15,18 +14,15 @@ using Satrabel.OpenApp.Web.Migration;
 using Abp.AspNetCore.Configuration;
 using Satrabel.OpenApp.Startup;
 using Abp.AutoMapper;
-using Abp.Dependency;
-using Abp.Hangfire.Configuration;
 using Abp.Zero.Configuration;
-using Castle.MicroKernel.Registration;
-using Castle.MicroKernel.Resolvers;
+using Abp.Configuration.Startup;
 
 namespace Satrabel.Starter.Web.Startup
 {
     [DependsOn(typeof(OpenAppWebCoreModule))]
-    public sealed class WebMvcModule : AbpModule
+    public class WebMvcModule : AbpModule
     {
-        private readonly IWebHostEnvironment _env;
+        private readonly IHostingEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IMigrationManager _migrationManager;
         private readonly IWebConfig _webConfig;
@@ -35,7 +31,7 @@ namespace Satrabel.Starter.Web.Startup
         public bool SkipDbContextRegistration { get; set; }
         public bool SkipDbSeed { get; set; }
 
-        public WebMvcModule(IWebHostEnvironment env, IMigrationManager migrationManager, IWebConfig webConfig)
+        public WebMvcModule(IHostingEnvironment env, IMigrationManager migrationManager, IWebConfig webConfig)
         {
             _env = env;
             _migrationManager = migrationManager;
@@ -64,15 +60,9 @@ namespace Satrabel.Starter.Web.Startup
             // Load localization keys
             LocalizationConfigurer.Configure(Configuration.Localization);
 
-            Boolean.TryParse(_env.GetAppConfiguration()["Hangfire:IsEnabled"] ?? "", out var hangfireEnabled);
-            if (hangfireEnabled)
-            {
-                // use Hangfire instead of ABP's default background job manager
-                Configuration.BackgroundJobs.UseHangfire();
-            }
-
             // Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = AppConsts.MultiTenancyEnabled;
+            Configuration.Modules.AbpWebCommon().MultiTenancy.DomainFormat = "app.{0}.be"; 
 
             _webConfig.MetaTitle = AppConsts.MetaTitle;
             _webConfig.FooterLinkText = AppConsts.FooterLinkText;
@@ -97,29 +87,18 @@ namespace Satrabel.Starter.Web.Startup
             {
                 _migrationManager.Configure(Configuration, IocManager);
             }
-
-            //facilitate the usage of Lazy<T> in constructors. Make sure Castle recognizes them
-            IocManager.IocContainer
-                .Register(Component.For<ILazyComponentLoader>().ImplementedBy<LazyOfTComponentLoader>());
         }
 
         public override void Initialize()
         {
-            // Initialize Castle. Register all components found by traversing the Assemblies. See Castle doc's for more info.
             Assembly thisAssembly = typeof(WebMvcModule).GetAssembly();
             IocManager.RegisterAssemblyByConvention(thisAssembly);
             Configuration.Modules.AbpAutoMapper().Configurators.Add(cfg =>
             {
                 //Scan the assembly for classes which inherit from AutoMapper.Profile
-                //cfg.AddProfiles(thisAssembly);
-                cfg.AddMaps(thisAssembly);
+                cfg.AddProfiles(thisAssembly);
             });
-
-            // Register some components that were not yet automaticly registered.
-
-            CustomIocRegistration(IocManager);
         }
-
         public override void PostInitialize()
         {
             if (_migrationManager.NeedMigration && !SkipDbContextRegistration)
@@ -130,14 +109,6 @@ namespace Satrabel.Starter.Web.Startup
             {
                 SeedHelper.SeedHostDb<AppDbContext>(IocManager);
             }
-        }
-
-        /// <summary>
-        /// Register classes/components that were not yet automaticly registered, like Generics
-        /// </summary>
-        public static void CustomIocRegistration(IIocManager iocManager)
-        {
-            // put your custom registrations here
         }
     }
 }
