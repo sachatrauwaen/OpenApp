@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Satrabel.OpenApp.Configuration;
 using Satrabel.OpenApp.Startup;
-using Satrabel.Starter.Web.Authorization;
 
 namespace Satrabel.Starter.Web.Startup
 {
@@ -69,7 +68,7 @@ namespace Satrabel.Starter.Web.Startup
                 app.UseHangfireDashboard("/backgroundjobs", new DashboardOptions
                 {
                     DashboardTitle = $"OpenApp Background jobs",
-                    Authorization = new[] { new OpenAppHangfireAuthorizationFilter(PermissionNames.Pages_Admin) }
+                    Authorization = new[] { new OpenAppHangfireAuthorizationFilter(Satrabel.Starter.Web.Authorization.PermissionNames.Pages_Admin) }
                 });
             }
         }

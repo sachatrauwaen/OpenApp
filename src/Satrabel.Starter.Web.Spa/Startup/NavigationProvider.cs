@@ -22,7 +22,7 @@ namespace Satrabel.Starter.Web.Startup
         public override void SetNavigation(INavigationProviderContext context)
         {
             context.Manager.MainMenu
-                 .AddItem(
+                .AddItem(
                     new MenuItemDefinition(
                         PageNames.Home,
                         L("Home"),
