@@ -16,13 +16,14 @@ using Satrabel.OpenApp.Startup;
 using Abp.AutoMapper;
 using Abp.Zero.Configuration;
 using Abp.Configuration.Startup;
+using Castle.Windsor;
 
 namespace Satrabel.Starter.Web.Startup
 {
     [DependsOn(typeof(OpenAppWebCoreModule))]
-    public class WebMvcModule : AbpModule
+    public sealed class WebMvcModule : AbpModule
     {
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IMigrationManager _migrationManager;
         private readonly IWebConfig _webConfig;
@@ -31,7 +32,7 @@ namespace Satrabel.Starter.Web.Startup
         public bool SkipDbContextRegistration { get; set; }
         public bool SkipDbSeed { get; set; }
 
-        public WebMvcModule(IHostingEnvironment env, IMigrationManager migrationManager, IWebConfig webConfig)
+        public WebMvcModule(IWebHostEnvironment env, IMigrationManager migrationManager, IWebConfig webConfig)
         {
             _env = env;
             _migrationManager = migrationManager;
@@ -91,14 +92,23 @@ namespace Satrabel.Starter.Web.Startup
 
         public override void Initialize()
         {
+            // Initialize Castle. Register all components found by traversing the Assemblies. See Castle doc's for more info.
+            // https://github.com/castleproject/Windsor/blob/master/docs/registering-components-by-conventions.md
             Assembly thisAssembly = typeof(WebMvcModule).GetAssembly();
             IocManager.RegisterAssemblyByConvention(thisAssembly);
-            Configuration.Modules.AbpAutoMapper().Configurators.Add(cfg =>
-            {
-                //Scan the assembly for classes which inherit from AutoMapper.Profile
-                cfg.AddProfiles(thisAssembly);
-            });
+
+            // Custom Ioc/Castle: Register some components that were not yet automaticly registered.
+            CustomIocRegistration(IocManager.IocContainer, thisAssembly);
+
+            // Config AutoMapper. Scan the assembly for classes which inherit from AutoMapper.Profile
+            Configuration.Modules.AbpAutoMapper().Configurators
+                .Add(cfg =>
+                {
+                    //Scan the assembly for classes which inherit from AutoMapper.Profile
+                    cfg.AddMaps(thisAssembly);
+                });
         }
+
         public override void PostInitialize()
         {
             if (_migrationManager.NeedMigration && !SkipDbContextRegistration)
@@ -109,6 +119,19 @@ namespace Satrabel.Starter.Web.Startup
             {
                 SeedHelper.SeedHostDb<AppDbContext>(IocManager);
             }
+        }
+
+        /// <summary>
+        /// Custom Ioc/Castle registrations: Register some components that were not yet automaticly registered.
+        /// For example Register generic types
+        /// See: https://stackoverflow.com/questions/12344708/castle-windsor-ioc-registration-for-open-generic-interfaces
+        /// For debug inspiration see: https://stackoverflow.com/questions/8902919/register-all-classes-from-base-on-up-in-castle-windsor-using-fluent-interface
+        /// </summary>
+        /// <param name="iocContainer"></param>
+        /// <param name="thisAssembly"></param>
+        public static void CustomIocRegistration(IWindsorContainer iocContainer, Assembly thisAssembly)
+        {
+
         }
     }
 }
