@@ -329,8 +329,8 @@
     <PackageReference Include="Castle.LoggingFacility.MsLogging" Version="3.1.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Owin" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Owin" Version="3.1.15" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
     <PackageReference Include="Abp.AspNetCore" Version="5.14.0" />
     <PackageReference Include="Abp.ZeroCore" Version="5.14.0" />

@@ -33,26 +33,26 @@
     <PackageReference Include="Abp.HangFire.AspNetCore" Version="5.14.0" />
     <PackageReference Include="Hangfire.Core" Version="1.7.17" />
     <PackageReference Include="HangFire.SqlServer" Version="1.7.17" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.15">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.9" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.0.3">
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.15" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.3.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4">
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="AspNet.Security.OpenIdConnect.Server" Version="2.0.0" />
     <PackageReference Include="PaulMiami.AspNetCore.Mvc.Recaptcha" Version="1.2.2" />
     <PackageReference Include="Castle.LoggingFacility.MsLogging" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.9" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.9" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.15" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.15" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.15" />
     <PackageReference Include="Abp.Castle.Log4Net" Version="5.14.0" />
   </ItemGroup>
   <ItemGroup>
