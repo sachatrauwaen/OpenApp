@@ -148,7 +148,8 @@ namespace Satrabel.OpenApp.Startup
                 options.AddPolicy(
                     _allowAllCorsPolicyName,
                     builder => builder
-                            .AllowAnyOrigin()
+                             .SetIsOriginAllowed(origin => true) // allow any origin
+                            //.AllowAnyOrigin()
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                     );
