@@ -38,11 +38,8 @@ namespace Satrabel.Starter.Web.Startup
             //        //    { "reload", "true" },
             //        //    { "timeout","20000" }
             //        //},
-
             //    });
             //}
         }
-
-       
     }
 }
