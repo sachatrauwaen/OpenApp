@@ -34,6 +34,9 @@ namespace Satrabel.OpenApp.Roles.Dto
         public bool IsStatic { get; set; }
 
         [JsonSchemaExtensionData("x-ui-grid", false)]
+        public bool IsDefault { get; set; }
+
+        [JsonSchemaExtensionData("x-ui-grid", false)]
         public List<string> Permissions { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<localizationDictionary culture="nl-NL">
+<localizationDictionary culture="nl">
   <texts>
     <text name="Admin" value="Admin" />
     <text name="Languages">Talen</text>

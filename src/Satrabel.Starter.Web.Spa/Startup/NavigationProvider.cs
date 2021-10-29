@@ -1,24 +1,16 @@
-﻿using System;
-using Abp.Application.Navigation;
-using Abp.Authorization;
+﻿using Abp.Application.Navigation;
 using Abp.Localization;
-using Microsoft.Extensions.Configuration;
+using Satrabel.OpenApp;
 using Satrabel.Starter.Web.Authorization;
 
 namespace Satrabel.Starter.Web.Startup
 {
     /// <summary>
     /// This class defines menus for the application.
+    /// Urls are /app/[appname] or, if a Controller/View combo exist, /[ControllerPrefix]
     /// </summary>
     public class NavigationProvider : Abp.Application.Navigation.NavigationProvider
     {
-        private readonly bool _hangfireEnabled;
-
-        public NavigationProvider(IConfiguration configuration)
-        {
-            Boolean.TryParse(configuration["Hangfire:IsEnabled"] ?? "", out _hangfireEnabled);
-        }
-
         public override void SetNavigation(INavigationProviderContext context)
         {
             context.Manager.MainMenu
@@ -28,51 +20,37 @@ namespace Satrabel.Starter.Web.Startup
                         L("Home"),
                         url: "",
                         icon: "home",
-                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
+                        requiredPermissionName: PermissionNames.Pages_Home
                     )
                 )
                 .AddItem(
                     new MenuItemDefinition(
                         PageNames.Home,
                         L("Demos"),
-                        url: "-",
-                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
+                        url: "-",                        
+                        requiredPermissionName: PermissionNames.Pages_Home
                     )
-                    .AddItem(
-                        new MenuItemDefinition(
-                                PageNames.Home,
-                                L("ClientApp"),
-                                url: "/App/Demo1",
-                                icon: "question",
-                                permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Home)
-                            )
-                        )
-                        .AddItem(
-                            new MenuItemDefinition(
-                            PageNames.Home,
-                            L("About"),
-                            url: "/About",
-                            icon: "question",
-                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_About)
-                        )
+
+                .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.Home,
+                        L("ClientApp"),
+                        url: "/App/Demo1",
+                        icon: "question",
+                        requiredPermissionName: PermissionNames.Pages_Home
                     )
-                );
-
-            if (_hangfireEnabled)
-            {
-                var adminMenu = context.Manager.MainMenu.GetItemByName("Admin");
-                adminMenu
-                    .AddItem(
-                        new MenuItemDefinition(
-                            PageNames.Admin,
-                            L("BackgroundJobs"),
-                            url: "/backgroundjobs",
-                            icon: "question",
-                            permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Admin)
-                        )
-                    );
-            }
-
+                )
+                .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.Home,
+                        L("About"),
+                        url: "/About",
+                        icon: "question",
+                        requiredPermissionName: PermissionNames.Pages_About
+                    )
+                )
+                )
+                ;
             context.Manager.MainMenu.Items.MoveMenuItemToBottom("Admin");
 
             context.Manager.Menus["TopMenu"]
@@ -82,7 +60,7 @@ namespace Satrabel.Starter.Web.Startup
                        L("Users"),
                        url: "/Crud#/OpenApp/user",
                        icon: "people",
-                       permissionDependency: new SimplePermissionDependency(Satrabel.OpenApp.Authorization.PermissionNames.Pages_Users),
+                       requiredPermissionName: Satrabel.OpenApp.Authorization.PermissionNames.Pages_Users,
                        customData: "Users"
                    )
                 );
