@@ -26,6 +26,9 @@ namespace Satrabel.OpenApp.Roles.Dto
         [JsonSchemaExtensionData("x-ui-group", "RoleDetails")]
         public string Description { get; set; }
 
+        [JsonSchemaExtensionData("x-ui-group", "RoleDetails")]
+        public bool IsDefault { get; set; }
+
         [JsonSchemaExtensionData("x-ui-group", "RolePermissions")]
         [JsonSchemaExtensionData("x-enum-action", "getAllPermissions")]
         [JsonSchemaExtensionData("x-enum-valuefield", "name")]
