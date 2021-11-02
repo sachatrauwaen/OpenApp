@@ -7,7 +7,7 @@ module.exports = (env) => {
     const TerserPlugin = require("terser-webpack-plugin");
     const MiniCssExtractPlugin = require("mini-css-extract-plugin");
     //const VueLoaderPlugin = require('vue-loader/lib/plugin');
-    const extractCSS = new MiniCssExtractPlugin("vendor.css");
+    const extractCss = new MiniCssExtractPlugin({filename:'vendor.css'});
 
     return [{
         mode: JSON.stringify(isDevBuild ? "development" : "production"),
@@ -26,7 +26,7 @@ module.exports = (env) => {
             rules: [
                 {
                     test: /\.css(\?|$)/,
-                    use: [MiniCssExtractPlugin.loader, isDevBuild ? "css-loader" : "css-loader?minimize"]
+                    use: [MiniCssExtractPlugin.loader, 'css-loader']
                 },
                 { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: "url-loader?limit=100000" }
             ]
@@ -38,23 +38,18 @@ module.exports = (env) => {
             library: "[name]_[hash]"
         },
         plugins: [
-            extractCSS,
+            extractCss,
             //new VueLoaderPlugin(),
             new webpack.DllPlugin({
                 path: path.join(__dirname, "Views", "dist", "[name]-manifest.json"),
                 name: "[name]_[hash]"
             })
         ],
+        devtool: (isDevBuild ? 'source-map' : 'hidden-source-map' ),
         optimization: {
             minimizer: isDevBuild
                 ? []
-                : [new TerserPlugin( // https://github.com/webpack-contrib/terser-webpack-plugin
-                    {
-                        sourceMap: true,
-                        terserOptions: {
-                            mangle: true // Note `mangle.properties` is `false` by default.
-                        }
-                    })]
+                : [new TerserPlugin()] // https://github.com/webpack-contrib/terser-webpack-plugin
         }
     }];
 };

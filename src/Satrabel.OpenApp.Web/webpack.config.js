@@ -55,16 +55,7 @@ module.exports = (env) => {
                     test: /\.css$/,
                     use: isDevBuild
                         ? ["style-loader", "css-loader"]
-                        //: [MiniCssExtractPlugin.loader, "css-loader?minimize"]
-                        : [
-                            {
-                                loader: MiniCssExtractPlugin.loader,
-                                options: {
-                                    publicPath: '/public/path/to/'
-                                }
-                            },
-                            "css-loader?minimize"
-                        ]
+                        : [MiniCssExtractPlugin.loader, "css-loader"]
                 },
                 {
                     test: /\.(png|jpg|jpeg|gif|svg|ttf|eot|woff|woff2|gif)$/,
@@ -79,6 +70,7 @@ module.exports = (env) => {
         },
         plugins: [
             new VueLoaderPlugin(),
+            new MiniCssExtractPlugin(),
             new webpack.DllReferencePlugin({
                 context: __dirname,
                 manifest: require("./Views/dist/vendor-manifest.json")
@@ -97,12 +89,13 @@ module.exports = (env) => {
                     filename: "[name].css"
                 })
             ]),
+        devtool: (isDevBuild ? "source-map" : "hidden-source-map"),
         optimization: {
             minimizer: isDevBuild
                 ? []
                 : [
                     // we specify a custom TerserPlugin here to get source maps in production
-                    new TerserPlugin({ sourceMap: true }) // https://github.com/webpack-contrib/terser-webpack-plugin
+                    new TerserPlugin() // https://github.com/webpack-contrib/terser-webpack-plugin
                 ]
         }
     }];
