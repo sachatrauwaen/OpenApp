@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <VersionPrefix>1.0.0.0</VersionPrefix>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <AssemblyName>Satrabel.OpenApp.Web</AssemblyName>
     <PackageId>Satrabel.OpenApp.Web</PackageId>
@@ -28,12 +28,21 @@
     <None Remove="Views\lib\element-ui\lib\theme_chalk\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Views\Account\ForgotPassword.cshtml" />
+    <None Remove="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <None Remove="Views\Account\Login.css" />
     <None Remove="Views\Account\Login.js" />
     <None Remove="Views\Account\Login.min.css" />
     <None Remove="Views\Account\Login.min.js" />
     <None Remove="Views\Account\Register.js" />
     <None Remove="Views\Account\Register.min.js" />
+    <None Remove="Views\Account\ResetPassword.cshtml" />
+    <None Remove="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <None Remove="Views\Account\VerifyTwoFactor.cshtml" />
+    <None Remove="Views\Account\VerifyTwoFactor.css" />
+    <None Remove="Views\Account\VerifyTwoFactor.js" />
+    <None Remove="Views\Account\VerifyTwoFactor.min.css" />
+    <None Remove="Views\Account\VerifyTwoFactor.min.js" />
     <None Remove="Views\dist\crud.js" />
     <None Remove="Views\dist\crud.js.map" />
     <None Remove="Views\dist\impersonation.js" />
@@ -41,7 +50,9 @@
     <None Remove="Views\dist\vendor.css" />
     <None Remove="Views\dist\vendor.js" />
     <None Remove="Views\Email\TenantRegistration.cshtml" />
+    <None Remove="Views\Email\UserForgotPassword.cshtml" />
     <None Remove="Views\Email\UserRegistration.cshtml" />
+    <None Remove="Views\Email\UserTwoFactor.cshtml" />
     <None Remove="Views\fonts\fontawesome-webfont.eot" />
     <None Remove="Views\fonts\fontawesome-webfont.svg" />
     <None Remove="Views\fonts\fontawesome-webfont.ttf" />
@@ -97,6 +108,8 @@
     <None Remove="Views\lib\vueforms\libs.min.js" />
     <None Remove="Views\lib\vue\vue.js" />
     <None Remove="Views\lib\vue\vue.min.js" />
+    <None Remove="Views\Shared\Components\AccountLanguages\Default.js" />
+    <None Remove="Views\Shared\Components\AccountLanguages\Default.min.js" />
     <None Remove="Views\Shared\Components\SideBarUserArea\Default.js" />
     <None Remove="Views\Shared\Components\SideBarUserArea\Default.min.js" />
     <None Remove="Views\Shared\Components\TenantChange\Default.js" />
@@ -115,12 +128,31 @@
     <None Remove="Views\_Bundles\shared-layout.min.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Views\Account\ResetPasswordConfirmation.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Account\ResetPassword.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Account\ForgotPasswordConfirmation.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Account\ForgotPassword.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Account\VerifyTwoFactor.min.css" />
+    <EmbeddedResource Include="Views\Account\VerifyTwoFactor.css" />
+    <EmbeddedResource Include="Views\Account\VerifyTwoFactor.js" />
+    <EmbeddedResource Include="Views\Account\VerifyTwoFactor.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Account\Login.css" />
     <EmbeddedResource Include="Views\Account\Login.js" />
     <EmbeddedResource Include="Views\Account\Login.min.css" />
     <EmbeddedResource Include="Views\Account\Login.min.js" />
     <EmbeddedResource Include="Views\Account\Register.js" />
     <EmbeddedResource Include="Views\Account\Register.min.js" />
+    <EmbeddedResource Include="Views\Account\VerifyTwoFactor.min.js" />
     <EmbeddedResource Include="Views\Crud\Index.js" />
     <EmbeddedResource Include="Views\dist\crud.js" />
     <EmbeddedResource Include="Views\dist\crud.js.map" />
@@ -129,6 +161,8 @@
     <EmbeddedResource Include="Views\dist\vendor.css" />
     <EmbeddedResource Include="Views\dist\vendor.js" />
     <EmbeddedResource Include="Views\Email\TenantRegistration.cshtml" />
+    <EmbeddedResource Include="Views\Email\UserForgotPassword.cshtml" />
+    <EmbeddedResource Include="Views\Email\UserTwoFactor.cshtml" />
     <EmbeddedResource Include="Views\Email\UserRegistration.cshtml" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.eot" />
     <EmbeddedResource Include="Views\fonts\fontawesome-webfont.svg" />
@@ -204,6 +238,8 @@
     <EmbeddedResource Include="Views\lib\vue\vue_router.min.js" />
     <EmbeddedResource Include="Views\lib\vue\vue.js" />
     <EmbeddedResource Include="Views\lib\vue\vue.min.js" />
+    <EmbeddedResource Include="Views\Shared\Components\AccountLanguages\Default.js" />
+    <EmbeddedResource Include="Views\Shared\Components\AccountLanguages\Default.min.js" />
     <EmbeddedResource Include="Views\Shared\Components\SideBarUserArea\Default.js" />
     <EmbeddedResource Include="Views\Shared\Components\SideBarUserArea\Default.min.js" />
     <EmbeddedResource Include="Views\Shared\Components\TenantChange\Default.js" />
@@ -288,16 +324,17 @@
     <ProjectReference Include="..\Satrabel.OpenApp.EntityFramework\Satrabel.OpenApp.EntityFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Abp.AspNetCore.SignalR" Version="5.1.0" />
-    <PackageReference Include="Abp.Castle.Log4Net" Version="5.1.0" />
+    <PackageReference Include="Abp.AspNetCore.SignalR" Version="4.3.0" />
+    <PackageReference Include="Abp.Castle.Log4Net" Version="4.3.0" />
     <PackageReference Include="Castle.LoggingFacility.MsLogging" Version="3.1.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Owin" Version="3.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc5" />
-    <PackageReference Include="Abp.AspNetCore" Version="5.1.0" />
-    <PackageReference Include="Abp.ZeroCore" Version="5.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Owin" Version="2.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="Abp.AspNetCore" Version="4.3.0" />
+    <PackageReference Include="Abp.ZeroCore" Version="4.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Reference Include="System" />

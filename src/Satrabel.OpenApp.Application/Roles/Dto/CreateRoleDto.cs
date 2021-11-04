@@ -23,6 +23,8 @@ namespace Satrabel.OpenApp.Roles.Dto
         [StringLength(Role.MaxDescriptionLength)]
         public string Description { get; set; }
 
+        public bool IsDefault { get; set; }
+
         public bool IsStatic { get; set; }
 
         [JsonSchemaExtensionData("x-enum-action", "getAllPermissions")]

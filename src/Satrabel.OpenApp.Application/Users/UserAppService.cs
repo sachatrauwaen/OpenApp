@@ -16,6 +16,7 @@ using Satrabel.OpenApp.Authorization.Users;
 using Satrabel.OpenApp.Roles.Dto;
 using Satrabel.OpenApp.Users.Dto;
 using System;
+using Abp.Configuration;
 
 namespace Satrabel.OpenApp.Users
 {
@@ -27,6 +28,7 @@ namespace Satrabel.OpenApp.Users
         private readonly IRepository<Role> _roleRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly UserMailService _userMailService;
+        private readonly ISettingDefinitionManager _settingDefinitionManager;
 
         public UserAppService(
             IRepository<User, long> repository,
@@ -34,7 +36,8 @@ namespace Satrabel.OpenApp.Users
             RoleManager roleManager,
             IRepository<Role> roleRepository,
             IPasswordHasher<User> passwordHasher,
-            UserMailService userMailService)
+            UserMailService userMailService,
+            ISettingDefinitionManager settingDefinitionManager)
             : base(repository)
         {
             _userManager = userManager;
@@ -42,6 +45,7 @@ namespace Satrabel.OpenApp.Users
             _roleRepository = roleRepository;
             _passwordHasher = passwordHasher;
             _userMailService = userMailService;
+            _settingDefinitionManager = settingDefinitionManager;
         }
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
@@ -141,6 +145,10 @@ namespace Satrabel.OpenApp.Users
         {
             ObjectMapper.Map(input, user);
             user.SetNormalizedNames();
+            foreach (var setting in input.Settings)
+            {
+                SettingManager.ChangeSettingForUser(user.ToUserIdentifier(), setting.Name, setting.Value);
+            }
         }
 
         protected override UserDto MapToEntityDto(User user)
@@ -152,6 +160,25 @@ namespace Satrabel.OpenApp.Users
 
             var userDto = base.MapToEntityDto(user);
             userDto.RoleNames = roles.ToArray();
+
+            var settingDefs = _settingDefinitionManager.GetAllSettingDefinitions().Where(s => s.Scopes.HasFlag(SettingScopes.User));
+            foreach (var settingDef in settingDefs)
+            {
+                var value = settingDef.DefaultValue;
+                var settingValue = SettingManager.GetSettingValueForUser(settingDef.Name, user.TenantId, user.Id);
+                if (settingValue != null)
+                {
+                    value = settingValue;
+                }
+                userDto.Settings.Add(new SettingDto()
+                {
+                    Name = settingDef.Name,
+                    DisplayName = settingDef.DisplayName?.Localize(LocalizationManager),
+                    Value = value
+                });
+
+            }
+
             return userDto;
         }
 

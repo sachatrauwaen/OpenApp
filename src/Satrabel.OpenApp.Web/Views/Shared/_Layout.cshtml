@@ -24,6 +24,7 @@
     Layout = null;
     AbpAntiForgeryManager.SetCookie(Context);
     var uiTheme = await SettingManager.GetSettingValueAsync(AppSettingNames.UiTheme);
+    var tenantLogo = await SettingManager.GetSettingValueAsync(OpenAppSettingNames.TenantLogo);
 }
 
 <!DOCTYPE html>
@@ -47,6 +48,13 @@
         <link href="~/Views/_Bundles/shared-layout.min.css?v=@(AppTimes.StartupTime.Ticks)" rel="stylesheet" />
     </environment>
     <link href="~/default.css" rel="stylesheet" asp-append-version="true" />
+    @if (!string.IsNullOrEmpty(tenantLogo)) {
+    <style>
+        .app-header.navbar .navbar-brand {
+            background-image: url(@(tenantLogo));            
+        }
+    </style>
+    }
     <!-- View specific styles -->
     @RenderSection("styles", required: false)
     <script type="text/javascript">

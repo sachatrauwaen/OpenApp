@@ -33,11 +33,14 @@ using Abp.AspNetCore.Mvc.Authorization;
 using Abp.Runtime.Security;
 using System.Globalization;
 using Abp.Runtime.Caching;
+using Satrabel.OpenApp.Startup;
 
 namespace Satrabel.OpenApp.Web.Controllers
 {
     public class AccountController : OpenAppControllerBase
     {
+        const string EMAIL_PROVIDER = "Email";
+
         private readonly UserManager _userManager;
         private readonly TenantManager _tenantManager;
         private readonly IMultiTenancyConfig _multiTenancyConfig;
@@ -50,6 +53,7 @@ namespace Satrabel.OpenApp.Web.Controllers
         private readonly ITenantCache _tenantCache;
         private readonly INotificationPublisher _notificationPublisher;
         private readonly ICacheManager _cacheManager;
+        private readonly UserMailService _userMailService;
 
         public AccountController(
             UserManager userManager,
@@ -61,9 +65,9 @@ namespace Satrabel.OpenApp.Web.Controllers
             SignInManager signInManager,
             UserRegistrationManager userRegistrationManager,
             ISessionAppService sessionAppService,
-             ICacheManager cacheManager,
+            ICacheManager cacheManager,
             ITenantCache tenantCache,
-            
+            UserMailService userMailService,
         INotificationPublisher notificationPublisher)
         {
             _userManager = userManager;
@@ -78,6 +82,7 @@ namespace Satrabel.OpenApp.Web.Controllers
             _tenantCache = tenantCache;
             _notificationPublisher = notificationPublisher;
             _cacheManager = cacheManager;
+            _userMailService = userMailService;
         }
 
         #region Login / Logout
@@ -88,13 +93,20 @@ namespace Satrabel.OpenApp.Web.Controllers
             {
                 returnUrl = GetAppHomeUrl();
             }
-
+            var isEmailConfirmationRequiredForLogin = SettingManager.GetSettingValue<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
+            var isTenancySelectionAllowed = SettingManager.GetSettingValue<bool>(OpenAppSettingNames.IsTenancySelectionAllowed);
+            var tenantLogo = SettingManager.GetSettingValue(OpenAppSettingNames.TenantLogo);
+            var tenantDescription = SettingManager.GetSettingValue(OpenAppSettingNames.TenantDescription);
             return View(new LoginFormViewModel
             {
                 ReturnUrl = returnUrl,
                 IsMultiTenancyEnabled = _multiTenancyConfig.IsEnabled,
                 IsSelfRegistrationAllowed = IsSelfRegistrationEnabled(),
-                MultiTenancySide = AbpSession.MultiTenancySide
+                IsTenancySelectionAllowed = isTenancySelectionAllowed,
+                MultiTenancySide = AbpSession.MultiTenancySide,
+                IsEmailConfirmationRequiredForLogin = isEmailConfirmationRequiredForLogin,
+                TenantLogo= tenantLogo,
+                TenantDescription= tenantDescription
             });
         }
 
@@ -110,7 +122,15 @@ namespace Satrabel.OpenApp.Web.Controllers
 
             var loginResult = await GetLoginResultAsync(loginModel.UsernameOrEmailAddress, loginModel.Password, GetTenancyNameOrNull(loginModel.TenancyName));
 
-            await _signInManager.SignInAsync(loginResult.Identity, loginModel.RememberMe);
+            var signInResult = await _signInManager.SignInOrTwoFactorAsync(loginResult, loginModel.RememberMe);
+
+            if (signInResult.RequiresTwoFactor)
+            {
+                returnUrl = "/Account/VerifyTwoFactor?returnUrl=" + returnUrl + "&rememberMe=" + loginModel.RememberMe;
+            }
+
+            //await _signInManager.SignInAsync(loginResult.Identity, loginModel.RememberMe);
+
             await UnitOfWorkManager.Current.SaveChangesAsync();
 
             return Json(new AjaxResponse { TargetUrl = returnUrl });
@@ -122,7 +142,88 @@ namespace Satrabel.OpenApp.Web.Controllers
             return RedirectToAction("Login");
         }
 
+        //[HttpGet]
+        //[AllowAnonymous]
+        public async Task<ActionResult> VerifyTwoFactor(string returnUrl = null, bool rememberMe = false)
+        {
+            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+            if (user == null)
+            {
+                throw new UserFriendlyException(L("LoginFailed"), L("InvalidTwoFactorCode"));
+            }
 
+            // Generate the token and send it
+            var code = await _userManager.GenerateTwoFactorTokenAsync(user, EMAIL_PROVIDER);
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                throw new UserFriendlyException(L("LoginFailed"), L("InvalidTwoFactorCode"));
+            }
+
+            //var message = "Your security code is: " + code;
+            //if (model.SelectedProvider == "Email")
+            {
+                //await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
+
+                await _userMailService.SendTwoFactorMailAsync(user, code);
+
+            }
+            //else if (model.SelectedProvider == "Phone")
+            //{
+            //    await _smsSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
+            //}
+
+
+            //var userFactors = await _userManager.GetValidTwoFactorProvidersAsync(user);
+            //var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
+            //return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
+
+
+            return View(new VerifyTwoFactorViewModel
+            {
+                Provider = EMAIL_PROVIDER,
+                ReturnUrl = returnUrl,
+                RememberMe = rememberMe
+            });
+        }
+        [HttpPost]
+        [UnitOfWork]
+        public virtual async Task<JsonResult> VerifyTwoFactor(VerifyCodeViewModel model, string returnUrl = "", string returnUrlHash = "")
+        {
+            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+            if (user == null)
+            {
+                new UserFriendlyException(L("LoginFailed"), L("InvalidTwoFactorCode"));
+            }
+
+            returnUrl = NormalizeReturnUrl(returnUrl);
+            if (!string.IsNullOrWhiteSpace(returnUrlHash))
+            {
+                returnUrl = returnUrl + returnUrlHash;
+            }
+            model.Provider = EMAIL_PROVIDER;
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(model);
+            //}
+
+            // The following code protects for brute force attacks against the two factor codes.
+            // If a user enters incorrect codes for a specified amount of time then the user account
+            // will be locked out for a specified amount of time.
+            var result = await _signInManager.TwoFactorSignInAsync(model.Provider, model.Code, model.RememberMe, model.RememberBrowser);
+            if (result.Succeeded)
+            {
+                await UnitOfWorkManager.Current.SaveChangesAsync();
+                return Json(new AjaxResponse { TargetUrl = returnUrl });
+            }
+            if (result.IsLockedOut)
+            {
+                throw _abpLoginResultTypeHelper.CreateExceptionForFailedLoginAttempt(AbpLoginResultType.LockedOut, "", "");
+            }
+            else
+            {
+                throw new UserFriendlyException(L("LoginFailed"), L("InvalidTwoFactorCode"));
+            }
+        }
         private async Task<AbpLoginResult<Tenant, User>> GetLoginResultAsync(string usernameOrEmailAddress, string password, string tenancyName)
         {
             var loginResult = await _logInManager.LoginAsync(usernameOrEmailAddress, password, tenancyName);
@@ -427,6 +528,86 @@ namespace Satrabel.OpenApp.Web.Controllers
 
         #endregion
 
+        #region ForgotPassword
+
+        public ActionResult ForgotPassword()
+        {
+            return View(new ForgotPasswordViewModel());
+        }
+
+        [HttpPost]
+        [UnitOfWork]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameOrEmailAsync(model.EmailAddress);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action(
+                    "ResetPassword", "Account",
+                    values: new { code },
+                    protocol: Request.Scheme);
+
+                await _userMailService.SendForgotPasswordMailAsync(user, callbackUrl);
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+            }
+            return View("ForgotPasswordConfirmation");
+        }
+
+        public ActionResult ForgotPasswordConfirmation()
+        {
+            return View(new ForgotPasswordViewModel());
+        }
+
+        public ActionResult ResetPassword(string code = null)
+        {
+            return View(new ResetPasswordViewModel()
+            {
+                Code = code
+            });
+        }
+        [HttpPost]
+        [UnitOfWork]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameOrEmailAsync(model.EmailAddress);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return View("ResetPasswordConfirmation");
+                }
+
+                var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+                if (result.Succeeded)
+                {
+
+                    return RedirectToAction("ResetPasswordConfirmation", "Account");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+            }
+            return View(model);
+        }
+
+        public ActionResult ResetPasswordConfirmation()
+        {
+            return View(new ResetPasswordViewModel());
+        }
+        #endregion
+
+
         #region Helpers
 
         public ActionResult RedirectToAppHome()
@@ -466,7 +647,7 @@ namespace Satrabel.OpenApp.Web.Controllers
 
             //Switch to requested tenant
             //using (_unitOfWorkManager.Current.SetFilterParameter(AbpDataFilters.MayHaveTenant, AbpDataFilters.Parameters.TenantId, cacheItem.TargetTenantId))
-            using (_unitOfWorkManager.Current.SetTenantId( cacheItem.TargetTenantId))
+            using (_unitOfWorkManager.Current.SetTenantId(cacheItem.TargetTenantId))
             {
                 //Get the user from tenant
                 var user = await _userManager.FindByIdAsync(cacheItem.TargetUserId.ToString());
@@ -507,11 +688,11 @@ namespace Satrabel.OpenApp.Web.Controllers
             }
         }
 
-#endregion
+        #endregion
 
         #region Common
 
-        private string GetTenancyNameOrNull(string tenantName="")
+        private string GetTenancyNameOrNull(string tenantName = "")
         {
             if (!string.IsNullOrEmpty(tenantName))
             {

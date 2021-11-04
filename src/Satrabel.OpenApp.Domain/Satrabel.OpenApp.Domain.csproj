@@ -15,7 +15,25 @@
     <FileVersion>1.0.2.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Localization\SourceFiles\OpenApp-es.xml" />
+    <None Remove="Localization\SourceFiles\OpenApp-it.xml" />
+    <None Remove="Localization\SourceFiles\OpenApp-ja.xml" />
+    <None Remove="Localization\SourceFiles\OpenApp-lt.xml" />
+    <None Remove="Localization\SourceFiles\OpenApp-nl.xml" />
+    <None Remove="Localization\SourceFiles\OpenApp-pt-BR.xml" />
+    <None Remove="Localization\SourceFiles\OpenApp-tr.xml" />
+    <None Remove="Localization\SourceFiles\OpenApp-zh-CN.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Localization\SourceFiles\OpenApp-es.xml" />
     <EmbeddedResource Include="Localization\SourceFiles\OpenApp-fr.xml" />
+    <EmbeddedResource Include="Localization\SourceFiles\OpenApp-it.xml" />
+    <EmbeddedResource Include="Localization\SourceFiles\OpenApp-ja.xml" />
+    <EmbeddedResource Include="Localization\SourceFiles\OpenApp-lt.xml" />
+    <EmbeddedResource Include="Localization\SourceFiles\OpenApp-nl.xml" />
+    <EmbeddedResource Include="Localization\SourceFiles\OpenApp-pt-BR.xml" />
+    <EmbeddedResource Include="Localization\SourceFiles\OpenApp-tr.xml" />
+    <EmbeddedResource Include="Localization\SourceFiles\OpenApp-zh-CN.xml" />
     <EmbeddedResource Include="Localization\SourceFiles\OpenApp.xml" />
   </ItemGroup>
   <ItemGroup>
