@@ -543,7 +543,12 @@ namespace Satrabel.OpenApp.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameOrEmailAsync(model.EmailAddress);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (user == null )
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+                var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
+                if (isEmailConfirmationRequiredForLogin && !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     return View("ForgotPasswordConfirmation");
                 }
