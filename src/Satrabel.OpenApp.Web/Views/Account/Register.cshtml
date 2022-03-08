@@ -54,7 +54,7 @@
                         <input type="text" class="form-control" name="Surname" value="@Model.Surname" required maxlength="@AbpUserBase.MaxSurnameLength" placeholder="@L("Surname")">
                     </div>
 
-                    @if (Model.IsUserNameEqualEmail)
+                    @if (!Model.IsUserNameEqualEmail)
                     {
                         <div class="input-group mb-3">
                             <span class="input-group-addon">
