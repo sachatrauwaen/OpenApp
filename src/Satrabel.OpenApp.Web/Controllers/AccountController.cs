@@ -243,7 +243,10 @@ namespace Satrabel.OpenApp.Web.Controllers
 
         public ActionResult Register()
         {
-            return RegisterView(new RegisterViewModel());
+            var isUserNameEqualEmail = SettingManager.GetSettingValue<bool>(OpenAppSettingNames.IsUserNameEqualEmail);
+            return RegisterView(new RegisterViewModel() {
+                IsUserNameEqualEmail = isUserNameEqualEmail
+            });
         }
 
         private ActionResult RegisterView(RegisterViewModel model)
@@ -283,6 +286,11 @@ namespace Satrabel.OpenApp.Web.Controllers
                 }
                 else
                 {
+                    var isUserNameEqualEmail = SettingManager.GetSettingValue<bool>(OpenAppSettingNames.IsUserNameEqualEmail);
+                    if (isUserNameEqualEmail)
+                    {
+                        model.UserName = model.EmailAddress;
+                    }
                     if (model.UserName.IsNullOrEmpty() || model.Password.IsNullOrEmpty())
                     {
                         throw new UserFriendlyException(L("FormIsNotValidMessage"));
@@ -291,7 +299,6 @@ namespace Satrabel.OpenApp.Web.Controllers
 
                 //Getting tenant-specific settings
                 var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
-
                 var user = await _userRegistrationManager.RegisterAsync(
                     model.Name,
                     model.Surname,
@@ -299,7 +306,7 @@ namespace Satrabel.OpenApp.Web.Controllers
                     model.UserName,
                     model.Password,
                     // true // Assumed email address is always confirmed. Change this if you want to implement email confirmation.
-                    isEmailConfirmationRequiredForLogin ? false : true // We assume that when email confirmation is required before logging in, we create users under the assumption they still need to confirm
+                    isEmailConfirmationRequiredForLogin ? false : true // We assume that when email confirmation is required before logging in, we create users under the assumption they still need to confirm                    
                 );
 
                 if (model.IsExternalLogin)

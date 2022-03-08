@@ -54,13 +54,15 @@
                         <input type="text" class="form-control" name="Surname" value="@Model.Surname" required maxlength="@AbpUserBase.MaxSurnameLength" placeholder="@L("Surname")">
                     </div>
 
-
-                    <div class="input-group mb-3">
-                        <span class="input-group-addon">
-                            <i class="icon-user"></i>
-                        </span>
-                        <input type="text" class="form-control" name="UserName" value="@Model.UserName" required maxlength="@AbpUserBase.MaxUserNameLength" placeholder="@L("UserName")">
-                    </div>
+                    @if (Model.IsUserNameEqualEmail)
+                    {
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">
+                                <i class="icon-user"></i>
+                            </span>
+                            <input type="text" class="form-control" name="UserName" value="@Model.UserName" required maxlength="@AbpUserBase.MaxUserNameLength" placeholder="@L("UserName")">
+                        </div>
+                    }
                     <div class="input-group mb-3">
                         <span class="input-group-addon">@@</span>
                         <input type="email" class="form-control" name="EmailAddress" value="@Model.EmailAddress" required maxlength="@AbpUserBase.MaxEmailAddressLength" placeholder="@L("EmailAddress")">
@@ -76,20 +78,20 @@
                 </form>
             </div>
             @*
-    <div class="card-footer p-4">
-        <div class="row">
-            <div class="col-6">
-                <button class="btn btn-block btn-facebook" type="button">
-                    <span>facebook</span>
-                </button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-block btn-twitter" type="button">
-                    <span>twitter</span>
-                </button>
-            </div>
-        </div>
-    </div>
+                <div class="card-footer p-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="btn btn-block btn-facebook" type="button">
+                                <span>facebook</span>
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-block btn-twitter" type="button">
+                                <span>twitter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             *@
         </div>
     </div>

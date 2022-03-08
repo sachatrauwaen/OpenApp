@@ -18,6 +18,11 @@ namespace Satrabel.OpenApp.Startup
                     scopes: SettingScopes.Application
                 ),
                 new SettingDefinition(
+                    OpenAppSettingNames.IsUserNameEqualEmail,
+                    "False",
+                    scopes: SettingScopes.Application
+                ),
+                new SettingDefinition(
                     OpenAppSettingNames.TenantLogo,
                     "",
                     scopes: SettingScopes.Tenant

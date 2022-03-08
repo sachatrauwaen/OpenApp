@@ -32,6 +32,8 @@ namespace Satrabel.OpenApp.Web.Models.Account
 
         public string ExternalLoginAuthSchema { get; set; }
 
+        public bool IsUserNameEqualEmail { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (!UserName.IsNullOrEmpty())
