@@ -60,8 +60,8 @@
                     <form id="LoginForm" asp-action="Login" method="post">
                         <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
                         <input type="hidden" name="returnUrlHash" />
-                        <h1>Login</h1>
-                        <p class="text-muted">@L("LogIn")</p>
+                        <h1>@L("LogIn")</h1>
+                        <p class="text-muted">@L("LogInText")</p>
 
                         @if (MultiTenancyConfig.IsEnabled && Model.IsTenancySelectionAllowed)
                         {
@@ -107,9 +107,22 @@
                                 }
                             *@
                         </div>
+                       
+                        @if (Model.IsSelfRegistrationAllowed)
+                        {
+                            <div class="d-md-none" >
+                                <hr />
+                                <div >
+                                    <div>
+                                        <h2>@L("Register")</h2>
+                                        <p>@L("RegisterText")</p>
+                                        <a class="btn btn-primary active mt-3" asp-action="Register">@L("Register")</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
                     </form>
-
-
                     @{
                         var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                         if (loginProviders.Count > 0)
@@ -139,7 +152,6 @@
                         <div>
                             <h2>@L("Register")</h2>
                             <p>@L("RegisterText")</p>
-
                             <a class="btn btn-primary active mt-3" asp-action="Register">@L("Register")</a>
                         </div>
                     </div>

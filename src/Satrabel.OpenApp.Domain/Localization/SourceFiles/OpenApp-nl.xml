@@ -18,7 +18,8 @@
     <text name="UserNameOrEmail" value="Gebruikersnaam of e-mail" />
     <text name="Password" value="Wachtwoord" />
     <text name="RememberMe" value="Onthoud mij" />
-    <text name="LogIn" value="Log in" />
+    <text name="LogInText" value="Je hebt al een account, meld je aan" />
+	<text name="LogIn" value="Meld je aan" />
 
     <text name="VerifyTwoFactorCode" value="Verify Security Code" />
     <text name="VerifyTwoFactorCodeText" value="The Security Code is send to your email adress" />

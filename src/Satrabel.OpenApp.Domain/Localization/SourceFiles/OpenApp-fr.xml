@@ -17,6 +17,7 @@
     <text name="Password" value="Mot de passe" />
     <text name="RememberMe" value="Se rappeler de moi" />
     <text name="LogIn" value="Se connecter" />
+	<text name="LogInText" value="Vous avez un compte, connectez-vous" />
     <text name="BackToMyAccount" value="Retour à mon compte" />
 
     <text name="VerifyTwoFactorCode" value="Verification Code Securité" />

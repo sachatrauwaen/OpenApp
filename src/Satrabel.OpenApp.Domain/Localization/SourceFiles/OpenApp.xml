@@ -19,6 +19,7 @@
     <text name="Password" value="Password" />
     <text name="RememberMe" value="Remember me" />
     <text name="LogIn" value="Log in" />
+	<text name="LogInText" value="You have a account, log in" />
     <text name="BackToMyAccount" value="Back to my account" />
 
     <text name="VerifyTwoFactorCode" value="Verify Security Code" />
