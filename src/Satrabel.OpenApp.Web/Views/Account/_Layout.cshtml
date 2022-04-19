@@ -65,7 +65,7 @@
     <script src="~/AbpServiceProxies/GetAll?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     <script src="~/AbpScripts/GetScripts?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     
-    @WebResourceManager.RenderScripts();
+    @WebResourceManager.RenderScripts()
 
     <!-- View specific scripts -->
     @RenderSection("scripts", required: false)
