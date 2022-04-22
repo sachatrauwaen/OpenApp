@@ -30,7 +30,7 @@
 
                 <form id="RegisterForm" asp-action="Register" method="post">
                     <h1>@L("Register")</h1>
-                    <p class="text-muted">Create your account</p>
+                    <p class="text-muted">@L("CreateNewUser")</p>
                     @if (@ViewBag.ErrorMessage != null)
                     {
                         <div class="alert alert-danger">
