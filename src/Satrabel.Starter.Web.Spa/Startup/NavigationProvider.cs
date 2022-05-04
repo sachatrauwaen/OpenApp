@@ -8,6 +8,7 @@ namespace Satrabel.Starter.Web.Startup
 {
     /// <summary>
     /// This class defines menus for the application.
+    /// Urls are /app/[appname] or, if a Controller/View combo exist, /[ControllerPrefix]
     /// </summary>
     public class NavigationProvider : Abp.Application.Navigation.NavigationProvider
     {

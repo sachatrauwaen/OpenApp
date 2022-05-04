@@ -4,6 +4,10 @@ namespace Satrabel.Starter.Web
 {
     public class AppConsts
     {
+        /// <summary>
+        /// this version nummer will be compared to the one in the file \app_data\appversion.txt
+        /// if there is a difference then the database migrations will be run
+        /// </summary>
         public static readonly Version AppVersion = new Version(1,3);
 
         public const string LocalizationSourceName = "App";
