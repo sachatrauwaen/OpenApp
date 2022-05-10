@@ -26,7 +26,7 @@
                 if (menuItem.Items.IsNullOrEmpty())
                 {
                     <li class="nav-item @(Model.ActiveMenuItemName == menuItem.Name ? "active" : "")">
-                        <a class="nav-link" href="@calculateMenuUrl(menuItem.Url)">
+                        <a class="nav-link" href="@calculateMenuUrl(menuItem.Url)" target="@menuItem.Target">
                             @if (!string.IsNullOrWhiteSpace(menuItem.Icon))
                             {
                                 <i class="icon-@(menuItem.Icon)"></i>
@@ -51,7 +51,7 @@
                         if (subMenuItem.Items.IsNullOrEmpty())
                         {
                             <li class="nav-item @(Model.ActiveMenuItemName == subMenuItem.Name ? "active" : "")">
-                                <a class="nav-link" href="@calculateMenuUrl(subMenuItem.Url)">
+                                <a class="nav-link" href="@calculateMenuUrl(subMenuItem.Url)" target="@subMenuItem.Target">
                                     @if (!string.IsNullOrWhiteSpace(subMenuItem.Icon))
                                     {
                                         <i class="icon-@(subMenuItem.Icon)"></i>
@@ -63,7 +63,7 @@
                         else
                         {
                             <li class="nav-item nav-dropdown @(Model.ActiveMenuItemName == subMenuItem.Name ? "active" : "")">
-                                <a class="nav-link nav-dropdown-toggle" href="javascript:void(0);" class="menu-toggle">
+                                <a class="nav-link nav-dropdown-toggle" href="javascript:void(0);" class="menu-toggle" >
                                     @if (!string.IsNullOrWhiteSpace(subMenuItem.Icon))
                                     {
                                         <i class="icon-@(subMenuItem.Icon)"></i>
@@ -74,7 +74,7 @@
                                     @foreach (var subSubMenuItem in subMenuItem.Items)
                                     {
                                         <li class="nav-item @(Model.ActiveMenuItemName == subSubMenuItem.Name ? "active" : "")">
-                                            <a class="nav-link" href="@calculateMenuUrl(subSubMenuItem.Url)">
+                                            <a class="nav-link" href="@calculateMenuUrl(subSubMenuItem.Url)" target="@subSubMenuItem.Target">
                                                 @if (!string.IsNullOrWhiteSpace(subSubMenuItem.Icon))
                                                 {
                                                     <i class="icon-@(subSubMenuItem.Icon)"></i>
@@ -105,7 +105,7 @@
                                 if (subMenuItem.Items.IsNullOrEmpty())
                                 {
                                     <li class="nav-item @(Model.ActiveMenuItemName == subMenuItem.Name ? "active" : "")">
-                                        <a class="nav-link" href="@calculateMenuUrl(subMenuItem.Url)">
+                                        <a class="nav-link" href="@calculateMenuUrl(subMenuItem.Url)" target="@subMenuItem.Target">
                                             @if (!string.IsNullOrWhiteSpace(subMenuItem.Icon))
                                             {
                                                 <i class="icon-@(subMenuItem.Icon)"></i>
@@ -128,7 +128,7 @@
                                             @foreach (var subSubMenuItem in subMenuItem.Items)
                                             {
                                                 <li class="nav-item @(Model.ActiveMenuItemName == subSubMenuItem.Name ? "active" : "")">
-                                                    <a class="nav-link" href="@calculateMenuUrl(subSubMenuItem.Url)">
+                                                    <a class="nav-link" href="@calculateMenuUrl(subSubMenuItem.Url)" target="@subSubMenuItem.Target">
                                                         @subSubMenuItem.DisplayName
                                                     </a>
                                                 </li>
