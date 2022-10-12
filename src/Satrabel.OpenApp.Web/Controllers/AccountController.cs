@@ -34,6 +34,7 @@ using Abp.Runtime.Security;
 using System.Globalization;
 using Abp.Runtime.Caching;
 using Satrabel.OpenApp.Startup;
+using Satrabel.OpenApp.Configuration;
 
 namespace Satrabel.OpenApp.Web.Controllers
 {
@@ -258,7 +259,8 @@ namespace Satrabel.OpenApp.Web.Controllers
 
         private bool IsSelfRegistrationEnabled()
         {
-            if (!AbpSession.TenantId.HasValue)
+            var allowRegistrationForHostUsers = SettingManager.GetSettingValue<bool>(AppSettingNames.AllowRegistrationForHostUsers);
+            if (!AbpSession.TenantId.HasValue && !allowRegistrationForHostUsers)
             {
                 return false; // No registration enabled for host users!
             }
@@ -331,17 +333,20 @@ namespace Satrabel.OpenApp.Web.Controllers
 
                 await _unitOfWorkManager.Current.SaveChangesAsync();
 
-                Debug.Assert(user.TenantId != null);
+                //Debug.Assert(user.TenantId != null);
 
-                var tenant = await _tenantManager.GetByIdAsync(user.TenantId.Value);
-
+                Tenant tenant = null;
+                if (user.TenantId.HasValue)
+                {
+                    tenant = await _tenantManager.GetByIdAsync(user.TenantId.Value);
+                }
                 var loginSuccessfull = await AttemptLogin(user, tenant, model.Password, isEmailConfirmationRequiredForLogin, externalLoginInfo);
                 if (loginSuccessfull)
                     return Redirect(GetAppHomeUrl());
 
                 return View("RegisterResult", new RegisterResultViewModel
                 {
-                    TenancyName = tenant.TenancyName,
+                    TenancyName = tenant?.TenancyName,
                     NameAndSurname = user.Name + " " + user.Surname,
                     UserName = user.UserName,
                     EmailAddress = user.EmailAddress,
@@ -365,11 +370,11 @@ namespace Satrabel.OpenApp.Web.Controllers
                 AbpLoginResult<Tenant, User> loginResult;
                 if (externalLoginInfo != null)
                 {
-                    loginResult = await _logInManager.LoginAsync(externalLoginInfo, tenant.TenancyName);
+                    loginResult = await _logInManager.LoginAsync(externalLoginInfo, tenant?.TenancyName);
                 }
                 else
                 {
-                    loginResult = await GetLoginResultAsync(user.UserName, password, tenant.TenancyName);
+                    loginResult = await GetLoginResultAsync(user.UserName, password, tenant?.TenancyName);
                 }
 
                 if (loginResult.Result == AbpLoginResultType.Success)

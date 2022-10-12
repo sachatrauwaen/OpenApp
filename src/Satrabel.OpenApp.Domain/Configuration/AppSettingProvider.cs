@@ -17,6 +17,7 @@ namespace Satrabel.OpenApp.Configuration
                 new SettingDefinition(AppSettingNames.ClientRootAddress, "", scopes: SettingScopes.Application | SettingScopes.Tenant , isVisibleToClients: true),
                 new SettingDefinition(AppSettingNames.UiTheme, "red", scopes: SettingScopes.Application | SettingScopes.Tenant | SettingScopes.User, isVisibleToClients: true),
                 new SettingDefinition(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin, "false", scopes: SettingScopes.Application | SettingScopes.Tenant | SettingScopes.User),
+                new SettingDefinition(AppSettingNames.AllowRegistrationForHostUsers, "false", scopes: SettingScopes.Application),
             };
         }
     }

@@ -10,5 +10,6 @@ namespace Satrabel.OpenApp.Startup
         public const string TenantLogo = "Satrabel.OpenApp.TenantLogo";
         public const string TenantDescription = "Satrabel.OpenApp.TenantDescription";
         public const string IsUserNameEqualEmail = "Satrabel.OpenApp.IsUserNameEqualEmail";
+        public const string IsRegistrationForHostUsersAllowed = "Satrabel.OpenApp.IsRegistrationForHostUsersAllowed";
     }
 }

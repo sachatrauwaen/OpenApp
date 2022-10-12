@@ -13,6 +13,7 @@ using Satrabel.OpenApp.Authorization.Roles;
 using Satrabel.OpenApp.MultiTenancy;
 using Abp.Configuration;
 using Abp.Zero.Configuration;
+using Satrabel.OpenApp.Configuration;
 
 namespace Satrabel.OpenApp.Authorization.Users
 {
@@ -44,16 +45,21 @@ namespace Satrabel.OpenApp.Authorization.Users
 
         public async Task<User> RegisterAsync(string name, string surname, string emailAddress, string userName, string plainPassword, bool isEmailConfirmed)
         {
-            CheckForTenant();
+            var allowRegistrationForHostUsers = await SettingManager.GetSettingValueAsync<bool>(AppSettingNames.AllowRegistrationForHostUsers);
+
+            if (!allowRegistrationForHostUsers)
+            {
+                CheckForTenant();
+            }
 
             var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
             var sendConfirmationMail = isEmailConfirmationRequiredForLogin && isEmailConfirmed == false;
 
             var tenant = await GetActiveTenantAsync();
-
+            int? tenantId = tenant?.Id;
             var user = new User
             {
-                TenantId = tenant.Id,
+                TenantId = tenantId,
                 Name = name,
                 Surname = surname,
                 EmailAddress = emailAddress,
@@ -67,10 +73,10 @@ namespace Satrabel.OpenApp.Authorization.Users
            
             foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
             {
-                user.Roles.Add(new UserRole(tenant.Id, user.Id, defaultRole.Id));
+                user.Roles.Add(new UserRole(tenantId, user.Id, defaultRole.Id));
             }
 
-            await _userManager.InitializeOptionsAsync(tenant.Id);
+            await _userManager.InitializeOptionsAsync(tenantId);
 
             if (sendConfirmationMail)
                 user.SetNewEmailConfirmationCode();
