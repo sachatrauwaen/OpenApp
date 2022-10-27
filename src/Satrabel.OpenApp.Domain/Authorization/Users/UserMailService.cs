@@ -76,39 +76,36 @@ namespace Satrabel.OpenApp.Authorization.Users
 
         public async Task SendRegistrationMailAsync(User user, string password)
         {
+            var baseUrl = SettingManager.GetSettingValue(AppSettingNames.ClientRootAddress);
+            Tenant tenant = null;
             if (user.TenantId.HasValue)
             {
-                var baseUrl = SettingManager.GetSettingValue(AppSettingNames.ClientRootAddress);
-                Tenant tenant = null;
-                if (user.TenantId.HasValue)
-                {
-                    tenant = await _tenantManager.GetByIdAsync(user.TenantId.Value);
-                }
-                // TODO Translate title
-                // TODO Allow template to be provided by client app (through setting or configuration) as lambda, providing confirmationLink and user and expecting string as a result
-
-                var model = new UserModel()
-                {
-                    SenderName = tenant.Name,
-                    DestinationName = user.FullName,
-                    TenantName = tenant?.Name,
-                    TenancyName = tenant?.TenancyName,
-                    UserFullName = user.FullName,
-                    UserName = user.UserName,
-                    UserPassword = password,
-                    Url = baseUrl
-                };
-                var res = await ViewRenderService.RenderToStringAsync("Email/UserRegistration", model);
-
-                await _emailSender.SendAsync(
-                    to: user.EmailAddress,
-                     //subject: string.Format(L("UserRegistrationSubject"), tenant.Name),
-                    subject: model.Subject,
-                    //body: string.Format(L("UserRegistrationBody"), user.FullName, tenant.Name, baseUrl, user.Name,password, tenant.TenancyName),
-                    body: res,
-                    isBodyHtml: true
-                );
+                tenant = await _tenantManager.GetByIdAsync(user.TenantId.Value);
             }
+            // TODO Translate title
+            // TODO Allow template to be provided by client app (through setting or configuration) as lambda, providing confirmationLink and user and expecting string as a result
+
+            var model = new UserModel()
+            {
+                SenderName = tenant.Name,
+                DestinationName = user.FullName,
+                TenantName = tenant?.Name,
+                TenancyName = tenant?.TenancyName,
+                UserFullName = user.FullName,
+                UserName = user.UserName,
+                UserPassword = password,
+                Url = baseUrl
+            };
+            var res = await ViewRenderService.RenderToStringAsync("Email/UserRegistration", model);
+
+            await _emailSender.SendAsync(
+                to: user.EmailAddress,
+                //subject: string.Format(L("UserRegistrationSubject"), tenant.Name),
+                subject: model.Subject,
+                //body: string.Format(L("UserRegistrationBody"), user.FullName, tenant.Name, baseUrl, user.Name,password, tenant.TenancyName),
+                body: res,
+                isBodyHtml: true
+            );
         }
 
         public async Task SendAdminRegistrationMailAsync(User user, string password)
