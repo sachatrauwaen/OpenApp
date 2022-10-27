@@ -87,7 +87,7 @@ namespace Satrabel.OpenApp.Authorization.Users
 
             var model = new UserModel()
             {
-                SenderName = tenant.Name,
+                SenderName = tenant?.Name,
                 DestinationName = user.FullName,
                 TenantName = tenant?.Name,
                 TenancyName = tenant?.TenancyName,
