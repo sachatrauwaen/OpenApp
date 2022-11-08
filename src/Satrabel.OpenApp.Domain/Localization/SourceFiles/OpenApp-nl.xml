@@ -28,7 +28,7 @@
     <text name="IsEmailConfirmed" value="Email Confirmed" />
     <text name="IsTwoFactorEnabled" value="Two Factor" />
 
-    <text name="ForgotPassword" value="Wachtwoord vergeten" />
+    <text name="ForgotPassword" value="Wachtwoord vergeten ?" />
     <text name="Send" value="Verzenden" />
     <text name="Back" value="Terug" />
     <text name="ForgotPasswordConfirmation" value="Kijk je emails na om je wachtwoord te vernieuwen." />

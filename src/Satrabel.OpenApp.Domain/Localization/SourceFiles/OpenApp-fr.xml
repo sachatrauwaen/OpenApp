@@ -27,7 +27,7 @@
     <text name="IsEmailConfirmed" value="Email Confirmé" />
     <text name="IsTwoFactorEnabled" value="Deux Facteur" />
 
-    <text name="ForgotPassword" value="Mot de passe oublié" />
+    <text name="ForgotPassword" value="Mot de passe oublié ?" />
     <text name="Send" value="Envoyer" />
     <text name="Back" value="Retour" />
     <text name="ForgotPasswordConfirmation" value="Vérifiez vos email pour réinitialiser votre mot de passe." />

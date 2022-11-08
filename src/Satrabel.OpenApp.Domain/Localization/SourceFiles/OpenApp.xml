@@ -29,7 +29,7 @@
     <text name="IsEmailConfirmed" value="Email Confirmed" />
     <text name="IsTwoFactorEnabled" value="Two Factor" />
 
-    <text name="ForgotPassword" value="Forgot Password" />
+    <text name="ForgotPassword" value="Forgot Password ?" />
     <text name="Send" value="Send" />
     <text name="Back" value="Back" />
     <text name="ForgotPasswordConfirmation" value="Please check your email to reset your password." />
