@@ -236,6 +236,10 @@ namespace Satrabel.OpenApp.ProxyScripting
             {
                 sch.Title = schema.Title;
             }
+            if (!string.IsNullOrEmpty(schema.Description))
+            {
+                sch.Description = schema.Description;
+            }
             if (schema.Type != JsonObjectType.None)
             {
                 sch.Type = schema.Type;
