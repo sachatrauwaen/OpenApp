@@ -29,11 +29,21 @@
 </li>
 @if (Model.LoginInformations.User != null)
 {
-    <li class="nav-item d-md-down-none" >
-        <i class="icon-user"></i>  @Html.Raw(Model.GetShownLoginName()) ( @Model.LoginInformations.User.EmailAddress )
+    @if (!string.IsNullOrEmpty(Model.GetShownTenantName()))
+    {
+        <li class="nav-item d-md-down-none ">
+            <i class="icon-organization"></i>  @Html.Raw(Model.GetShownTenantName())
+        </li>
+    }
+    <li class="nav-item d-md-down-none">
+        <i class="icon-user"></i>  @Html.Raw(Model.GetShownLoginName())
+        @if (Model.LoginInformations.User.EmailAddress != Model.LoginInformations.User.UserName)
+        {
+            <span>(@Model.LoginInformations.User.EmailAddress)</span>
+        }
     </li>
     <li class="nav-item d-md-down-none ">
-        
+
     </li>
     @if (AbpSession.ImpersonatorUserId.HasValue)
     {
