@@ -11,7 +11,8 @@ namespace Satrabel.OpenApp.Web.Views.Shared.Components.SideBarUserArea
         public string GetShownLoginName()
         {
             var userName = "<span id=\"HeaderCurrentUserName\">" + LoginInformations?.User?.UserName + "</span>";
-
+            return userName;
+            /*
             if (!IsMultiTenancyEnabled)
             {
                 return userName;
@@ -20,6 +21,7 @@ namespace Satrabel.OpenApp.Web.Views.Shared.Components.SideBarUserArea
             return LoginInformations.Tenant == null
                 ? userName
                 : LoginInformations.Tenant.TenancyName + "\\" + userName;
+            */
         }
         public string GetShownTenantName()
         {
@@ -32,7 +34,7 @@ namespace Satrabel.OpenApp.Web.Views.Shared.Components.SideBarUserArea
 
             return LoginInformations.Tenant == null
                 ? tenantName
-                : LoginInformations.Tenant.TenancyName + "\\" + tenantName;
+                : LoginInformations.Tenant.TenancyName;
         }
     }
 }
