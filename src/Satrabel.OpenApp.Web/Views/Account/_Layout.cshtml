@@ -3,10 +3,12 @@
 @using Abp.Configuration.Startup
 @using Satrabel.OpenApp
 @using Satrabel.OpenApp.Web.Resources
+@using Satrabel.OpenApp.Startup
 @inject Satrabel.OpenApp.Timing.AppTimes AppTimes
 @inject IAbpAntiForgeryManager AbpAntiForgeryManager
 @inject IMultiTenancyConfig MultiTenancyConfig
 @inject IWebResourceManager WebResourceManager
+@inject IWebConfig WebConfig
 @{
     Layout = null;
     AbpAntiForgeryManager.SetCookie(Context);
@@ -23,13 +25,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="keyword" content="">
-    <link rel="shortcut icon" href="~/Views/img/favicon.png">
-    <title>Login</title>
+    <link rel="shortcut icon" href="@WebConfig.Favicon">
+    <title>@WebConfig.MetaTitle - Login</title>
 
     <environment names="Development">
-        
         <link href="~/Views/_Bundles/account-layout.min.css" rel="stylesheet" asp-append-version="true" />
-
     </environment>
     <environment names="Staging,Production">
         <link href="~/Views/_Bundles/account-layout.min.css" rel="stylesheet" asp-append-version="true" />
@@ -41,8 +41,6 @@
         var abp = abp || {};
         abp.appPath = '@ApplicationPath';
     </script>
-
-
 </head>
 <body class="app flex-row align-items-center">
     <div class="container">
@@ -64,7 +62,7 @@
     <!-- Dynamic scripts of ABP system (They are created on runtime and can not be bundled) -->
     <script src="~/AbpServiceProxies/GetAll?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     <script src="~/AbpScripts/GetScripts?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
-    
+
     @WebResourceManager.RenderScripts()
 
     <!-- View specific scripts -->
