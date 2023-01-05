@@ -10,6 +10,7 @@ namespace Satrabel.OpenApp.Startup
         public string MetaTitle { get; set; }
         public string MetaDescription { get; set; }
         public string LogoUrl { get; set; }
+        public string Favicon { get; set; } = "/Views/img/favicon.png";
         public string BodyClass { get; set; } = "header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden";
         public string FooterLinkUrl { get; set; }
         public string FooterLinkText { get; set; }

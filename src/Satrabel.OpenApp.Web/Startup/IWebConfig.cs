@@ -11,6 +11,8 @@ namespace Satrabel.OpenApp.Startup
         string LogoUrl { get; set; }
         string BodyClass { get; set; }
 
+        string Favicon { get; set; }
+
         string FooterLinkUrl { get; set; }
         string FooterLinkText { get; set; }
         string FooterCopyright { get; set; }
