@@ -25,7 +25,7 @@ namespace Satrabel.OpenApp.Startup
                 new SettingDefinition(
                     OpenAppSettingNames.TenantLogo,
                     "",
-                    scopes: SettingScopes.Tenant
+                    scopes: SettingScopes.Tenant | SettingScopes.Application
                 ),
                 new SettingDefinition(
                     OpenAppSettingNames.TenantDescription,

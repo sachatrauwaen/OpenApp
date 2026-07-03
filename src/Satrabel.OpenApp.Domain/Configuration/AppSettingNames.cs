@@ -6,5 +6,6 @@
         public const string ClientRootAddress = "App.ClientRootAddress";
 
         public const string AllowRegistrationForHostUsers = "App.AllowRegistrationForHostUsers";
+        public const string AllowRegistrationForTenantUsers = "App.AllowRegistrationForTenantUsers";
     }
 }

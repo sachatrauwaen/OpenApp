@@ -260,9 +260,15 @@ namespace Satrabel.OpenApp.Web.Controllers
         private bool IsSelfRegistrationEnabled()
         {
             var allowRegistrationForHostUsers = SettingManager.GetSettingValue<bool>(AppSettingNames.AllowRegistrationForHostUsers);
+            var allowRegistrationForTenantUsers = SettingManager.GetSettingValue<bool>(AppSettingNames.AllowRegistrationForTenantUsers);
             if (!AbpSession.TenantId.HasValue && !allowRegistrationForHostUsers)
             {
                 return false; // No registration enabled for host users!
+            }
+
+            if (AbpSession.TenantId.HasValue && !allowRegistrationForTenantUsers)
+            {
+                return false; // No registration enabled for tenant users!
             }
 
             return true;
