@@ -278,6 +278,11 @@ namespace Satrabel.OpenApp.Web.Controllers
         [UnitOfWork]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            if (!IsSelfRegistrationEnabled())
+            {
+                throw new UserFriendlyException(L("SelfRegistrationDisabledMessage"));
+            }
+
             try
             {
                 ExternalLoginInfo externalLoginInfo = null;
