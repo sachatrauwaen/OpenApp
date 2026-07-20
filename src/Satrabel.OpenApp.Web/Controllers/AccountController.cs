@@ -244,6 +244,10 @@ namespace Satrabel.OpenApp.Web.Controllers
 
         public ActionResult Register()
         {
+            if (!IsSelfRegistrationEnabled())
+            {
+                throw new UserFriendlyException(L("SelfRegistrationDisabledMessage"));
+            }
             var isUserNameEqualEmail = SettingManager.GetSettingValue<bool>(OpenAppSettingNames.IsUserNameEqualEmail);
             return RegisterView(new RegisterViewModel() {
                 IsUserNameEqualEmail = isUserNameEqualEmail
